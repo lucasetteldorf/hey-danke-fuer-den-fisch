@@ -3,7 +3,7 @@ package game;
 public class IceFloeTile {
     /**
      * The number of fish on this tile: 0-3.
-     * 0 meaning that this tile has been removed from the board.
+     * 0: This tile has been removed from the board.
      */
     private int fishCount;
     /**
@@ -22,9 +22,9 @@ public class IceFloeTile {
     }
 
     /**
-     * "Places" a penguin on this tile.
+     * Places a penguin on this tile.
      * @param penguinColor The color of the penguin to place on this tile.
-     * @return True if the penguin could be placed on this tile.
+     * @return True if the penguin could be placed on this tile successfully.
      */
     public boolean placePenguin(int penguinColor) {
         if (this.fishCount != 0 && this.penguinColor == 0) {
@@ -37,5 +37,13 @@ public class IceFloeTile {
 
     public boolean isUnoccupied() {
         return this.penguinColor == 0;
+    }
+
+    public int getFishCount() {
+        return fishCount;
+    }
+
+    public int getPenguinColor() {
+        return penguinColor;
     }
 }
