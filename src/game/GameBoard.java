@@ -3,6 +3,11 @@ package game;
 import java.util.Random;
 
 public class GameBoard {
+    private final int NUMBER_OF_TILES = 60;
+    private final int NUMBER_OF_ONE_FISH_TILES = 30;
+    private final int NUMBER_OF_TWO_FISH_TILES = 20;
+    private final int NUMBER_OF_THREE_FISH_TILES = 10;
+
     private IceFloeTile[] tiles;
 
     public GameBoard() {
@@ -10,31 +15,40 @@ public class GameBoard {
     }
 
     private IceFloeTile[] createRandomGameBoard() {
-        IceFloeTile[] randomTiles = new IceFloeTile[60];
-        int[] tilesFishCount = new int[] {30, 20, 10};
+        IceFloeTile[] randomTiles = new IceFloeTile[NUMBER_OF_TILES];
+        int[][] tileFishCounts = new int[][] {{1, NUMBER_OF_ONE_FISH_TILES}, {2, NUMBER_OF_TWO_FISH_TILES}, {3, NUMBER_OF_THREE_FISH_TILES}};
+
         int randomNumberUpperBound = 3;
 
-        for (int i = 0; i < randomTiles.length; i++) {
+        for (int i = 0; i < NUMBER_OF_TILES; i++) {
             int randomNumber = getRandomNumber(1, randomNumberUpperBound);
-            IceFloeTile tile = new IceFloeTile(randomNumber);
-            randomTiles[i] = tile;
+            int index = randomNumber - 1;
 
-            // Problem: bei Änderung der Array-Definition passt die Anzahl der Fische nicht mehr
-            tilesFishCount[randomNumber - 1]--;
-            if (tilesFishCount[randomNumber - 1] == 0) {
+            IceFloeTile randomTile = new IceFloeTile(tileFishCounts[index][0]);
+            randomTiles[i] = randomTile;
+            tileFishCounts[index][1]--;
+            
+            if (tileFishCounts[index][1] == 0) {
                 if (randomNumberUpperBound == 3) {
-                    if (randomNumber == 1) {
-                        tilesFishCount = new int[] {tilesFishCount[1], tilesFishCount[2]};
-                    } else if (randomNumber == 2) {
-                        tilesFishCount = new int[] {tilesFishCount[0], tilesFishCount[2]};
-                    } else if (randomNumber == 3) {
-                        tilesFishCount = new int[] {tilesFishCount[0], tilesFishCount[1]};
+                    switch (randomNumber) {
+                        case 1:
+                            tileFishCounts = new int[][] {{2, tileFishCounts[1][1]}, {3, tileFishCounts[2][1]}};
+                            break;
+                        case 2:
+                            tileFishCounts = new int[][] {{1, tileFishCounts[0][1]}, {3, tileFishCounts[2][1]}};
+                            break;
+                        case 3:
+                            tileFishCounts = new int[][] {{1, tileFishCounts[0][1]}, {2, tileFishCounts[1][1]}};
+                            break;
                     }
                 } else if (randomNumberUpperBound == 2) {
-                    if (randomNumber == 1) {
-                        tilesFishCount = new int[] {tilesFishCount[1]};
-                    } else if (randomNumber == 2) {
-                        tilesFishCount = new int[] {tilesFishCount[0]};
+                    switch (randomNumber) {
+                        case 1:
+                            tileFishCounts = new int[][] {{tileFishCounts[1][0], tileFishCounts[1][1]}};
+                            break;
+                        case 2:
+                            tileFishCounts = new int[][] {{tileFishCounts[0][0], tileFishCounts[0][1]}};
+                            break;
                     }
                 }
 
@@ -45,7 +59,7 @@ public class GameBoard {
         return randomTiles;
     }
 
-    private int getRandomNumber(int min, int max) {
+    public int getRandomNumber(int min, int max) {
         Random random = new Random();
         return random.nextInt(max + 1 - min) + min;
     }
@@ -54,7 +68,12 @@ public class GameBoard {
         String str = "";
 
         for (int i = 0; i < this.tiles.length; i++) {
-            str += " " + this.tiles[i].getFishCount() + " ";
+            if (i >= 0 && i <= 6 || i >= 15 && i <= 21 || i >= 30 && i <= 36 || i >= 45 && i <= 51) {
+                str += "  " + this.tiles[i].getFishCount();
+            } else {
+                str += " " + this.tiles[i].getFishCount() + " ";
+            }
+
             if (i == 6 || i == 14 || i == 21 || i == 29 || i == 36 || i == 44 || i == 51) {
                 str += "\n";
             }
@@ -65,6 +84,7 @@ public class GameBoard {
 
     public static void main(String[] args) {
         GameBoard gm = new GameBoard();
+
         gm.printGameBoard();
     }
 }

@@ -29,6 +29,7 @@ public class IceFloeTile {
     public boolean placePenguin(int penguinColor) {
         if (this.fishCount != 0 && this.penguinColor == 0) {
             this.penguinColor = penguinColor;
+            // TODO set fishCount to 0
             return true;
         }
 
