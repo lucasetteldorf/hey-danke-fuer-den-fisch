@@ -11,80 +11,93 @@ public class GameBoard {
     private IceFloeTile[] tiles;
 
     public GameBoard() {
-        this.tiles = createRandomGameBoard();
+        this.tiles = initializeGameBoard();
     }
 
-    private IceFloeTile[] createRandomGameBoard() {
-        IceFloeTile[] randomTiles = new IceFloeTile[NUMBER_OF_TILES];
-        int[][] tileFishCounts = new int[][] {{1, NUMBER_OF_ONE_FISH_TILES}, {2, NUMBER_OF_TWO_FISH_TILES}, {3, NUMBER_OF_THREE_FISH_TILES}};
-
-        int randomNumberUpperBound = 3;
-
+    private IceFloeTile[] initializeGameBoard() {
+        IceFloeTile[] iceFloeTiles = new IceFloeTile[NUMBER_OF_TILES];
         for (int i = 0; i < NUMBER_OF_TILES; i++) {
-            int randomNumber = getRandomNumber(1, randomNumberUpperBound);
-            int index = randomNumber - 1;
+            if (i < NUMBER_OF_ONE_FISH_TILES) {
+                iceFloeTiles[i] = new IceFloeTile(1);
+            } else if (i < NUMBER_OF_ONE_FISH_TILES + NUMBER_OF_TWO_FISH_TILES) {
+                iceFloeTiles[i] = new IceFloeTile(2);
+            } else {
+                iceFloeTiles[i] = new IceFloeTile(3);
+            }
+        }
 
-            IceFloeTile randomTile = new IceFloeTile(tileFishCounts[index][0]);
-            randomTiles[i] = randomTile;
-            tileFishCounts[index][1]--;
-            
-            if (tileFishCounts[index][1] == 0) {
-                if (randomNumberUpperBound == 3) {
-                    switch (randomNumber) {
-                        case 1:
-                            tileFishCounts = new int[][] {{2, tileFishCounts[1][1]}, {3, tileFishCounts[2][1]}};
-                            break;
-                        case 2:
-                            tileFishCounts = new int[][] {{1, tileFishCounts[0][1]}, {3, tileFishCounts[2][1]}};
-                            break;
-                        case 3:
-                            tileFishCounts = new int[][] {{1, tileFishCounts[0][1]}, {2, tileFishCounts[1][1]}};
-                            break;
-                    }
-                } else if (randomNumberUpperBound == 2) {
-                    switch (randomNumber) {
-                        case 1:
-                            tileFishCounts = new int[][] {{tileFishCounts[1][0], tileFishCounts[1][1]}};
-                            break;
-                        case 2:
-                            tileFishCounts = new int[][] {{tileFishCounts[0][0], tileFishCounts[0][1]}};
-                            break;
-                    }
+        IceFloeTile[] randomTiles = new IceFloeTile[NUMBER_OF_TILES];
+        for (int i = 0; i < NUMBER_OF_TILES; i++) {
+            int randomNumber = getRandomNumber(0, iceFloeTiles.length - 1);
+            randomTiles[i] = iceFloeTiles[randomNumber];
+
+            IceFloeTile[] newTiles = new IceFloeTile[iceFloeTiles.length - 1];
+            for (int j = 0, k = 0; j < iceFloeTiles.length; j++) {
+                if (j == randomNumber) {
+                    continue;
                 }
 
-                randomNumberUpperBound--;
+                newTiles[k++] = iceFloeTiles[j];
             }
+            iceFloeTiles = newTiles;
         }
 
         return randomTiles;
     }
 
-    public int getRandomNumber(int min, int max) {
+    private int getRandomNumber(int min, int max) {
         Random random = new Random();
         return random.nextInt(max + 1 - min) + min;
     }
 
     public void printGameBoard() {
-        String str = "";
+        StringBuffer str = new StringBuffer();
 
         for (int i = 0; i < this.tiles.length; i++) {
             if (i >= 0 && i <= 6 || i >= 15 && i <= 21 || i >= 30 && i <= 36 || i >= 45 && i <= 51) {
-                str += "  " + this.tiles[i].getFishCount();
+                str.append("  " + this.tiles[i].getFishCount());
             } else {
-                str += " " + this.tiles[i].getFishCount() + " ";
+                str.append(" " + this.tiles[i].getFishCount() + " ");
             }
 
             if (i == 6 || i == 14 || i == 21 || i == 29 || i == 36 || i == 44 || i == 51) {
-                str += "\n";
+                str.append("\n");
             }
         }
 
         System.out.println(str);
     }
 
-    public static void main(String[] args) {
-        GameBoard gm = new GameBoard();
+    /**
+     * Places a penguin on the specified tile.
+     * @param tileIndex The index of the tile to place the penguin on.
+     * @param penguinColor The color of the penguin to place on the given tile.
+     * @return True if the penguin could be placed on the specified tile successfully.
+     */
+    public boolean placePenguin(int tileIndex, int penguinColor) {
+        IceFloeTile selectedTile = this.tiles[tileIndex];
 
+        if (selectedTile.isOnBoard() && selectedTile.isUnoccupied()) {
+            selectedTile.setPenguinColor(penguinColor);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    // TODO move penguin from source to destination, need methods for neighbor relationships (maybe coordinate system) and
+    public void movePenguin(int sourceIndex, int destinationIndex) {
+
+    }
+
+    public static void main(String[] args) {
+        long start = System.currentTimeMillis();
+
+        GameBoard gm = new GameBoard();
         gm.printGameBoard();
+
+        long end = System.currentTimeMillis();
+        System.out.println("\nTime: " + (end - start) + "ms");
     }
 }

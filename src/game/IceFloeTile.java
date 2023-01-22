@@ -21,19 +21,8 @@ public class IceFloeTile {
         this.penguinColor = 0;
     }
 
-    /**
-     * Places a penguin on this tile.
-     * @param penguinColor The color of the penguin to place on this tile.
-     * @return True if the penguin could be placed on this tile successfully.
-     */
-    public boolean placePenguin(int penguinColor) {
-        if (this.fishCount != 0 && this.penguinColor == 0) {
-            this.penguinColor = penguinColor;
-            // TODO set fishCount to 0
-            return true;
-        }
-
-        return false;
+    public boolean isOnBoard() {
+        return this.fishCount != 0;
     }
 
     public boolean isUnoccupied() {
@@ -44,7 +33,15 @@ public class IceFloeTile {
         return fishCount;
     }
 
+    public void setFishCount(int fishCount) {
+        this.fishCount = fishCount;
+    }
+
     public int getPenguinColor() {
         return penguinColor;
+    }
+
+    public void setPenguinColor(int penguinColor) {
+        this.penguinColor = penguinColor;
     }
 }
