@@ -55,9 +55,9 @@ public class GameBoard {
 
         for (int i = 0; i < this.tiles.length; i++) {
             if (i >= 0 && i <= 6 || i >= 15 && i <= 21 || i >= 30 && i <= 36 || i >= 45 && i <= 51) {
-                str.append("  " + this.tiles[i].getFishCount());
+                str.append("  (i:" + i + ",f:" + this.tiles[i].getFishCount() + ",c:" + this.tiles[i].getPenguinColor() + ")");
             } else {
-                str.append(" " + this.tiles[i].getFishCount() + " ");
+                str.append(" (i:" + i + ",f:" + this.tiles[i].getFishCount() + ",c:" + this.tiles[i].getPenguinColor() + ") ");
             }
 
             if (i == 6 || i == 14 || i == 21 || i == 29 || i == 36 || i == 44 || i == 51) {
@@ -77,7 +77,8 @@ public class GameBoard {
     public boolean placePenguin(int tileIndex, int penguinColor) {
         IceFloeTile selectedTile = this.tiles[tileIndex];
 
-        if (selectedTile.isOnBoard() && selectedTile.isUnoccupied()) {
+        // Penguins can only be placed on tiles on unoccupied tiles with one fish.
+        if (selectedTile.getFishCount() == 1 && selectedTile.isUnoccupied()) {
             selectedTile.setPenguinColor(penguinColor);
 
             return true;
