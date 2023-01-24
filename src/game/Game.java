@@ -4,10 +4,11 @@ import java.util.Scanner;
 
 public class Game {
     private static final Scanner scanner = new Scanner(System.in);
+    private static Game game;
     private GameBoard board;
     private int numberOfPlayers;
     private Player[] players;
-    private Player currentPlayer;
+    private int currentPlayerIndex;
 
     private Game(int numberOfPlayers) {
         this.board = new GameBoard();
@@ -16,40 +17,21 @@ public class Game {
         for (int i = 0; i < numberOfPlayers; i++) {
             this.players[i] = new Player((i + 1), numberOfPlayers);
         }
-        this.currentPlayer = this.players[0];
+        this.currentPlayerIndex = 0;
     }
 
-    public static Game initializeGame() {
-        int numberOfPlayers = 0;
-        do {
-            System.out.print("Enter the number of players (2-4): ");
-            numberOfPlayers = scanner.nextInt();
-        } while (numberOfPlayers < 2 || numberOfPlayers > 4);
-
-        return new Game(numberOfPlayers);
-    }
-
-    public static void main(String[] args) {
-        Game game = Game.initializeGame();
-        game.getBoard().printGameBoard();
-
-        while (game.canPenguinsBePlaced()) {
-            boolean wasPlacementSuccessful = false;
+    public static Game getInstance() {
+        if (game == null) {
+            int numberOfPlayers = 0;
             do {
-                System.out.print("Player " + game.getCurrentPlayer().getPenguinColor() + ", which tile to place your penguin on: ");
-                int tileIndex = scanner.nextInt();
-                wasPlacementSuccessful = game.getBoard().placePenguin(tileIndex, game.getCurrentPlayer().getPenguinColor());
-                if (!wasPlacementSuccessful) {
-                    System.out.println("Invalid move, try again...");
-                }
-            } while (!wasPlacementSuccessful);
+                System.out.print("Enter the number of players (2-4): ");
+                numberOfPlayers = scanner.nextInt();
+            } while (numberOfPlayers < 2 || numberOfPlayers > 4);
 
-            game.getBoard().printGameBoard();
-            game.getCurrentPlayer().setNumberOfPenguins(game.getCurrentPlayer().getNumberOfPenguins() - 1);
-            game.nextPlayer();
+            game = new Game(numberOfPlayers);
         }
 
-        System.out.println("All penguins have been placed, start playing!");
+        return game;
     }
 
     public boolean canPenguinsBePlaced() {
@@ -63,7 +45,11 @@ public class Game {
     }
 
     public void nextPlayer() {
-        this.currentPlayer = this.players[this.currentPlayer.getPenguinColor() % this.numberOfPlayers];
+        this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.numberOfPlayers;
+    }
+
+    public Player getCurrentPlayer() {
+        return this.players[this.currentPlayerIndex];
     }
 
     public GameBoard getBoard() {
@@ -90,11 +76,11 @@ public class Game {
         this.players = players;
     }
 
-    public Player getCurrentPlayer() {
-        return currentPlayer;
+    public int getCurrentPlayerIndex() {
+        return currentPlayerIndex;
     }
 
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
+    public void setCurrentPlayerIndex(int currentPlayerIndex) {
+        this.currentPlayerIndex = currentPlayerIndex;
     }
 }
