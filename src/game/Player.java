@@ -1,12 +1,12 @@
 package game;
 
 public class Player {
-    private int penguinColor;
+    private PenguinColor penguinColor;
     private int numberOfPenguins;
     private int collectedFishCount;
     private int collectedTilesCount;
 
-    public Player(int penguinColor, int numberOfPlayers) {
+    public Player(PenguinColor penguinColor, int numberOfPlayers) {
         this.penguinColor = penguinColor;
         switch (numberOfPlayers) {
             case 2:
@@ -23,11 +23,11 @@ public class Player {
         this.collectedTilesCount = 0;
     }
 
-    public int getPenguinColor() {
+    public PenguinColor getPenguinColor() {
         return penguinColor;
     }
 
-    public void setPenguinColor(int penguinColor) {
+    public void setPenguinColor(PenguinColor penguinColor) {
         this.penguinColor = penguinColor;
     }
 

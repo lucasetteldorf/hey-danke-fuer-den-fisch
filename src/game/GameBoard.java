@@ -74,7 +74,7 @@ public class GameBoard {
      * @param penguinColor The color of the penguin to place on the given tile.
      * @return True if the penguin could be placed on the specified tile successfully.
      */
-    public boolean placePenguin(int tileIndex, int penguinColor) {
+    public boolean placePenguin(int tileIndex, PenguinColor penguinColor) {
         IceFloeTile selectedTile = this.tiles[tileIndex];
 
         // Penguins can only be placed on tiles on unoccupied tiles with one fish.
@@ -87,18 +87,34 @@ public class GameBoard {
         return false;
     }
 
-    // TODO move penguin from source to destination, need methods for neighbor relationships (maybe coordinate system) and
-    public void movePenguin(int sourceIndex, int destinationIndex) {
+    // TODO move penguin from source to destination, need methods for neighbor relationships (maybe coordinate system)
+    // TODO destination tile and the number of fish on it have to be assigned to the player moving the penguin
+    // TODO sourceDestination or direction with numberOfTiles?
+    public void movePenguin(int sourceIndex, int direction, int numberOfTiles) {
 
     }
 
-    public static void main(String[] args) {
-        long start = System.currentTimeMillis();
+    public boolean hasTopLeftNeighbor(IceFloeTile tile) {
+        return false;
+    }
 
-        GameBoard gm = new GameBoard();
-        gm.printGameBoard();
+    public boolean hasTopRightNeighbor(IceFloeTile tile) {
+        return false;
+    }
 
-        long end = System.currentTimeMillis();
-        System.out.println("\nTime: " + (end - start) + "ms");
+    public boolean hasRightNeighbor(IceFloeTile tile) {
+        return false;
+    }
+
+    public boolean hasBottomRightNeighbor(IceFloeTile tile) {
+        return false;
+    }
+
+    public boolean hasBottomLeftNeighbor(IceFloeTile tile) {
+        return false;
+    }
+
+    public boolean hasLeftNeighbor(IceFloeTile tile) {
+        return false;
     }
 }
