@@ -3,118 +3,22 @@ package game;
 import java.util.Random;
 
 public class GameBoard {
-    private final int NUMBER_OF_TILES = 60;
-    private final int NUMBER_OF_ONE_FISH_TILES = 30;
-    private final int NUMBER_OF_TWO_FISH_TILES = 20;
-    private final int NUMBER_OF_THREE_FISH_TILES = 10;
-
-    private IceFloeTile[] tiles;
+    private IceFloeTile[][] tiles;
 
     public GameBoard() {
-        this.tiles = initializeGameBoard();
+        this.tiles = initialize();
     }
 
-    private IceFloeTile[] initializeGameBoard() {
-        IceFloeTile[] iceFloeTiles = new IceFloeTile[NUMBER_OF_TILES];
-        for (int i = 0; i < NUMBER_OF_TILES; i++) {
-            if (i < NUMBER_OF_ONE_FISH_TILES) {
-                iceFloeTiles[i] = new IceFloeTile(1);
-            } else if (i < NUMBER_OF_ONE_FISH_TILES + NUMBER_OF_TWO_FISH_TILES) {
-                iceFloeTiles[i] = new IceFloeTile(2);
-            } else {
-                iceFloeTiles[i] = new IceFloeTile(3);
-            }
-        }
 
-        IceFloeTile[] randomTiles = new IceFloeTile[NUMBER_OF_TILES];
-        for (int i = 0; i < NUMBER_OF_TILES; i++) {
-            int randomNumber = getRandomNumber(0, iceFloeTiles.length - 1);
-            randomTiles[i] = iceFloeTiles[randomNumber];
+    private IceFloeTile[][] initialize() {
+        IceFloeTile[][] randomTiles = {};
 
-            IceFloeTile[] newTiles = new IceFloeTile[iceFloeTiles.length - 1];
-            for (int j = 0, k = 0; j < iceFloeTiles.length; j++) {
-                if (j == randomNumber) {
-                    continue;
-                }
-
-                newTiles[k++] = iceFloeTiles[j];
-            }
-            iceFloeTiles = newTiles;
-        }
+        Random random = new Random();
+        random.nextInt(3);
 
         return randomTiles;
     }
 
-    private int getRandomNumber(int min, int max) {
-        Random random = new Random();
-        return random.nextInt(max + 1 - min) + min;
-    }
-
-    public void printGameBoard() {
-        StringBuffer str = new StringBuffer();
-
-        for (int i = 0; i < this.tiles.length; i++) {
-            if (i >= 0 && i <= 6 || i >= 15 && i <= 21 || i >= 30 && i <= 36 || i >= 45 && i <= 51) {
-                str.append("  (i:" + i + ",f:" + this.tiles[i].getFishCount() + ",c:" + this.tiles[i].getPenguinColor() + ")");
-            } else {
-                str.append(" (i:" + i + ",f:" + this.tiles[i].getFishCount() + ",c:" + this.tiles[i].getPenguinColor() + ") ");
-            }
-
-            if (i == 6 || i == 14 || i == 21 || i == 29 || i == 36 || i == 44 || i == 51) {
-                str.append("\n");
-            }
-        }
-
-        System.out.println(str);
-    }
-
-    /**
-     * Places a penguin on the specified tile.
-     * @param tileIndex The index of the tile to place the penguin on.
-     * @param penguinColor The color of the penguin to place on the given tile.
-     * @return True if the penguin could be placed on the specified tile successfully.
-     */
-    public boolean placePenguin(int tileIndex, PenguinColor penguinColor) {
-        IceFloeTile selectedTile = this.tiles[tileIndex];
-
-        // Penguins can only be placed on tiles on unoccupied tiles with one fish.
-        if (selectedTile.getFishCount() == 1 && selectedTile.isUnoccupied()) {
-            selectedTile.setPenguinColor(penguinColor);
-
-            return true;
-        }
-
-        return false;
-    }
-
-    // TODO move penguin from source to destination, need methods for neighbor relationships (maybe coordinate system)
-    // TODO destination tile and the number of fish on it have to be assigned to the player moving the penguin
-    // TODO sourceDestination or direction with numberOfTiles?
-    public void movePenguin(int sourceIndex, int direction, int numberOfTiles) {
-
-    }
-
-    public boolean hasTopLeftNeighbor(IceFloeTile tile) {
-        return false;
-    }
-
-    public boolean hasTopRightNeighbor(IceFloeTile tile) {
-        return false;
-    }
-
-    public boolean hasRightNeighbor(IceFloeTile tile) {
-        return false;
-    }
-
-    public boolean hasBottomRightNeighbor(IceFloeTile tile) {
-        return false;
-    }
-
-    public boolean hasBottomLeftNeighbor(IceFloeTile tile) {
-        return false;
-    }
-
-    public boolean hasLeftNeighbor(IceFloeTile tile) {
-        return false;
+    public void print() {
     }
 }
