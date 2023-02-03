@@ -6,6 +6,15 @@ public class Player {
     private Penguin[] penguins;
 
     public Player() {
+        this.collectedTilesCount = 0;
+        this.collectedFishCount = 0;
+    }
 
+    public void updateCollectedTilesCount() {
+        this.collectedTilesCount++;
+    }
+
+    public void updateCollectedFishCount(int fishCount) {
+        this.collectedFishCount += fishCount;
     }
 }
