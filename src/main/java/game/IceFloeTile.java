@@ -20,4 +20,9 @@ public class IceFloeTile {
     public void setUnoccupied(boolean unoccupied) {
         isUnoccupied = unoccupied;
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(getFishCount());
+    }
 }
