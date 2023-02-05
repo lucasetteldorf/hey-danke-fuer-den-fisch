@@ -36,4 +36,8 @@ public class Penguin {
   public void setColIndex(int colIndex) {
     this.colIndex = colIndex;
   }
+
+  public boolean isPlaced() {
+    return this.rowIndex != -1 && this.colIndex != -1;
+  }
 }

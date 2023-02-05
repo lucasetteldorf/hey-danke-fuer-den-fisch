@@ -12,6 +12,10 @@ public class GameBoard {
     this.tiles = initialize();
   }
 
+  public GameBoard(IceFloeTile[][] tiles) {
+    this.tiles = tiles;
+  }
+
   private IceFloeTile[][] initialize() {
     IceFloeTile[] basicTiles = new IceFloeTile[ICE_FLOE_TILE_COUNT];
     int fishCount = 1;
@@ -54,14 +58,14 @@ public class GameBoard {
   }
 
   public boolean placePenguin(Penguin penguin, int destRowIndex, int destColIndex) {
-    if (destRowIndex < 0 || destRowIndex > 7 || destColIndex < 0 || destColIndex > 7) {
+    if (!penguin.isPlaced() || destRowIndex < 0 || destRowIndex > 7 || destColIndex < 0 || destColIndex > 7) {
       return false;
     }
 
     IceFloeTile selectedTile = this.tiles[destRowIndex][destColIndex];
 
     if (selectedTile != null && selectedTile.isUnoccupied() && selectedTile.getFishCount() == 1) {
-      selectedTile.setUnoccupied(false);
+      selectedTile.setPlacedPenguin(penguin);
       penguin.setRowIndex(destRowIndex);
       penguin.setColIndex(destColIndex);
 
@@ -82,8 +86,7 @@ public class GameBoard {
     IceFloeTile destTile = this.tiles[destRowIndex][destColIndex];
 
     if (isValidMove(srcRowIndex, srcColIndex, destRowIndex, destColIndex)) {
-      srcTile.setUnoccupied(true);
-      destTile.setUnoccupied(false);
+      destTile.setPlacedPenguin(penguin);
 
       penguin.getPlayer().updateCollectedTilesCount();
       penguin.getPlayer().updateCollectedFishCount(srcTile.getFishCount());
@@ -109,11 +112,11 @@ public class GameBoard {
     }
 
     return isReachableTopRight(srcRowIndex, srcColIndex, destRowIndex, destColIndex)
-            || isReachableRight(srcRowIndex, srcColIndex, destRowIndex, destColIndex)
-            || isReachableBottomRight(srcRowIndex, srcColIndex, destRowIndex, destColIndex)
-            || isReachableTopLeft(srcRowIndex, srcColIndex, destRowIndex, destColIndex)
-            || isReachableLeft(srcRowIndex, srcColIndex, destRowIndex, destColIndex)
-            || isReachableBottomLeft(srcRowIndex, srcColIndex, destRowIndex, destColIndex);
+        || isReachableRight(srcRowIndex, srcColIndex, destRowIndex, destColIndex)
+        || isReachableBottomRight(srcRowIndex, srcColIndex, destRowIndex, destColIndex)
+        || isReachableTopLeft(srcRowIndex, srcColIndex, destRowIndex, destColIndex)
+        || isReachableLeft(srcRowIndex, srcColIndex, destRowIndex, destColIndex)
+        || isReachableBottomLeft(srcRowIndex, srcColIndex, destRowIndex, destColIndex);
   }
 
   private boolean isReachableTopRight(

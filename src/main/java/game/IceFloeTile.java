@@ -2,23 +2,26 @@ package game;
 
 public class IceFloeTile {
   private final int fishCount;
-  private boolean isUnoccupied;
+  private Penguin placedPenguin;
 
   public IceFloeTile(int fishCount) {
     this.fishCount = fishCount;
-    this.isUnoccupied = true;
   }
 
   public int getFishCount() {
     return fishCount;
   }
 
-  public boolean isUnoccupied() {
-    return isUnoccupied;
+  public Penguin getPlacedPenguin() {
+    return placedPenguin;
   }
 
-  public void setUnoccupied(boolean unoccupied) {
-    isUnoccupied = unoccupied;
+  public void setPlacedPenguin(Penguin placedPenguin) {
+    this.placedPenguin = placedPenguin;
+  }
+
+  public boolean isUnoccupied() {
+    return this.placedPenguin != null;
   }
 
   @Override
