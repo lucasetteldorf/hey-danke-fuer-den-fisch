@@ -100,38 +100,120 @@ public class GameBoard {
 
   private boolean isValidMove(
       int srcRowIndex, int srcColIndex, int destRowIndex, int destColIndex) {
+    if (destRowIndex < 0
+        || destRowIndex > 7
+        || destColIndex < 0
+        || destColIndex > 6 + (destRowIndex % 2)
+        || (srcRowIndex == destRowIndex && srcColIndex == destColIndex)) {
+      return false;
+    }
 
-    return false;
+    return isReachableTopRight(srcRowIndex, srcColIndex, destRowIndex, destColIndex)
+            || isReachableRight(srcRowIndex, srcColIndex, destRowIndex, destColIndex)
+            || isReachableBottomRight(srcRowIndex, srcColIndex, destRowIndex, destColIndex)
+            || isReachableTopLeft(srcRowIndex, srcColIndex, destRowIndex, destColIndex)
+            || isReachableLeft(srcRowIndex, srcColIndex, destRowIndex, destColIndex)
+            || isReachableBottomLeft(srcRowIndex, srcColIndex, destRowIndex, destColIndex);
   }
 
   private boolean isReachableTopRight(
       int srcRowIndex, int srcColIndex, int destRowIndex, int destColIndex) {
-    return false;
+    if (srcRowIndex == 0 || srcColIndex == 7) {
+      return false;
+    }
+
+    for (int i = srcRowIndex - 1; i >= destRowIndex; i--) {
+      for (int j = srcColIndex + ((i + 1) % 2); j <= destColIndex; j += ((i + 1) % 2)) {
+        if (this.tiles[i][j] == null || !this.tiles[i][j].isUnoccupied()) {
+          return false;
+        }
+      }
+    }
+
+    return true;
   }
 
   private boolean isReachableRight(
       int srcRowIndex, int srcColIndex, int destRowIndex, int destColIndex) {
-    return false;
+    if (srcColIndex == 7
+        || srcRowIndex % 2 == 0 && srcColIndex == 7
+        || srcRowIndex != destRowIndex) {
+      return false;
+    }
+
+    for (int i = srcColIndex + 1; i <= destColIndex; i++) {
+      if (this.tiles[srcRowIndex][i] == null || !this.tiles[srcRowIndex][i].isUnoccupied()) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   private boolean isReachableBottomRight(
       int srcRowIndex, int srcColIndex, int destRowIndex, int destColIndex) {
-    return false;
+    if (srcRowIndex == 7 || srcColIndex == 7) {
+      return false;
+    }
+
+    for (int i = srcRowIndex + 1; i <= destRowIndex; i++) {
+      for (int j = srcColIndex + ((i + 1) % 2); j <= destColIndex; j += ((i + 1) % 2)) {
+        if (this.tiles[i][j] == null || !this.tiles[i][j].isUnoccupied()) {
+          return false;
+        }
+      }
+    }
+
+    return true;
   }
 
   private boolean isReachableTopLeft(
       int srcRowIndex, int srcColIndex, int destRowIndex, int destColIndex) {
-    return false;
+    if (srcRowIndex == 0 || srcColIndex == 0 && srcRowIndex % 2 == 1) {
+      return false;
+    }
+
+    for (int i = srcRowIndex - 1; i >= destRowIndex; i--) {
+      for (int j = srcColIndex - (i % 2); j >= destColIndex; j -= (i % 2)) {
+        if (this.tiles[i][j] == null || !this.tiles[i][j].isUnoccupied()) {
+          return false;
+        }
+      }
+    }
+
+    return true;
   }
 
   private boolean isReachableLeft(
       int srcRowIndex, int srcColIndex, int destRowIndex, int destColIndex) {
-    return false;
+    if (srcColIndex == 0 || srcRowIndex != destRowIndex) {
+      return false;
+    }
+
+    for (int i = srcColIndex - 1; i >= destColIndex; i--) {
+      if (this.tiles[srcRowIndex][i] == null || !this.tiles[srcRowIndex][i].isUnoccupied()) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   private boolean isReachableBottomLeft(
       int srcRowIndex, int srcColIndex, int destRowIndex, int destColIndex) {
-    return false;
+    if (srcRowIndex == 7 || srcColIndex == 0 && srcRowIndex % 2 == 1) {
+      return false;
+    }
+
+    for (int i = srcRowIndex + 1; i <= destRowIndex; i++) {
+      for (int j = srcColIndex - (i % 2); j >= destColIndex; j -= (i % 2)) {
+        if (this.tiles[i][j] == null || !this.tiles[i][j].isUnoccupied()) {
+          return false;
+        }
+      }
+    }
+
+    return true;
   }
 
   @Override
