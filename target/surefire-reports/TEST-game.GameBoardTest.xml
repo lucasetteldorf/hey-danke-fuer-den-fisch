@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="game.GameBoardTest" time="0.086" tests="4" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="game.GameBoardTest" time="0.075" tests="4" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -12,7 +12,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="DE"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk-17.0.2.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/Lucas/Desktop/Uni/6. FS (FSS 23)/Bachelorarbeit/hey-thats-my-fish-mcts/target/surefire/surefirebooter-20230206121606652_3.jar /Users/Lucas/Desktop/Uni/6. FS (FSS 23)/Bachelorarbeit/hey-thats-my-fish-mcts/target/surefire 2023-02-06T12-16-06_206-jvmRun1 surefire-20230206121606652_1tmp surefire_0-20230206121606652_2tmp"/>
+    <property name="sun.java.command" value="/Users/Lucas/Desktop/Uni/6. FS (FSS 23)/Bachelorarbeit/hey-thats-my-fish-mcts/target/surefire/surefirebooter-20230206143613667_3.jar /Users/Lucas/Desktop/Uni/6. FS (FSS 23)/Bachelorarbeit/hey-thats-my-fish-mcts/target/surefire 2023-02-06T14-36-13_205-jvmRun1 surefire-20230206143613667_1tmp surefire_0-20230206143613667_2tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/Users/Lucas/Desktop/Uni/6. FS (FSS 23)/Bachelorarbeit/hey-thats-my-fish-mcts/target/test-classes:/Users/Lucas/Desktop/Uni/6. FS (FSS 23)/Bachelorarbeit/hey-thats-my-fish-mcts/target/classes:/Users/Lucas/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.2/junit-jupiter-api-5.9.2.jar:/Users/Lucas/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/Lucas/.m2/repository/org/junit/platform/junit-platform-commons/1.9.2/junit-platform-commons-1.9.2.jar:/Users/Lucas/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:"/>
@@ -28,7 +28,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
-    <property name="surefire.real.class.path" value="/Users/Lucas/Desktop/Uni/6. FS (FSS 23)/Bachelorarbeit/hey-thats-my-fish-mcts/target/surefire/surefirebooter-20230206121606652_3.jar"/>
+    <property name="surefire.real.class.path" value="/Users/Lucas/Desktop/Uni/6. FS (FSS 23)/Bachelorarbeit/hey-thats-my-fish-mcts/target/surefire/surefirebooter-20230206143613667_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="17.0.2+8-86"/>
@@ -55,7 +55,7 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testFishCounts" classname="game.GameBoardTest" time="0.019"/>
+  <testcase name="testFishCounts" classname="game.GameBoardTest" time="0.016"/>
   <testcase name="testPlayers" classname="game.GameBoardTest" time="0.012">
     <system-out><![CDATA[p1: 0 fish and 0 tiles collected
 p2: 0 fish and 0 tiles collected

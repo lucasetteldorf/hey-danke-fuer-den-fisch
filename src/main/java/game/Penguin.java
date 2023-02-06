@@ -5,14 +5,12 @@ public class Penguin {
   private final Player player;
   private int rowIndex;
   private int colIndex;
-  private boolean isPlaced;
 
   public Penguin(PenguinColor color, Player player) {
     this.color = color;
     this.player = player;
     this.rowIndex = -1;
     this.colIndex = -1;
-    this.isPlaced = false;
   }
 
   public PenguinColor getColor() {
@@ -40,11 +38,7 @@ public class Penguin {
   }
 
   public boolean isPlaced() {
-    return isPlaced;
-  }
-
-  public void setPlaced(boolean placed) {
-    isPlaced = placed;
+    return this.rowIndex != -1 && this.colIndex != -1;
   }
 
   @Override
@@ -54,7 +48,7 @@ public class Penguin {
         + " (color: "
         + this.color
         + "): isPlaced: "
-        + this.isPlaced
+        + this.isPlaced()
         + ", rowIndex: "
         + this.rowIndex
         + ", colIndex: "

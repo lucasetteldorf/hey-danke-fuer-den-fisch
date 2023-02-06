@@ -72,7 +72,6 @@ public class GameBoard {
       selectedTile.setPlacedPenguin(penguin);
       penguin.setRowIndex(destRowIndex);
       penguin.setColIndex(destColIndex);
-      penguin.setPlaced(true);
 
       return true;
     }
@@ -224,9 +223,7 @@ public class GameBoard {
     return true;
   }
 
-  public IceFloeTile[][] getTiles() {
-    return tiles;
-  }
+  // TODO game rules/end condition
 
   @Override
   public String toString() {

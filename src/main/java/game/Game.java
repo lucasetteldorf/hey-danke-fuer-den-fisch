@@ -9,6 +9,7 @@ public class Game {
   public static void initialize(int playersCount) {
     board = new GameBoard();
     players = new Player[playersCount];
+    // TODO init players with names
   }
 
   public static void start(int playersCount) {
