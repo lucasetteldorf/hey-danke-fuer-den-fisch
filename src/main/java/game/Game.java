@@ -9,9 +9,6 @@ public class Game {
   public static void initialize(int playersCount) {
     board = new GameBoard();
     players = new Player[playersCount];
-    for (int i = 0; i < playersCount; i++) {
-      players[i] = new Player(playersCount, PenguinColor.values()[i]);
-    }
   }
 
   public static void start(int playersCount) {

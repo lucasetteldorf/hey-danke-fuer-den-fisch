@@ -58,7 +58,11 @@ public class GameBoard {
   }
 
   public boolean placePenguin(Penguin penguin, int destRowIndex, int destColIndex) {
-    if (!penguin.isPlaced() || destRowIndex < 0 || destRowIndex > 7 || destColIndex < 0 || destColIndex > 7) {
+    if (penguin.isPlaced()
+        || destRowIndex > 7
+        || destColIndex < 0
+        || destColIndex > 7
+        || destRowIndex % 2 == 0 && destColIndex > 6) {
       return false;
     }
 
@@ -68,6 +72,7 @@ public class GameBoard {
       selectedTile.setPlacedPenguin(penguin);
       penguin.setRowIndex(destRowIndex);
       penguin.setColIndex(destColIndex);
+      penguin.setPlaced(true);
 
       return true;
     }
@@ -217,6 +222,10 @@ public class GameBoard {
     }
 
     return true;
+  }
+
+  public IceFloeTile[][] getTiles() {
+    return tiles;
   }
 
   @Override

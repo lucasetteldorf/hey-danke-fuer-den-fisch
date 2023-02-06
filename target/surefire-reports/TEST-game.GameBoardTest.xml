@@ -1,62 +1,77 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="0" failures="0" name="game.GameBoardTest" time="0" errors="0" skipped="0">
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="game.GameBoardTest" time="0.086" tests="4" errors="0" skipped="0" failures="0">
   <properties>
-    <property name="idea.version" value="2022.1.1"/>
-    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
-    <property name="java.vm.version" value="17.0.2+8-86"/>
-    <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk-17.0.2.jdk/Contents/Home/lib"/>
-    <property name="maven.multiModuleProjectDirectory" value="/Users/Lucas/Desktop/Uni/6. FS (FSS 23)/Bachelorarbeit/hey-thats-my-fish-mcts"/>
-    <property name="java.vm.vendor" value="Oracle Corporation"/>
-    <property name="java.vendor.url" value="https://java.oracle.com/"/>
-    <property name="guice.disable.misplaced.annotation.check" value="true"/>
-    <property name="path.separator" value=":"/>
-    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
-    <property name="user.country" value="DE"/>
-    <property name="sun.java.launcher" value="SUN_STANDARD"/>
-    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="user.dir" value="/Users/Lucas/Desktop/Uni/6. FS (FSS 23)/Bachelorarbeit/hey-thats-my-fish-mcts"/>
-    <property name="java.vm.compressedOopsMode" value="Zero based"/>
-    <property name="java.runtime.version" value="17.0.2+8-86"/>
-    <property name="os.arch" value="x86_64"/>
-    <property name="java.io.tmpdir" value="/var/folders/lr/twpgp6cd0q301mtn5w4r5mlm0000gn/T/"/>
-    <property name="line.separator" value="
-"/>
-    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
-    <property name="os.name" value="Mac OS X"/>
-    <property name="maven.ext.class.path" value="/Applications/IntelliJ IDEA.app/Contents/plugins/maven/lib/maven-event-listener.jar"/>
-    <property name="classworlds.conf" value="/Applications/IntelliJ IDEA.app/Contents/plugins/maven/lib/maven3/bin/m2.conf"/>
-    <property name="sun.jnu.encoding" value="UTF-8"/>
-    <property name="java.library.path" value="/Users/Lucas/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
-    <property name="maven.conf" value="/Applications/IntelliJ IDEA.app/Contents/plugins/maven/lib/maven3/conf"/>
-    <property name="jdk.debug" value="release"/>
-    <property name="java.class.version" value="61.0"/>
-    <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
-    <property name="os.version" value="10.15.7"/>
-    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
-    <property name="user.home" value="/Users/Lucas"/>
-    <property name="user.timezone" value="Europe/Berlin"/>
-    <property name="file.encoding" value="UTF-8"/>
     <property name="java.specification.version" value="17"/>
-    <property name="user.name" value="Lucas"/>
-    <property name="java.class.path" value="/Applications/IntelliJ IDEA.app/Contents/plugins/maven/lib/maven3/boot/plexus-classworlds.license:/Applications/IntelliJ IDEA.app/Contents/plugins/maven/lib/maven3/boot/plexus-classworlds-2.6.0.jar"/>
-    <property name="java.vm.specification.version" value="17"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/Users/Lucas/Desktop/Uni/6. FS (FSS 23)/Bachelorarbeit/hey-thats-my-fish-mcts/target/test-classes:/Users/Lucas/Desktop/Uni/6. FS (FSS 23)/Bachelorarbeit/hey-thats-my-fish-mcts/target/classes:/Users/Lucas/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.2/junit-jupiter-api-5.9.2.jar:/Users/Lucas/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/Lucas/.m2/repository/org/junit/platform/junit-platform-commons/1.9.2/junit-platform-commons-1.9.2.jar:/Users/Lucas/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
     <property name="sun.arch.data.model" value="64"/>
-    <property name="sun.java.command" value="org.codehaus.classworlds.Launcher -Didea.version=2022.1.1 test"/>
-    <property name="java.home" value="/Library/Java/JavaVirtualMachines/jdk-17.0.2.jdk/Contents/Home"/>
+    <property name="java.vendor.url" value="https://java.oracle.com/"/>
+    <property name="os.name" value="Mac OS X"/>
+    <property name="java.vm.specification.version" value="17"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="DE"/>
+    <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk-17.0.2.jdk/Contents/Home/lib"/>
+    <property name="sun.java.command" value="/Users/Lucas/Desktop/Uni/6. FS (FSS 23)/Bachelorarbeit/hey-thats-my-fish-mcts/target/surefire/surefirebooter-20230206121606652_3.jar /Users/Lucas/Desktop/Uni/6. FS (FSS 23)/Bachelorarbeit/hey-thats-my-fish-mcts/target/surefire 2023-02-06T12-16-06_206-jvmRun1 surefire-20230206121606652_1tmp surefire_0-20230206121606652_2tmp"/>
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/Users/Lucas/Desktop/Uni/6. FS (FSS 23)/Bachelorarbeit/hey-thats-my-fish-mcts/target/test-classes:/Users/Lucas/Desktop/Uni/6. FS (FSS 23)/Bachelorarbeit/hey-thats-my-fish-mcts/target/classes:/Users/Lucas/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.2/junit-jupiter-api-5.9.2.jar:/Users/Lucas/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/Lucas/.m2/repository/org/junit/platform/junit-platform-commons/1.9.2/junit-platform-commons-1.9.2.jar:/Users/Lucas/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/Users/Lucas"/>
     <property name="user.language" value="de"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
-    <property name="java.vm.info" value="mixed mode, sharing"/>
-    <property name="java.version" value="17.0.2"/>
-    <property name="native.encoding" value="UTF-8"/>
-    <property name="java.vendor" value="Oracle Corporation"/>
-    <property name="maven.home" value="/Applications/IntelliJ IDEA.app/Contents/plugins/maven/lib/maven3"/>
-    <property name="file.separator" value="/"/>
     <property name="java.version.date" value="2022-01-18"/>
-    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
-    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
-    <property name="sun.cpu.endian" value="little"/>
-    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.home" value="/Library/Java/JavaVirtualMachines/jdk-17.0.2.jdk/Contents/Home"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/Users/Lucas/Desktop/Uni/6. FS (FSS 23)/Bachelorarbeit/hey-thats-my-fish-mcts"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="surefire.real.class.path" value="/Users/Lucas/Desktop/Uni/6. FS (FSS 23)/Bachelorarbeit/hey-thats-my-fish-mcts/target/surefire/surefirebooter-20230206121606652_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.runtime.version" value="17.0.2+8-86"/>
+    <property name="user.name" value="Lucas"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="10.15.7"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="localRepository" value="/Users/Lucas/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="java.io.tmpdir" value="/var/folders/lr/twpgp6cd0q301mtn5w4r5mlm0000gn/T/"/>
+    <property name="idea.version" value="2022.1.1"/>
+    <property name="java.version" value="17.0.2"/>
+    <property name="user.dir" value="/Users/Lucas/Desktop/Uni/6. FS (FSS 23)/Bachelorarbeit/hey-thats-my-fish-mcts"/>
+    <property name="os.arch" value="x86_64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/Users/Lucas/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.version" value="17.0.2+8-86"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.class.version" value="61.0"/>
   </properties>
+  <testcase name="testFishCounts" classname="game.GameBoardTest" time="0.019"/>
+  <testcase name="testPlayers" classname="game.GameBoardTest" time="0.012">
+    <system-out><![CDATA[p1: 0 fish and 0 tiles collected
+p2: 0 fish and 0 tiles collected
+]]></system-out>
+  </testcase>
+  <testcase name="testPenguins" classname="game.GameBoardTest" time="0.011">
+    <system-out><![CDATA[Penguin of player p1 (color: BLUE): isPlaced: false, rowIndex: -1, colIndex: -1
+Penguin of player p1 (color: BLUE): isPlaced: false, rowIndex: -1, colIndex: -1
+Penguin of player p1 (color: BLUE): isPlaced: false, rowIndex: -1, colIndex: -1
+Penguin of player p1 (color: BLUE): isPlaced: false, rowIndex: -1, colIndex: -1
+
+Penguin of player p2 (color: RED): isPlaced: false, rowIndex: -1, colIndex: -1
+Penguin of player p2 (color: RED): isPlaced: false, rowIndex: -1, colIndex: -1
+Penguin of player p2 (color: RED): isPlaced: false, rowIndex: -1, colIndex: -1
+Penguin of player p2 (color: RED): isPlaced: false, rowIndex: -1, colIndex: -1
+]]></system-out>
+  </testcase>
+  <testcase name="testPenguinPlacement" classname="game.GameBoardTest" time="0.003"/>
 </testsuite>

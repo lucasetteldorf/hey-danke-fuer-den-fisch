@@ -21,7 +21,7 @@ public class IceFloeTile {
   }
 
   public boolean isUnoccupied() {
-    return this.placedPenguin != null;
+    return this.placedPenguin == null;
   }
 
   @Override
