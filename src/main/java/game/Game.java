@@ -10,6 +10,9 @@ public class Game {
     board = new GameBoard();
     players = new Player[playersCount];
     // TODO init players with names
+    for (int i = 0; i < players.length; i++) {
+      players[i] = new Player(String.valueOf(i + 1), playersCount, PenguinColor.values()[i]);
+    }
   }
 
   public static void start(int playersCount) {

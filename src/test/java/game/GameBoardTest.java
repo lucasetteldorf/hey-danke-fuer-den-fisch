@@ -1,6 +1,8 @@
 package game;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -99,7 +101,96 @@ public class GameBoardTest {
     p2 = new Player("p2", 2, PenguinColor.RED);
   }
 
+  @AfterEach
+  void afterEach() {
+    tiles =
+        new IceFloeTile[][] {
+          {
+            new IceFloeTile(3),
+            new IceFloeTile(1),
+            new IceFloeTile(1),
+            new IceFloeTile(1),
+            new IceFloeTile(1),
+            new IceFloeTile(1),
+            new IceFloeTile(1)
+          },
+          {
+            new IceFloeTile(1),
+            new IceFloeTile(2),
+            new IceFloeTile(1),
+            new IceFloeTile(3),
+            new IceFloeTile(1),
+            new IceFloeTile(1),
+            new IceFloeTile(2),
+            new IceFloeTile(2)
+          },
+          {
+            new IceFloeTile(1),
+            new IceFloeTile(2),
+            new IceFloeTile(2),
+            new IceFloeTile(1),
+            new IceFloeTile(1),
+            new IceFloeTile(1),
+            new IceFloeTile(2)
+          },
+          {
+            new IceFloeTile(2),
+            new IceFloeTile(1),
+            new IceFloeTile(1),
+            new IceFloeTile(3),
+            new IceFloeTile(2),
+            new IceFloeTile(3),
+            new IceFloeTile(2),
+            new IceFloeTile(3)
+          },
+          {
+            new IceFloeTile(1),
+            new IceFloeTile(1),
+            new IceFloeTile(3),
+            new IceFloeTile(1),
+            new IceFloeTile(2),
+            new IceFloeTile(2),
+            new IceFloeTile(1)
+          },
+          {
+            new IceFloeTile(2),
+            new IceFloeTile(2),
+            new IceFloeTile(3),
+            new IceFloeTile(3),
+            new IceFloeTile(2),
+            new IceFloeTile(2),
+            new IceFloeTile(1),
+            new IceFloeTile(2)
+          },
+          {
+            new IceFloeTile(1),
+            new IceFloeTile(2),
+            new IceFloeTile(2),
+            new IceFloeTile(3),
+            new IceFloeTile(1),
+            new IceFloeTile(1),
+            new IceFloeTile(2)
+          },
+          {
+            new IceFloeTile(1),
+            new IceFloeTile(3),
+            new IceFloeTile(1),
+            new IceFloeTile(1),
+            new IceFloeTile(1),
+            new IceFloeTile(1),
+            new IceFloeTile(2),
+            new IceFloeTile(1)
+          }
+        };
+
+    gameBoard = new GameBoard(tiles);
+
+    p1 = new Player("p1", 2, PenguinColor.BLUE);
+    p2 = new Player("p2", 2, PenguinColor.RED);
+  }
+
   @Test
+  @Order(1)
   void testPenguinPlacement() {
     assertFalse(gameBoard.placePenguin(p1.getPenguins()[0], 0, 0));
     assertEquals(-1, p1.getPenguins()[0].getRowIndex());
@@ -131,5 +222,19 @@ public class GameBoardTest {
   }
 
   @Test
-  void testPenguinMovement() {}
+  @Order(2)
+  void testPenguinMovement() {
+    assertTrue(gameBoard.placePenguin(p1.getPenguins()[0], 0, 1));
+    assertFalse(gameBoard.movePenguin(p1.getPenguins()[0], 0, -1));
+    assertFalse(gameBoard.movePenguin(p1.getPenguins()[0], 0, 7));
+
+    assertTrue(gameBoard.placePenguin(p2.getPenguins()[0], 1, 2));
+    assertFalse(gameBoard.movePenguin(p2.getPenguins()[0], 1, -1));
+    assertFalse(gameBoard.movePenguin(p2.getPenguins()[0], 0, 8));
+    System.out.println(gameBoard);
+
+    assertFalse(gameBoard.movePenguin(p1.getPenguins()[0], 1, 2));
+    assertTrue(gameBoard.movePenguin(p1.getPenguins()[0], 1, 0));
+    System.out.println(gameBoard);
+  }
 }

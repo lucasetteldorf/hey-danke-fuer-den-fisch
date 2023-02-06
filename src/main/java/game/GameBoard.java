@@ -80,7 +80,7 @@ public class GameBoard {
   }
 
   public boolean movePenguin(Penguin penguin, int destRowIndex, int destColIndex) {
-    if (destColIndex < 0 || destColIndex > 7) {
+    if (destColIndex < 0 || destColIndex > 7 || destRowIndex % 2 == 0 && destColIndex > 6) {
       return false;
     }
 
@@ -90,14 +90,14 @@ public class GameBoard {
     IceFloeTile destTile = this.tiles[destRowIndex][destColIndex];
 
     if (isValidMove(srcRowIndex, srcColIndex, destRowIndex, destColIndex)) {
+      srcTile.setPlacedPenguin(null);
+      srcTile.setOnBoard(false);
       destTile.setPlacedPenguin(penguin);
 
       penguin.getPlayer().updateCollectedTilesCount();
       penguin.getPlayer().updateCollectedFishCount(srcTile.getFishCount());
       penguin.setRowIndex(destRowIndex);
       penguin.setColIndex(destColIndex);
-
-      srcTile = null;
 
       return true;
     }
@@ -229,16 +229,28 @@ public class GameBoard {
   public String toString() {
     StringBuffer str = new StringBuffer();
 
+    int index = 1;
     for (int i = 0; i < this.tiles.length; i++) {
       for (int j = 0; j < this.tiles[i].length; j++) {
+        String placedPenguin =
+            (this.tiles[i][j].getPlacedPenguin() == null)
+                ? "none"
+                : this.tiles[i][j].getPlacedPenguin().getPlayer().getName();
+
+        String tileInfo =
+            (this.tiles[i][j].isOnBoard())
+                ? "[i:" + index + ";f:" + this.tiles[i][j] + ";p:" + placedPenguin + "]"
+                : "[tile removed]";
+        index++;
+
         if (i % 2 == 0 && j < this.tiles[i].length - 1) {
-          str.append("--").append(this.tiles[i][j]).append("-");
+          str.append("--").append(tileInfo).append("-");
         } else if (i % 2 == 0 && j == this.tiles[i].length - 1) {
-          str.append("--").append(this.tiles[i][j]).append("--");
+          str.append("--").append(tileInfo).append("--");
         } else if (i % 2 == 1 && j < this.tiles[i].length - 1) {
-          str.append(this.tiles[i][j]).append("---");
+          str.append(tileInfo).append("---");
         } else {
-          str.append(this.tiles[i][j]);
+          str.append(tileInfo);
         }
       }
 

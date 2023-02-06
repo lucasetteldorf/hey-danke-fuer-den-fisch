@@ -3,9 +3,11 @@ package game;
 public class IceFloeTile {
   private final int fishCount;
   private Penguin placedPenguin;
+  private boolean isOnBoard;
 
   public IceFloeTile(int fishCount) {
     this.fishCount = fishCount;
+    this.isOnBoard = true;
   }
 
   public int getFishCount() {
@@ -18,6 +20,14 @@ public class IceFloeTile {
 
   public void setPlacedPenguin(Penguin placedPenguin) {
     this.placedPenguin = placedPenguin;
+  }
+
+  public boolean isOnBoard() {
+    return isOnBoard;
+  }
+
+  public void setOnBoard(boolean onBoard) {
+    isOnBoard = onBoard;
   }
 
   public boolean isUnoccupied() {
