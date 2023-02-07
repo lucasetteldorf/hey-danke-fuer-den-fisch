@@ -59,6 +59,7 @@ public class GameBoard {
 
   public boolean placePenguin(Penguin penguin, int destRowIndex, int destColIndex) {
     if (penguin.isPlaced()
+        || destRowIndex < 0
         || destRowIndex > 7
         || destColIndex < 0
         || destColIndex > 7
@@ -67,7 +68,6 @@ public class GameBoard {
     }
 
     IceFloeTile selectedTile = this.tiles[destRowIndex][destColIndex];
-
     if (selectedTile != null && selectedTile.isUnoccupied() && selectedTile.getFishCount() == 1) {
       selectedTile.setPlacedPenguin(penguin);
       penguin.setRowIndex(destRowIndex);
@@ -232,25 +232,13 @@ public class GameBoard {
     int index = 1;
     for (int i = 0; i < this.tiles.length; i++) {
       for (int j = 0; j < this.tiles[i].length; j++) {
-        String placedPenguin =
-            (this.tiles[i][j].getPlacedPenguin() == null)
-                ? "none"
-                : this.tiles[i][j].getPlacedPenguin().getPlayer().getName();
-
-        String tileInfo =
-            (this.tiles[i][j].isOnBoard())
-                ? "[i:" + index + ";f:" + this.tiles[i][j] + ";p:" + placedPenguin + "]"
-                : "[tile removed]";
+        String tileInfo = "[i:" + index + ";" + this.tiles[i][j] + "]";
         index++;
 
-        if (i % 2 == 0 && j < this.tiles[i].length - 1) {
-          str.append("--").append(tileInfo).append("-");
-        } else if (i % 2 == 0 && j == this.tiles[i].length - 1) {
-          str.append("--").append(tileInfo).append("--");
-        } else if (i % 2 == 1 && j < this.tiles[i].length - 1) {
-          str.append(tileInfo).append("---");
+        if (i % 2 == 0) {
+          str.append("    ").append(tileInfo);
         } else {
-          str.append(tileInfo);
+          str.append(tileInfo).append("  ");
         }
       }
 

@@ -47,6 +47,26 @@ public class Player {
     return penguins;
   }
 
+  public Penguin getCurrentPenguin() {
+    for (int i = 0; i < this.penguins.length; i++) {
+      if (!this.penguins[i].isPlaced()) {
+        return this.penguins[i];
+      }
+    }
+
+    return null;
+  }
+
+  public boolean hasPenguins() {
+    for (Penguin p : this.penguins) {
+        if (!p.isPlaced()) {
+          return true;
+        }
+    }
+
+    return false;
+  }
+
   public String getName() {
     return name;
   }

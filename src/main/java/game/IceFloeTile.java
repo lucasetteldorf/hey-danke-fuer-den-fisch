@@ -2,8 +2,8 @@ package game;
 
 public class IceFloeTile {
   private final int fishCount;
-  private Penguin placedPenguin;
   private boolean isOnBoard;
+  private Penguin placedPenguin;
 
   public IceFloeTile(int fishCount) {
     this.fishCount = fishCount;
@@ -36,6 +36,10 @@ public class IceFloeTile {
 
   @Override
   public String toString() {
-    return String.valueOf(this.getFishCount());
+    String playerStr =
+        (this.placedPenguin == null) ? "-" : this.placedPenguin.getPlayer().getName();
+    String str = "f:" + this.fishCount + ";p:" + playerStr;
+
+    return (this.isOnBoard) ? str : "[tile removed]";
   }
 }

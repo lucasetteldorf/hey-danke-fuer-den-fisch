@@ -47,9 +47,7 @@ public class Penguin {
         + this.player.getName()
         + " (color: "
         + this.color
-        + "): isPlaced: "
-        + this.isPlaced()
-        + ", rowIndex: "
+        + "): rowIndex: "
         + this.rowIndex
         + ", colIndex: "
         + this.colIndex;
