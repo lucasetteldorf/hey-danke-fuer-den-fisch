@@ -80,7 +80,11 @@ public class GameBoard {
   }
 
   public boolean movePenguin(Penguin penguin, int destRowIndex, int destColIndex) {
-    if (destColIndex < 0 || destColIndex > 7 || destRowIndex % 2 == 0 && destColIndex > 6) {
+    if (destRowIndex < 0
+        || destRowIndex > 7
+        || destColIndex < 0
+        || destColIndex > 7
+        || destRowIndex % 2 == 0 && destColIndex > 6) {
       return false;
     }
 
@@ -89,6 +93,7 @@ public class GameBoard {
     IceFloeTile srcTile = this.tiles[srcRowIndex][srcColIndex];
     IceFloeTile destTile = this.tiles[destRowIndex][destColIndex];
 
+    // TODO adjust isValidMove or this method for correct functionality
     if (isValidMove(srcRowIndex, srcColIndex, destRowIndex, destColIndex)) {
       srcTile.setPlacedPenguin(null);
       srcTile.setOnBoard(false);
@@ -107,11 +112,7 @@ public class GameBoard {
 
   private boolean isValidMove(
       int srcRowIndex, int srcColIndex, int destRowIndex, int destColIndex) {
-    if (destRowIndex < 0
-        || destRowIndex > 7
-        || destColIndex < 0
-        || destColIndex > 6 + (destRowIndex % 2)
-        || (srcRowIndex == destRowIndex && srcColIndex == destColIndex)) {
+    if (srcRowIndex == destRowIndex && srcColIndex == destColIndex) {
       return false;
     }
 
@@ -123,33 +124,34 @@ public class GameBoard {
         || isReachableBottomLeft(srcRowIndex, srcColIndex, destRowIndex, destColIndex);
   }
 
-  private boolean isReachableTopRight(
+  public boolean isReachableTopRight(
       int srcRowIndex, int srcColIndex, int destRowIndex, int destColIndex) {
     if (srcRowIndex == 0 || srcColIndex == 7) {
       return false;
     }
 
+    int colIndex = srcColIndex + ((srcRowIndex + 1) % 2);
     for (int i = srcRowIndex - 1; i >= destRowIndex; i--) {
-      for (int j = srcColIndex + ((i + 1) % 2); j <= destColIndex; j += ((i + 1) % 2)) {
-        if (this.tiles[i][j] == null || !this.tiles[i][j].isUnoccupied()) {
-          return false;
-        }
+      if (!this.tiles[i][colIndex].isOnBoard() || !this.tiles[i][colIndex].isUnoccupied()) {
+        return false;
       }
+
+      colIndex += ((i + 1) % 2);
     }
 
     return true;
   }
 
-  private boolean isReachableRight(
+  public boolean isReachableRight(
       int srcRowIndex, int srcColIndex, int destRowIndex, int destColIndex) {
     if (srcColIndex == 7
-        || srcRowIndex % 2 == 0 && srcColIndex == 7
+        || srcRowIndex % 2 == 0 && srcColIndex == 6
         || srcRowIndex != destRowIndex) {
       return false;
     }
 
     for (int i = srcColIndex + 1; i <= destColIndex; i++) {
-      if (this.tiles[srcRowIndex][i] == null || !this.tiles[srcRowIndex][i].isUnoccupied()) {
+      if (!this.tiles[srcRowIndex][i].isOnBoard() || !this.tiles[srcRowIndex][i].isUnoccupied()) {
         return false;
       }
     }
@@ -157,48 +159,50 @@ public class GameBoard {
     return true;
   }
 
-  private boolean isReachableBottomRight(
+  public boolean isReachableBottomRight(
       int srcRowIndex, int srcColIndex, int destRowIndex, int destColIndex) {
     if (srcRowIndex == 7 || srcColIndex == 7) {
       return false;
     }
 
+    int colIndex = srcColIndex + ((srcRowIndex + 1) % 2);
     for (int i = srcRowIndex + 1; i <= destRowIndex; i++) {
-      for (int j = srcColIndex + ((i + 1) % 2); j <= destColIndex; j += ((i + 1) % 2)) {
-        if (this.tiles[i][j] == null || !this.tiles[i][j].isUnoccupied()) {
-          return false;
-        }
+      if (!this.tiles[i][colIndex].isOnBoard() || !this.tiles[i][colIndex].isUnoccupied()) {
+        return false;
       }
+
+      colIndex += ((i + 1) % 2);
     }
 
     return true;
   }
 
-  private boolean isReachableTopLeft(
+  public boolean isReachableTopLeft(
       int srcRowIndex, int srcColIndex, int destRowIndex, int destColIndex) {
     if (srcRowIndex == 0 || srcColIndex == 0 && srcRowIndex % 2 == 1) {
       return false;
     }
 
+    int colIndex = srcColIndex - (srcRowIndex % 2);
     for (int i = srcRowIndex - 1; i >= destRowIndex; i--) {
-      for (int j = srcColIndex - (i % 2); j >= destColIndex; j -= (i % 2)) {
-        if (this.tiles[i][j] == null || !this.tiles[i][j].isUnoccupied()) {
-          return false;
-        }
+      if (!this.tiles[i][colIndex].isOnBoard() || !this.tiles[i][colIndex].isUnoccupied()) {
+        return false;
       }
+
+      colIndex -= i % 2;
     }
 
     return true;
   }
 
-  private boolean isReachableLeft(
+  public boolean isReachableLeft(
       int srcRowIndex, int srcColIndex, int destRowIndex, int destColIndex) {
     if (srcColIndex == 0 || srcRowIndex != destRowIndex) {
       return false;
     }
 
     for (int i = srcColIndex - 1; i >= destColIndex; i--) {
-      if (this.tiles[srcRowIndex][i] == null || !this.tiles[srcRowIndex][i].isUnoccupied()) {
+      if (!this.tiles[srcRowIndex][i].isOnBoard() || !this.tiles[srcRowIndex][i].isUnoccupied()) {
         return false;
       }
     }
@@ -206,18 +210,19 @@ public class GameBoard {
     return true;
   }
 
-  private boolean isReachableBottomLeft(
+  public boolean isReachableBottomLeft(
       int srcRowIndex, int srcColIndex, int destRowIndex, int destColIndex) {
     if (srcRowIndex == 7 || srcColIndex == 0 && srcRowIndex % 2 == 1) {
       return false;
     }
 
+    int colIndex = srcColIndex - (srcRowIndex % 2);
     for (int i = srcRowIndex + 1; i <= destRowIndex; i++) {
-      for (int j = srcColIndex - (i % 2); j >= destColIndex; j -= (i % 2)) {
-        if (this.tiles[i][j] == null || !this.tiles[i][j].isUnoccupied()) {
-          return false;
-        }
+      if (!this.tiles[i][colIndex].isOnBoard() || !this.tiles[i][colIndex].isUnoccupied()) {
+        return false;
       }
+
+      colIndex -= i % 2;
     }
 
     return true;
@@ -232,7 +237,10 @@ public class GameBoard {
     int index = 1;
     for (int i = 0; i < this.tiles.length; i++) {
       for (int j = 0; j < this.tiles[i].length; j++) {
-        String tileInfo = "[i:" + index + ";" + this.tiles[i][j] + "]";
+        String tileInfo =
+            (this.tiles[i][j].isOnBoard())
+                ? "[i:" + index + ";" + this.tiles[i][j] + "]"
+                : this.tiles[i][j] + "";
         index++;
 
         if (i % 2 == 0) {
