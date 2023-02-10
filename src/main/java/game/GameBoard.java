@@ -116,12 +116,21 @@ public class GameBoard {
       return false;
     }
 
-    return isReachableTopRight(srcRowIndex, srcColIndex, destRowIndex, destColIndex)
-        || isReachableRight(srcRowIndex, srcColIndex, destRowIndex, destColIndex)
-        || isReachableBottomRight(srcRowIndex, srcColIndex, destRowIndex, destColIndex)
-        || isReachableTopLeft(srcRowIndex, srcColIndex, destRowIndex, destColIndex)
-        || isReachableLeft(srcRowIndex, srcColIndex, destRowIndex, destColIndex)
-        || isReachableBottomLeft(srcRowIndex, srcColIndex, destRowIndex, destColIndex);
+    if (destColIndex < srcColIndex && srcRowIndex == destRowIndex) {
+      return isReachableLeft(srcRowIndex, srcColIndex, destRowIndex, destColIndex);
+    } else if (destColIndex > srcColIndex && srcRowIndex == destRowIndex) {
+      return isReachableRight(srcRowIndex, srcColIndex, destRowIndex, destColIndex);
+    } else if (destRowIndex < srcRowIndex && destColIndex >= srcColIndex) {
+      return isReachableTopRight(srcRowIndex, srcColIndex, destRowIndex, destColIndex);
+    } else if (destRowIndex < srcRowIndex && destColIndex <= srcColIndex) {
+      return isReachableTopLeft(srcRowIndex, srcColIndex, destRowIndex, destColIndex);
+    } else if (destRowIndex > srcRowIndex && destColIndex >= srcColIndex) {
+      return isReachableBottomRight(srcRowIndex, srcColIndex, destRowIndex, destColIndex);
+    } else if (destRowIndex > srcRowIndex && destColIndex <= srcColIndex) {
+      return isReachableBottomLeft(srcRowIndex, srcColIndex, destRowIndex, destColIndex);
+    }
+
+    return false;
   }
 
   public boolean isReachableTopRight(

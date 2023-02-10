@@ -252,5 +252,22 @@ public class GameBoardTest {
     System.out.println(gameBoard);
 
     assertFalse(gameBoard.movePenguin(p1.getPenguins()[0], 0, 0));
+
+    assertTrue(gameBoard.movePenguin(p2.getPenguins()[0], 0, 0));
+    System.out.println(gameBoard);
+
+    assertFalse(gameBoard.movePenguin(p1.getPenguins()[0], 0, 2));
+    assertTrue(gameBoard.movePenguin(p1.getPenguins()[0], 0, 3));
+
+    assertTrue(gameBoard.movePenguin(p2.getPenguins()[0], 7, 4));
+    System.out.println(gameBoard);
+
+    assertTrue(gameBoard.movePenguin(p2.getPenguins()[0], 7, 7));
+    assertTrue(gameBoard.movePenguin(p2.getPenguins()[0], 5, 6));
+    assertTrue(gameBoard.movePenguin(p2.getPenguins()[0], 7, 5));
+    System.out.println(gameBoard);
+
+    System.out.println(p1);
+    System.out.println(p2);
   }
 }
