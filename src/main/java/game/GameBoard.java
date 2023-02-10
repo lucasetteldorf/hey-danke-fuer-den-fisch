@@ -5,6 +5,10 @@ import java.util.Random;
 public class GameBoard {
   private final int ICE_FLOE_TILE_COUNT = 60;
   private final int ROW_COUNT = 8;
+  private final int[][] EVEN_ROW_NEIGHBOR_INDICES =
+      new int[][] {{-1, 0}, {-1, 1}, {0, 1}, {1, 1}, {1, 0}, {0, -1}};
+  private final int[][] ODD_ROW_NEIGHBOR_INDICES =
+      new int[][] {{-1, -1}, {-1, 0}, {0, 1}, {1, 0}, {1, -1}, {0, -1}};
 
   private final IceFloeTile[][] tiles;
 
@@ -93,7 +97,6 @@ public class GameBoard {
     IceFloeTile srcTile = this.tiles[srcRowIndex][srcColIndex];
     IceFloeTile destTile = this.tiles[destRowIndex][destColIndex];
 
-    // TODO adjust isValidMove or this method for correct functionality
     if (isValidMove(srcRowIndex, srcColIndex, destRowIndex, destColIndex)) {
       srcTile.setPlacedPenguin(null);
       srcTile.setOnBoard(false);
@@ -237,7 +240,54 @@ public class GameBoard {
     return true;
   }
 
-  // TODO game rules/end condition
+  public boolean hasPossibleMoves(Penguin penguin) {
+    IceFloeTile penguinTile = this.tiles[penguin.getRowIndex()][penguin.getColIndex()];
+    IceFloeTile[] tileNeighbors = getNeighbors(penguin.getRowIndex(), penguin.getColIndex());
+
+    for (IceFloeTile neighbor : tileNeighbors) {
+        if (neighbor != null && neighbor.isOnBoard() && neighbor.isUnoccupied()) {
+          return true;
+        }
+    }
+
+    return false;
+  }
+
+  public IceFloeTile[] getNeighbors(int rowIndex, int colIndex) {
+    IceFloeTile[] neighbors = new IceFloeTile[6];
+
+    for (int i = 0; i < 6; i++) {
+      IceFloeTile neighbor = null;
+
+      if (rowIndex % 2 == 0) {
+        int neighborRowIndex = rowIndex + EVEN_ROW_NEIGHBOR_INDICES[i][0];
+        int neighborColIndex = colIndex + EVEN_ROW_NEIGHBOR_INDICES[i][1];
+
+        if (neighborRowIndex >= 0
+            && neighborRowIndex <= 7
+            && neighborColIndex >= 0
+            && neighborColIndex <= 7) {
+          neighbor = this.tiles[neighborRowIndex][neighborColIndex];
+        }
+
+        neighbors[i] = neighbor;
+      } else {
+        int neighborRowIndex = rowIndex + ODD_ROW_NEIGHBOR_INDICES[i][0];
+        int neighborColIndex = colIndex + ODD_ROW_NEIGHBOR_INDICES[i][1];
+
+        if (neighborRowIndex >= 0
+            && neighborRowIndex <= 7
+            && neighborColIndex >= 0
+            && neighborColIndex <= 6) {
+          neighbor = this.tiles[neighborRowIndex][neighborColIndex];
+        }
+
+        neighbors[i] = neighbor;
+      }
+    }
+
+    return neighbors;
+  }
 
   @Override
   public String toString() {

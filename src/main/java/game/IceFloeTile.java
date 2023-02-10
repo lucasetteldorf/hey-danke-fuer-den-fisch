@@ -14,20 +14,16 @@ public class IceFloeTile {
     return fishCount;
   }
 
-  public Penguin getPlacedPenguin() {
-    return placedPenguin;
-  }
-
-  public void setPlacedPenguin(Penguin placedPenguin) {
-    this.placedPenguin = placedPenguin;
-  }
-
   public boolean isOnBoard() {
     return isOnBoard;
   }
 
   public void setOnBoard(boolean onBoard) {
     isOnBoard = onBoard;
+  }
+
+  public void setPlacedPenguin(Penguin placedPenguin) {
+    this.placedPenguin = placedPenguin;
   }
 
   public boolean isUnoccupied() {

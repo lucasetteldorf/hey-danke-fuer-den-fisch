@@ -5,6 +5,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameBoardTest {
@@ -235,8 +237,8 @@ public class GameBoardTest {
 
     gameBoard.placePenguin(p1.getPenguins()[1], 7, 3);
     assertFalse(
-            gameBoard.isReachableBottomLeft(
-                    p1.getPenguins()[0].getRowIndex(), p1.getPenguins()[0].getColIndex(), 7, 3));
+        gameBoard.isReachableBottomLeft(
+            p1.getPenguins()[0].getRowIndex(), p1.getPenguins()[0].getColIndex(), 7, 3));
   }
 
   @Test
@@ -269,5 +271,33 @@ public class GameBoardTest {
 
     System.out.println(p1);
     System.out.println(p2);
+  }
+
+  @Test
+  @Order(9)
+  void testGetNeighbors() {
+    System.out.println(Arrays.deepToString(gameBoard.getNeighbors(1, 1)));
+
+    System.out.println(Arrays.deepToString(gameBoard.getNeighbors(2, 5)));
+
+    System.out.println(Arrays.deepToString(gameBoard.getNeighbors(7, 7)));
+  }
+
+  @Test
+  @Order(10)
+  void testHasPossibleMoves() {
+    gameBoard.placePenguin(p1.getPenguins()[0], 7, 7);
+    System.out.println(gameBoard);
+    System.out.println(gameBoard.hasPossibleMoves(p1.getPenguins()[0]));
+
+    gameBoard.placePenguin(p2.getPenguins()[0], 6, 5);
+    gameBoard.movePenguin(p2.getPenguins()[0], 6, 6);
+    System.out.println(gameBoard);
+    System.out.println(gameBoard.hasPossibleMoves(p1.getPenguins()[0]));
+
+    // TODO move bottom left not working
+    gameBoard.movePenguin(p2.getPenguins()[0], 7, 6);
+    System.out.println(gameBoard);
+    System.out.println(gameBoard.hasPossibleMoves(p1.getPenguins()[0]));
   }
 }
