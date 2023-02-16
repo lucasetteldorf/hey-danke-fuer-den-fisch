@@ -7,7 +7,7 @@ public class Penguin {
 
   public Penguin(String color) {
     this.color = color;
-    this.position = new int[2];
+    this.position = new int[] {-1, -1};
   }
 
   public String getColor() {
@@ -15,7 +15,7 @@ public class Penguin {
   }
 
   public void removeFromBoard() {
-    setPosition(0, 0);
+    setPosition(-1, -1);
   }
 
   public void setPosition(int rowIndex, int colIndex) {
@@ -29,7 +29,7 @@ public class Penguin {
 
   // TODO may not work as intended
   public boolean isOnGameBoard() {
-    return !(this.position[0] == 0 && this.position[1] == 0);
+    return this.position[0] != -1 && this.position[1] != -1;
   }
 
   @Override

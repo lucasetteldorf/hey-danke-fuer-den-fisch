@@ -22,12 +22,24 @@ public class IceFloeTile {
     this.coordinates[1] = colIndex;
   }
 
+  public int[] getCoordinates() {
+    return coordinates;
+  }
+
   public int[][] getNeighborCoordinates() {
     return neighborCoordinates;
   }
 
   public void setNeighborCoordinates(int[][] neighborCoordinates) {
     this.neighborCoordinates = neighborCoordinates;
+  }
+
+  public Penguin getPlacedPenguin() {
+    return placedPenguin;
+  }
+
+  public void setPlacedPenguin(Penguin placedPenguin) {
+    this.placedPenguin = placedPenguin;
   }
 
   public boolean isUnoccupied() {

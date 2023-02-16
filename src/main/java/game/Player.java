@@ -3,6 +3,8 @@ package game;
 public class Player {
   private final String name;
   private final Penguin[] penguins;
+  private int currentPenguinIndex;
+  private int currentPenguin;
   private int collectedTileCount;
   private int collectedFishCount;
 
@@ -24,6 +26,14 @@ public class Player {
     return penguin;
   }
 
+  public void updateCurrentPenguinIndex() {
+    this.currentPenguinIndex++;
+  }
+
+  public Penguin getCurrentPenguin() {
+    return this.penguins[this.currentPenguinIndex];
+  }
+
   public int getCollectedTileCount() {
     return collectedTileCount;
   }
@@ -38,6 +48,16 @@ public class Player {
 
   public void updateFishCount(int fishCount) {
     this.collectedFishCount += fishCount;
+  }
+
+  public boolean hasUnplacedPenguins() {
+    for (Penguin penguin : this.penguins) {
+      if (!penguin.isOnGameBoard()) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   @Override
