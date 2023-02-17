@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class GameBoard {
-  private final int TILE_COUNT = 60;
-  private final int ROW_COUNT = 8;
-  private final int COL_COUNT = 15;
+  private static final int TILE_COUNT = 60;
+  private static final int ROW_COUNT = 8;
+  private static final int COL_COUNT = 15;
 
   private HashMap<Integer, IceFloeTile> tiles;
 
@@ -56,7 +56,7 @@ public class GameBoard {
 
     if (selectedTile != null && selectedTile.isUnoccupied() && selectedTile.getFishCount() == 1) {
       selectedTile.setPlacedPenguin(penguin);
-      penguin.setPosition(rowIndex, colIndex);
+      penguin.place(rowIndex, colIndex);
       return true;
     }
 
@@ -68,8 +68,10 @@ public class GameBoard {
     IceFloeTile newTile = getTile(rowIndex, colIndex);
 
     if (isValidMove(oldTile, newTile)) {
-      penguin.setPosition(rowIndex, colIndex);
       newTile.setPlacedPenguin(penguin);
+      penguin.setPosition(rowIndex, colIndex);
+      penguin.getPlayer().updateTileCount();
+      penguin.getPlayer().updateFishCount(oldTile.getFishCount());
       tiles.remove(hashCoordinates(oldTile.getCoordinates()[0], oldTile.getCoordinates()[1]));
 
       return true;
@@ -83,48 +85,55 @@ public class GameBoard {
       int rowDiff = newTile.getCoordinates()[0] - oldTile.getCoordinates()[0];
       int colDiff = newTile.getCoordinates()[1] - oldTile.getCoordinates()[1];
 
+      // TODO test if this implementation actually works
+
       // top right (direction 0)
       if (rowDiff <= -1 && colDiff >= 1) {
-        return areAllNeighborsValid(oldTile, newTile, 0);
+        return areAllTilesValid(oldTile, newTile, 0);
       }
 
       // right (direction 1)
       if (rowDiff == 0 && colDiff >= 2) {
-        return areAllNeighborsValid(oldTile, newTile, 1);
+        return areAllTilesValid(oldTile, newTile, 1);
       }
 
       // bottom right (direction 2)
       if (rowDiff >= 1 && colDiff >= 1) {
-        return areAllNeighborsValid(oldTile, newTile, 2);
+        return areAllTilesValid(oldTile, newTile, 2);
       }
 
       // bottom left (direction 3)
       if (rowDiff >= 1 && colDiff <= -1) {
-        return areAllNeighborsValid(oldTile, newTile, 3);
+        return areAllTilesValid(oldTile, newTile, 3);
       }
 
       // left (direction 4)
       if (rowDiff == 0 && colDiff <= -2) {
-        return areAllNeighborsValid(oldTile, newTile, 4);
+        return areAllTilesValid(oldTile, newTile, 4);
       }
 
       // top left (direction 5)
       if (rowDiff <= -1 && colDiff <= -1) {
-        return areAllNeighborsValid(oldTile, newTile, 5);
+        return areAllTilesValid(oldTile, newTile, 5);
       }
     }
 
     return false;
   }
 
-  private boolean areAllNeighborsValid(IceFloeTile oldTile, IceFloeTile newTile, int direction) {
+  private boolean areAllTilesValid(IceFloeTile oldTile, IceFloeTile newTile, int direction) {
     IceFloeTile neighbor =
         getTile(
             oldTile.getNeighborCoordinates()[direction][0],
             oldTile.getNeighborCoordinates()[direction][1]);
 
-    int colDiff = newTile.getCoordinates()[1] - oldTile.getCoordinates()[1];
-    for (int i = 0; i < colDiff - 1; i++) {
+    // TODO may not work as intended (row movement)
+    int colDiff = Math.abs(newTile.getCoordinates()[1] - oldTile.getCoordinates()[1]);
+    if (direction == 1 || direction == 4) {
+      colDiff /= 2;
+    }
+
+    for (int i = 0; i < colDiff; i++) {
       if (neighbor == null || !neighbor.isUnoccupied()) {
         return false;
       }
@@ -134,8 +143,10 @@ public class GameBoard {
               neighbor.getNeighborCoordinates()[direction][1]);
     }
 
-    return false;
+    return true;
   }
+
+  // TODO has penguin any more legal moves (or directly in penguin class?)
 
   @Override
   public String toString() {

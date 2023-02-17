@@ -2,15 +2,14 @@ package game;
 
 public class Player {
   private final String name;
-  private final Penguin[] penguins;
+  private Penguin[] penguins;
   private int currentPenguinIndex;
   private int currentPenguin;
   private int collectedTileCount;
   private int collectedFishCount;
 
-  public Player(String name, Penguin[] penguins) {
+  public Player(String name) {
     this.name = name;
-    this.penguins = penguins;
   }
 
   public String getName() {
@@ -19,6 +18,10 @@ public class Player {
 
   public Penguin[] getPenguins() {
     return penguins;
+  }
+
+  public void setPenguins(Penguin[] penguins) {
+    this.penguins = penguins;
   }
 
   public Penguin getPenguin(int index) {

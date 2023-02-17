@@ -3,19 +3,20 @@ package game;
 public class Penguin {
   // values: "B" = blue, "R" = red, "G" = green, "Y" = yellow
   private final String color;
-  private final int[] position;
+  private final Player player;
+  private int[] position;
 
-  public Penguin(String color) {
+  public Penguin(String color, Player player) {
     this.color = color;
-    this.position = new int[] {-1, -1};
+    this.player = player;
   }
 
   public String getColor() {
     return color;
   }
 
-  public void removeFromBoard() {
-    setPosition(-1, -1);
+  public Player getPlayer() {
+    return player;
   }
 
   public void setPosition(int rowIndex, int colIndex) {
@@ -27,9 +28,17 @@ public class Penguin {
     return position;
   }
 
-  // TODO may not work as intended
+  public void place(int rowIndex, int colIndex) {
+    this.position = new int[2];
+    setPosition(rowIndex, colIndex);
+  }
+
+  public void removeFromGameBoard() {
+    this.position = null;
+  }
+
   public boolean isOnGameBoard() {
-    return this.position[0] != -1 && this.position[1] != -1;
+    return this.position != null;
   }
 
   @Override
