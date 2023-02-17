@@ -16,6 +16,18 @@ public class GameBoard {
     createGameBoard();
   }
 
+  public GameBoard(int[] fishCounts) {
+    this.tiles = new HashMap<>();
+    int index = 0;
+    for (int i = 0; i < ROW_COUNT; i++) {
+      for (int j = (i % 2 == 0) ? 1 : 0; j < COL_COUNT; j += 2) {
+        IceFloeTile randomTile = new IceFloeTile(fishCounts[index], i, j);
+        tiles.put(randomTile.hashCode(), randomTile);
+        index++;
+      }
+    }
+  }
+
   private void createGameBoard() {
     ArrayList<Integer> fishCounts = new ArrayList<>();
     int fishCount = 1;
@@ -51,10 +63,25 @@ public class GameBoard {
     return this.tiles.get(hashCoordinates(rowIndex, colIndex));
   }
 
+  public IceFloeTile[] getTiles() {
+    IceFloeTile[] allTiles = new IceFloeTile[TILE_COUNT];
+
+    for (int i = 0, k = 0; i < ROW_COUNT; i++) {
+      for (int j = (i % 2 == 0) ? 1 : 0; j < COL_COUNT; j += 2) {
+        allTiles[k++] = getTile(i, j);
+      }
+    }
+
+    return allTiles;
+  }
+
   public boolean placePenguin(Penguin penguin, int rowIndex, int colIndex) {
     IceFloeTile selectedTile = getTile(rowIndex, colIndex);
 
-    if (selectedTile != null && selectedTile.isUnoccupied() && selectedTile.getFishCount() == 1) {
+    if (!penguin.isOnGameBoard()
+        && selectedTile != null
+        && selectedTile.isUnoccupied()
+        && selectedTile.getFishCount() == 1) {
       selectedTile.setPlacedPenguin(penguin);
       penguin.place(rowIndex, colIndex);
       return true;
@@ -122,25 +149,27 @@ public class GameBoard {
   }
 
   private boolean areAllTilesValid(IceFloeTile oldTile, IceFloeTile newTile, int direction) {
-    IceFloeTile neighbor =
-        getTile(
-            oldTile.getNeighborCoordinates()[direction][0],
-            oldTile.getNeighborCoordinates()[direction][1]);
+    IceFloeTile neighbor = oldTile;
 
-    // TODO may not work as intended (row movement)
     int colDiff = Math.abs(newTile.getCoordinates()[1] - oldTile.getCoordinates()[1]);
     if (direction == 1 || direction == 4) {
       colDiff /= 2;
     }
 
     for (int i = 0; i < colDiff; i++) {
-      if (neighbor == null || !neighbor.isUnoccupied()) {
-        return false;
-      }
       neighbor =
           getTile(
               neighbor.getNeighborCoordinates()[direction][0],
               neighbor.getNeighborCoordinates()[direction][1]);
+
+      // TODO maybe check back if this actually works as intended
+      if (i == colDiff - 1 && !neighbor.equals(newTile)) {
+        return false;
+      }
+
+      if (neighbor == null || !neighbor.isUnoccupied()) {
+        return false;
+      }
     }
 
     return true;
@@ -165,7 +194,8 @@ public class GameBoard {
           spacingLeft = (j < 10) ? "" : " ";
           spacingRight = (j < 9) ? "   " : "    ";
         }
-        str += spacingLeft + getTile(i, j) + spacingRight;
+        String tileStr = (getTile(i, j) == null) ? "X" : getTile(i, j).toString();
+        str += spacingLeft + tileStr + spacingRight;
       }
       str += "\n";
     }

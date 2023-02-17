@@ -63,6 +63,10 @@ public class Player {
     return false;
   }
 
+  public String getScore() {
+    return this + ": " + this.collectedTileCount + " tiles and " + this.collectedFishCount + " fish collected";
+  }
+
   @Override
   public String toString() {
     String str = this.name + " (" + getPenguin(0).getColor() + ")";
