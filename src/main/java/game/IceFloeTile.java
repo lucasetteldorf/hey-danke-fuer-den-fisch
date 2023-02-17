@@ -3,23 +3,45 @@ package game;
 import java.util.Arrays;
 
 public class IceFloeTile {
-  private final int fishCount;
-  private final int[] coordinates = new int[2];
-  private Penguin placedPenguin;
-  // order: top right, right, bottom right, bottom left, left, top left
-  private int[][] neighborCoordinates;
+  private static final int[][] TILE_NEIGHBOR_DISTANCES =
+      new int[][] {{-1, 1}, {0, 2}, {1, 1}, {1, -1}, {0, -2}, {-1, -1}};
 
-  public IceFloeTile(int fishCount) {
+  private final int fishCount;
+  private final int[] coordinates;
+  // order: top right, right, bottom right, bottom left, left, top left
+  private final int[][] neighborCoordinates;
+  private Penguin placedPenguin;
+
+  public IceFloeTile(int fishCount, int rowIndex, int colIndex) {
     this.fishCount = fishCount;
+    this.coordinates = new int[] {rowIndex, colIndex};
+    this.neighborCoordinates = initializeNeighborCoordinates(rowIndex, colIndex);
+  }
+
+  private int[][] initializeNeighborCoordinates(int rowIndex, int colIndex) {
+    int[][] neighborCoordinates = new int[6][2];
+
+    for (int i = 0; i < TILE_NEIGHBOR_DISTANCES.length; i++) {
+      int neighborRowIndex = rowIndex + TILE_NEIGHBOR_DISTANCES[i][0];
+      int neighborColIndex = colIndex + TILE_NEIGHBOR_DISTANCES[i][1];
+
+      // invalid/non-existing neighbors are null
+      if (neighborRowIndex >= 0
+          && neighborRowIndex <= 7
+          && neighborColIndex >= 0
+          && neighborColIndex <= 14) {
+        neighborCoordinates[i][0] = neighborRowIndex;
+        neighborCoordinates[i][1] = neighborColIndex;
+      } else {
+        neighborCoordinates[i] = null;
+      }
+    }
+
+    return neighborCoordinates;
   }
 
   public int getFishCount() {
     return fishCount;
-  }
-
-  public void setCoordinates(int rowIndex, int colIndex) {
-    this.coordinates[0] = rowIndex;
-    this.coordinates[1] = colIndex;
   }
 
   public int[] getCoordinates() {
@@ -28,10 +50,6 @@ public class IceFloeTile {
 
   public int[][] getNeighborCoordinates() {
     return neighborCoordinates;
-  }
-
-  public void setNeighborCoordinates(int[][] neighborCoordinates) {
-    this.neighborCoordinates = neighborCoordinates;
   }
 
   public Penguin getPlacedPenguin() {
