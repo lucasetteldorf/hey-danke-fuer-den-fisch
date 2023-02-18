@@ -24,7 +24,9 @@ public class InputReader {
 
   public static String getPlayerName(int playerIndex) {
     System.out.print("Player " + (playerIndex + 1) + " name: ");
-    return scanner.nextLine().trim();
+    String name = scanner.next().trim();
+    scanner.nextLine();
+    return name;
   }
 
   public static String getPenguinColor(int playerIndex) {
@@ -34,23 +36,18 @@ public class InputReader {
           "Player "
               + (playerIndex + 1)
               + " penguin color ("
-              + ConsoleColors.BLUE
-              + "B = blue"
-              + ConsoleColors.RESET
-              + ", "
-              + ConsoleColors.RED
-              + "R = red"
-              + ConsoleColors.RESET
-              + ", "
-              + ConsoleColors.GREEN
-              + "G = green"
-              + ConsoleColors.RESET
-              + ", "
-              + ConsoleColors.YELLOW
-              + "Y = yellow"
-              + ConsoleColors.RESET
+              + ConsoleColors.BLUE_PLAYER
+              + " = blue, "
+              + ConsoleColors.RED_PLAYER
+              + " = red, "
+              + ConsoleColors.GREEN_PLAYER
+              + " = green, "
+              + ConsoleColors.YELLOW_PLAYER
+              + " = yellow"
               + "): ");
-      penguinColor = scanner.nextLine().trim();
+
+      penguinColor = scanner.next().trim();
+      scanner.nextLine();
     } while (!AVAILABLE_COLORS.contains(penguinColor));
     AVAILABLE_COLORS.remove(penguinColor);
 

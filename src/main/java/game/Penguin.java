@@ -5,7 +5,7 @@ import utility.ConsoleColors;
 public class Penguin {
   // values: "B" = blue, "R" = red, "G" = green, "Y" = yellow
   private final String color;
-  private final String colorCode;
+  private final String colorStr;
   private final Player player;
   private int[] position;
 
@@ -14,19 +14,19 @@ public class Penguin {
     this.player = player;
     switch (color) {
       case "B":
-        colorCode = ConsoleColors.BLUE;
+        colorStr = ConsoleColors.BLUE_PLAYER;
         break;
       case "R":
-        colorCode = ConsoleColors.RED;
+        colorStr = ConsoleColors.RED_PLAYER;
         break;
       case "G":
-        colorCode = ConsoleColors.GREEN;
+        colorStr = ConsoleColors.GREEN_PLAYER;
         break;
       case "Y":
-        colorCode = ConsoleColors.YELLOW;
+        colorStr = ConsoleColors.YELLOW_PLAYER;
         break;
       default:
-        colorCode = ConsoleColors.RESET;
+        colorStr = ConsoleColors.RESET;
         break;
     }
   }
@@ -63,6 +63,6 @@ public class Penguin {
 
   @Override
   public String toString() {
-    return this.colorCode + color + ConsoleColors.RESET;
+    return this.colorStr;
   }
 }

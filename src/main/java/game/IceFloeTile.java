@@ -52,9 +52,6 @@ public class IceFloeTile {
     return neighborCoordinates;
   }
 
-  public Penguin getPlacedPenguin() {
-    return placedPenguin;
-  }
 
   public void setPlacedPenguin(Penguin placedPenguin) {
     this.placedPenguin = placedPenguin;
@@ -66,8 +63,7 @@ public class IceFloeTile {
 
   @Override
   public boolean equals(Object obj) {
-    if (obj != null && obj instanceof IceFloeTile) {
-      IceFloeTile tile = (IceFloeTile) obj;
+    if (obj instanceof IceFloeTile tile) {
       return this.coordinates[0] == tile.coordinates[0]
           && this.coordinates[1] == tile.coordinates[1];
     }
@@ -82,8 +78,6 @@ public class IceFloeTile {
 
   @Override
   public String toString() {
-    String str =
-        isUnoccupied() ? String.valueOf(this.fishCount) : String.valueOf(this.placedPenguin);
-    return str;
+    return isUnoccupied() ? String.valueOf(this.fishCount) : String.valueOf(this.placedPenguin);
   }
 }
