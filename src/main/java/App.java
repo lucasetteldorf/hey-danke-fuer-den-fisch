@@ -6,5 +6,6 @@ public class App {
     System.out.println();
     game.startPlacementPhase();
     game.startMovementPhase();
+    game.printAllScores();
   }
 }

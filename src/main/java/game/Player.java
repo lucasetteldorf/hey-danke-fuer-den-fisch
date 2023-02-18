@@ -4,7 +4,6 @@ public class Player {
   private final String name;
   private Penguin[] penguins;
   private int currentPenguinIndex;
-  private int currentPenguin;
   private int collectedTileCount;
   private int collectedFishCount;
 
@@ -63,6 +62,16 @@ public class Player {
     return false;
   }
 
+  public boolean hasPenguinsToMove(GameBoard board) {
+    for (Penguin penguin : this.penguins) {
+      if(board.hasLegalMoves(penguin)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   public int penguinIndexAtPosition(int rowIndex, int colIndex) {
     int index = -1;
 
@@ -87,7 +96,7 @@ public class Player {
 
   @Override
   public String toString() {
-    String str = this.name + " (" + getPenguin(0).getColor() + ")";
+    String str = this.name + " (" + getPenguin(0) + ")";
     return str;
   }
 }

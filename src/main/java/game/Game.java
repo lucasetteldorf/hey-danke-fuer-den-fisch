@@ -60,11 +60,22 @@ public class Game {
     return penguins;
   }
 
-  // TODO players have to move penguin, but are skipped if none of their penguins have any more
-  // legal moves
-  private void updateCurrentPlayer() {
+  private void updateCurrentPlayerPlacementPhase() {
+
     this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.length;
     this.currentPlayer = this.players[currentPlayerIndex];
+  }
+
+  private void updateCurrentPlayerMovementPhase() {
+    do {
+      this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.length;
+      this.currentPlayer = this.players[currentPlayerIndex];
+
+      // TODO seems to be working
+      if (!areLegalMovesPossible()) {
+        break;
+      }
+    } while (!this.currentPlayer.hasPenguinsToMove(this.board));
   }
 
   private boolean canPenguinsBePlaced() {
@@ -88,7 +99,7 @@ public class Game {
       } while (!this.board.placePenguin(
           currentPlayer.getCurrentPenguin(), placementCoordinates[0], placementCoordinates[1]));
       currentPlayer.updateCurrentPenguinIndex();
-      updateCurrentPlayer();
+      updateCurrentPlayerPlacementPhase();
 
       System.out.println(this.board);
     } while (canPenguinsBePlaced());
@@ -96,10 +107,8 @@ public class Game {
 
   private boolean areLegalMovesPossible() {
     for (Player player : this.players) {
-      for (Penguin penguin : player.getPenguins()) {
-        if (board.hasLegalMoves(penguin)) {
-          return true;
-        }
+      if (player.hasPenguinsToMove(this.board)) {
+        return true;
       }
     }
 
@@ -125,9 +134,30 @@ public class Game {
         movementCoordinates = InputReader.getMovementCoordinates(this.currentPlayer);
       } while (!this.board.movePenguin(
           penguinToMove, movementCoordinates[0], movementCoordinates[1]));
-      updateCurrentPlayer();
+      updateCurrentPlayerMovementPhase();
 
       System.out.println(board);
     } while (areLegalMovesPossible());
+
+    System.out.println("Game finished...");
+  }
+
+  public void printAllScores() {
+    for (Player player : this.players) {
+      System.out.println(player.getScore());
+    }
+  }
+
+  // TODO
+  public void printWinner() {
+    int maxFishCount = this.players[0].getCollectedFishCount();
+    int winnerIndex = 0;
+    for (int i = 1; i < this.players.length; i++) {
+      if (this.players[i].getCollectedFishCount() > maxFishCount) {
+        maxFishCount = this.players[i].getCollectedFishCount();
+        winnerIndex = i;
+      }
+    }
+    System.out.println(this.players[winnerIndex]);
   }
 }

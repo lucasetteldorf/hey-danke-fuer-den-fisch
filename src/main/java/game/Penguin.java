@@ -31,10 +31,6 @@ public class Penguin {
     }
   }
 
-  public String getColor() {
-    return color;
-  }
-
   public Player getPlayer() {
     return player;
   }

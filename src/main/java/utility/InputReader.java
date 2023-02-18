@@ -24,8 +24,7 @@ public class InputReader {
 
   public static String getPlayerName(int playerIndex) {
     System.out.print("Player " + (playerIndex + 1) + " name: ");
-    String name = scanner.next().trim();
-    scanner.nextLine();
+    String name = scanner.nextLine().trim();
     return name;
   }
 
@@ -54,26 +53,34 @@ public class InputReader {
     return penguinColor;
   }
 
-  public static int[] getPlacementCoordinates(Player currentPlayer) {
-    System.out.print(currentPlayer + ": Coordinates to place penguin (separated by a space): ");
-    String input = scanner.nextLine();
-    String[] coordinates = input.split(" ");
+  private static int[] getCoordinates(String prompt) {
+    String input;
+    String[] coordinates;
+    do {
+      System.out.print(prompt);
+      input = scanner.nextLine();
+      coordinates = input.split(" ");
+      if (coordinates.length != 2) {
+        System.out.println("Please enter two valid coordinates separated by a space...");
+      }
+      // TODO make sure only numbers are entered
+    } while (coordinates.length != 2);
+
     return new int[] {Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1])};
+  }
+
+  public static int[] getPlacementCoordinates(Player currentPlayer) {
+    return getCoordinates(
+        currentPlayer + ": Coordinates to place penguin (separated by a space): ");
   }
 
   public static int[] getPenguinCoordinates(Player currentPlayer) {
-    System.out.print(
+    return getCoordinates(
         currentPlayer + ": Coordinates of the penguin to move (separated by a space): ");
-    String input = scanner.nextLine();
-    String[] coordinates = input.split(" ");
-    return new int[] {Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1])};
   }
 
   public static int[] getMovementCoordinates(Player currentPlayer) {
-    System.out.print(
+    return getCoordinates(
         currentPlayer + ": Coordinates to move the selected penguin to (separated by a space): ");
-    String input = scanner.nextLine();
-    String[] coordinates = input.split(" ");
-    return new int[] {Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1])};
   }
 }

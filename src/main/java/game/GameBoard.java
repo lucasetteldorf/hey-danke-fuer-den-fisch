@@ -71,8 +71,12 @@ public class GameBoard {
 
     IceFloeTile[] neighbors = new IceFloeTile[6];
     for (int i = 0; i < neighbors.length; i++) {
-      neighbors[i] =
-          getTile(tile.getNeighborCoordinates()[i][0], tile.getNeighborCoordinates()[i][1]);
+      if (tile.getNeighborCoordinates()[i] == null) {
+        neighbors[i] = null;
+      } else {
+        neighbors[i] =
+            getTile(tile.getNeighborCoordinates()[i][0], tile.getNeighborCoordinates()[i][1]);
+      }
     }
 
     return neighbors;
@@ -126,7 +130,8 @@ public class GameBoard {
     if (newTile != null && !oldTile.equals(newTile) && newTile.isUnoccupied()) {
       int rowDiff = newTile.getCoordinates()[0] - oldTile.getCoordinates()[0];
       int colDiff = newTile.getCoordinates()[1] - oldTile.getCoordinates()[1];
-      // TODO check in details if this actually takes care of all invalid moves (changing directions)
+      // TODO check in details if this actually takes care of all invalid moves (changing
+      // directions)
       int totalDiff = Math.abs(rowDiff) - Math.abs(colDiff);
 
       // top right (direction 0)
