@@ -60,6 +60,8 @@ public class Game {
     return penguins;
   }
 
+  // TODO players have to move penguin, but are skipped if none of their penguins have any more
+  // legal moves
   private void updateCurrentPlayer() {
     this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.length;
     this.currentPlayer = this.players[currentPlayerIndex];
@@ -76,8 +78,8 @@ public class Game {
   }
 
   public void startPlacementPhase() {
+    System.out.println("Start placement...");
     System.out.println(this.board);
-    InputReader.nextLine();
 
     do {
       int[] placementCoordinates;
@@ -92,5 +94,40 @@ public class Game {
     } while (canPenguinsBePlaced());
   }
 
-  public void startMovementPhase() {}
+  private boolean areLegalMovesPossible() {
+    for (Player player : this.players) {
+      for (Penguin penguin : player.getPenguins()) {
+        if (board.hasLegalMoves(penguin)) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  public void startMovementPhase() {
+    System.out.println("Start movement...");
+    System.out.println(this.board);
+
+    do {
+      int[] penguinCoordinates;
+      int penguinIndex;
+      do {
+        penguinCoordinates = InputReader.getPenguinCoordinates(this.currentPlayer);
+        penguinIndex =
+            this.currentPlayer.penguinIndexAtPosition(penguinCoordinates[0], penguinCoordinates[1]);
+      } while (penguinIndex == -1);
+
+      Penguin penguinToMove = this.currentPlayer.getPenguin(penguinIndex);
+      int[] movementCoordinates;
+      do {
+        movementCoordinates = InputReader.getMovementCoordinates(this.currentPlayer);
+      } while (!this.board.movePenguin(
+          penguinToMove, movementCoordinates[0], movementCoordinates[1]));
+      updateCurrentPlayer();
+
+      System.out.println(board);
+    } while (areLegalMovesPossible());
+  }
 }

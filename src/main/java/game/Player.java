@@ -63,8 +63,26 @@ public class Player {
     return false;
   }
 
+  public int penguinIndexAtPosition(int rowIndex, int colIndex) {
+    int index = -1;
+
+    for (int i = 0; i < this.penguins.length; i++) {
+      if (this.penguins[i].getPosition()[0] == rowIndex
+          && this.penguins[i].getPosition()[1] == colIndex) {
+        index = i;
+      }
+    }
+
+    return index;
+  }
+
   public String getScore() {
-    return this + ": " + this.collectedTileCount + " tiles and " + this.collectedFishCount + " fish collected";
+    return this
+        + ": "
+        + this.collectedTileCount
+        + " tiles and "
+        + this.collectedFishCount
+        + " fish collected";
   }
 
   @Override

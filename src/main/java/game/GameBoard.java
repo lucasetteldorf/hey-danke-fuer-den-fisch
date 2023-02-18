@@ -63,6 +63,21 @@ public class GameBoard {
     return this.tiles.get(hashCoordinates(rowIndex, colIndex));
   }
 
+  private IceFloeTile[] getTileNeighbors(int rowIndex, int colIndex) {
+    IceFloeTile tile = getTile(rowIndex, colIndex);
+    if (tile == null) {
+      return null;
+    }
+
+    IceFloeTile[] neighbors = new IceFloeTile[6];
+    for (int i = 0; i < neighbors.length; i++) {
+      neighbors[i] =
+          getTile(tile.getNeighborCoordinates()[i][0], tile.getNeighborCoordinates()[i][1]);
+    }
+
+    return neighbors;
+  }
+
   public IceFloeTile[] getTiles() {
     IceFloeTile[] allTiles = new IceFloeTile[TILE_COUNT];
 
@@ -157,6 +172,8 @@ public class GameBoard {
     }
 
     for (int i = 0; i < colDiff; i++) {
+      // TODO check if neighbor.getNeighborCoordinates()[direction] is null
+
       neighbor =
           getTile(
               neighbor.getNeighborCoordinates()[direction][0],
@@ -176,6 +193,22 @@ public class GameBoard {
   }
 
   // TODO has penguin any more legal moves (or directly in penguin class?)
+  public boolean hasLegalMoves(Penguin penguin) {
+    IceFloeTile[] neighbors = getTileNeighbors(penguin.getPosition()[0], penguin.getPosition()[1]);
+    if (neighbors == null) {
+      return false;
+    }
+
+    for (IceFloeTile neighbor : neighbors) {
+      if (neighbor != null && neighbor.isUnoccupied()) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  // TODO remove penguins (and collect tiles) if a player can't move any of his penguins
 
   @Override
   public String toString() {
