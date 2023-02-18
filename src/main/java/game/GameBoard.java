@@ -126,11 +126,14 @@ public class GameBoard {
     if (newTile != null && !oldTile.equals(newTile) && newTile.isUnoccupied()) {
       int rowDiff = newTile.getCoordinates()[0] - oldTile.getCoordinates()[0];
       int colDiff = newTile.getCoordinates()[1] - oldTile.getCoordinates()[1];
-
-      // TODO test if this implementation actually works
+      // TODO check in details if this actually takes care of all invalid moves (changing directions)
+      int totalDiff = Math.abs(rowDiff) - Math.abs(colDiff);
 
       // top right (direction 0)
       if (rowDiff <= -1 && colDiff >= 1) {
+        if (totalDiff != 0) {
+          return false;
+        }
         return areAllTilesValid(oldTile, newTile, 0);
       }
 
@@ -141,11 +144,17 @@ public class GameBoard {
 
       // bottom right (direction 2)
       if (rowDiff >= 1 && colDiff >= 1) {
+        if (totalDiff != 0) {
+          return false;
+        }
         return areAllTilesValid(oldTile, newTile, 2);
       }
 
       // bottom left (direction 3)
       if (rowDiff >= 1 && colDiff <= -1) {
+        if (totalDiff != 0) {
+          return false;
+        }
         return areAllTilesValid(oldTile, newTile, 3);
       }
 
@@ -156,6 +165,9 @@ public class GameBoard {
 
       // top left (direction 5)
       if (rowDiff <= -1 && colDiff <= -1) {
+        if (totalDiff != 0) {
+          return false;
+        }
         return areAllTilesValid(oldTile, newTile, 5);
       }
     }
@@ -172,8 +184,6 @@ public class GameBoard {
     }
 
     for (int i = 0; i < colDiff; i++) {
-      // TODO check if neighbor.getNeighborCoordinates()[direction] is null
-
       neighbor =
           getTile(
               neighbor.getNeighborCoordinates()[direction][0],
@@ -192,7 +202,7 @@ public class GameBoard {
     return true;
   }
 
-  // TODO has penguin any more legal moves (or directly in penguin class?)
+  // TODO check if this works properly
   public boolean hasLegalMoves(Penguin penguin) {
     IceFloeTile[] neighbors = getTileNeighbors(penguin.getPosition()[0], penguin.getPosition()[1]);
     if (neighbors == null) {

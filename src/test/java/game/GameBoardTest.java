@@ -187,6 +187,7 @@ public class GameBoardTest {
     assertFalse(board.movePenguin(p2.getPenguin(0), 6, 1));
     assertFalse(board.movePenguin(p2.getPenguin(0), 6, 0));
     assertFalse(board.movePenguin(p2.getPenguin(0), 6, -4));
+    assertFalse(board.movePenguin(p2.getPenguin(0), 7, 0));
     System.out.println(board);
   }
 
