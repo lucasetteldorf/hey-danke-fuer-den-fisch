@@ -58,7 +58,7 @@ public class GameBoard {
     return Arrays.hashCode(new int[] {rowIndex, colIndex});
   }
 
-  private IceFloeTile getTile(int rowIndex, int colIndex) {
+  public IceFloeTile getTile(int rowIndex, int colIndex) {
     return this.tiles.get(hashCoordinates(rowIndex, colIndex));
   }
 
@@ -129,7 +129,6 @@ public class GameBoard {
     if (newTile != null && !oldTile.equals(newTile) && newTile.isUnoccupied()) {
       int rowDiff = newTile.getCoordinates()[0] - oldTile.getCoordinates()[0];
       int colDiff = newTile.getCoordinates()[1] - oldTile.getCoordinates()[1];
-      // TODO check in detail if this handles changing directions during movement correctly
       int totalDiff = Math.abs(rowDiff) - Math.abs(colDiff);
 
       // top right (direction 0)
@@ -205,8 +204,11 @@ public class GameBoard {
     return true;
   }
 
-  // TODO check if this works
   public void removePenguinAndTile(Penguin penguin) {
+    if (penguin.getPosition() == null) {
+      return;
+    }
+
     IceFloeTile tile = getTile(penguin.getPosition()[0], penguin.getPosition()[1]);
     penguin.getPlayer().updateTileCount();
     penguin.getPlayer().updateFishCount(tile.getFishCount());
@@ -214,7 +216,6 @@ public class GameBoard {
     this.tiles.remove(hashCoordinates(tile.getCoordinates()[0], tile.getCoordinates()[1]));
   }
 
-  // TODO check if this works properly
   public boolean hasLegalMoves(Penguin penguin) {
     if (penguin.getPosition() == null) {
       return false;
@@ -233,8 +234,6 @@ public class GameBoard {
 
     return false;
   }
-
-  // TODO remove penguins (and collect tiles) if a player can't move any of his penguins
 
   @Override
   public String toString() {
