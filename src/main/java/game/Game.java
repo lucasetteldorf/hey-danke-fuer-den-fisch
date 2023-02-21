@@ -162,6 +162,6 @@ public class Game {
         winnerIndex = i;
       }
     }
-    System.out.println(this.players[winnerIndex]);
+    System.out.println("Winner: " + this.players[winnerIndex].getName());
   }
 }

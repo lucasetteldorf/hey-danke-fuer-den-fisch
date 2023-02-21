@@ -24,8 +24,7 @@ public class InputReader {
 
   public static String getPlayerName(int playerIndex) {
     System.out.print("Player " + (playerIndex + 1) + " name: ");
-    String name = scanner.nextLine().trim();
-    return name;
+    return scanner.nextLine().trim();
   }
 
   public static String getPenguinColor(int playerIndex) {

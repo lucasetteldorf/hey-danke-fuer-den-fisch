@@ -15,17 +15,12 @@ public class Player {
     return name;
   }
 
-  public Penguin[] getPenguins() {
-    return penguins;
-  }
-
   public void setPenguins(Penguin[] penguins) {
     this.penguins = penguins;
   }
 
   public Penguin getPenguin(int index) {
-    Penguin penguin = (index >= 0 && index < this.penguins.length) ? this.penguins[index] : null;
-    return penguin;
+    return (index >= 0 && index < this.penguins.length) ? this.penguins[index] : null;
   }
 
   public void updateCurrentPenguinIndex() {
@@ -64,7 +59,7 @@ public class Player {
 
   public boolean hasPenguinsToMove(GameBoard board) {
     for (Penguin penguin : this.penguins) {
-      if(board.hasLegalMoves(penguin)) {
+      if (board.hasLegalMoves(penguin)) {
         return true;
       }
     }
@@ -101,7 +96,6 @@ public class Player {
 
   @Override
   public String toString() {
-    String str = this.name + " (" + getPenguin(0) + ")";
-    return str;
+    return this.name + " (" + getPenguin(0) + ")";
   }
 }

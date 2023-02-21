@@ -195,7 +195,6 @@ public class GameBoard {
         return false;
       }
 
-      // TODO maybe check back if this actually works as intended
       if (i == colDiff - 1 && !neighbor.equals(newTile)) {
         return false;
       }
@@ -238,7 +237,8 @@ public class GameBoard {
   @Override
   public String toString() {
     StringBuilder str =
-            new StringBuilder("\n  | 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14\n--------------------------------------\n");
+        new StringBuilder(
+            "\n  | 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14\n--------------------------------------\n");
 
     for (int i = 0; i < ROW_COUNT; i++) {
       str.append(i).append(" | ");
