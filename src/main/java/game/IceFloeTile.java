@@ -3,6 +3,7 @@ package game;
 import java.util.Arrays;
 
 public class IceFloeTile {
+  // order: top right, right, bottom right, bottom left, left, top left
   private static final int[][] TILE_NEIGHBOR_DISTANCES =
       new int[][] {{-1, 1}, {0, 2}, {1, 1}, {1, -1}, {0, -2}, {-1, -1}};
 

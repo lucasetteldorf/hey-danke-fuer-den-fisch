@@ -89,7 +89,7 @@ public class Game {
   }
 
   public void startPlacementPhase() {
-    System.out.println("Start placement...");
+    System.out.println("\nStart placement...");
     System.out.println(this.board);
 
     do {
@@ -140,16 +140,20 @@ public class Game {
     } while (areLegalMovesPossible());
 
     System.out.println("Game finished...");
+
+    printAllScores();
+
+    printWinner();
   }
 
-  public void printAllScores() {
+  private void printAllScores() {
     for (Player player : this.players) {
       System.out.println(player.getScore());
     }
   }
 
   // TODO
-  public void printWinner() {
+  private void printWinner() {
     int maxFishCount = this.players[0].getCollectedFishCount();
     int winnerIndex = 0;
     for (int i = 1; i < this.players.length; i++) {

@@ -69,6 +69,11 @@ public class Player {
       }
     }
 
+    // player can not move any of his penguins and has to remove them
+    for (Penguin penguin : this.penguins) {
+      board.removePenguinAndTile(penguin);
+    }
+
     return false;
   }
 

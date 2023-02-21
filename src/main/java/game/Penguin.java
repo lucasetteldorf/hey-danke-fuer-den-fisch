@@ -5,28 +5,26 @@ import utility.ConsoleColors;
 public class Penguin {
   // values: "B" = blue, "R" = red, "G" = green, "Y" = yellow
   private final String color;
-  private final String colorStr;
   private final Player player;
   private int[] position;
 
   public Penguin(String color, Player player) {
-    this.color = color;
     this.player = player;
     switch (color) {
       case "B":
-        colorStr = ConsoleColors.BLUE_PLAYER;
+        this.color = ConsoleColors.BLUE_PLAYER;
         break;
       case "R":
-        colorStr = ConsoleColors.RED_PLAYER;
+        this.color = ConsoleColors.RED_PLAYER;
         break;
       case "G":
-        colorStr = ConsoleColors.GREEN_PLAYER;
+        this.color = ConsoleColors.GREEN_PLAYER;
         break;
       case "Y":
-        colorStr = ConsoleColors.YELLOW_PLAYER;
+        this.color = ConsoleColors.YELLOW_PLAYER;
         break;
       default:
-        colorStr = ConsoleColors.RESET;
+        this.color = ConsoleColors.RESET;
         break;
     }
   }
@@ -59,6 +57,6 @@ public class Penguin {
 
   @Override
   public String toString() {
-    return this.colorStr;
+    return this.color;
   }
 }
