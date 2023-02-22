@@ -6,13 +6,13 @@ public class Game {
   private static Game game;
 
   private final GameBoard board;
-  private final Player[] players;
+  private final HumanPlayer[] humanPlayers;
   private int currentPlayerIndex;
-  private Player currentPlayer;
+  private HumanPlayer currentHumanPlayer;
 
   private Game() {
     this.board = new GameBoard();
-    this.players = initializePlayers();
+    this.humanPlayers = initializePlayers();
   }
 
   public static Game getInstance() {
@@ -23,20 +23,20 @@ public class Game {
     return game;
   }
 
-  private Player[] initializePlayers() {
+  private HumanPlayer[] initializePlayers() {
     int playerCount = InputReader.getPlayerCount();
-    Player[] players = new Player[playerCount];
-    for (int i = 0; i < players.length; i++) {
-      players[i] = new Player(InputReader.getPlayerName(i));
-      players[i].setPenguins(
-          initializePenguins(InputReader.getPenguinColor(i), playerCount, players[i]));
+    HumanPlayer[] humanPlayers = new HumanPlayer[playerCount];
+    for (int i = 0; i < humanPlayers.length; i++) {
+      humanPlayers[i] = new HumanPlayer(InputReader.getPlayerName(i));
+      humanPlayers[i].setPenguins(
+          initializePenguins(InputReader.getPenguinColor(i), playerCount, humanPlayers[i]));
     }
-    this.currentPlayer = players[currentPlayerIndex];
+    this.currentHumanPlayer = humanPlayers[currentPlayerIndex];
 
-    return players;
+    return humanPlayers;
   }
 
-  private Penguin[] initializePenguins(String color, int playerCount, Player player) {
+  private Penguin[] initializePenguins(String color, int playerCount, HumanPlayer humanPlayer) {
     int penguinCount = 0;
     switch (playerCount) {
       case 2:
@@ -54,7 +54,7 @@ public class Game {
 
     Penguin[] penguins = new Penguin[penguinCount];
     for (int i = 0; i < penguins.length; i++) {
-      penguins[i] = new Penguin(color, player);
+      penguins[i] = new Penguin(color, humanPlayer);
     }
 
     return penguins;
@@ -62,25 +62,25 @@ public class Game {
 
   private void updateCurrentPlayerPlacementPhase() {
 
-    this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.length;
-    this.currentPlayer = this.players[currentPlayerIndex];
+    this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.humanPlayers.length;
+    this.currentHumanPlayer = this.humanPlayers[currentPlayerIndex];
   }
 
   private void updateCurrentPlayerMovementPhase() {
     do {
-      this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.length;
-      this.currentPlayer = this.players[currentPlayerIndex];
+      this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.humanPlayers.length;
+      this.currentHumanPlayer = this.humanPlayers[currentPlayerIndex];
 
       // TODO seems to be working
       if (!areLegalMovesPossible()) {
         break;
       }
-    } while (!this.currentPlayer.hasPenguinsToMove(this.board));
+    } while (!this.currentHumanPlayer.hasPenguinsToMove(this.board));
   }
 
   private boolean canPenguinsBePlaced() {
-    for (Player player : this.players) {
-      if (player.hasUnplacedPenguins()) {
+    for (HumanPlayer humanPlayer : this.humanPlayers) {
+      if (humanPlayer.hasUnplacedPenguins()) {
         return true;
       }
     }
@@ -95,10 +95,10 @@ public class Game {
     do {
       int[] placementCoordinates;
       do {
-        placementCoordinates = InputReader.getPlacementCoordinates(this.currentPlayer);
+        placementCoordinates = InputReader.getPlacementCoordinates(this.currentHumanPlayer);
       } while (!this.board.placePenguin(
-          currentPlayer.getCurrentPenguin(), placementCoordinates[0], placementCoordinates[1]));
-      currentPlayer.updateCurrentPenguinIndex();
+          currentHumanPlayer.getCurrentPenguin(), placementCoordinates[0], placementCoordinates[1]));
+      currentHumanPlayer.updateCurrentPenguinIndex();
       updateCurrentPlayerPlacementPhase();
 
       System.out.println(this.board);
@@ -106,8 +106,8 @@ public class Game {
   }
 
   private boolean areLegalMovesPossible() {
-    for (Player player : this.players) {
-      if (player.hasPenguinsToMove(this.board)) {
+    for (HumanPlayer humanPlayer : this.humanPlayers) {
+      if (humanPlayer.hasPenguinsToMove(this.board)) {
         return true;
       }
     }
@@ -123,15 +123,15 @@ public class Game {
       int[] penguinCoordinates;
       int penguinIndex;
       do {
-        penguinCoordinates = InputReader.getPenguinCoordinates(this.currentPlayer);
+        penguinCoordinates = InputReader.getPenguinCoordinates(this.currentHumanPlayer);
         penguinIndex =
-            this.currentPlayer.penguinIndexAtPosition(penguinCoordinates[0], penguinCoordinates[1]);
+            this.currentHumanPlayer.penguinIndexAtPosition(penguinCoordinates[0], penguinCoordinates[1]);
       } while (penguinIndex == -1);
 
-      Penguin penguinToMove = this.currentPlayer.getPenguin(penguinIndex);
+      Penguin penguinToMove = this.currentHumanPlayer.getPenguin(penguinIndex);
       int[] movementCoordinates;
       do {
-        movementCoordinates = InputReader.getMovementCoordinates(this.currentPlayer);
+        movementCoordinates = InputReader.getMovementCoordinates(this.currentHumanPlayer);
       } while (!this.board.movePenguin(
           penguinToMove, movementCoordinates[0], movementCoordinates[1]));
       updateCurrentPlayerMovementPhase();
@@ -147,21 +147,21 @@ public class Game {
   }
 
   private void printAllScores() {
-    for (Player player : this.players) {
-      System.out.println(player.getScore());
+    for (HumanPlayer humanPlayer : this.humanPlayers) {
+      System.out.println(humanPlayer.getScore());
     }
   }
 
   // TODO
   private void printWinner() {
-    int maxFishCount = this.players[0].getCollectedFishCount();
+    int maxFishCount = this.humanPlayers[0].getCollectedFishCount();
     int winnerIndex = 0;
-    for (int i = 1; i < this.players.length; i++) {
-      if (this.players[i].getCollectedFishCount() > maxFishCount) {
-        maxFishCount = this.players[i].getCollectedFishCount();
+    for (int i = 1; i < this.humanPlayers.length; i++) {
+      if (this.humanPlayers[i].getCollectedFishCount() > maxFishCount) {
+        maxFishCount = this.humanPlayers[i].getCollectedFishCount();
         winnerIndex = i;
       }
     }
-    System.out.println("Winner: " + this.players[winnerIndex].getName());
+    System.out.println("Winner: " + this.humanPlayers[winnerIndex].getName());
   }
 }

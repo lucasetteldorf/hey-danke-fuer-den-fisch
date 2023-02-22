@@ -1,9 +1,6 @@
 package game;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 public class GameBoard {
   private static final int TILE_COUNT = 60;
@@ -215,23 +212,49 @@ public class GameBoard {
     this.tiles.remove(hashCoordinates(tile.getCoordinates()[0], tile.getCoordinates()[1]));
   }
 
-  public boolean hasLegalMoves(Penguin penguin) {
-    if (penguin.getPosition() == null) {
-      return false;
-    }
+  public boolean hasPenguinLegalMoves(Penguin penguin) {
+    return !getAllLegalMovesForPenguin(penguin).isEmpty();
+  }
 
-    IceFloeTile[] neighbors = getTileNeighbors(penguin.getPosition()[0], penguin.getPosition()[1]);
-    if (neighbors == null) {
-      return false;
-    }
+  public List<int[]> getAllLegalMovesForPlayer(HumanPlayer humanPlayer) {
+    List<int[]> possibleMoveCoordinates = new ArrayList<>();
 
-    for (IceFloeTile neighbor : neighbors) {
-      if (neighbor != null && neighbor.isUnoccupied()) {
-        return true;
+    for (Penguin penguin : humanPlayer.getPenguins()) {
+      if (penguin.isOnGameBoard()) {
+        possibleMoveCoordinates.addAll(getAllLegalMovesForPenguin(penguin));
       }
     }
 
-    return false;
+    return possibleMoveCoordinates;
+  }
+
+  public List<int[]> getAllLegalMovesForPenguin(Penguin penguin) {
+    List<int[]> possibleMoveCoordinates = new ArrayList<>();
+
+    IceFloeTile srcTile = getTile(penguin.getPosition()[0], penguin.getPosition()[1]);
+
+    int[][] neighborCoordinates = srcTile.getNeighborCoordinates();
+    // iterate through all neighbors
+    for (int i = 0; i < neighborCoordinates.length; i++) {
+      if (neighborCoordinates[i] == null) {
+        continue;
+      }
+      IceFloeTile neighbor = getTile(neighborCoordinates[i][0], neighborCoordinates[i][1]);
+      // continue to move in this direction until no more move can be made
+      while (neighbor != null && neighbor.isUnoccupied()) {
+        possibleMoveCoordinates.add(
+            new int[] {neighbor.getCoordinates()[0], neighbor.getCoordinates()[1]});
+
+        if (neighbor.getNeighborCoordinates()[i] == null) {
+          break;
+        }
+        neighbor =
+            getTile(
+                neighbor.getNeighborCoordinates()[i][0], neighbor.getNeighborCoordinates()[i][1]);
+      }
+    }
+
+    return possibleMoveCoordinates;
   }
 
   @Override

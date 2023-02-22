@@ -3,6 +3,8 @@ package game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameBoardTest {
@@ -11,16 +13,16 @@ public class GameBoardTest {
     3, 1, 2, 2, 1, 2, 2, 3, 3, 2, 2, 1, 2, 1, 2, 2, 3, 1, 1, 2, 1, 3, 1, 1, 1, 1, 2, 1
   };
   static GameBoard board;
-  static Player p1;
-  static Player p2;
+  static HumanPlayer p1;
+  static HumanPlayer p2;
 
   @BeforeEach
   void reset() {
     board = new GameBoard(fishCounts);
 
-    p1 = new Player("P1");
+    p1 = new HumanPlayer("P1");
     Penguin[] p1Penguins = new Penguin[4];
-    p2 = new Player("P2");
+    p2 = new HumanPlayer("P2");
     Penguin[] p2Penguins = new Penguin[4];
     for (int i = 0; i < 4; i++) {
       p1Penguins[i] = new Penguin("B", p1);
@@ -232,13 +234,13 @@ public class GameBoardTest {
   @Test
   void testHasLegalMoves() {
     assertTrue(board.placePenguin(p1.getPenguin(0), 0, 13));
-    assertTrue(board.hasLegalMoves(p1.getPenguin(0)));
+    assertTrue(board.hasPenguinLegalMoves(p1.getPenguin(0)));
     assertTrue(board.placePenguin(p2.getPenguin(0), 0, 11));
-    assertTrue(board.hasLegalMoves(p1.getPenguin(0)));
+    assertTrue(board.hasPenguinLegalMoves(p1.getPenguin(0)));
     assertTrue(board.movePenguin(p2.getPenguin(0), 1, 12));
-    assertTrue(board.hasLegalMoves(p1.getPenguin(0)));
+    assertTrue(board.hasPenguinLegalMoves(p1.getPenguin(0)));
     assertTrue(board.movePenguin(p2.getPenguin(0), 1, 14));
-    assertFalse(board.hasLegalMoves(p1.getPenguin(0)));
+    assertFalse(board.hasPenguinLegalMoves(p1.getPenguin(0)));
   }
 
   @Test
@@ -263,15 +265,15 @@ public class GameBoardTest {
 
     assertTrue(board.movePenguin(p1.getPenguin(2), 1, 12));
 
-    assertTrue(board.hasLegalMoves(p1.getPenguin(0)));
-    assertTrue(board.hasLegalMoves(p1.getPenguin(3)));
-    assertTrue(board.hasLegalMoves(p2.getPenguin(3)));
+    assertTrue(board.hasPenguinLegalMoves(p1.getPenguin(0)));
+    assertTrue(board.hasPenguinLegalMoves(p1.getPenguin(3)));
+    assertTrue(board.hasPenguinLegalMoves(p2.getPenguin(3)));
 
     assertTrue(board.movePenguin(p2.getPenguin(3), 1, 2));
 
-    assertFalse(board.hasLegalMoves(p1.getPenguin(0)));
-    assertFalse(board.hasLegalMoves(p1.getPenguin(3)));
-    assertFalse(board.hasLegalMoves(p2.getPenguin(3)));
+    assertFalse(board.hasPenguinLegalMoves(p1.getPenguin(0)));
+    assertFalse(board.hasPenguinLegalMoves(p1.getPenguin(3)));
+    assertFalse(board.hasPenguinLegalMoves(p2.getPenguin(3)));
 
     assertTrue(p1.hasPenguinsToMove(board));
     assertTrue(p2.hasPenguinsToMove(board));
@@ -284,9 +286,9 @@ public class GameBoardTest {
 
     assertTrue(board.movePenguin(p2.getPenguin(1), 2, 11));
 
-    assertTrue(board.hasLegalMoves(p1.getPenguin(2)));
+    assertTrue(board.hasPenguinLegalMoves(p1.getPenguin(2)));
     assertTrue(board.movePenguin(p1.getPenguin(2), 1, 14));
-    assertFalse(board.hasLegalMoves(p1.getPenguin(2)));
+    assertFalse(board.hasPenguinLegalMoves(p1.getPenguin(2)));
 
     assertTrue(p1.hasPenguinsToMove(board));
     assertTrue(p2.hasPenguinsToMove(board));
@@ -302,12 +304,52 @@ public class GameBoardTest {
     assertFalse(p1.hasPenguinsToMove(board));
     System.out.println(board);
 
-    assertTrue(board.hasLegalMoves(p2.getPenguin(1)));
+    assertTrue(board.hasPenguinLegalMoves(p2.getPenguin(1)));
     assertTrue(p2.hasPenguinsToMove(board));
     assertTrue(board.movePenguin(p2.getPenguin(1), 3, 14));
-    assertFalse(board.hasLegalMoves(p2.getPenguin(1)));
+    assertFalse(board.hasPenguinLegalMoves(p2.getPenguin(1)));
     assertFalse(p2.hasPenguinsToMove(board));
 
     System.out.println(board);
+  }
+
+  @Test
+  void testAllPossibleMovesForPenguin() {
+    board.placePenguin(p1.getPenguin(0), 2, 11);
+    System.out.println(board);
+
+    for (int[] coordinates : board.getAllLegalMovesForPenguin(p1.getPenguin(0))) {
+      System.out.println(Arrays.toString(coordinates));
+    }
+  }
+
+  @Test
+  void testAllPossibleMovesForPlayer() {
+    // no penguins placed yet
+    assertTrue(board.getAllLegalMovesForPlayer(p1).isEmpty());
+
+    board.placePenguin(p1.getPenguin(0), 2, 11);
+    for (int[] coordinates : board.getAllLegalMovesForPlayer(p1)) {
+      System.out.print(Arrays.toString(coordinates) + " ");
+    }
+    System.out.println();
+
+    board.placePenguin(p2.getPenguin(0), 1,10);
+    for (int[] coordinates : board.getAllLegalMovesForPlayer(p1)) {
+      System.out.print(Arrays.toString(coordinates) + " ");
+    }
+    System.out.println();
+
+    board.placePenguin(p2.getPenguin(1), 4,13);
+    for (int[] coordinates : board.getAllLegalMovesForPlayer(p1)) {
+      System.out.print(Arrays.toString(coordinates) + " ");
+    }
+    System.out.println();
+
+    board.placePenguin(p1.getPenguin(1), 0,11);
+    for (int[] coordinates : board.getAllLegalMovesForPlayer(p1)) {
+      System.out.print(Arrays.toString(coordinates) + " ");
+    }
+    System.out.println();
   }
 }

@@ -1,13 +1,13 @@
 package game;
 
-public class Player {
+public class HumanPlayer {
   private final String name;
   private Penguin[] penguins;
   private int currentPenguinIndex;
   private int collectedTileCount;
   private int collectedFishCount;
 
-  public Player(String name) {
+  public HumanPlayer(String name) {
     this.name = name;
   }
 
@@ -21,6 +21,10 @@ public class Player {
 
   public Penguin getPenguin(int index) {
     return (index >= 0 && index < this.penguins.length) ? this.penguins[index] : null;
+  }
+
+  public Penguin[] getPenguins() {
+    return penguins;
   }
 
   public void updateCurrentPenguinIndex() {
@@ -59,7 +63,7 @@ public class Player {
 
   public boolean hasPenguinsToMove(GameBoard board) {
     for (Penguin penguin : this.penguins) {
-      if (board.hasLegalMoves(penguin)) {
+      if (board.hasPenguinLegalMoves(penguin)) {
         return true;
       }
     }
