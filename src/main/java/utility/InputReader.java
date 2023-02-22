@@ -1,6 +1,6 @@
 package utility;
 
-import game.HumanPlayer;
+import game.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,18 +68,18 @@ public class InputReader {
     return new int[] {Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1])};
   }
 
-  public static int[] getPlacementCoordinates(HumanPlayer currentHumanPlayer) {
+  public static int[] getPlacementCoordinates(Player currentPlayer) {
     return getCoordinates(
-        currentHumanPlayer + ": Coordinates to place penguin (separated by a space): ");
+        currentPlayer + ": Coordinates to place penguin (separated by a space): ");
   }
 
-  public static int[] getPenguinCoordinates(HumanPlayer currentHumanPlayer) {
+  public static int[] getPenguinCoordinates(Player currentPlayer) {
     return getCoordinates(
-        currentHumanPlayer + ": Coordinates of the penguin to move (separated by a space): ");
+        currentPlayer + ": Coordinates of the penguin to move (separated by a space): ");
   }
 
-  public static int[] getMovementCoordinates(HumanPlayer currentHumanPlayer) {
+  public static int[] getMovementCoordinates(Player currentPlayer) {
     return getCoordinates(
-        currentHumanPlayer + ": Coordinates to move the selected penguin to (separated by a space): ");
+        currentPlayer + ": Coordinates to move the selected penguin to (separated by a space): ");
   }
 }

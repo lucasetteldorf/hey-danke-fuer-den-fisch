@@ -5,11 +5,11 @@ import utility.ConsoleColors;
 public class Penguin {
   // values: "B" = blue, "R" = red, "G" = green, "Y" = yellow
   private final String color;
-  private final HumanPlayer humanPlayer;
+  private final Player player;
   private int[] position;
 
-  public Penguin(String color, HumanPlayer humanPlayer) {
-    this.humanPlayer = humanPlayer;
+  public Penguin(String color, Player player) {
+    this.player = player;
     switch (color) {
       case "B":
         this.color = ConsoleColors.BLUE_PLAYER;
@@ -29,8 +29,8 @@ public class Penguin {
     }
   }
 
-  public HumanPlayer getPlayer() {
-    return humanPlayer;
+  public Player getPlayer() {
+    return player;
   }
 
   public void setPosition(int rowIndex, int colIndex) {

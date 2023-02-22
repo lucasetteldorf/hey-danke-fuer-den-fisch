@@ -1,17 +1,17 @@
 package ai;
 
 import game.GameBoard;
-import game.HumanPlayer;
+import game.Player;
 
 import java.util.List;
 
 public class State {
   GameBoard board;
-  HumanPlayer currentHumanPlayer;
+  Player currentPlayer;
 
-  public State(GameBoard board, HumanPlayer currentHumanPlayer) {
+  public State(GameBoard board, Player currentPlayer) {
     this.board = board;
-    this.currentHumanPlayer = currentHumanPlayer;
+    this.currentPlayer = currentPlayer;
   }
 
   public List<State> getAllPossibleStates() {

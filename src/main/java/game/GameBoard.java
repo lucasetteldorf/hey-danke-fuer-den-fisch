@@ -216,10 +216,10 @@ public class GameBoard {
     return !getAllLegalMovesForPenguin(penguin).isEmpty();
   }
 
-  public List<int[]> getAllLegalMovesForPlayer(HumanPlayer humanPlayer) {
+  public List<int[]> getAllLegalMovesForPlayer(Player player) {
     List<int[]> possibleMoveCoordinates = new ArrayList<>();
 
-    for (Penguin penguin : humanPlayer.getPenguins()) {
+    for (Penguin penguin : player.getPenguins()) {
       if (penguin.isOnGameBoard()) {
         possibleMoveCoordinates.addAll(getAllLegalMovesForPenguin(penguin));
       }
@@ -255,6 +255,18 @@ public class GameBoard {
     }
 
     return possibleMoveCoordinates;
+  }
+
+  public List<int[]> getLegalPlacementCoordinates() {
+    List<int[]> placementCoordinates = new ArrayList<>();
+
+    for (IceFloeTile tile : getTiles()) {
+        if (tile != null & tile.isUnoccupied() && tile.getFishCount() == 1) {
+          placementCoordinates.add(tile.getCoordinates());
+        }
+    }
+
+    return placementCoordinates;
   }
 
   @Override

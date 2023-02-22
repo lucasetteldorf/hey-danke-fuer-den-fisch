@@ -13,16 +13,16 @@ public class GameBoardTest {
     3, 1, 2, 2, 1, 2, 2, 3, 3, 2, 2, 1, 2, 1, 2, 2, 3, 1, 1, 2, 1, 3, 1, 1, 1, 1, 2, 1
   };
   static GameBoard board;
-  static HumanPlayer p1;
-  static HumanPlayer p2;
+  static Player p1;
+  static Player p2;
 
   @BeforeEach
   void reset() {
     board = new GameBoard(fishCounts);
 
-    p1 = new HumanPlayer("P1");
+    p1 = new Player("P1");
     Penguin[] p1Penguins = new Penguin[4];
-    p2 = new HumanPlayer("P2");
+    p2 = new Player("P2");
     Penguin[] p2Penguins = new Penguin[4];
     for (int i = 0; i < 4; i++) {
       p1Penguins[i] = new Penguin("B", p1);

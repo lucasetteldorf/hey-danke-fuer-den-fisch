@@ -1,13 +1,13 @@
 package game;
 
-public class HumanPlayer {
+public class Player {
   private final String name;
   private Penguin[] penguins;
   private int currentPenguinIndex;
   private int collectedTileCount;
   private int collectedFishCount;
 
-  public HumanPlayer(String name) {
+  public Player(String name) {
     this.name = name;
   }
 
