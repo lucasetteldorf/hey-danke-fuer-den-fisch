@@ -7,16 +7,27 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class InputReader {
-  private static final Scanner scanner = new Scanner(System.in);
   public static final ArrayList<String> AVAILABLE_COLORS =
       new ArrayList<>(Arrays.asList("B", "R", "G", "Y"));
+  private static final Scanner scanner = new Scanner(System.in);
+
+  private static int readInt(String prompt) {
+    System.out.print(prompt);
+    // TODO add error handling
+    int input = scanner.nextInt();
+    scanner.nextLine();
+    return input;
+  }
+
+  private static String readLine(String prompt) {
+    System.out.print(prompt);
+    return scanner.nextLine().trim();
+  }
 
   public static int getPlayerCount() {
     int playerCount;
     do {
-      System.out.print("Number of total players (2-4): ");
-      playerCount = scanner.nextInt();
-      scanner.nextLine();
+      playerCount = readInt("Number of total players (2-4): ");
     } while (playerCount < 2 || playerCount > 4);
 
     return playerCount;
@@ -25,51 +36,44 @@ public class InputReader {
   public static int getAiPlayerCount(int totalPlayerCount) {
     int aiPlayerCount;
     do {
-      System.out.print("Number of AI players (0-" + (totalPlayerCount - 1) + "): ");
-      aiPlayerCount = scanner.nextInt();
-      scanner.nextLine();
-    } while (aiPlayerCount < 0);
-
-    //  || aiPlayerCount >= totalPlayerCount
+      aiPlayerCount = readInt("Number of AI players (0-" + (totalPlayerCount - 1) + "): ");
+    } while (aiPlayerCount < 0 || aiPlayerCount >= totalPlayerCount);
 
     return aiPlayerCount;
   }
 
   public static String getAiDifficulty() {
-    System.out.print("AI difficulty (only easy for now): ");
-    return scanner.nextLine().trim();
+    return readLine("AI difficulty (only easy for now): ");
   }
+
   public static String getPlayerName(int playerIndex) {
-    System.out.print("Player " + (playerIndex + 1) + " name: ");
-    return scanner.nextLine().trim();
+    return readLine("Player " + (playerIndex + 1) + " name: ");
   }
 
   public static String getPenguinColor(int playerIndex) {
     String penguinColor;
     do {
-      System.out.print(
-          "Player "
-              + (playerIndex + 1)
-              + " penguin color ("
-              + ConsoleColors.BLUE_PLAYER
-              + " = blue, "
-              + ConsoleColors.RED_PLAYER
-              + " = red, "
-              + ConsoleColors.GREEN_PLAYER
-              + " = green, "
-              + ConsoleColors.YELLOW_PLAYER
-              + " = yellow"
-              + "): ");
-
-      penguinColor = scanner.next().trim();
-      scanner.nextLine();
-    } while (!AVAILABLE_COLORS.contains(penguinColor));
+      penguinColor =
+          readLine(
+              "Player "
+                  + (playerIndex + 1)
+                  + " penguin color ("
+                  + ConsoleColors.BLUE_PLAYER
+                  + " = blue, "
+                  + ConsoleColors.RED_PLAYER
+                  + " = red, "
+                  + ConsoleColors.GREEN_PLAYER
+                  + " = green, "
+                  + ConsoleColors.YELLOW_PLAYER
+                  + " = yellow"
+                  + "): ");
+    } while (penguinColor.length() != 1 && !AVAILABLE_COLORS.contains(penguinColor));
     AVAILABLE_COLORS.remove(penguinColor);
 
     return penguinColor;
   }
 
-  private static int[] getCoordinates(String prompt) {
+  private static int[] readCoordinates(String prompt) {
     String input;
     String[] coordinates;
     do {
@@ -86,17 +90,17 @@ public class InputReader {
   }
 
   public static int[] getPlacementCoordinates(Player currentPlayer) {
-    return getCoordinates(
+    return readCoordinates(
         currentPlayer + ": Coordinates to place penguin (separated by a space): ");
   }
 
   public static int[] getPenguinCoordinates(Player currentPlayer) {
-    return getCoordinates(
+    return readCoordinates(
         currentPlayer + ": Coordinates of the penguin to move (separated by a space): ");
   }
 
   public static int[] getMovementCoordinates(Player currentPlayer) {
-    return getCoordinates(
+    return readCoordinates(
         currentPlayer + ": Coordinates to move the selected penguin to (separated by a space): ");
   }
 }

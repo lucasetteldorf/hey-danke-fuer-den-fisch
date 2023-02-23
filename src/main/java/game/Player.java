@@ -68,7 +68,7 @@ public class Player {
 
   public boolean hasPenguinsToMove(GameBoard board) {
     for (Penguin penguin : this.penguins) {
-      if (board.hasPenguinLegalMoves(penguin)) {
+      if (penguin.isOnGameBoard() && board.hasPenguinLegalMoves(penguin)) {
         return true;
       }
     }
