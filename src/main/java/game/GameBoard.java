@@ -213,7 +213,7 @@ public class GameBoard {
   }
 
   public boolean hasPenguinLegalMoves(Penguin penguin) {
-    return !getAllLegalMovesForPenguin(penguin).isEmpty();
+    return getAllLegalMovesForPenguin(penguin).size() > 0;
   }
 
   public List<int[]> getAllLegalMovesForPlayer(Player player) {

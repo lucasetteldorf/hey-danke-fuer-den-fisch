@@ -27,6 +27,11 @@ public class Player {
     return penguins;
   }
 
+  public Penguin[] getMovablePenguin() {
+    // TODO implement this
+    return null;
+  }
+
   public void updateCurrentPenguinIndex() {
     this.currentPenguinIndex++;
   }

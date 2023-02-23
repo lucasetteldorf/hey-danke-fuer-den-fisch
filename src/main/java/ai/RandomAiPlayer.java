@@ -5,6 +5,7 @@ import game.Penguin;
 import game.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -35,12 +36,12 @@ public class RandomAiPlayer extends Player {
 
   private Penguin getRandomPenguinToMove(GameBoard board) {
     List<Penguin> movablePenguins = new ArrayList<>();
-    for (Penguin penguin : getPenguins()) {
+    for (Penguin penguin : this.getPenguins()) {
       if (penguin.isOnGameBoard() && board.hasPenguinLegalMoves(penguin)) {
         movablePenguins.add(penguin);
       }
     }
     int randomIndex = getRandomIndex(movablePenguins.size());
-    return getPenguin(randomIndex);
+    return this.getPenguin(randomIndex);
   }
 }

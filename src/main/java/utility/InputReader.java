@@ -8,13 +8,13 @@ import java.util.Scanner;
 
 public class InputReader {
   private static final Scanner scanner = new Scanner(System.in);
-  private static final ArrayList<String> AVAILABLE_COLORS =
+  public static final ArrayList<String> AVAILABLE_COLORS =
       new ArrayList<>(Arrays.asList("B", "R", "G", "Y"));
 
   public static int getPlayerCount() {
     int playerCount;
     do {
-      System.out.print("Number of players (2-4): ");
+      System.out.print("Number of total players (2-4): ");
       playerCount = scanner.nextInt();
       scanner.nextLine();
     } while (playerCount < 2 || playerCount > 4);
@@ -22,6 +22,23 @@ public class InputReader {
     return playerCount;
   }
 
+  public static int getAiPlayerCount(int totalPlayerCount) {
+    int aiPlayerCount;
+    do {
+      System.out.print("Number of AI players (0-" + (totalPlayerCount - 1) + "): ");
+      aiPlayerCount = scanner.nextInt();
+      scanner.nextLine();
+    } while (aiPlayerCount < 0);
+
+    //  || aiPlayerCount >= totalPlayerCount
+
+    return aiPlayerCount;
+  }
+
+  public static String getAiDifficulty() {
+    System.out.print("AI difficulty (only easy for now): ");
+    return scanner.nextLine().trim();
+  }
   public static String getPlayerName(int playerIndex) {
     System.out.print("Player " + (playerIndex + 1) + " name: ");
     return scanner.nextLine().trim();

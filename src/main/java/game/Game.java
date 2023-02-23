@@ -1,5 +1,6 @@
 package game;
 
+import ai.RandomAiPlayer;
 import utility.InputReader;
 
 public class Game {
@@ -24,13 +25,34 @@ public class Game {
   }
 
   private Player[] initializePlayers() {
-    int playerCount = InputReader.getPlayerCount();
-    Player[] players = new Player[playerCount];
-    for (int i = 0; i < players.length; i++) {
+    int totalPlayerCount = InputReader.getPlayerCount();
+    int aiPlayerCount = InputReader.getAiPlayerCount(totalPlayerCount);
+    int humanPlayerCount = totalPlayerCount - aiPlayerCount;
+
+    Player[] players = new Player[totalPlayerCount];
+    for (int i = 0; i < humanPlayerCount; i++) {
       players[i] = new Player(InputReader.getPlayerName(i));
       players[i].setPenguins(
-          initializePenguins(InputReader.getPenguinColor(i), playerCount, players[i]));
+          initializePenguins(InputReader.getPenguinColor(i), totalPlayerCount, players[i]));
     }
+    for (int i = humanPlayerCount; i < totalPlayerCount; i++) {
+      switch (InputReader.getAiDifficulty()) {
+        case "easy":
+          players[i] = new RandomAiPlayer();
+          players[i].setPenguins(
+              initializePenguins(
+                  InputReader.AVAILABLE_COLORS.get(0), totalPlayerCount, players[i]));
+          InputReader.AVAILABLE_COLORS.remove(0);
+          break;
+        default:
+          // TODO try again
+          System.out.println("Invalid difficulty");
+          break;
+      }
+
+      // TODO change the way colors are distributed (ai gets left color)
+    }
+
     this.currentPlayer = players[currentPlayerIndex];
 
     return players;
@@ -61,7 +83,6 @@ public class Game {
   }
 
   private void updateCurrentPlayerPlacementPhase() {
-
     this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.length;
     this.currentPlayer = this.players[currentPlayerIndex];
   }
@@ -93,14 +114,17 @@ public class Game {
     System.out.println(this.board);
 
     do {
-      int[] placementCoordinates;
-      do {
-        placementCoordinates = InputReader.getPlacementCoordinates(this.currentPlayer);
-      } while (!this.board.placePenguin(
-          currentPlayer.getCurrentPenguin(), placementCoordinates[0], placementCoordinates[1]));
-      currentPlayer.updateCurrentPenguinIndex();
+      if (this.currentPlayer.getClass().getSimpleName().equals("Player")) {
+        int[] placementCoordinates;
+        do {
+          placementCoordinates = InputReader.getPlacementCoordinates(this.currentPlayer);
+        } while (!this.board.placePenguin(
+            currentPlayer.getCurrentPenguin(), placementCoordinates[0], placementCoordinates[1]));
+        currentPlayer.updateCurrentPenguinIndex();
+      } else if (this.currentPlayer.getClass().getSimpleName().equals("RandomAiPlayer")) {
+        ((RandomAiPlayer) this.currentPlayer).placePenguinRandomly(this.board);
+      }
       updateCurrentPlayerPlacementPhase();
-
       System.out.println(this.board);
     } while (canPenguinsBePlaced());
   }
@@ -120,22 +144,26 @@ public class Game {
     System.out.println(this.board);
 
     do {
-      int[] penguinCoordinates;
-      int penguinIndex;
-      do {
-        penguinCoordinates = InputReader.getPenguinCoordinates(this.currentPlayer);
-        penguinIndex =
-            this.currentPlayer.penguinIndexAtPosition(penguinCoordinates[0], penguinCoordinates[1]);
-      } while (penguinIndex == -1);
+      if (this.currentPlayer.getClass().getSimpleName().equals("Player")) {
+        int[] penguinCoordinates;
+        int penguinIndex;
+        do {
+          penguinCoordinates = InputReader.getPenguinCoordinates(this.currentPlayer);
+          penguinIndex =
+                  this.currentPlayer.penguinIndexAtPosition(penguinCoordinates[0], penguinCoordinates[1]);
+        } while (penguinIndex == -1);
 
-      Penguin penguinToMove = this.currentPlayer.getPenguin(penguinIndex);
-      int[] movementCoordinates;
-      do {
-        movementCoordinates = InputReader.getMovementCoordinates(this.currentPlayer);
-      } while (!this.board.movePenguin(
-          penguinToMove, movementCoordinates[0], movementCoordinates[1]));
+        Penguin penguinToMove = this.currentPlayer.getPenguin(penguinIndex);
+        int[] movementCoordinates;
+        do {
+          movementCoordinates = InputReader.getMovementCoordinates(this.currentPlayer);
+        } while (!this.board.movePenguin(
+                penguinToMove, movementCoordinates[0], movementCoordinates[1]));
+      } else if (this.currentPlayer.getClass().getSimpleName().equals("RandomAiPlayer")) {
+        ((RandomAiPlayer) this.currentPlayer).moveRandomPenguinRandomly(this.board);
+      }
+
       updateCurrentPlayerMovementPhase();
-
       System.out.println(board);
     } while (areLegalMovesPossible());
 
