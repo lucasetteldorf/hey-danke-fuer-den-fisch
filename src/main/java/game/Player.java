@@ -1,7 +1,7 @@
 package game;
 
 public class Player {
-  private final String name;
+  public final String name;
   private Penguin[] penguins;
   private int currentPenguinIndex;
   private int collectedTileCount;

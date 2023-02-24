@@ -45,7 +45,7 @@ public class Game {
     for (int i = humanPlayerCount; i < totalPlayerCount; i++) {
       switch (aiDifficulty) {
         case "easy":
-          players[i] = new RandomAiPlayer();
+          players[i] = new RandomAiPlayer("Random Baseline AI (easy)");
           players[i].setPenguins(
               initializePenguins(
                   InputReader.AVAILABLE_COLORS.get(0), totalPlayerCount, players[i]));
@@ -128,7 +128,7 @@ public class Game {
             currentPlayer.getCurrentPenguin(), placementCoordinates[0], placementCoordinates[1]));
         currentPlayer.updateCurrentPenguinIndex();
       } else if (this.currentPlayer.getClass().getSimpleName().equals("RandomAiPlayer")) {
-        ((RandomAiPlayer) this.currentPlayer).placePenguinRandomly(this.board);
+        ((RandomAiPlayer) this.currentPlayer).placePenguin(this.board);
       }
       updateCurrentPlayerPlacementPhase();
       System.out.println(this.board);
@@ -167,7 +167,7 @@ public class Game {
         } while (!this.board.movePenguin(
             penguinToMove, movementCoordinates[0], movementCoordinates[1]));
       } else if (this.currentPlayer.getClass().getSimpleName().equals("RandomAiPlayer")) {
-        ((RandomAiPlayer) this.currentPlayer).moveRandomPenguinRandomly(this.board);
+        ((RandomAiPlayer) this.currentPlayer).movePenguin(this.board);
       }
 
       updateCurrentPlayerMovementPhase();

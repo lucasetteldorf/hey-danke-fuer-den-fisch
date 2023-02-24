@@ -21,7 +21,7 @@ public class RandomAiTest {
 
     p1 = new Player("P1");
     Penguin[] p1Penguins = new Penguin[4];
-    aiP = new RandomAiPlayer();
+    aiP = new RandomAiPlayer("Random AI");
     Penguin[] p2Penguins = new Penguin[4];
     for (int i = 0; i < 4; i++) {
       p1Penguins[i] = new Penguin("B", p1);
@@ -35,16 +35,16 @@ public class RandomAiTest {
   void testRandomPenguinPlacement() {
     System.out.println(board);
 
-    aiP.placePenguinRandomly(board);
+    aiP.placePenguin(board);
     System.out.println(board);
 
-    aiP.placePenguinRandomly(board);
+    aiP.placePenguin(board);
     System.out.println(board);
 
-    aiP.placePenguinRandomly(board);
+    aiP.placePenguin(board);
     System.out.println(board);
 
-    aiP.placePenguinRandomly(board);
+    aiP.placePenguin(board);
     System.out.println(board);
   }
 
@@ -52,22 +52,22 @@ public class RandomAiTest {
   void testRandomPenguinMovement() {
     System.out.println(board);
 
-    aiP.placePenguinRandomly(board);
-    aiP.placePenguinRandomly(board);
-    aiP.placePenguinRandomly(board);
-    aiP.placePenguinRandomly(board);
+    aiP.placePenguin(board);
+    aiP.placePenguin(board);
+    aiP.placePenguin(board);
+    aiP.placePenguin(board);
     System.out.println(board);
 
-    aiP.moveRandomPenguinRandomly(board);
+    aiP.movePenguin(board);
     System.out.println(board);
 
-    aiP.moveRandomPenguinRandomly(board);
+    aiP.movePenguin(board);
     System.out.println(board);
 
-    aiP.moveRandomPenguinRandomly(board);
+    aiP.movePenguin(board);
     System.out.println(board);
 
-    aiP.moveRandomPenguinRandomly(board);
+    aiP.movePenguin(board);
     System.out.println(board);
   }
 }

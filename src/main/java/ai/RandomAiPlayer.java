@@ -9,18 +9,18 @@ import java.util.List;
 import java.util.Random;
 
 public class RandomAiPlayer extends Player {
-  public RandomAiPlayer() {
-    super("Random AI");
+  public RandomAiPlayer(String name) {
+    super(name);
   }
 
-  public void placePenguinRandomly(GameBoard board) {
+  public void placePenguin(GameBoard board) {
     int randomIndex = getRandomIndex(board.getLegalPlacementCoordinates().size());
     int[] placementCoordinates = board.getLegalPlacementCoordinates().get(randomIndex);
     board.placePenguin(getCurrentPenguin(), placementCoordinates[0], placementCoordinates[1]);
     updateCurrentPenguinIndex();
   }
 
-  public void moveRandomPenguinRandomly(GameBoard board) {
+  public void movePenguin(GameBoard board) {
     Penguin randomPenguin = getRandomPenguinToMove(board);
 
     int randomIndex = getRandomIndex(board.getAllLegalMovesForPenguin(randomPenguin).size());
@@ -28,13 +28,12 @@ public class RandomAiPlayer extends Player {
     board.movePenguin(randomPenguin, movementCoordinates[0], movementCoordinates[1]);
   }
 
-  private int getRandomIndex(int max) {
+  int getRandomIndex(int max) {
     Random random = new Random();
     return random.nextInt(max);
   }
 
-  private Penguin getRandomPenguinToMove(GameBoard board) {
-    // TODO selects non-movable penguins
+  Penguin getRandomPenguinToMove(GameBoard board) {
     List<Penguin> movablePenguins = new ArrayList<>();
     for (Penguin penguin : this.getPenguins()) {
       if (penguin.isOnGameBoard() && board.hasPenguinLegalMoves(penguin)) {
