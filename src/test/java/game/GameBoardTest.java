@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -351,5 +352,19 @@ public class GameBoardTest {
       System.out.print(Arrays.toString(coordinates) + " ");
     }
     System.out.println();
+  }
+
+  @Test
+  void testGetNeighborTiles() {
+    List<IceFloeTile> neighborTiles = board.getNeighborsTiles(1, 2);
+    for (IceFloeTile neighbor : neighborTiles) {
+      System.out.print(neighbor + " ");
+    }
+    System.out.println();
+
+    neighborTiles = board.getNeighborsTiles(0, 1);
+    for (IceFloeTile neighbor : neighborTiles) {
+      System.out.print(neighbor + " ");
+    }
   }
 }

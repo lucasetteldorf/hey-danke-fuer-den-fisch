@@ -1,5 +1,6 @@
 package game;
 
+import ai.GreedyAiPlayer;
 import ai.RandomAiPlayer;
 import utility.InputReader;
 
@@ -46,16 +47,20 @@ public class Game {
       switch (aiDifficulty) {
         case "easy":
           players[i] = new RandomAiPlayer("Random Baseline AI (easy)");
-          players[i].setPenguins(
-              initializePenguins(
-                  InputReader.AVAILABLE_COLORS.get(0), totalPlayerCount, players[i]));
-          InputReader.AVAILABLE_COLORS.remove(0);
+
+          break;
+        case "medium":
+          players[i] = new GreedyAiPlayer("Greedy Baseline AI (medium)");
+
           break;
         default:
           // TODO try again
           System.out.println("Invalid difficulty");
           break;
       }
+      players[i].setPenguins(
+          initializePenguins(InputReader.AVAILABLE_COLORS.get(0), totalPlayerCount, players[i]));
+      InputReader.AVAILABLE_COLORS.remove(0);
     }
 
     this.currentPlayer = players[currentPlayerIndex];
@@ -97,7 +102,6 @@ public class Game {
       this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.length;
       this.currentPlayer = this.players[currentPlayerIndex];
 
-      // TODO seems to be working
       if (!areLegalMovesPossible()) {
         break;
       }
@@ -129,6 +133,8 @@ public class Game {
         currentPlayer.updateCurrentPenguinIndex();
       } else if (this.currentPlayer.getClass().getSimpleName().equals("RandomAiPlayer")) {
         ((RandomAiPlayer) this.currentPlayer).placePenguin(this.board);
+      } else if (this.currentPlayer.getClass().getSimpleName().equals("GreedyAiPlayer")) {
+        ((GreedyAiPlayer) this.currentPlayer).placePenguin(this.board);
       }
       updateCurrentPlayerPlacementPhase();
       System.out.println(this.board);
@@ -168,6 +174,8 @@ public class Game {
             penguinToMove, movementCoordinates[0], movementCoordinates[1]));
       } else if (this.currentPlayer.getClass().getSimpleName().equals("RandomAiPlayer")) {
         ((RandomAiPlayer) this.currentPlayer).movePenguin(this.board);
+      } else if (this.currentPlayer.getClass().getSimpleName().equals("GreedyAiPlayer")) {
+        ((GreedyAiPlayer) this.currentPlayer).movePenguin(this.board);
       }
 
       updateCurrentPlayerMovementPhase();

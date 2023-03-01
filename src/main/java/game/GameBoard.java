@@ -228,6 +228,17 @@ public class GameBoard {
     return possibleMoveCoordinates;
   }
 
+  public List<IceFloeTile> getNeighborsTiles(int rowIndex, int colIndex) {
+    IceFloeTile srcTile = getTile(rowIndex, colIndex);
+    List<IceFloeTile> neighborTiles = new ArrayList<>();
+    for (int[] neighborCoordinates : srcTile.getNeighborCoordinates()) {
+      if (neighborCoordinates != null) {
+        neighborTiles.add(getTile(neighborCoordinates[0], neighborCoordinates[1]));
+      }
+    }
+    return neighborTiles;
+  }
+
   public List<int[]> getAllLegalMovesForPenguin(Penguin penguin) {
     List<int[]> possibleMoveCoordinates = new ArrayList<>();
 
