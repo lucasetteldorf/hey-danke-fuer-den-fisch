@@ -14,75 +14,80 @@ public class GreedyAiPlayer extends RandomAiPlayer {
 
   @Override
   public void movePenguin(GameBoard board) {
-    // check for direct tile with 3 fish first
-    for (Penguin penguin : this.getPenguins()) {
-      for (IceFloeTile neighbor : board.getNeighborsTiles(penguin.getPosition()[0], penguin.getPosition()[1])) {
-        if (neighbor!= null && neighbor.getFishCount() == 3) {
-          if (board.movePenguin(penguin, neighbor.getCoordinates()[0], neighbor.getCoordinates()[1])) {
-            return;
-          } else {
-            continue;
-          }
-        }
-      }
-    }
+    Penguin bestPenguin;
+    IceFloeTile bestTile;
+    do {
+      bestPenguin = getBestPenguin(board);
+      bestTile = getBestTile(board, bestPenguin);
+    } while (bestTile == null);
 
-    // then check for other tile with 3 fish
-    for (Penguin penguin : this.getPenguins()) {
-      for (int[] coordinates : board.getAllLegalMovesForPenguin(penguin)) {
-        IceFloeTile tile = board.getTile(coordinates[0], coordinates[1]);
-        if (tile != null && tile.getFishCount() == 3) {
-          board.movePenguin(penguin, tile.getCoordinates()[0], tile.getCoordinates()[1]);
-          return;
-        }
-      }
-    }
-
-    // else get penguin with highest sum of fish in reachable tiles and move to max
-    Penguin bestPenguin = getBestPenguin(board);
-    IceFloeTile newTile = getBestTile(board, bestPenguin);
-    board.movePenguin(bestPenguin, newTile.getCoordinates()[0], newTile.getCoordinates()[1]);
+    board.movePenguin(bestPenguin, bestTile.getCoordinates()[0], bestTile.getCoordinates()[1]);
   }
 
-  public IceFloeTile getBestTile(GameBoard board, Penguin penguin) {
-    List<IceFloeTile> tiles = new ArrayList<>();
+  private IceFloeTile getBestTile(GameBoard board, Penguin penguin) {
+    List<IceFloeTile> threeFishTiles = new ArrayList<>();
+    List<IceFloeTile> twoFishTiles = new ArrayList<>();
+    List<IceFloeTile> oneFishTiles = new ArrayList<>();
     for (int[] coordinates : board.getAllLegalMovesForPenguin(penguin)) {
-      tiles.add(board.getTile(coordinates[0], coordinates[1]));
-    }
-
-    IceFloeTile bestTile = tiles.get(0);
-    int max = bestTile.getFishCount();
-    for (IceFloeTile tile : tiles) {
-      if (tile.getFishCount() > max) {
-        max = tile.getFishCount();
-        bestTile = tile;
+      IceFloeTile tile = board.getTile(coordinates[0], coordinates[1]);
+      if (tile != null) {
+        switch (tile.getFishCount()) {
+          case 3:
+            threeFishTiles.add(tile);
+            break;
+          case 2:
+            twoFishTiles.add(tile);
+            break;
+          case 1:
+            oneFishTiles.add(tile);
+            break;
+        }
       }
     }
 
-    return bestTile;
+    if (!threeFishTiles.isEmpty()) {
+      return threeFishTiles.get(getRandomIndex(threeFishTiles.size()));
+    } else if (!twoFishTiles.isEmpty()) {
+      return twoFishTiles.get(getRandomIndex(twoFishTiles.size()));
+    } else if (!oneFishTiles.isEmpty()) {
+      return oneFishTiles.get(getRandomIndex(oneFishTiles.size()));
+    } else {
+      return null;
+    }
   }
 
   private Penguin getBestPenguin(GameBoard board) {
-    Penguin bestPenguin = this.getPenguin(0);
-    int max = getTotalFishCount(board, this.getPenguin(0));
+    int maxThreeFishCount = 0;
+    int maxTwoFishCount = 0;
+    Penguin bestPenguin = this.getPenguin(getRandomIndex(this.getPenguins().length));
 
-    for (int i = 1; i < this.getPenguins().length; i++) {
-      if (getTotalFishCount(board, this.getPenguin(i)) > max) {
-        max = getTotalFishCount(board, this.getPenguin(i));
-        bestPenguin = this.getPenguin(i);
+    for (Penguin penguin : this.getPenguins()) {
+      List<IceFloeTile> threeFishTiles = new ArrayList<>();
+      List<IceFloeTile> twoFishTiles = new ArrayList<>();
+      for (int[] coordinates : board.getAllLegalMovesForPenguin(penguin)) {
+        IceFloeTile tile = board.getTile(coordinates[0], coordinates[1]);
+        if (tile != null) {
+          switch (tile.getFishCount()) {
+            case 3:
+              threeFishTiles.add(tile);
+              break;
+            case 2:
+              twoFishTiles.add(tile);
+              break;
+          }
+        }
+      }
+
+      if (threeFishTiles.size() > maxThreeFishCount) {
+        maxThreeFishCount = threeFishTiles.size();
+        bestPenguin = penguin;
+      } else if (threeFishTiles.size() <= maxThreeFishCount
+          && twoFishTiles.size() > maxTwoFishCount) {
+        maxTwoFishCount = twoFishTiles.size();
+        bestPenguin = penguin;
       }
     }
 
     return bestPenguin;
-  }
-
-  private int getTotalFishCount(GameBoard board, Penguin penguin) {
-    int count = 0;
-
-    for (int[] coordinates : board.getAllLegalMovesForPenguin(penguin)) {
-      count += board.getTile(coordinates[0], coordinates[1]).getFishCount();
-    }
-
-    return count;
   }
 }

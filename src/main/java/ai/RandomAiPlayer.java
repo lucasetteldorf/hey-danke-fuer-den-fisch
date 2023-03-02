@@ -30,7 +30,7 @@ public class RandomAiPlayer extends Player {
 
   int getRandomIndex(int max) {
     Random random = new Random();
-    return random.nextInt(max);
+    return (max > 0) ? random.nextInt(max) : 0;
   }
 
   Penguin getRandomPenguinToMove(GameBoard board) {

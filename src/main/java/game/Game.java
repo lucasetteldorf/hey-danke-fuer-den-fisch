@@ -1,28 +1,42 @@
 package game;
 
-import ai.GreedyAiPlayer;
 import ai.RandomAiPlayer;
+import ai.GreedyAiPlayer;
+import files.DataWriter;
 import utility.InputReader;
 
 public class Game {
-  private static Game game;
-
   private final GameBoard board;
   private final Player[] players;
   private int currentPlayerIndex;
   private Player currentPlayer;
 
-  private Game() {
+  public Game() {
     this.board = new GameBoard();
     this.players = initializePlayers();
   }
 
-  public static Game getInstance() {
-    if (game == null) {
-      game = new Game();
-    }
+  public Game(String option) {
+    this.board = new GameBoard();
+    this.players = new Player[2];
+    switch (option) {
+      case "baseline-test":
+        Player player1 = new RandomAiPlayer("Random AI (easy)");
+        Player player2 = new GreedyAiPlayer("Greedy AI1 (medium)");
+        Penguin[] penguins1 = new Penguin[4];
+        Penguin[] penguins2 = new Penguin[4];
+        for (int i = 0; i < 4; i++) {
+          penguins1[i] = new Penguin("B", player1);
+          penguins2[i] = new Penguin("R", player2);
+        }
+        player1.setPenguins(penguins1);
+        player2.setPenguins(penguins2);
+        this.players[0] = player1;
+        this.players[1] = player2;
+        this.currentPlayer = this.players[this.currentPlayerIndex];
 
-    return game;
+        break;
+    }
   }
 
   private Player[] initializePlayers() {
@@ -119,9 +133,8 @@ public class Game {
   }
 
   public void startPlacementPhase() {
-
     System.out.println(this.board);
-    System.out.println("\nStart placement...");
+    System.out.println("Start placement...");
 
     do {
       if (this.currentPlayer.getClass().getSimpleName().equals("Player")) {
@@ -187,6 +200,15 @@ public class Game {
     printAllScores();
 
     printWinner();
+
+    DataWriter.writeDataLine(
+        "/Users/Lucas/thesis-data/test.csv",
+        players[0].getName(),
+        players[0].getCollectedTileCount(),
+        players[0].getCollectedFishCount(),
+        players[1].getName(),
+        players[1].getCollectedTileCount(),
+        players[1].getCollectedFishCount());
   }
 
   private void printAllScores() {
