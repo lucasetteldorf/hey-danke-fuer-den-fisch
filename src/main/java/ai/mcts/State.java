@@ -12,11 +12,9 @@ public class State {
   private GameBoard board;
   private Player currentPlayer;
 
-  // TODO make DEEP COPY of board and player
   public State(State state) {
-    // TODO these are only shallow copies
-    this.board = state.board;
-    this.currentPlayer = state.currentPlayer;
+    this.board = new GameBoard(state.board);
+    this.currentPlayer = new Player(state.currentPlayer);
   }
 
   public GameBoard getBoard() {
@@ -36,20 +34,24 @@ public class State {
   }
 
 
-  // TODO maybe needs to separated for the two phases
+  // TODO maybe needs to separated for the two phases, this only focuses on movement
   public List<State> getAllPossibleStates() {
     List<State> possibleStates = new ArrayList<>();
 
     for (Penguin penguin : currentPlayer.getPenguins()) {
         if (penguin.isOnGameBoard()) {
           for (int[] coordinates : board.getAllLegalMovesForPenguin(penguin)) {
-            IceFloeTile tile = board.getTile(coordinates[0], coordinates[1]);
-            // place or move penguin to generate new state with copy constructor
-
+            State newState = new State(this);
+            newState.getBoard().movePenguin(penguin, coordinates[0], coordinates[1]);
+            possibleStates.add(newState);
           }
         }
     }
 
     return possibleStates;
+  }
+
+  public void randomPlay() {
+
   }
 }

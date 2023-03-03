@@ -1,7 +1,7 @@
 package game;
 
-import ai.RandomAiPlayer;
 import ai.GreedyAiPlayer;
+import ai.RandomAiPlayer;
 import files.DataWriter;
 import utility.InputReader;
 
@@ -19,24 +19,29 @@ public class Game {
   public Game(String option) {
     this.board = new GameBoard();
     this.players = new Player[2];
-    switch (option) {
-      case "baseline-test":
-        Player player1 = new RandomAiPlayer("Random AI (easy)");
-        Player player2 = new GreedyAiPlayer("Greedy AI1 (medium)");
-        Penguin[] penguins1 = new Penguin[4];
-        Penguin[] penguins2 = new Penguin[4];
-        for (int i = 0; i < 4; i++) {
-          penguins1[i] = new Penguin("B", player1);
-          penguins2[i] = new Penguin("R", player2);
-        }
-        player1.setPenguins(penguins1);
-        player2.setPenguins(penguins2);
-        this.players[0] = player1;
-        this.players[1] = player2;
-        this.currentPlayer = this.players[this.currentPlayerIndex];
-
-        break;
+    if (option.equals("baseline-test")) {
+      Player player1 = new RandomAiPlayer("Random AI (easy)", 4, "B");
+      Player player2 = new GreedyAiPlayer("Greedy AI1 (medium)", 4, "R");
+      this.players[0] = player1;
+      this.players[1] = player2;
+      this.currentPlayer = this.players[this.currentPlayerIndex];
     }
+  }
+
+  public static void main(String[] args) {
+    // Start game with human players
+    // Game game = new Game();
+
+    // Start game with two baseline AIs (easy vs medium)
+    long start = System.currentTimeMillis();
+    Game game;
+    int numberOfRounds = 1000;
+    for (int i = 0; i < numberOfRounds; i++) {
+      game = new Game("baseline-test");
+      game.startPlacementPhase();
+      game.startMovementPhase();
+    }
+    System.out.println(System.currentTimeMillis() - start + "ms");
   }
 
   private Player[] initializePlayers() {
@@ -50,41 +55,8 @@ public class Game {
         && !aiDifficulty.equals("hard"));
     int humanPlayerCount = totalPlayerCount - aiPlayerCount;
 
-    Player[] players = new Player[totalPlayerCount];
-    for (int i = 0; i < humanPlayerCount; i++) {
-      players[i] = new Player(InputReader.getPlayerName(i));
-      players[i].setPenguins(
-          initializePenguins(InputReader.getPenguinColor(i), totalPlayerCount, players[i]));
-    }
-
-    for (int i = humanPlayerCount; i < totalPlayerCount; i++) {
-      switch (aiDifficulty) {
-        case "easy":
-          players[i] = new RandomAiPlayer("Random Baseline AI (easy)");
-
-          break;
-        case "medium":
-          players[i] = new GreedyAiPlayer("Greedy Baseline AI (medium)");
-
-          break;
-        default:
-          // TODO try again
-          System.out.println("Invalid difficulty");
-          break;
-      }
-      players[i].setPenguins(
-          initializePenguins(InputReader.AVAILABLE_COLORS.get(0), totalPlayerCount, players[i]));
-      InputReader.AVAILABLE_COLORS.remove(0);
-    }
-
-    this.currentPlayer = players[currentPlayerIndex];
-
-    return players;
-  }
-
-  private Penguin[] initializePenguins(String color, int playerCount, Player player) {
     int penguinCount = 0;
-    switch (playerCount) {
+    switch (totalPlayerCount) {
       case 2:
         penguinCount = 4;
         break;
@@ -98,12 +70,32 @@ public class Game {
         break;
     }
 
-    Penguin[] penguins = new Penguin[penguinCount];
-    for (int i = 0; i < penguins.length; i++) {
-      penguins[i] = new Penguin(color, player);
+    Player[] players = new Player[totalPlayerCount];
+    for (int i = 0; i < humanPlayerCount; i++) {
+      players[i] = new Player(InputReader.getPlayerName(i), penguinCount, InputReader.getPenguinColor(i));
     }
 
-    return penguins;
+    for (int i = humanPlayerCount; i < totalPlayerCount; i++) {
+      switch (aiDifficulty) {
+        case "easy":
+          players[i] = new RandomAiPlayer("Random Baseline AI (easy)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
+
+          break;
+        case "medium":
+          players[i] = new GreedyAiPlayer("Greedy Baseline AI (medium)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
+
+          break;
+        default:
+          // TODO try again
+          System.out.println("Invalid difficulty");
+          break;
+      }
+      InputReader.AVAILABLE_COLORS.remove(0);
+    }
+
+    this.currentPlayer = players[currentPlayerIndex];
+
+    return players;
   }
 
   private void updateCurrentPlayerPlacementPhase() {

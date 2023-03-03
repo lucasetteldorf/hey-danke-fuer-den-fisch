@@ -42,6 +42,10 @@ public class Penguin {
     return position;
   }
 
+  public String getColor() {
+    return color;
+  }
+
   public void place(int rowIndex, int colIndex) {
     this.position = new int[2];
     setPosition(rowIndex, colIndex);

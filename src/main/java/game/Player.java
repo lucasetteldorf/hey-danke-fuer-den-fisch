@@ -2,21 +2,37 @@ package game;
 
 public class Player {
   public final String name;
-  private Penguin[] penguins;
+  private final Penguin[] penguins;
   private int currentPenguinIndex;
   private int collectedTileCount;
   private int collectedFishCount;
 
-  public Player(String name) {
+  public Player(String name, int penguinCount, String penguinColor) {
     this.name = name;
+    this.penguins = initializePenguins(penguinCount, penguinColor);
+  }
+
+  // copy constructor
+  public Player (Player player) {
+    this.name = player.name;
+    this.penguins = initializePenguins(player.penguins.length, player.penguins[0].getColor());
+    this.currentPenguinIndex = player.currentPenguinIndex;
+    this.collectedTileCount = player.collectedTileCount;
+    this.collectedFishCount = player.collectedFishCount;
+  }
+
+  private Penguin[] initializePenguins(int penguinCount, String color) {
+    Penguin[] penguins = new Penguin[penguinCount];
+
+    for (int i = 0; i < penguins.length; i++) {
+      penguins[i] = new Penguin(color, this);
+    }
+
+    return penguins;
   }
 
   public String getName() {
     return name;
-  }
-
-  public void setPenguins(Penguin[] penguins) {
-    this.penguins = penguins;
   }
 
   public Penguin getPenguin(int index) {

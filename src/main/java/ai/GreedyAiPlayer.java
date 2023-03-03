@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GreedyAiPlayer extends RandomAiPlayer {
-  public GreedyAiPlayer(String name) {
-    super(name);
+  public GreedyAiPlayer(String name, int penguinCount, String penguinColor) {
+    super(name, penguinCount, penguinColor);
   }
 
   @Override

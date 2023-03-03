@@ -1,19 +1,18 @@
-import game.Game;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
-public class App {
+public class App extends Application {
   public static void main(String[] args) {
-    // Start game with human players
-    // Game game = new Game();
+    launch(args);
+  }
 
-    // Start game with two baseline AIs (easy vs medium)
-    long start = System.currentTimeMillis();
-    Game game;
-    int numberOfRounds = 1000;
-    for (int i = 0; i < numberOfRounds; i++) {
-      game = new Game("baseline-test");
-      game.startPlacementPhase();
-      game.startMovementPhase();
-    }
-    System.out.println(System.currentTimeMillis() - start + "ms");
+  @Override
+  public void start(Stage stage) throws Exception {
+    stage.setTitle("Hey, That's My Fish!");
+    StackPane root = new StackPane();
+    stage.setScene(new Scene(root, 1920, 1080));
+    stage.show();
   }
 }

@@ -19,16 +19,8 @@ public class RandomAiTest {
   void reset() {
     board = new GameBoard(fishCounts);
 
-    p1 = new Player("P1");
-    Penguin[] p1Penguins = new Penguin[4];
-    aiP = new RandomAiPlayer("Random AI");
-    Penguin[] p2Penguins = new Penguin[4];
-    for (int i = 0; i < 4; i++) {
-      p1Penguins[i] = new Penguin("B", p1);
-      p2Penguins[i] = new Penguin("R", aiP);
-    }
-    p1.setPenguins(p1Penguins);
-    aiP.setPenguins(p2Penguins);
+    p1 = new Player("P1", 4, "B");
+    aiP = new RandomAiPlayer("Random AI", 4, "R");
   }
 
   @Test

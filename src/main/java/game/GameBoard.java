@@ -13,6 +13,19 @@ public class GameBoard {
     createGameBoard();
   }
 
+  // copy constructor
+  public GameBoard(GameBoard board) {
+    IceFloeTile[] oldTiles = board.getTiles();
+
+    this.tiles = new HashMap<>();
+    for (IceFloeTile tile : oldTiles) {
+      if (tile != null) {
+        IceFloeTile tileCopy = new IceFloeTile(tile);
+        this.tiles.put(tileCopy.hashCode(), tileCopy);
+      }
+    }
+  }
+
   public GameBoard(int[] fishCounts) {
     this.tiles = new HashMap<>();
     int index = 0;

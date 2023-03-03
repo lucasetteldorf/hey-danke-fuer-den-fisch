@@ -19,6 +19,15 @@ public class IceFloeTile {
     this.neighborCoordinates = initializeNeighborCoordinates(rowIndex, colIndex);
   }
 
+  // copy constructor
+  public IceFloeTile(IceFloeTile tile) {
+    this.fishCount = tile.fishCount;
+    this.coordinates = new int[] {
+            tile.coordinates[0], tile.coordinates[1]
+    };
+    this.neighborCoordinates = initializeNeighborCoordinates(tile.coordinates[0], tile.coordinates[1]);
+  }
+
   private int[][] initializeNeighborCoordinates(int rowIndex, int colIndex) {
     int[][] neighborCoordinates = new int[6][2];
 

@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Random;
 
 public class RandomAiPlayer extends Player {
-  public RandomAiPlayer(String name) {
-    super(name);
+  public RandomAiPlayer(String name, int penguinCount, String penguinColor) {
+    super(name, penguinCount, penguinColor);
   }
 
   public void placePenguin(GameBoard board) {
