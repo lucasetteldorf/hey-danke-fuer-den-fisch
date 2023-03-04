@@ -1,5 +1,7 @@
 package game;
 
+import utility.RandomNumbers;
+
 import java.util.*;
 
 public class GameBoard {
@@ -51,17 +53,12 @@ public class GameBoard {
     this.tiles = new HashMap<>();
     for (int i = 0; i < ROW_COUNT; i++) {
       for (int j = (i % 2 == 0) ? 1 : 0; j < COL_COUNT; j += 2) {
-        int randomIndex = getRandomIndex(fishCounts.size());
+        int randomIndex = RandomNumbers.getRandomIndex(fishCounts.size());
         IceFloeTile randomTile = new IceFloeTile(fishCounts.get(randomIndex), i, j);
         tiles.put(randomTile.hashCode(), randomTile);
         fishCounts.remove(randomIndex);
       }
     }
-  }
-
-  private int getRandomIndex(int max) {
-    Random random = new Random();
-    return random.nextInt(max);
   }
 
   private int hashCoordinates(int rowIndex, int colIndex) {
@@ -229,19 +226,21 @@ public class GameBoard {
     return getAllLegalMovesForPenguin(penguin).size() > 0;
   }
 
-  public List<int[]> getAllLegalMovesForPlayer(Player player) {
-    List<int[]> possibleMoveCoordinates = new ArrayList<>();
+  public List<Move> getAllLegalMovesForPlayer(Player player) {
+    List<Move> possibleMoveCoordinates = new ArrayList<>();
 
     for (Penguin penguin : player.getPenguins()) {
       if (penguin.isOnGameBoard()) {
-        possibleMoveCoordinates.addAll(getAllLegalMovesForPenguin(penguin));
+        for (int[] coordinates : getAllLegalMovesForPenguin(penguin)) {
+          possibleMoveCoordinates.add(new Move(penguin, coordinates[0], coordinates[1]));
+        }
       }
     }
 
     return possibleMoveCoordinates;
   }
 
-  public List<IceFloeTile> getNeighborsTiles(int rowIndex, int colIndex) {
+  public List<IceFloeTile> getNeighborTiles(int rowIndex, int colIndex) {
     IceFloeTile srcTile = getTile(rowIndex, colIndex);
     List<IceFloeTile> neighborTiles = new ArrayList<>();
     for (int[] neighborCoordinates : srcTile.getNeighborCoordinates()) {

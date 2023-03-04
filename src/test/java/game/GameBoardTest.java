@@ -316,44 +316,14 @@ public class GameBoardTest {
   }
 
   @Test
-  void testAllPossibleMovesForPlayer() {
-    // no penguins placed yet
-    assertTrue(board.getAllLegalMovesForPlayer(p1).isEmpty());
-
-    board.placePenguin(p1.getPenguin(0), 2, 11);
-    for (int[] coordinates : board.getAllLegalMovesForPlayer(p1)) {
-      System.out.print(Arrays.toString(coordinates) + " ");
-    }
-    System.out.println();
-
-    board.placePenguin(p2.getPenguin(0), 1,10);
-    for (int[] coordinates : board.getAllLegalMovesForPlayer(p1)) {
-      System.out.print(Arrays.toString(coordinates) + " ");
-    }
-    System.out.println();
-
-    board.placePenguin(p2.getPenguin(1), 4,13);
-    for (int[] coordinates : board.getAllLegalMovesForPlayer(p1)) {
-      System.out.print(Arrays.toString(coordinates) + " ");
-    }
-    System.out.println();
-
-    board.placePenguin(p1.getPenguin(1), 0,11);
-    for (int[] coordinates : board.getAllLegalMovesForPlayer(p1)) {
-      System.out.print(Arrays.toString(coordinates) + " ");
-    }
-    System.out.println();
-  }
-
-  @Test
   void testGetNeighborTiles() {
-    List<IceFloeTile> neighborTiles = board.getNeighborsTiles(1, 2);
+    List<IceFloeTile> neighborTiles = board.getNeighborTiles(1, 2);
     for (IceFloeTile neighbor : neighborTiles) {
       System.out.print(neighbor + " ");
     }
     System.out.println();
 
-    neighborTiles = board.getNeighborsTiles(0, 1);
+    neighborTiles = board.getNeighborTiles(0, 1);
     for (IceFloeTile neighbor : neighborTiles) {
       System.out.print(neighbor + " ");
     }
