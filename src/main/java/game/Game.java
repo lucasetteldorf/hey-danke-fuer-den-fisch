@@ -2,7 +2,7 @@ package game;
 
 import ai.GreedyAiPlayer;
 import ai.RandomAiPlayer;
-import files.DataWriter;
+import utility.DataWriter;
 import utility.InputReader;
 
 public class Game {

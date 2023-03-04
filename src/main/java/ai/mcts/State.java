@@ -13,6 +13,10 @@ public class State {
   private GameBoard board;
   private Player currentPlayer;
 
+  public State() {
+    this.board = new GameBoard();
+  }
+
   // copy constructor
   public State(State state) {
     this.board = new GameBoard(state.board);
@@ -44,6 +48,7 @@ public class State {
         if (penguin.isOnGameBoard() && board.hasPenguinLegalMoves(penguin)) {
           for (int[] coordinates : board.getAllLegalMovesForPenguin(penguin)) {
             State newState = new State(this);
+            // TODO may need to keep track of players directly in game board
             newState.getBoard().movePenguin(penguin, coordinates[0], coordinates[1]);
             possibleStates.add(newState);
           }
