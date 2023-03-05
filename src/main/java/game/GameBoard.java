@@ -336,14 +336,6 @@ public class GameBoard {
         return ((currentPlayerIndex + 1) % this.players.length);
     }
 
-    public int checkGameStatus() {
-
-    }
-
-    public int checkGameOver() {
-
-    }
-
     @Override
     public String toString() {
         StringBuilder str =
