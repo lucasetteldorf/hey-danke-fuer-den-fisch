@@ -18,4 +18,8 @@ public class Tree {
     public void setRoot(Node root) {
         this.root = root;
     }
+
+    public void addChild(Node parent, Node child) {
+        parent.getChildren().add(child);
+    }
 }

@@ -3,6 +3,8 @@ package ai.mcts;
 import utility.RandomNumbers;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Node {
@@ -44,9 +46,15 @@ public class Node {
     this.state = state;
   }
 
-  // TODO implement
   public Node getRandomChild() {
     int possibleMoveCount = this.children.size();
     return children.get(RandomNumbers.getRandomIndex(possibleMoveCount));
+  }
+
+  // TODO review
+  public Node getChildWithMaxVisits() {
+    return Collections.max(this.children, Comparator.comparing(child -> {
+      return child.getState().getVisitCount();
+    }));
   }
 }
