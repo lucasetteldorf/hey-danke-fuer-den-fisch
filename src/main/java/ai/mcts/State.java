@@ -2,8 +2,6 @@ package ai.mcts;
 
 import game.GameBoard;
 import game.Move;
-import game.Penguin;
-import game.Player;
 import utility.RandomNumbers;
 
 import java.util.ArrayList;
@@ -11,7 +9,7 @@ import java.util.List;
 
 public class State {
     private GameBoard board;
-    private Player currentPlayer;
+    private int playerIndex;
     private int visitCount;
     private double score;
 
@@ -22,7 +20,7 @@ public class State {
     // copy constructor
     public State(State state) {
         this.board = new GameBoard(state.board);
-        this.currentPlayer = new Player(state.currentPlayer);
+        this.playerIndex = state.playerIndex;
         this.visitCount = state.visitCount;
         this.score = state.score;
     }
@@ -39,12 +37,12 @@ public class State {
         this.board = board;
     }
 
-    public Player getCurrentPlayer() {
-        return currentPlayer;
+    public int getPlayerIndex() {
+        return playerIndex;
     }
 
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
+    public void setPlayerIndex(int playerIndex) {
+        this.playerIndex = playerIndex;
     }
 
     public int getVisitCount() {
@@ -67,11 +65,13 @@ public class State {
     public List<State> getAllPossibleStates() {
         List<State> possibleStates = new ArrayList<>();
 
-        for (Move move : board.getAllLegalMovesForPlayer(this.currentPlayer)) {
+        for (Move move : board.getAllLegalMovesForPlayerByIndex(this.playerIndex)) {
             if (move.getPenguin().isOnGameBoard() && board.hasPenguinLegalMoves(move.getPenguin())) {
                 State newState = new State(this);
+                // TODO adjust opponent index?
+                newState.setPlayerIndex(getOpponentIndex());
+                // TODO adjust moving player first?
                 newState.getBoard().movePenguin(move.getPenguin(), move.getRowIndex(), move.getColIndex());
-                // TODO working?
                 possibleStates.add(newState);
             }
         }
@@ -81,8 +81,20 @@ public class State {
 
     // TODO only works for second phase (movement)
     public void randomPlay() {
-        List<Move> allPossibleMoves = this.board.getAllLegalMovesForPlayer(this.currentPlayer);
+        List<Move> allPossibleMoves = this.board.getAllLegalMovesForPlayerByIndex(this.playerIndex);
         Move randomMove = allPossibleMoves.get(RandomNumbers.getRandomIndex(allPossibleMoves.size()));
         this.board.movePenguin(randomMove.getPenguin(), randomMove.getRowIndex(), randomMove.getColIndex());
+    }
+
+    public void increaseVisitCount() {
+        this.visitCount++;
+    }
+
+    public void increaseScore(double score) {
+        this.score += score;
+    }
+
+    public int getOpponentIndex() {
+        return 1 - this.playerIndex;
     }
 }

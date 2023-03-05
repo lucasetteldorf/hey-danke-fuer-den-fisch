@@ -14,10 +14,10 @@ public class RandomAiPlayer extends Player {
   }
 
   public void placePenguin(GameBoard board) {
-    int randomIndex = getRandomIndex(board.getLegalPlacementCoordinates().size());
-    int[] placementCoordinates = board.getLegalPlacementCoordinates().get(randomIndex);
-    board.placePenguin(getCurrentPenguin(), placementCoordinates[0], placementCoordinates[1]);
-    updateCurrentPenguinIndex();
+    int randomIndex = getRandomIndex(board.getLegalPlacementPositions().size());
+    int[] placementCoordinates = board.getLegalPlacementPositions().get(randomIndex);
+    board.placePenguin(getPenguinToPlace(), placementCoordinates[0], placementCoordinates[1]);
+    updatePenguinToPlace();
   }
 
   public void movePenguin(GameBoard board) {

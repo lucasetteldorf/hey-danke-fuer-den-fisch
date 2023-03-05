@@ -21,7 +21,7 @@ public class GreedyAiPlayer extends RandomAiPlayer {
       bestTile = getBestTile(board, bestPenguin);
     } while (bestTile == null);
 
-    board.movePenguin(bestPenguin, bestTile.getCoordinates()[0], bestTile.getCoordinates()[1]);
+    board.movePenguin(bestPenguin, bestTile.getPosition()[0], bestTile.getPosition()[1]);
   }
 
   private IceFloeTile getBestTile(GameBoard board, Penguin penguin) {

@@ -29,6 +29,13 @@ public class Penguin {
     }
   }
 
+  // copy constructor
+  public Penguin(Penguin penguin) {
+    this.color = penguin.color;
+    this.player = penguin.player;
+    this.position = new int[] {penguin.getPosition()[0], penguin.getPosition()[1]};
+  }
+
   public Player getPlayer() {
     return player;
   }

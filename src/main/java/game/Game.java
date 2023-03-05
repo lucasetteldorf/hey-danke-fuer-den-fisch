@@ -134,8 +134,8 @@ public class Game {
         do {
           placementCoordinates = InputReader.getPlacementCoordinates(this.currentPlayer);
         } while (!this.board.placePenguin(
-            currentPlayer.getCurrentPenguin(), placementCoordinates[0], placementCoordinates[1]));
-        currentPlayer.updateCurrentPenguinIndex();
+            currentPlayer.getPenguinToPlace(), placementCoordinates[0], placementCoordinates[1]));
+        currentPlayer.updatePenguinToPlace();
       } else if (this.currentPlayer.getClass().getSimpleName().equals("RandomAiPlayer")) {
         ((RandomAiPlayer) this.currentPlayer).placePenguin(this.board);
       } else if (this.currentPlayer.getClass().getSimpleName().equals("GreedyAiPlayer")) {
