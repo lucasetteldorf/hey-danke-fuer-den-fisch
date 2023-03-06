@@ -28,7 +28,7 @@ public class GameBoard {
 
     // copy constructor
     public GameBoard(GameBoard board) {
-        // TODO shallow copy sufficient because same players are needed or implement deep copy?
+        // TODO shallow copy sufficient because same players are needed or deep copy needed?
         this.players = board.getPlayers();
         this.tiles = new HashMap<>();
         for (IceFloeTile tile : board.getTiles()) {
@@ -75,12 +75,17 @@ public class GameBoard {
         return players;
     }
 
+
     public Player getCurrentPlayer() {
         return this.players[this.currentPlayerIndex];
     }
 
-    public void setNextPlayer() {
+    private void setNextPlayer() {
         this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.length;
+    }
+
+    public int getNextPlayerIndex(int currentPlayerIndex) {
+        return ((currentPlayerIndex + 1) % this.players.length);
     }
 
     private int hashPosition(int rowIndex, int colIndex) {
@@ -104,6 +109,15 @@ public class GameBoard {
         return allTiles;
     }
 
+    public boolean canPenguinsBePlaced() {
+        for (Player player : this.players) {
+            if (player.canPlacePenguin()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private boolean isLegalPlacementTile(IceFloeTile tile) {
         return tile != null && tile.isUnoccupied() && tile.getFishCount() == 1;
     }
@@ -118,23 +132,10 @@ public class GameBoard {
         return legalPlacementPositions;
     }
 
-    private boolean canPlayerPlacePenguin(Player player) {
-        return player.getPenguinToPlace() != null;
-    }
-
-    private boolean canPenguinsBePlaced() {
-        for (Player player : this.players) {
-            if (canPlayerPlacePenguin(player)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public boolean placeCurrentPlayerPenguin(int rowIndex, int colIndex) {
         IceFloeTile selectedTile = getTile(rowIndex, colIndex);
-        if (canPlayerPlacePenguin(getCurrentPlayer()) && isLegalPlacementTile(selectedTile)) {
-            selectedTile.placePenguin(this.getCurrentPlayer().getPenguinToPlace());
+        if (getCurrentPlayer().canPlacePenguin() && isLegalPlacementTile(selectedTile)) {
+            selectedTile.placePenguin(getCurrentPlayer().getPenguinToPlace());
             getCurrentPlayer().getPenguinToPlace().place(rowIndex, colIndex);
             getCurrentPlayer().updatePenguinToPlace();
             setNextPlayer();
@@ -143,36 +144,77 @@ public class GameBoard {
         return false;
     }
 
-    public boolean moveCurrentPlayerPenguin(Penguin penguin, int rowIndex, int colIndex) {
-        // selected penguin must have remaining moves, else return false
-        // remove all penguins & corresponding tiles if current player can't move any penguins
-        IceFloeTile oldTile = getTile(penguin.getPosition()[0], penguin.getPosition()[1]);
-        IceFloeTile newTile = getTile(rowIndex, colIndex);
-
-        if (isValidMove(oldTile, newTile)) {
-            newTile.placePenguin(penguin);
-            penguin.setPosition(rowIndex, colIndex);
-            penguin.getPlayer().updateTileCount();
-            penguin.getPlayer().updateFishCount(oldTile.getFishCount());
-            tiles.remove(hashPosition(oldTile.getPosition()[0], oldTile.getPosition()[1]));
-
-            return true;
+    public boolean canPenguinsBeMoved() {
+        for (Player player : this.players) {
+            if (hasPlayerLegalMoves(player)) {
+                return true;
+            }
         }
-
         return false;
     }
 
-    public boolean movePenguin(Penguin penguin, int rowIndex, int colIndex) {
-        IceFloeTile oldTile = getTile(penguin.getPosition()[0], penguin.getPosition()[1]);
+    public Penguin getPenguinByPosition(int rowIndex, int colIndex) {
+        for (Penguin penguin : getCurrentPlayer().getPenguins()) {
+            if (penguin.isOnGameBoard() && rowIndex == penguin.getPosition()[0] && colIndex == penguin.getPosition()[1]) {
+                return penguin;
+            }
+        }
+        return null;
+    }
+
+    public boolean canPenguinAtPositionBeMoved(int rowIndex, int colIndex) {
+        Penguin selectedPenguin = null;
+        for (Penguin penguin : getCurrentPlayer().getPenguins()) {
+            if (penguin.isOnGameBoard() && rowIndex == penguin.getPosition()[0] && colIndex == penguin.getPosition()[1]) {
+                selectedPenguin = penguin;
+            }
+        }
+        return selectedPenguin != null && hasPenguinLegalMoves(selectedPenguin);
+    }
+
+    public boolean hasCurrentPlayerLegalMoves() {
+        return hasPlayerLegalMoves(getCurrentPlayer());
+    }
+
+    private void removeTile(IceFloeTile tile) {
+        this.tiles.remove(hashPosition(tile.getPosition()[0], tile.getPosition()[1]));
+    }
+
+    private void removePenguinAndTile(Penguin penguin) {
+        IceFloeTile tile = getTile(penguin.getPosition()[0], penguin.getPosition()[1]);
+        penguin.getPlayer().updateTileCount();
+        penguin.getPlayer().updateFishCount(tile.getFishCount());
+        penguin.removeFromGameBoard();
+        removeTile(tile);
+    }
+
+    public void skipCurrentPlayer() {
+        if (!getCurrentPlayer().arePenguinsRemovedFromBoard()) {
+            for (Penguin penguin : getCurrentPlayer().getPenguins()) {
+                removePenguinAndTile(penguin);
+            }
+            getCurrentPlayer().setArePenguinsRemovedFromBoard(true);
+        }
+        setNextPlayer();
+    }
+
+    public boolean moveCurrentPlayerPenguin(int penguinRowIndex, int penguinColIndex, int rowIndex, int colIndex) {
+        // remove all penguins & corresponding tiles if current player can't move any penguins
+        Penguin selectedPenguin = getPenguinByPosition(penguinRowIndex, penguinColIndex);
+        if (selectedPenguin == null || !hasPenguinLegalMoves(selectedPenguin)) {
+            return false;
+        }
+
+        IceFloeTile oldTile = getTile(penguinRowIndex, penguinColIndex);
         IceFloeTile newTile = getTile(rowIndex, colIndex);
 
         if (isValidMove(oldTile, newTile)) {
-            newTile.placePenguin(penguin);
-            penguin.setPosition(rowIndex, colIndex);
-            penguin.getPlayer().updateTileCount();
-            penguin.getPlayer().updateFishCount(oldTile.getFishCount());
-            tiles.remove(hashPosition(oldTile.getPosition()[0], oldTile.getPosition()[1]));
-
+            newTile.placePenguin(selectedPenguin);
+            selectedPenguin.setPosition(rowIndex, colIndex);
+            selectedPenguin.getPlayer().updateTileCount();
+            selectedPenguin.getPlayer().updateFishCount(oldTile.getFishCount());
+            removeTile(oldTile);
+            setNextPlayer();
             return true;
         }
 
@@ -257,52 +299,8 @@ public class GameBoard {
         return true;
     }
 
-    public void removePenguinAndTile(Penguin penguin) {
-        if (penguin.getPosition() == null) {
-            return;
-        }
 
-        IceFloeTile tile = getTile(penguin.getPosition()[0], penguin.getPosition()[1]);
-        penguin.getPlayer().updateTileCount();
-        penguin.getPlayer().updateFishCount(tile.getFishCount());
-        penguin.removeFromGameBoard();
-        this.tiles.remove(hashPosition(tile.getPosition()[0], tile.getPosition()[1]));
-    }
-
-    public boolean hasPenguinLegalMoves(Penguin penguin) {
-        return getAllLegalMovesForPenguin(penguin).size() > 0;
-    }
-
-    public List<Move> getAllLegalMovesForPlayer(Player player) {
-        List<Move> possibleMoveCoordinates = new ArrayList<>();
-
-        for (Penguin penguin : player.getPenguins()) {
-            if (penguin.isOnGameBoard()) {
-                for (int[] coordinates : getAllLegalMovesForPenguin(penguin)) {
-                    possibleMoveCoordinates.add(new Move(penguin, coordinates[0], coordinates[1]));
-                }
-            }
-        }
-
-        return possibleMoveCoordinates;
-    }
-
-    public List<Move> getAllLegalMovesForPlayerByIndex(int playerIndex) {
-        return getAllLegalMovesForPlayer(this.players[playerIndex]);
-    }
-
-    public List<IceFloeTile> getNeighborTiles(int rowIndex, int colIndex) {
-        IceFloeTile srcTile = getTile(rowIndex, colIndex);
-        List<IceFloeTile> neighborTiles = new ArrayList<>();
-        for (int[] neighborCoordinates : srcTile.getNeighborPositions()) {
-            if (neighborCoordinates != null) {
-                neighborTiles.add(getTile(neighborCoordinates[0], neighborCoordinates[1]));
-            }
-        }
-        return neighborTiles;
-    }
-
-    public List<int[]> getAllLegalMovesForPenguin(Penguin penguin) {
+    public List<int[]> getLegalMovesForPenguin(Penguin penguin) {
         List<int[]> possibleMoveCoordinates = new ArrayList<>();
 
         IceFloeTile srcTile = getTile(penguin.getPosition()[0], penguin.getPosition()[1]);
@@ -331,9 +329,60 @@ public class GameBoard {
         return possibleMoveCoordinates;
     }
 
+    public boolean hasPenguinLegalMoves(Penguin penguin) {
+        return getLegalMovesForPenguin(penguin).size() > 0;
+    }
 
-    public int getNextPlayerIndex(int currentPlayerIndex) {
-        return ((currentPlayerIndex + 1) % this.players.length);
+    public List<Move> getLegalMovesForPlayer(Player player) {
+        List<Move> possibleMoveCoordinates = new ArrayList<>();
+
+        for (Penguin penguin : player.getPenguins()) {
+            if (penguin.isOnGameBoard()) {
+                for (int[] coordinates : getLegalMovesForPenguin(penguin)) {
+                    possibleMoveCoordinates.add(new Move(penguin, coordinates[0], coordinates[1]));
+                }
+            }
+        }
+
+        return possibleMoveCoordinates;
+    }
+
+    public boolean hasPlayerLegalMoves(Player player) {
+        return getLegalMovesForPlayer(player).size() > 0;
+    }
+
+    public List<Move> getLegalMovesForPlayerByIndex(int playerIndex) {
+        return getLegalMovesForPlayer(this.players[playerIndex]);
+    }
+
+    public List<IceFloeTile> getNeighborTiles(int rowIndex, int colIndex) {
+        IceFloeTile srcTile = getTile(rowIndex, colIndex);
+        List<IceFloeTile> neighborTiles = new ArrayList<>();
+        for (int[] neighborCoordinates : srcTile.getNeighborPositions()) {
+            if (neighborCoordinates != null) {
+                neighborTiles.add(getTile(neighborCoordinates[0], neighborCoordinates[1]));
+            }
+        }
+        return neighborTiles;
+    }
+
+    public void printPlayerScores() {
+        for (Player player : this.players) {
+            System.out.println(player.getScore());
+        }
+    }
+
+    // TODO adjust winning/tie rules
+    public void printWinner() {
+        int maxFishCount = this.players[0].getCollectedFishCount();
+        int winnerIndex = 0;
+        for (int i = 1; i < this.players.length; i++) {
+            if (this.players[i].getCollectedFishCount() > maxFishCount) {
+                maxFishCount = this.players[i].getCollectedFishCount();
+                winnerIndex = i;
+            }
+        }
+        System.out.println("Winner: " + this.players[winnerIndex].getName());
     }
 
     @Override

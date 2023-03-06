@@ -50,6 +50,7 @@ public class InputReader {
     return readLine("Player " + (playerIndex + 1) + " name: ");
   }
 
+  // TODO same color can be chosen twice
   public static String getPenguinColor(int playerIndex) {
     String penguinColor;
     do {
@@ -73,7 +74,7 @@ public class InputReader {
     return penguinColor;
   }
 
-  private static int[] readCoordinates(String prompt) {
+  private static int[] readPosition(String prompt) {
     String input;
     String[] coordinates;
     do {
@@ -89,18 +90,18 @@ public class InputReader {
     return new int[] {Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1])};
   }
 
-  public static int[] getPlacementCoordinates(Player currentPlayer) {
-    return readCoordinates(
+  public static int[] getPlacementPosition(Player currentPlayer) {
+    return readPosition(
         currentPlayer + ": Coordinates to place penguin (separated by a space): ");
   }
 
-  public static int[] getPenguinCoordinates(Player currentPlayer) {
-    return readCoordinates(
+  public static int[] getPenguinPosition(Player currentPlayer) {
+    return readPosition(
         currentPlayer + ": Coordinates of the penguin to move (separated by a space): ");
   }
 
-  public static int[] getMovementCoordinates(Player currentPlayer) {
-    return readCoordinates(
+  public static int[] getMovementPosition(Player currentPlayer) {
+    return readPosition(
         currentPlayer + ": Coordinates to move the selected penguin to (separated by a space): ");
   }
 }

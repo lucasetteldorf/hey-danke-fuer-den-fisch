@@ -1,14 +1,17 @@
 package game;
 
 public class Player {
+    private PlayerType type;
     private final int index;
     private final String name;
     private final Penguin[] penguins;
     private int penguinToPlaceIndex;
     private int collectedTileCount;
     private int collectedFishCount;
+    private boolean arePenguinsRemovedFromBoard;
 
-    public Player(String name, int penguinCount, String penguinColor) {
+    public Player(String name, int penguinCount, String penguinColor, PlayerType type) {
+        this.type = type;
         // TODO maybe adjust if needed
         this.index = -1;
         this.name = name;
@@ -31,6 +34,18 @@ public class Player {
         this.collectedFishCount = player.collectedFishCount;
     }
 
+    public PlayerType getType() {
+        return type;
+    }
+
+    public boolean arePenguinsRemovedFromBoard() {
+        return this.arePenguinsRemovedFromBoard;
+    }
+
+    public void setArePenguinsRemovedFromBoard(boolean arePenguinsRemovedFromBoard) {
+        this.arePenguinsRemovedFromBoard = arePenguinsRemovedFromBoard;
+    }
+
     public int getIndex() {
         return index;
     }
@@ -49,7 +64,7 @@ public class Player {
         return name;
     }
 
-    public Penguin getPenguin(int index) {
+    public Penguin getPenguinByIndex(int index) {
         return (index >= 0 && index < this.penguins.length) ? this.penguins[index] : null;
     }
 
@@ -62,10 +77,11 @@ public class Player {
     }
 
     public Penguin getPenguinToPlace() {
-        if (this.penguinToPlaceIndex < this.penguins.length) {
-            return this.penguins[this.penguinToPlaceIndex];
-        }
-        return null;
+        return this.penguins[this.penguinToPlaceIndex];
+    }
+
+    public boolean canPlacePenguin() {
+        return this.penguinToPlaceIndex < this.penguins.length;
     }
 
     public int getCollectedTileCount() {
@@ -84,44 +100,6 @@ public class Player {
         this.collectedFishCount += fishCount;
     }
 
-    public boolean hasUnplacedPenguins() {
-        for (Penguin penguin : this.penguins) {
-            if (!penguin.isOnGameBoard()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public boolean hasPenguinsToMove(GameBoard board) {
-        for (Penguin penguin : this.penguins) {
-            if (penguin.isOnGameBoard() && board.hasPenguinLegalMoves(penguin)) {
-                return true;
-            }
-        }
-
-        // player can not move any of his penguins and has to remove them
-        for (Penguin penguin : this.penguins) {
-            board.removePenguinAndTile(penguin);
-        }
-
-        return false;
-    }
-
-    public int penguinIndexAtPosition(int rowIndex, int colIndex) {
-        int index = -1;
-
-        for (int i = 0; i < this.penguins.length; i++) {
-            if (this.penguins[i].getPosition()[0] == rowIndex
-                    && this.penguins[i].getPosition()[1] == colIndex) {
-                index = i;
-            }
-        }
-
-        return index;
-    }
-
     public String getScore() {
         return this
                 + ": "
@@ -133,6 +111,6 @@ public class Player {
 
     @Override
     public String toString() {
-        return this.name + " (" + getPenguin(0) + ")";
+        return this.name + " (" + getPenguinByIndex(0) + ")";
     }
 }
