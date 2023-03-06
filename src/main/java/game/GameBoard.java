@@ -1,5 +1,6 @@
 package game;
 
+import game.players.Player;
 import utility.RandomNumbers;
 
 import java.util.ArrayList;
@@ -75,9 +76,12 @@ public class GameBoard {
         return players;
     }
 
+    public Player getPlayerByIndex(int index) {
+        return this.players[index];
+    }
 
     public Player getCurrentPlayer() {
-        return this.players[this.currentPlayerIndex];
+        return getPlayerByIndex(this.currentPlayerIndex);
     }
 
     private void setNextPlayer() {
@@ -199,7 +203,6 @@ public class GameBoard {
     }
 
     public boolean moveCurrentPlayerPenguin(int penguinRowIndex, int penguinColIndex, int rowIndex, int colIndex) {
-        // remove all penguins & corresponding tiles if current player can't move any penguins
         Penguin selectedPenguin = getPenguinByPosition(penguinRowIndex, penguinColIndex);
         if (selectedPenguin == null || !hasPenguinLegalMoves(selectedPenguin)) {
             return false;

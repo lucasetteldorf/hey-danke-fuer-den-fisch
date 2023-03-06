@@ -1,5 +1,6 @@
 package game;
 
+import game.players.Player;
 import utility.ConsoleColors;
 
 public class Penguin {

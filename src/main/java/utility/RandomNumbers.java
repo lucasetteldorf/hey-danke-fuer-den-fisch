@@ -10,6 +10,6 @@ public class RandomNumbers {
     }
 
     public static int getRandomIndex (int upperBound) {
-        return random.nextInt(upperBound);
+        return (upperBound > 0) ? random.nextInt(upperBound) : 0;
     }
 }

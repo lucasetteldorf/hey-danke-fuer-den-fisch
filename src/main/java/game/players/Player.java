@@ -1,8 +1,13 @@
-package game;
+package game.players;
+
+import game.GameBoard;
+import game.Penguin;
+import utility.RandomNumbers;
+
+import java.util.List;
 
 public class Player {
-    private PlayerType type;
-    private final int index;
+    private final PlayerType type;
     private final String name;
     private final Penguin[] penguins;
     private int penguinToPlaceIndex;
@@ -10,44 +15,20 @@ public class Player {
     private int collectedFishCount;
     private boolean arePenguinsRemovedFromBoard;
 
-    public Player(String name, int penguinCount, String penguinColor, PlayerType type) {
+    public Player(PlayerType type, String name, int penguinCount, String penguinColor) {
         this.type = type;
-        // TODO maybe adjust if needed
-        this.index = -1;
-        this.name = name;
-        this.penguins = initializePenguins(penguinCount, penguinColor);
-    }
-
-    public Player(int index, String name, int penguinCount, String penguinColor) {
-        this.index = index;
         this.name = name;
         this.penguins = initializePenguins(penguinCount, penguinColor);
     }
 
     // copy constructor
     public Player(Player player) {
-        this.index = player.index;
+        this.type = player.type;
         this.name = player.name;
         this.penguins = initializePenguins(player.penguins.length, player.penguins[0].getColor());
         this.penguinToPlaceIndex = player.penguinToPlaceIndex;
         this.collectedTileCount = player.collectedTileCount;
         this.collectedFishCount = player.collectedFishCount;
-    }
-
-    public PlayerType getType() {
-        return type;
-    }
-
-    public boolean arePenguinsRemovedFromBoard() {
-        return this.arePenguinsRemovedFromBoard;
-    }
-
-    public void setArePenguinsRemovedFromBoard(boolean arePenguinsRemovedFromBoard) {
-        this.arePenguinsRemovedFromBoard = arePenguinsRemovedFromBoard;
-    }
-
-    public int getIndex() {
-        return index;
     }
 
     private Penguin[] initializePenguins(int penguinCount, String color) {
@@ -60,24 +41,28 @@ public class Player {
         return penguins;
     }
 
-    public String getName() {
-        return name;
+    public PlayerType getType() {
+        return type;
     }
 
-    public Penguin getPenguinByIndex(int index) {
-        return (index >= 0 && index < this.penguins.length) ? this.penguins[index] : null;
+    public String getName() {
+        return name;
     }
 
     public Penguin[] getPenguins() {
         return penguins;
     }
 
-    public void updatePenguinToPlace() {
-        this.penguinToPlaceIndex++;
+    public Penguin getPenguinByIndex(int index) {
+        return (index >= 0 && index < this.penguins.length) ? this.penguins[index] : null;
     }
 
     public Penguin getPenguinToPlace() {
         return this.penguins[this.penguinToPlaceIndex];
+    }
+
+    public void updatePenguinToPlace() {
+        this.penguinToPlaceIndex++;
     }
 
     public boolean canPlacePenguin() {
@@ -100,6 +85,14 @@ public class Player {
         this.collectedFishCount += fishCount;
     }
 
+    public boolean arePenguinsRemovedFromBoard() {
+        return this.arePenguinsRemovedFromBoard;
+    }
+
+    public void setArePenguinsRemovedFromBoard(boolean arePenguinsRemovedFromBoard) {
+        this.arePenguinsRemovedFromBoard = arePenguinsRemovedFromBoard;
+    }
+
     public String getScore() {
         return this
                 + ": "
@@ -107,6 +100,11 @@ public class Player {
                 + " tiles and "
                 + this.collectedFishCount
                 + " fish collected";
+    }
+
+    public int[] getRandomPlacementPosition(GameBoard board) {
+        List<int[]> legalPlacementPositions = board.getLegalPlacementPositions();
+        return legalPlacementPositions.get(RandomNumbers.getRandomIndex(legalPlacementPositions.size()));
     }
 
     @Override

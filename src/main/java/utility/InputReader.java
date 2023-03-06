@@ -1,6 +1,6 @@
 package utility;
 
-import game.Player;
+import game.players.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -2,7 +2,7 @@
 //
 //import game.GameBoard;
 //import game.Penguin;
-//import game.Player;
+//import game.players.Player;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
 //
