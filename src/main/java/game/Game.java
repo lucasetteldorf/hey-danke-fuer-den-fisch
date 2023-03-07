@@ -9,34 +9,16 @@ import utility.InputReader;
 
 public class Game {
     private final GameBoard board;
-    private final String option;
+    private final String filePath;
 
     public Game() {
-        this.option = "";
+        this.filePath = "";
         this.board = new GameBoard(initializePlayers());
     }
 
-    public Game(String option) {
-        Player[] players;
-        switch (option) {
-            case "random-test":
-                this.option = option;
-                players = new Player[2];
-                players[0] = new RandomAiPlayer("Random AI 1", 4, "B");
-                players[1] = new RandomAiPlayer("Random AI 2", 4, "R");
-                this.board = new GameBoard(players);
-                break;
-            case "random-greedy-test":
-                this.option = option;
-                players = new Player[2];
-                players[0] = new RandomAiPlayer("Random AI", 4, "B");
-                players[1] = new GreedyAiPlayer("Greedy AI", 4, "R");
-                this.board = new GameBoard(players);
-                break;
-            default:
-                this.option = "";
-                this.board = new GameBoard(initializePlayers());
-        }
+    public Game(String filePath, Player[] players) {
+        this.filePath = filePath;
+        this.board = new GameBoard(players);
     }
 
     public static void main(String[] args) {
@@ -175,26 +157,12 @@ public class Game {
         System.out.println();
         this.board.printWinner();
 
-        if (!this.option.equals("")) {
-            writeResults();
-        }
-
+        writeResults();
     }
 
     private void writeResults() {
-        switch (this.option) {
-            case "random-test":
-                Player ai1 = this.board.getPlayerByIndex(0);
-                Player ai2 = this.board.getPlayerByIndex(1);
-                DataWriter.writeDataLine("/Users/Lucas/thesis-data/random-test.csv", ai1.getName(), ai1.getCollectedTileCount(), ai1.getCollectedFishCount(), ai2.getName(), ai2.getCollectedTileCount(), ai2.getCollectedFishCount());
-                break;
-            case "random-greedy-test":
-                ai1 = this.board.getPlayerByIndex(0);
-                ai2 = this.board.getPlayerByIndex(1);
-                DataWriter.writeDataLine("/Users/Lucas/thesis-data/random-greedy-test.csv", ai1.getName(), ai1.getCollectedTileCount(), ai1.getCollectedFishCount(), ai2.getName(), ai2.getCollectedTileCount(), ai2.getCollectedFishCount());
-                break;
-            default:
-                break;
+        if (!this.filePath.equals("")) {
+            DataWriter.writeDataLine(this.filePath, this.board.getPlayers());
         }
     }
 }

@@ -1,6 +1,7 @@
 package utility;
 
 import com.opencsv.CSVWriter;
+import game.players.Player;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -9,12 +10,7 @@ import java.io.IOException;
 public class DataWriter {
   public static void writeDataLine(
       String filePath,
-      String ai1Name,
-      int ai1TileCount,
-      int ai1FishCount,
-      String ai2Name,
-      int ai2TileCount,
-      int ai2FishCount) {
+      Player[] players) {
     try {
       File file = new File(filePath);
       FileWriter fw;
@@ -24,24 +20,24 @@ public class DataWriter {
         fw = new FileWriter(file);
         writer = new CSVWriter(fw);
 
-        String[] header = {
-          ai1Name + " tile count",
-          ai1Name + " fish count",
-          ai2Name + " tile count",
-          ai2Name + " fish count"
-        };
+        String[] header = new String[2 * players.length];
+        int index = 0;
+        for (Player player : players) {
+          header[index++] = player.getName() + " collected tiles";
+          header[index++] = player.getName() + " collected fish";
+        }
         writer.writeNext(header);
       } else {
         fw = new FileWriter(file, true);
         writer = new CSVWriter(fw);
       }
 
-      String[] data = {
-        String.valueOf(ai1TileCount),
-        String.valueOf(ai1FishCount),
-        String.valueOf(ai2TileCount),
-        String.valueOf(ai2FishCount)
-      };
+      String[] data = new String[2 * players.length];
+      int index = 0;
+      for (Player player : players) {
+        data[index++] = String.valueOf(player.getCollectedTileCount());
+        data[index++] = String.valueOf(player.getCollectedFishCount());
+      }
 
       writer.writeNext(data);
       writer.close();

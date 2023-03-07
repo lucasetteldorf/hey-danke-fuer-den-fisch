@@ -16,35 +16,42 @@ public class GreedyAiPlayer extends Player {
     }
 
     public int[] getBestPenguinPosition(GameBoard board) {
-        int maxThreeFishCount = 0;
-        int maxTwoFishCount = 0;
-        Penguin bestPenguin = getPenguinByIndex(getRandomIndex(this.getPenguins().length));
+        List<Penguin> threeFishPenguins = new ArrayList<>();
+        List<Penguin> twoFishPenguins = new ArrayList<>();
+        List<Penguin> oneFishPenguins = new ArrayList<>();
 
         for (Penguin penguin : this.getPenguins()) {
-            List<IceFloeTile> threeFishTiles = new ArrayList<>();
-            List<IceFloeTile> twoFishTiles = new ArrayList<>();
-            for (int[] positions : board.getLegalMovesForPenguin(penguin)) {
-                IceFloeTile tile = board.getTile(positions[0], positions[1]);
-                if (tile != null) {
-                    switch (tile.getFishCount()) {
+            if (penguin.isOnGameBoard()) {
+                for (int[] position : board.getLegalMovesForPenguin(penguin)) {
+                    switch (board.getTile(position[0], position[1]).getFishCount()) {
                         case 3:
-                            threeFishTiles.add(tile);
+                            if (!threeFishPenguins.contains(penguin)) {
+                                threeFishPenguins.add(penguin);
+                            }
                             break;
                         case 2:
-                            twoFishTiles.add(tile);
+                            if (!twoFishPenguins.contains(penguin)) {
+                                twoFishPenguins.add(penguin);
+                            }
+                            break;
+                        case 1:
+                            if (!oneFishPenguins.contains(penguin)) {
+                                oneFishPenguins.add(penguin);
+                            }
                             break;
                     }
                 }
             }
+        }
 
-            if (threeFishTiles.size() > maxThreeFishCount) {
-                maxThreeFishCount = threeFishTiles.size();
-                bestPenguin = penguin;
-            } else if (threeFishTiles.size() <= maxThreeFishCount
-                    && twoFishTiles.size() > maxTwoFishCount) {
-                maxTwoFishCount = twoFishTiles.size();
-                bestPenguin = penguin;
-            }
+        Penguin bestPenguin;
+        if (threeFishPenguins.size() > 0) {
+            bestPenguin = threeFishPenguins.get(RandomNumbers.getRandomIndex(threeFishPenguins.size()));
+        } else if (twoFishPenguins.size() > 0) {
+            bestPenguin = twoFishPenguins.get(RandomNumbers.getRandomIndex(twoFishPenguins.size()));
+        } else {
+            // TODO maybe repeat until penguin with moves is found
+            bestPenguin = oneFishPenguins.get(RandomNumbers.getRandomIndex(oneFishPenguins.size()));
         }
 
         return bestPenguin.getPosition();

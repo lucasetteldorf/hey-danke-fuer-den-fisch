@@ -47,7 +47,7 @@ public class Penguin {
   }
 
   public int[] getPosition() {
-    return position;
+    return this.position;
   }
 
   public String getColor() {
