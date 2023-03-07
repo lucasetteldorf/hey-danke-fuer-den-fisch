@@ -1,19 +1,19 @@
-//package ai.mcts;
-//
-//import java.util.Collections;
-//import java.util.Comparator;
-//
-//public class Uct {
-//    public static double calculateUctValue(int parentVisitCount, int nodeVisitCount, double nodeScore) {
-////        if (nodeVisitCount == 0) {
-////            return Integer.MAX_VALUE;
-////        }
-//
-//        return (nodeScore / (double) nodeVisitCount) + Math.sqrt(2) * Math.sqrt(Math.log(parentVisitCount) / (double) nodeVisitCount);
-//    }
-//
-//    public static Node findBestNode(Node node) {
-//        int parentVisitCount = node.getState().getVisitCount();
-//        return Collections.max(node.getChildren(), Comparator.comparing(child -> calculateUctValue(parentVisitCount, child.getState().getVisitCount(), child.getState().getScore())));
-//    }
-//}
+package mcts;
+
+import mcts.Mcts;
+
+import java.util.Collections;
+import java.util.Comparator;
+
+public class Uct {
+    private static final double C = Math.sqrt(2);
+
+    public static double calculateUctValue(double playerWins, double opponentsWins, double parentSimulations, double nodeSimulations) {
+        return (playerWins / (playerWins + opponentsWins)) + C * Math.sqrt(Math.log(parentSimulations) / nodeSimulations);
+    }
+
+    public static Node findBestNode(Node node) {
+        double parentSimulations = node.getPlayerAWins() + node.getPlayerBWins();
+        return Collections.max(node.getChildren(), Comparator.comparing(child -> calculateUctValue());
+    }
+}
