@@ -12,8 +12,8 @@ public class BaselineAiTest {
         Game game;
         for (int i = 0; i < 1000; i++) {
             Player[] players = new Player[2];
-            players[0] = new RandomAiPlayer("Random AI 1", 4, "B");
-            players[1] = new RandomAiPlayer("Random AI 2", 4, "R");
+            players[0] = new RandomAiPlayer(0, "Random AI 1", 4, "B");
+            players[1] = new RandomAiPlayer(1, "Random AI 2", 4, "R");
             game = new Game("/Users/Lucas/thesis-data/random-vs-random.csv", players);
             game.start();
         }
@@ -26,8 +26,8 @@ public class BaselineAiTest {
         Game game;
         for (int i = 0; i < 1000; i++) {
             Player[] players = new Player[2];
-            players[0] = new RandomAiPlayer("Random AI", 4, "B");
-            players[1] = new GreedyAiPlayer("Greedy AI", 4, "R");
+            players[0] = new RandomAiPlayer(0, "Random AI", 4, "B");
+            players[1] = new GreedyAiPlayer(1, "Greedy AI", 4, "R");
             game = new Game("/Users/Lucas/thesis-data/random-vs-greedy.csv", players);
             game.start();
         }

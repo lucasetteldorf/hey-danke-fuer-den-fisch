@@ -8,6 +8,7 @@ import java.util.List;
 
 public class Player {
     private final PlayerType type;
+    private final int index;
     private final String name;
     private final Penguin[] penguins;
     private int penguinToPlaceIndex;
@@ -15,8 +16,9 @@ public class Player {
     private int collectedFishCount;
     private boolean arePenguinsRemovedFromBoard;
 
-    public Player(PlayerType type, String name, int penguinCount, String penguinColor) {
+    public Player(PlayerType type, int index, String name, int penguinCount, String penguinColor) {
         this.type = type;
+        this.index = index;
         this.name = name;
         this.penguins = initializePenguins(penguinCount, penguinColor);
     }
@@ -24,6 +26,7 @@ public class Player {
     // copy constructor
     public Player(Player player) {
         this.type = player.type;
+        this.index = player.index;
         this.name = player.name;
         this.penguins = initializePenguins(player.penguins.length, player.penguins[0].getColor());
         this.penguinToPlaceIndex = player.penguinToPlaceIndex;
@@ -43,6 +46,10 @@ public class Player {
 
     public PlayerType getType() {
         return type;
+    }
+
+    public int getIndex() {
+        return index;
     }
 
     public String getName() {

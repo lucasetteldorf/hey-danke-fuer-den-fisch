@@ -11,8 +11,8 @@ import java.util.List;
 import static utility.RandomNumbers.getRandomIndex;
 
 public class GreedyAiPlayer extends Player {
-    public GreedyAiPlayer(String name, int penguinCount, String penguinColor) {
-        super(PlayerType.GREEDY_AI, name, penguinCount, penguinColor);
+    public GreedyAiPlayer(int index, String name, int penguinCount, String penguinColor) {
+        super(PlayerType.GREEDY_AI, index, name, penguinCount, penguinColor);
     }
 
     public int[] getBestPenguinPosition(GameBoard board) {

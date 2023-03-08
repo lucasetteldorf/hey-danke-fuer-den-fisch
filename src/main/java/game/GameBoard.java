@@ -84,12 +84,12 @@ public class GameBoard {
         return getPlayerByIndex(this.currentPlayerIndex);
     }
 
-    private void setNextPlayer() {
-        this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.length;
+    public int getNextPlayerIndex() {
+        return ((this.currentPlayerIndex + 1) % this.players.length);
     }
 
-    public int getNextPlayerIndex(int currentPlayerIndex) {
-        return ((currentPlayerIndex + 1) % this.players.length);
+    private void setNextPlayer() {
+        this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.length;
     }
 
     private int hashPosition(int rowIndex, int colIndex) {
@@ -224,6 +224,10 @@ public class GameBoard {
         return false;
     }
 
+    public boolean moveCurrentPlayerPenguin(Move move) {
+        return moveCurrentPlayerPenguin(move.getPenguin().getPosition()[0], move.getPenguin().getPosition()[1], move.getRowIndex(), move.getColIndex());
+    }
+
     private boolean isValidMove(IceFloeTile oldTile, IceFloeTile newTile) {
         if (newTile != null && !oldTile.equals(newTile) && newTile.isUnoccupied()) {
             int rowDiff = newTile.getPosition()[0] - oldTile.getPosition()[0];
@@ -354,29 +358,14 @@ public class GameBoard {
         return getLegalMovesForPlayer(player).size() > 0;
     }
 
-    public List<Move> getLegalMovesForPlayerByIndex(int playerIndex) {
-        return getLegalMovesForPlayer(this.players[playerIndex]);
-    }
-
-    public List<IceFloeTile> getNeighborTiles(int rowIndex, int colIndex) {
-        IceFloeTile srcTile = getTile(rowIndex, colIndex);
-        List<IceFloeTile> neighborTiles = new ArrayList<>();
-        for (int[] neighborCoordinates : srcTile.getNeighborPositions()) {
-            if (neighborCoordinates != null) {
-                neighborTiles.add(getTile(neighborCoordinates[0], neighborCoordinates[1]));
-            }
-        }
-        return neighborTiles;
-    }
-
     public void printPlayerScores() {
         for (Player player : this.players) {
             System.out.println(player.getScore());
         }
     }
 
-    // TODO adjust winning/tie rules
-    public void printWinner() {
+    // return index of the winning player (-1 if tied)
+    public int getWinnerIndex() {
         int maxFishCount = this.players[0].getCollectedFishCount();
         int winnerIndex = 0;
         for (int i = 1; i < this.players.length; i++) {
@@ -385,7 +374,12 @@ public class GameBoard {
                 winnerIndex = i;
             }
         }
-        System.out.println("Winner: " + this.players[winnerIndex].getName());
+        return winnerIndex;
+    }
+
+    // TODO adjust winning/tie rules
+    public void printWinner() {
+        System.out.println(getWinnerIndex() != -1 ? "Winner: " + this.players[getWinnerIndex()].getName() : "Tie!");
     }
 
     @Override

@@ -1,9 +1,6 @@
 package game;
 
-import game.players.GreedyAiPlayer;
-import game.players.HumanPlayer;
-import game.players.Player;
-import game.players.RandomAiPlayer;
+import game.players.*;
 import utility.DataWriter;
 import utility.InputReader;
 
@@ -58,16 +55,19 @@ public class Game {
 
         Player[] players = new Player[totalPlayerCount];
         for (int i = 0; i < humanPlayerCount; i++) {
-            players[i] = new HumanPlayer(InputReader.getPlayerName(i), penguinCount, InputReader.getPenguinColor(i));
+            players[i] = new HumanPlayer(i, InputReader.getPlayerName(i), penguinCount, InputReader.getPenguinColor(i));
         }
 
         for (int i = humanPlayerCount; i < totalPlayerCount; i++) {
             switch (aiDifficulty) {
                 case "easy":
-                    players[i] = new RandomAiPlayer("Random Baseline AI (easy)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
+                    players[i] = new RandomAiPlayer(i, "Random Baseline AI (easy)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
                     break;
                 case "medium":
-                    players[i] = new GreedyAiPlayer("Greedy Baseline AI (medium)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
+                    players[i] = new GreedyAiPlayer(i, "Greedy Baseline AI (medium)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
+                    break;
+                case "hard":
+                    players[i] = new MctsAiPlayer(i, "MCTS AI (hard)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
                     break;
                 default:
                     System.out.println("Invalid difficulty");
@@ -107,6 +107,10 @@ public class Game {
                     placementPosition = greedyAiPlayer.getRandomPlacementPosition(this.board);
                     this.board.placeCurrentPlayerPenguin(placementPosition[0], placementPosition[1]);
                     break;
+                case MCTS_AI:
+                    MctsAiPlayer mctsAiPlayer = (MctsAiPlayer) board.getCurrentPlayer();
+                    placementPosition = mctsAiPlayer.getBestPlacementPosition(this.board);
+                    this.board.placeCurrentPlayerPenguin(placementPosition[0], placementPosition[1]);
             }
 
             System.out.println(this.board);
@@ -147,6 +151,9 @@ public class Game {
                     movementPosition = greedyAiPlayer.getBestMovementPosition(this.board, this.board.getPenguinByPosition(penguinPosition[0], penguinPosition[1]));
                     this.board.moveCurrentPlayerPenguin(penguinPosition[0], penguinPosition[1], movementPosition[0], movementPosition[1]);
                     break;
+                case MCTS_AI:
+                    MctsAiPlayer mctsAiPlayer = (MctsAiPlayer) board.getCurrentPlayer();
+                    this.board.moveCurrentPlayerPenguin(mctsAiPlayer.getBestMove(this.board));
             }
 
             System.out.println(this.board);

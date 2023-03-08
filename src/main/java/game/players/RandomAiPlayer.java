@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RandomAiPlayer extends Player {
-    public RandomAiPlayer(String name, int penguinCount, String penguinColor) {
-        super(PlayerType.RANDOM_AI, name, penguinCount, penguinColor);
+    public RandomAiPlayer(int index, String name, int penguinCount, String penguinColor) {
+        super(PlayerType.RANDOM_AI, index, name, penguinCount, penguinColor);
     }
 
     public int[] getRandomPenguinPosition(GameBoard board) {

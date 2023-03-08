@@ -11,12 +11,12 @@ public class Node {
     private Node parent;
     private List<Node> children;
     private State state;
-    private double playerAWins;
-    private double playerBWins;
+    private final int[] playerWins;
 
     public Node() {
         this.state = new State();
         this.children = new ArrayList<>();
+        this.playerWins = new int[this.state.getBoard().getPlayers().length];
     }
 
     public Node(Node node) {
@@ -28,11 +28,13 @@ public class Node {
             this.children.add(child);
         }
         this.state = new State(node.state);
+        this.playerWins = new int[this.state.getBoard().getPlayers().length];
     }
 
     public Node(State state) {
         this.state = state;
         this.children = new ArrayList<>();
+        this.playerWins = new int[this.state.getBoard().getPlayers().length];
     }
 
     public Node getParent() {
@@ -59,24 +61,31 @@ public class Node {
         this.state = state;
     }
 
-    public double getPlayerAWins() {
-        return playerAWins;
+    public int[] getPlayerWins() {
+        return this.playerWins;
     }
 
-    public void increasePlayerAWins(double playerAWins) {
-        this.playerAWins += playerAWins;
+    public int getPlayerWinsByIndex(int index) {
+        return this.playerWins[index];
     }
 
-    public double getPlayerBWins() {
-        return playerBWins;
+    public void increasePlayerWins(int index, int value) {
+        this.playerWins[index] += value;
     }
 
-    public void increasePlayerBWins(double playerBWins) {
-        this.playerBWins += playerBWins;
+    public int getVisits() {
+        int sum = 0;
+        for (int wins : this.playerWins) {
+            sum += wins;
+        }
+        return sum;
     }
 
     public Node getRandomChild() {
-        int possibleMoveCount = this.children.size();
-        return children.get(RandomNumbers.getRandomIndex(possibleMoveCount));
+        return children.get(RandomNumbers.getRandomIndex(this.children.size()));
+    }
+
+    public Node getChildWithMaxVisits() {
+        return Collections.max(this.children, Comparator.comparing(child -> child.getVisits()));
     }
 }

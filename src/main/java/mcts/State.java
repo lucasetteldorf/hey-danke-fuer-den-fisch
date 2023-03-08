@@ -10,6 +10,7 @@ import java.util.List;
 
 public class State {
     private GameBoard board;
+    // TODO maybe add Move that lead to this state
 
     public State() {
         this.board = new GameBoard();
@@ -36,12 +37,16 @@ public class State {
         return this.board.getCurrentPlayer();
     }
 
+    public Player getNextPlayer() {
+        return this.board.getPlayerByIndex(this.board.getNextPlayerIndex());
+    }
+
     // TODO only works for second phase (movement)
     public List<State> getAllPossibleStates() {
         List<State> possibleStates = new ArrayList<>();
 
         for (Move move : board.getLegalMovesForPlayer(board.getCurrentPlayer())) {
-            if (move.getPenguin().isOnGameBoard() && board.hasPenguinLegalMoves(move.getPenguin())) {
+            if (board.hasPenguinLegalMoves(move.getPenguin())) {
                 // create (deep) copy of the state
                 State newState = new State(this);
                 // current player moves penguin to position and next player is set
@@ -58,7 +63,7 @@ public class State {
     public void randomPlay() {
         List<Move> allPossibleMoves = this.board.getLegalMovesForPlayer(board.getCurrentPlayer());
         Move randomMove = allPossibleMoves.get(RandomNumbers.getRandomIndex(allPossibleMoves.size()));
-        // TODO moves penguin, but also sets next player
+        // TODO moves penguin, but also sets next player (may not be needed)
         this.board.moveCurrentPlayerPenguin(randomMove.getPenguin().getPosition()[0], randomMove.getPenguin().getPosition()[1], randomMove.getRowIndex(), randomMove.getColIndex());
     }
 }
