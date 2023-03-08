@@ -43,7 +43,7 @@ public class InputReader {
   }
 
   public static String getAiDifficulty() {
-    return readLine("AI difficulty (only easy for now): ");
+    return readLine("AI difficulty (easy, medium, hard): ");
   }
 
   public static String getPlayerName(int playerIndex) {

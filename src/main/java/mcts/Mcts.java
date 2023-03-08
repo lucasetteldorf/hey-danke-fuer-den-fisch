@@ -1,6 +1,7 @@
 package mcts;
 
 import game.GameBoard;
+import game.Move;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class Mcts {
         this.level = 3;
     }
 
-    public GameBoard getNextMove(GameBoard board) {
+    public Move getNextMove(GameBoard board) {
         long start = System.currentTimeMillis();
 
         Tree tree = new Tree();
@@ -23,6 +24,7 @@ public class Mcts {
         // board keeps track of current player internally
         // TODO setting next players and checking if they can move may need to be implemented directly in move method instead of in Game class
         root.getState().setBoard(board);
+        root.setPlayerWins(new int[board.getPlayers().length]);
 
         while ((System.currentTimeMillis() - start) < COMPUTATIONAL_BUDGET) {
             // 1: Selection
@@ -48,7 +50,7 @@ public class Mcts {
 
         Node winnerNode = root.getChildWithMaxVisits();
         tree.setRoot(winnerNode);
-        return winnerNode.getState().getBoard();
+        return winnerNode.getState().getPreviousMove();
     }
 
     private Node selectNode(Node root) {

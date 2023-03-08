@@ -10,7 +10,7 @@ import java.util.List;
 
 public class State {
     private GameBoard board;
-    // TODO maybe add Move that lead to this state
+    private Move previousMove;
 
     public State() {
         this.board = new GameBoard();
@@ -19,6 +19,7 @@ public class State {
     // copy constructor
     public State(State state) {
         this.board = new GameBoard(state.board);
+        this.previousMove = state.previousMove;
     }
 
     public State(GameBoard board) {
@@ -31,6 +32,14 @@ public class State {
 
     public void setBoard(GameBoard board) {
         this.board = board;
+    }
+
+    public Move getPreviousMove() {
+        return previousMove;
+    }
+
+    public void setPreviousMove(Move previousMove) {
+        this.previousMove = previousMove;
     }
 
     public Player getCurrentPlayer() {
@@ -47,8 +56,9 @@ public class State {
 
         for (Move move : board.getLegalMovesForPlayer(board.getCurrentPlayer())) {
             if (board.hasPenguinLegalMoves(move.getPenguin())) {
-                // create (deep) copy of the state
+                // TODO problem with copy constructor (penguin is null)
                 State newState = new State(this);
+                newState.setPreviousMove(move);
                 // current player moves penguin to position and next player is set
                 // TODO working as intended?
                 newState.getBoard().moveCurrentPlayerPenguin(move.getPenguin().getPosition()[0], move.getPenguin().getPosition()[1], move.getRowIndex(), move.getColIndex());

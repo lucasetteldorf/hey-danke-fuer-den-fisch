@@ -13,11 +13,11 @@ public class MctsAiPlayer extends Player {
     }
 
     public int[] getBestPlacementPosition(GameBoard board) {
-        return null;
+        // TODO change to MCTS when implemented
+        return getRandomPlacementPosition(board);
     }
 
     public Move getBestMove(GameBoard board) {
-        GameBoard bestMoveBoard = mcts.getNextMove(board);
-        return null;
+        return mcts.getNextMove(board);
     }
 }

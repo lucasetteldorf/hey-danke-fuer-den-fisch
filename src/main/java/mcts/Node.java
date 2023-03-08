@@ -11,12 +11,11 @@ public class Node {
     private Node parent;
     private List<Node> children;
     private State state;
-    private final int[] playerWins;
+    private int[] playerWins;
 
     public Node() {
         this.state = new State();
         this.children = new ArrayList<>();
-        this.playerWins = new int[this.state.getBoard().getPlayers().length];
     }
 
     public Node(Node node) {
@@ -63,6 +62,10 @@ public class Node {
 
     public int[] getPlayerWins() {
         return this.playerWins;
+    }
+
+    public void setPlayerWins(int[] playerWins) {
+        this.playerWins = playerWins;
     }
 
     public int getPlayerWinsByIndex(int index) {
