@@ -110,7 +110,7 @@ public class Player {
     }
 
     public int[] getRandomPlacementPosition(GameBoard board) {
-        List<int[]> legalPlacementPositions = board.getLegalPlacementPositions();
+        List<int[]> legalPlacementPositions = board.getAllLegalPlacementPositions();
         return legalPlacementPositions.get(RandomNumbers.getRandomIndex(legalPlacementPositions.size()));
     }
 

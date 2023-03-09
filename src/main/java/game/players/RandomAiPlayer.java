@@ -23,7 +23,7 @@ public class RandomAiPlayer extends Player {
     }
 
     public int[] getRandomMovementPositionForPenguin(GameBoard board, Penguin penguin) {
-        List<int[]> legalMoves = board.getLegalMovesForPenguin(penguin);
+        List<int[]> legalMoves = board.getAllLegalMovesForPenguin(penguin);
         return legalMoves.get(RandomNumbers.getRandomIndex(legalMoves.size()));
     }
 }

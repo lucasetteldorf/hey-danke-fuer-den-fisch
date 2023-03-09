@@ -1,25 +1,35 @@
 package game;
 
 public class Move {
-    private final Penguin penguin;
-    private final int rowIndex;
-    private final int colIndex;
+    private final int[] oldPosition;
+    private final int[] newPosition;
 
-    public Move(Penguin penguin, int rowIndex, int colIndex) {
-        this.penguin = penguin;
-        this.rowIndex = rowIndex;
-        this.colIndex = colIndex;
+    public Move(int[] oldPosition, int[] newPosition) {
+        this.oldPosition = oldPosition;
+        this.newPosition = newPosition;
     }
 
-    public Penguin getPenguin() {
-        return penguin;
+    public int[] getOldPosition() {
+        return oldPosition;
     }
 
-    public int getRowIndex() {
-        return rowIndex;
+    public int getOldRow() {
+        return oldPosition[0];
     }
 
-    public int getColIndex() {
-        return colIndex;
+    public int getOldCol() {
+        return oldPosition[1];
+    }
+
+    public int[] getNewPosition() {
+        return newPosition;
+    }
+
+    public int getNewRow() {
+        return newPosition[0];
+    }
+
+    public int getNewCol() {
+        return newPosition[1];
     }
 }

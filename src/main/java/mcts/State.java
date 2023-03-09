@@ -54,14 +54,14 @@ public class State {
     public List<State> getAllPossibleStates() {
         List<State> possibleStates = new ArrayList<>();
 
-        for (Move move : board.getLegalMovesForPlayer(board.getCurrentPlayer())) {
+        for (Move move : board.getAllLegalMovesForPlayer(board.getCurrentPlayer())) {
             if (board.hasPenguinLegalMoves(move.getPenguin())) {
                 // TODO problem with copy constructor (penguin is null)
                 State newState = new State(this);
                 newState.setPreviousMove(move);
                 // current player moves penguin to position and next player is set
                 // TODO working as intended?
-                newState.getBoard().moveCurrentPlayerPenguin(move.getPenguin().getPosition()[0], move.getPenguin().getPosition()[1], move.getRowIndex(), move.getColIndex());
+                newState.getBoard().movePenguin(move.getPenguin().getPosition()[0], move.getPenguin().getPosition()[1], move.getRowIndex(), move.getColIndex());
                 possibleStates.add(newState);
             }
         }
@@ -71,9 +71,9 @@ public class State {
 
     // TODO only works for second phase (movement)
     public void randomPlay() {
-        List<Move> allPossibleMoves = this.board.getLegalMovesForPlayer(board.getCurrentPlayer());
+        List<Move> allPossibleMoves = this.board.getAllLegalMovesForPlayer(board.getCurrentPlayer());
         Move randomMove = allPossibleMoves.get(RandomNumbers.getRandomIndex(allPossibleMoves.size()));
         // TODO moves penguin, but also sets next player (may not be needed)
-        this.board.moveCurrentPlayerPenguin(randomMove.getPenguin().getPosition()[0], randomMove.getPenguin().getPosition()[1], randomMove.getRowIndex(), randomMove.getColIndex());
+        this.board.movePenguin(randomMove.getPenguin().getPosition()[0], randomMove.getPenguin().getPosition()[1], randomMove.getRowIndex(), randomMove.getColIndex());
     }
 }

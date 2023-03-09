@@ -79,7 +79,7 @@ public class Mcts {
         State tmpState = tmpNode.getState();
 
         // TODO internal logic/update of states may not work as needed
-        while (tmpState.getBoard().canPenguinsBeMoved()) {
+        while (tmpState.getBoard().isMovementPhaseOver()) {
             tmpState.randomPlay();
         }
 
