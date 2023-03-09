@@ -55,7 +55,7 @@ public class Game {
 
         Player[] players = new Player[totalPlayerCount];
         for (int i = 0; i < humanPlayerCount; i++) {
-            players[i] = new HumanPlayer(i, InputReader.getPlayerName(i), penguinCount, InputReader.getPenguinColor(i));
+            players[i] = new Player(PlayerType.HUMAN, i, InputReader.getPlayerName(i), penguinCount, InputReader.getPenguinColor(i));
         }
 
         for (int i = humanPlayerCount; i < totalPlayerCount; i++) {
