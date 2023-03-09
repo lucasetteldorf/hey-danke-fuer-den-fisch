@@ -1,46 +1,42 @@
 package game.players;
 
-import game.GameBoard;
 import game.Penguin;
-import utility.RandomNumbers;
-
-import java.util.List;
 
 public class Player {
     private final PlayerType type;
-    private final int index;
     private final String name;
+    private final String penguinColor;
     private final Penguin[] penguins;
     private int penguinToPlaceIndex;
     private int collectedTileCount;
     private int collectedFishCount;
-    private boolean arePenguinsRemovedFromBoard;
+    private boolean penguinsRemovedFromBoard;
 
-    public Player(PlayerType type, int index, String name, int penguinCount, String penguinColor) {
+    public Player(PlayerType type, String name, int penguinCount, String penguinColor) {
         this.type = type;
-        this.index = index;
         this.name = name;
-        this.penguins = initializePenguins(penguinCount, penguinColor);
+        this.penguinColor = penguinColor;
+        this.penguins = initPenguins(penguinCount, penguinColor);
     }
 
     // copy constructor
     public Player(Player player) {
         this.type = player.type;
-        this.index = player.index;
         this.name = player.name;
-        this.penguins = initializePenguins(player.penguins.length, player.penguins[0].getColor());
+        this.penguinColor = player.penguinColor;
+        this.penguins = initPenguins(player.penguins.length, player.penguinColor);
         this.penguinToPlaceIndex = player.penguinToPlaceIndex;
         this.collectedTileCount = player.collectedTileCount;
         this.collectedFishCount = player.collectedFishCount;
+        this.penguinsRemovedFromBoard = player.penguinsRemovedFromBoard;
+
     }
 
-    private Penguin[] initializePenguins(int penguinCount, String color) {
+    private Penguin[] initPenguins(int penguinCount, String color) {
         Penguin[] penguins = new Penguin[penguinCount];
-
         for (int i = 0; i < penguins.length; i++) {
-            penguins[i] = new Penguin(color, this);
+            penguins[i] = new Penguin(color);
         }
-
         return penguins;
     }
 
@@ -48,20 +44,16 @@ public class Player {
         return type;
     }
 
-    public int getIndex() {
-        return index;
-    }
-
     public String getName() {
         return name;
     }
 
-    public Penguin[] getPenguins() {
-        return penguins;
+    public String getPenguinColor() {
+        return penguinColor;
     }
 
-    public Penguin getPenguinByIndex(int index) {
-        return (index >= 0 && index < this.penguins.length) ? this.penguins[index] : null;
+    public Penguin[] getPenguins() {
+        return penguins;
     }
 
     public Penguin getPenguinToPlace() {
@@ -80,7 +72,7 @@ public class Player {
         return collectedTileCount;
     }
 
-    public void updateTileCount() {
+    public void updateCollectedTileCount() {
         this.collectedTileCount++;
     }
 
@@ -88,16 +80,16 @@ public class Player {
         return collectedFishCount;
     }
 
-    public void updateFishCount(int fishCount) {
+    public void updateCollectedFishCount(int fishCount) {
         this.collectedFishCount += fishCount;
     }
 
     public boolean arePenguinsRemovedFromBoard() {
-        return this.arePenguinsRemovedFromBoard;
+        return penguinsRemovedFromBoard;
     }
 
-    public void setArePenguinsRemovedFromBoard(boolean arePenguinsRemovedFromBoard) {
-        this.arePenguinsRemovedFromBoard = arePenguinsRemovedFromBoard;
+    public void setPenguinsRemovedFromBoard(boolean penguinsRemovedFromBoard) {
+        this.penguinsRemovedFromBoard = penguinsRemovedFromBoard;
     }
 
     public String getScore() {
@@ -109,13 +101,8 @@ public class Player {
                 + " fish collected";
     }
 
-    public int[] getRandomPlacementPosition(GameBoard board) {
-        List<int[]> legalPlacementPositions = board.getAllLegalPlacementPositions();
-        return legalPlacementPositions.get(RandomNumbers.getRandomIndex(legalPlacementPositions.size()));
-    }
-
     @Override
     public String toString() {
-        return this.name + " (" + getPenguinByIndex(0) + ")";
+        return this.name + " (" + penguinColor + ")";
     }
 }

@@ -159,8 +159,8 @@ public class GameBoard {
         if (canPenguinMove(penguin) && isLegalMove(oldTile, newTile)) {
             newTile.setUnoccupied(false);
             penguin.setPosition(move.getNewRow(), move.getNewCol());
-            player.updateTileCount();
-            player.updateFishCount(oldTile.getFishCount());
+            player.updateCollectedTileCount();
+            player.updateCollectedFishCount(oldTile.getFishCount());
             removeTile(oldTile);
         }
     }
