@@ -1,6 +1,9 @@
 package game.players;
 
+import game.GameBoard;
 import game.Penguin;
+import utility.ConsoleColors;
+import utility.RandomNumbers;
 
 public class BasePlayer implements Player {
     private final PlayerType type;
@@ -15,7 +18,7 @@ public class BasePlayer implements Player {
     public BasePlayer(PlayerType type, String name, int penguinCount, String penguinColor) {
         this.type = type;
         this.name = name;
-        this.penguinColor = penguinColor;
+        this.penguinColor = ConsoleColors.getColorString(penguinColor);
         this.penguins = initPenguins(penguinCount, penguinColor);
     }
 
@@ -38,6 +41,10 @@ public class BasePlayer implements Player {
             penguins[i] = new Penguin(color);
         }
         return penguins;
+    }
+
+    public int[] getRandomPlacementPosition(GameBoard board) {
+        return board.getAllLegalPlacementPositions().get(RandomNumbers.getRandomIndex(board.getAllLegalPlacementPositions().size()));
     }
 
     @Override

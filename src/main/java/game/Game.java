@@ -109,13 +109,11 @@ public class Game {
                     break;
                 case RANDOM:
                     RandomPlayer randomPlayer = (RandomPlayer) getCurrentPlayer();
-                    // TODO
-                    placementPosition = new int[2];
+                    placementPosition = randomPlayer.getRandomPlacementPosition(board);
                     break;
                 case GREEDY:
                     GreedyPlayer greedyPlayer = (GreedyPlayer) getCurrentPlayer();
-                    // TODO
-                    placementPosition = new int[2];
+                    placementPosition = greedyPlayer.getRandomPlacementPosition(board);
                     break;
                 case MCTS:
                     MctsPlayer mctsPlayer = (MctsPlayer) getCurrentPlayer();
@@ -130,13 +128,14 @@ public class Game {
     private void startMovementPhase() {
         System.out.println("Start movement...\n");
 
-        while (this.board.isMovementPhaseOver(players)) {
+        while (!this.board.isMovementPhaseOver(players)) {
             if (!board.hasPlayerLegalMoves(getCurrentPlayer())) {
                 if (!getCurrentPlayer().arePenguinsRemovedFromBoard()) {
                     board.removeAllPenguinsAndTiles(getCurrentPlayer());
                     getCurrentPlayer().setPenguinsRemovedFromBoard(true);
                     board.printBoard();
                 }
+                updateCurrentPlayer();
                 continue;
             }
 

@@ -57,7 +57,7 @@ public class GameBoard {
             }
         }
 
-        HashMap<Integer, IceFloeTile> tiles = new HashMap();
+        HashMap<Integer, IceFloeTile> tiles = new HashMap<>();
         for (int i = 0; i < ROW_COUNT; i++) {
             for (int j = (i % 2 == 0) ? 1 : 0; j < COL_COUNT; j += 2) {
                 int randomIndex = RandomNumbers.getRandomIndex(fishCounts.size());
@@ -110,14 +110,18 @@ public class GameBoard {
     public boolean isPlacementPhaseOver(Player[] players) {
         for (Player player : players) {
             if (player.canPlacePenguin()) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public boolean isLegalPlacementPosition(int[] position) {
         return isLegalPlacementTile(getTile(position[0], position[1]));
+    }
+
+    public boolean isLegalPlacementPosition(int row, int col) {
+        return isLegalPlacementPosition(new int[]{row, col});
     }
 
     private boolean isLegalPlacementTile(IceFloeTile tile) {
@@ -149,10 +153,10 @@ public class GameBoard {
     public boolean isMovementPhaseOver(Player[] players) {
         for (Player player : players) {
             if (hasPlayerLegalMoves(player)) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public void movePenguin(Player player, Move move) {
@@ -312,9 +316,7 @@ public class GameBoard {
         List<Move> possibleMoves = new ArrayList<>();
         for (Penguin penguin : player.getPenguins()) {
             if (penguin.isOnBoard()) {
-                for (Move move : getAllLegalMovesForPenguin(penguin)) {
-                    possibleMoves.add(move);
-                }
+                possibleMoves.addAll(getAllLegalMovesForPenguin(penguin));
             }
         }
         return possibleMoves;

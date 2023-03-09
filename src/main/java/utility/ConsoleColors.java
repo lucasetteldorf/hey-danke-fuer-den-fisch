@@ -11,4 +11,19 @@ public class ConsoleColors {
     public static final String RED_PLAYER = RED + "R" + RESET;
     public static final String GREEN_PLAYER = GREEN + "G" + RESET;
     public static final String YELLOW_PLAYER = YELLOW + "Y" + RESET;
+
+    public static String getColorString(String color) {
+        switch (color) {
+            case "B":
+                return ConsoleColors.BLUE_PLAYER;
+            case "R":
+                return ConsoleColors.RED_PLAYER;
+            case "G":
+                return ConsoleColors.GREEN_PLAYER;
+            case "Y":
+                return ConsoleColors.YELLOW_PLAYER;
+            default:
+                return ConsoleColors.RESET;
+        }
+    }
 }

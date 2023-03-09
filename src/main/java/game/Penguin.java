@@ -11,23 +11,7 @@ public class Penguin {
     private boolean isOnBoard;
 
     public Penguin(String color) {
-        switch (color) {
-            case "B":
-                this.color = ConsoleColors.BLUE_PLAYER;
-                break;
-            case "R":
-                this.color = ConsoleColors.RED_PLAYER;
-                break;
-            case "G":
-                this.color = ConsoleColors.GREEN_PLAYER;
-                break;
-            case "Y":
-                this.color = ConsoleColors.YELLOW_PLAYER;
-                break;
-            default:
-                this.color = ConsoleColors.RESET;
-                break;
-        }
+       this.color = ConsoleColors.getColorString(color);
         this.position = new int[2];
     }
 
