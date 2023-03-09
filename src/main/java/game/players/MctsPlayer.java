@@ -3,18 +3,19 @@ package game.players;
 import game.GameBoard;
 import game.Move;
 import mcts.Mcts;
+import utility.RandomNumbers;
 
-public class MctsAiPlayer extends Player {
+public class MctsPlayer extends BasePlayer {
     private final Mcts mcts;
 
-    public MctsAiPlayer(int index, String name, int penguinCount, String penguinColor) {
-        super(PlayerType.MCTS_AI, index, name, penguinCount, penguinColor);
+    public MctsPlayer(String name, int penguinCount, String penguinColor) {
+        super(PlayerType.MCTS, name, penguinCount, penguinColor);
         mcts = new Mcts();
     }
 
     public int[] getBestPlacementPosition(GameBoard board) {
         // TODO change to MCTS when implemented
-        return getRandomPlacementPosition(board);
+        return board.getAllLegalPlacementPositions().get(RandomNumbers.getRandomIndex(board.getAllLegalPlacementPositions().size()));
     }
 
     public Move getBestMove(GameBoard board) {

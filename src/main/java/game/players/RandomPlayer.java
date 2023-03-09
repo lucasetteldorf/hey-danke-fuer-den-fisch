@@ -1,15 +1,16 @@
 package game.players;
 
 import game.GameBoard;
+import game.Move;
 import game.Penguin;
 import utility.RandomNumbers;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RandomAiPlayer extends Player {
-    public RandomAiPlayer(int index, String name, int penguinCount, String penguinColor) {
-        super(PlayerType.RANDOM_AI, index, name, penguinCount, penguinColor);
+public class RandomPlayer extends BasePlayer {
+    public RandomPlayer(String name, int penguinCount, String penguinColor) {
+        super(PlayerType.RANDOM, name, penguinCount, penguinColor);
     }
 
     public int[] getRandomPenguinPosition(GameBoard board) {
@@ -23,7 +24,7 @@ public class RandomAiPlayer extends Player {
     }
 
     public int[] getRandomMovementPositionForPenguin(GameBoard board, Penguin penguin) {
-        List<int[]> legalMoves = board.getAllLegalMovesForPenguin(penguin);
-        return legalMoves.get(RandomNumbers.getRandomIndex(legalMoves.size()));
+        List<Move> legalMoves = board.getAllLegalMovesForPenguin(penguin);
+        return legalMoves.get(RandomNumbers.getRandomIndex(legalMoves.size())).getNewPosition();
     }
 }

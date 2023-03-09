@@ -116,6 +116,10 @@ public class GameBoard {
         return false;
     }
 
+    public boolean isLegalPlacementPosition(int[] position) {
+        return isLegalPlacementTile(getTile(position[0], position[1]));
+    }
+
     private boolean isLegalPlacementTile(IceFloeTile tile) {
         return tile != null && tile.isUnoccupied() && tile.getFishCount() == 1;
     }
@@ -174,7 +178,13 @@ public class GameBoard {
         return penguin != null && hasPenguinLegalMoves(penguin);
     }
 
-    public boolean isLegalMove(IceFloeTile oldTile, IceFloeTile newTile) {
+    public boolean isLegalMove(int[] oldPosition, int[] newPosition) {
+        IceFloeTile oldTile = getTile(oldPosition[0], oldPosition[1]);
+        IceFloeTile newTile = getTile(newPosition[0], newPosition[1]);
+        return isLegalMove(oldTile, newTile);
+    }
+
+    private boolean isLegalMove(IceFloeTile oldTile, IceFloeTile newTile) {
         if (newTile != null && !oldTile.equals(newTile) && newTile.isUnoccupied()) {
             int rowDiff = newTile.getPosition()[0] - oldTile.getPosition()[0];
             int colDiff = newTile.getPosition()[1] - oldTile.getPosition()[1];

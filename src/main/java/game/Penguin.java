@@ -59,7 +59,7 @@ public class Penguin {
     }
 
     public boolean isOnBoard() {
-        return isOnBoard
+        return isOnBoard;
     }
 
     public void setOnBoard(boolean onBoard) {

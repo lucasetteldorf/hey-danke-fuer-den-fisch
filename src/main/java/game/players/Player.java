@@ -2,107 +2,35 @@ package game.players;
 
 import game.Penguin;
 
-public class Player {
-    private final PlayerType type;
-    private final String name;
-    private final String penguinColor;
-    private final Penguin[] penguins;
-    private int penguinToPlaceIndex;
-    private int collectedTileCount;
-    private int collectedFishCount;
-    private boolean penguinsRemovedFromBoard;
+public interface Player {
+    PlayerType getType();
 
-    public Player(PlayerType type, String name, int penguinCount, String penguinColor) {
-        this.type = type;
-        this.name = name;
-        this.penguinColor = penguinColor;
-        this.penguins = initPenguins(penguinCount, penguinColor);
-    }
+    String getName();
 
-    // copy constructor
-    public Player(Player player) {
-        this.type = player.type;
-        this.name = player.name;
-        this.penguinColor = player.penguinColor;
-        this.penguins = initPenguins(player.penguins.length, player.penguinColor);
-        this.penguinToPlaceIndex = player.penguinToPlaceIndex;
-        this.collectedTileCount = player.collectedTileCount;
-        this.collectedFishCount = player.collectedFishCount;
-        this.penguinsRemovedFromBoard = player.penguinsRemovedFromBoard;
+    String getPenguinColor();
 
-    }
+    Penguin[] getPenguins();
 
-    private Penguin[] initPenguins(int penguinCount, String color) {
-        Penguin[] penguins = new Penguin[penguinCount];
-        for (int i = 0; i < penguins.length; i++) {
-            penguins[i] = new Penguin(color);
-        }
-        return penguins;
-    }
+    Penguin getPenguinToPlace();
 
-    public PlayerType getType() {
-        return type;
-    }
+    void updatePenguinToPlace();
 
-    public String getName() {
-        return name;
-    }
+    boolean canPlacePenguin();
 
-    public String getPenguinColor() {
-        return penguinColor;
-    }
+    int getCollectedTileCount();
 
-    public Penguin[] getPenguins() {
-        return penguins;
-    }
+    void updateCollectedTileCount();
 
-    public Penguin getPenguinToPlace() {
-        return this.penguins[this.penguinToPlaceIndex];
-    }
+    int getCollectedFishCount();
 
-    public void updatePenguinToPlace() {
-        this.penguinToPlaceIndex++;
-    }
+    void updateCollectedFishCount(int fishCount);
 
-    public boolean canPlacePenguin() {
-        return this.penguinToPlaceIndex < this.penguins.length;
-    }
+    boolean arePenguinsRemovedFromBoard();
 
-    public int getCollectedTileCount() {
-        return collectedTileCount;
-    }
+    void setPenguinsRemovedFromBoard(boolean penguinsRemovedFromBoard);
 
-    public void updateCollectedTileCount() {
-        this.collectedTileCount++;
-    }
-
-    public int getCollectedFishCount() {
-        return collectedFishCount;
-    }
-
-    public void updateCollectedFishCount(int fishCount) {
-        this.collectedFishCount += fishCount;
-    }
-
-    public boolean arePenguinsRemovedFromBoard() {
-        return penguinsRemovedFromBoard;
-    }
-
-    public void setPenguinsRemovedFromBoard(boolean penguinsRemovedFromBoard) {
-        this.penguinsRemovedFromBoard = penguinsRemovedFromBoard;
-    }
-
-    public String getScore() {
-        return this
-                + ": "
-                + this.collectedTileCount
-                + " tiles and "
-                + this.collectedFishCount
-                + " fish collected";
-    }
+    String getScore();
 
     @Override
-    public String toString() {
-        return this.name + " (" + penguinColor + ")";
-    }
+    String toString();
 }

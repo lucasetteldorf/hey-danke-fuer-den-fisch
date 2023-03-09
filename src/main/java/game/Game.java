@@ -6,27 +6,30 @@ import utility.InputReader;
 
 public class Game {
     private final GameBoard board;
+    private final Player[] players;
     private final String filePath;
+    private int currentPlayer;
 
     public Game() {
         this.filePath = "";
         this.board = new GameBoard();
+        this.players = initPlayers();
     }
 
     public Game(String filePath, Player[] players) {
         this.filePath = filePath;
         this.board = new GameBoard();
+        this.players = players;
     }
 
     public static void main(String[] args) {
         // Normal game
         Game game = new Game();
         game.start();
-
     }
 
-    private Player[] initializePlayers() {
-        int totalPlayerCount = InputReader.getPlayerCount();
+    private Player[] initPlayers() {
+        int totalPlayerCount = InputReader.getTotalPlayerCount();
         int aiPlayerCount = InputReader.getAiPlayerCount(totalPlayerCount);
         int humanPlayerCount = totalPlayerCount - aiPlayerCount;
         String aiDifficulty = "";
@@ -55,25 +58,24 @@ public class Game {
 
         Player[] players = new Player[totalPlayerCount];
         for (int i = 0; i < humanPlayerCount; i++) {
-            players[i] = new Player(PlayerType.HUMAN, i, InputReader.getPlayerName(i), penguinCount, InputReader.getPenguinColor(i));
+            players[i] = new HumanPlayer(InputReader.getPlayerName(i), penguinCount, InputReader.getPenguinColor(i));
         }
 
         for (int i = humanPlayerCount; i < totalPlayerCount; i++) {
             switch (aiDifficulty) {
                 case "easy":
-                    players[i] = new RandomAiPlayer(i, "Random Baseline AI (easy)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
+                    players[i] = new RandomPlayer("Random Baseline AI (easy)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
                     break;
                 case "medium":
-                    players[i] = new GreedyAiPlayer(i, "Greedy Baseline AI (medium)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
+                    players[i] = new GreedyPlayer("Greedy Baseline AI (medium)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
                     break;
                 case "hard":
-                    players[i] = new MctsAiPlayer(i, "MCTS AI (hard)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
+                    players[i] = new MctsPlayer("MCTS AI (hard)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
                     break;
                 default:
                     System.out.println("Invalid difficulty");
                     break;
             }
-
             InputReader.AVAILABLE_COLORS.remove(0);
         }
 
@@ -85,91 +87,111 @@ public class Game {
         startMovementPhase();
     }
 
+    private Player getCurrentPlayer() {
+        return players[currentPlayer];
+    }
+
+    private void updateCurrentPlayer() {
+        currentPlayer = (currentPlayer + 1) % players.length;
+    }
+
     private void startPlacementPhase() {
-        System.out.println(this.board);
+        board.printBoard();
         System.out.println("Start placement...\n");
 
-        while (this.board.isPlacementPhaseOver()) {
-            int[] placementPosition;
-            switch (board.getCurrentPlayer().getType()) {
+        while (!this.board.isPlacementPhaseOver(players)) {
+            int[] placementPosition = new int[2];
+            switch (getCurrentPlayer().getType()) {
                 case HUMAN:
                     do {
-                        placementPosition = InputReader.getPlacementPosition(this.board.getCurrentPlayer());
-                    } while (!this.board.placePenguin(placementPosition[0], placementPosition[1]));
+                        placementPosition = InputReader.getPlacementPosition(getCurrentPlayer());
+                    } while (!board.isLegalPlacementPosition(placementPosition));
                     break;
-                case RANDOM_AI:
-                    RandomAiPlayer randomAiPlayer = (RandomAiPlayer) board.getCurrentPlayer();
-                    placementPosition = randomAiPlayer.getRandomPlacementPosition(this.board);
-                    this.board.placePenguin(placementPosition[0], placementPosition[1]);
+                case RANDOM:
+                    RandomPlayer randomPlayer = (RandomPlayer) getCurrentPlayer();
+                    // TODO
+                    placementPosition = new int[2];
                     break;
-                case GREEDY_AI:
-                    GreedyAiPlayer greedyAiPlayer = (GreedyAiPlayer) board.getCurrentPlayer();
-                    placementPosition = greedyAiPlayer.getRandomPlacementPosition(this.board);
-                    this.board.placePenguin(placementPosition[0], placementPosition[1]);
+                case GREEDY:
+                    GreedyPlayer greedyPlayer = (GreedyPlayer) getCurrentPlayer();
+                    // TODO
+                    placementPosition = new int[2];
                     break;
-                case MCTS_AI:
-                    MctsAiPlayer mctsAiPlayer = (MctsAiPlayer) board.getCurrentPlayer();
-                    placementPosition = mctsAiPlayer.getBestPlacementPosition(this.board);
-                    this.board.placePenguin(placementPosition[0], placementPosition[1]);
+                case MCTS:
+                    MctsPlayer mctsPlayer = (MctsPlayer) getCurrentPlayer();
+                    placementPosition = mctsPlayer.getBestPlacementPosition(this.board);
             }
-
-            System.out.println(this.board);
+            this.board.placePenguin(getCurrentPlayer(), placementPosition[0], placementPosition[1]);
+            updateCurrentPlayer();
+            board.printBoard();
         }
     }
 
     private void startMovementPhase() {
         System.out.println("Start movement...\n");
 
-        while (this.board.isMovementPhaseOver()) {
-            if (!board.hasCurrentPlayerLegalMoves()) {
-                this.board.skipCurrentPlayer();
-                System.out.println(this.board);
+        while (this.board.isMovementPhaseOver(players)) {
+            if (!board.hasPlayerLegalMoves(getCurrentPlayer())) {
+                if (!getCurrentPlayer().arePenguinsRemovedFromBoard()) {
+                    board.removeAllPenguinsAndTiles(getCurrentPlayer());
+                    getCurrentPlayer().setPenguinsRemovedFromBoard(true);
+                    board.printBoard();
+                }
                 continue;
             }
 
-            int[] penguinPosition;
-            int[] movementPosition;
-            switch (board.getCurrentPlayer().getType()) {
+            int[] oldPosition;
+            int[] newPosition;
+            Move move = null;
+            switch (getCurrentPlayer().getType()) {
                 case HUMAN:
                     do {
-                        penguinPosition = InputReader.getPenguinPosition(this.board.getCurrentPlayer());
-                    } while (!this.board.canPenguinMove(penguinPosition[0], penguinPosition[1]));
+                        oldPosition = InputReader.getPenguinPosition(getCurrentPlayer());
+                    } while (!this.board.canPenguinMove(oldPosition[0], oldPosition[1]));
                     do {
-                        movementPosition = InputReader.getMovementPosition(this.board.getCurrentPlayer());
-                    } while (!this.board.movePenguin(penguinPosition[0], penguinPosition[1], movementPosition[0], movementPosition[1]));
-
+                        newPosition = InputReader.getMovementPosition(getCurrentPlayer());
+                    } while (!board.isLegalMove(oldPosition, newPosition));
+                    move = new Move(oldPosition, newPosition);
                     break;
-                case RANDOM_AI:
-                    RandomAiPlayer randomAiPlayer = (RandomAiPlayer) board.getCurrentPlayer();
-                    penguinPosition = randomAiPlayer.getRandomPenguinPosition(this.board);
-                    movementPosition = randomAiPlayer.getRandomMovementPositionForPenguin(this.board, this.board.getPenguinByPosition(penguinPosition[0], penguinPosition[1]));
-                    this.board.movePenguin(penguinPosition[0], penguinPosition[1], movementPosition[0], movementPosition[1]);
+                case RANDOM:
+                    RandomPlayer randomPlayer = (RandomPlayer) getCurrentPlayer();
+                    oldPosition = randomPlayer.getRandomPenguinPosition(this.board);
+                    newPosition = randomPlayer.getRandomMovementPositionForPenguin(this.board, this.board.getPenguin(oldPosition[0], oldPosition[1]));
+                    move = new Move(oldPosition, newPosition);
                     break;
-                case GREEDY_AI:
-                    GreedyAiPlayer greedyAiPlayer = (GreedyAiPlayer) this.board.getCurrentPlayer();
-                    penguinPosition = greedyAiPlayer.getBestPenguinPosition(this.board);
-                    movementPosition = greedyAiPlayer.getBestMovementPosition(this.board, this.board.getPenguinByPosition(penguinPosition[0], penguinPosition[1]));
-                    this.board.movePenguin(penguinPosition[0], penguinPosition[1], movementPosition[0], movementPosition[1]);
+                case GREEDY:
+                    GreedyPlayer greedyPlayer = (GreedyPlayer) getCurrentPlayer();
+                    oldPosition = greedyPlayer.getBestPenguinPosition(this.board);
+                    newPosition = greedyPlayer.getBestMovementPosition(this.board, this.board.getPenguin(oldPosition[0], oldPosition[1]));
+                    move = new Move(oldPosition, newPosition);
                     break;
-                case MCTS_AI:
-                    MctsAiPlayer mctsAiPlayer = (MctsAiPlayer) board.getCurrentPlayer();
-                    this.board.movePenguin(mctsAiPlayer.getBestMove(this.board));
+                case MCTS:
+                    MctsPlayer mctsPlayer = (MctsPlayer) getCurrentPlayer();
+                    move = mctsPlayer.getBestMove(board);
+                    break;
             }
-
-            System.out.println(this.board);
+            board.movePenguin(getCurrentPlayer(), move);
+            updateCurrentPlayer();
+            board.printBoard();
         }
 
-        System.out.println();
-        this.board.printPlayerScores();
-        System.out.println();
-        this.board.printWinner();
 
         writeResults();
     }
 
+    private void printScores() {
+        for (Player player : players) {
+            System.out.println(player.getScore());
+        }
+    }
+
+    private void printWinner() {
+        System.out.println("Winner: " + board.getWinner(players));
+    }
+
     private void writeResults() {
         if (!this.filePath.equals("")) {
-            DataWriter.writeDataLine(this.filePath, this.board.getPlayers());
+            DataWriter.writeDataLine(this.filePath, players);
         }
     }
 }

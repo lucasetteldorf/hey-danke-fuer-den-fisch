@@ -2,6 +2,7 @@ package game.players;
 
 import game.GameBoard;
 import game.IceFloeTile;
+import game.Move;
 import game.Penguin;
 import utility.RandomNumbers;
 
@@ -10,9 +11,9 @@ import java.util.List;
 
 import static utility.RandomNumbers.getRandomIndex;
 
-public class GreedyAiPlayer extends Player {
-    public GreedyAiPlayer(int index, String name, int penguinCount, String penguinColor) {
-        super(PlayerType.GREEDY_AI, index, name, penguinCount, penguinColor);
+public class GreedyPlayer extends BasePlayer {
+    public GreedyPlayer(String name, int penguinCount, String penguinColor) {
+        super(PlayerType.GREEDY, name, penguinCount, penguinColor);
     }
 
     public int[] getBestPenguinPosition(GameBoard board) {
@@ -22,8 +23,8 @@ public class GreedyAiPlayer extends Player {
 
         for (Penguin penguin : this.getPenguins()) {
             if (penguin.isOnBoard()) {
-                for (int[] position : board.getAllLegalMovesForPenguin(penguin)) {
-                    switch (board.getTile(position[0], position[1]).getFishCount()) {
+                for (Move move : board.getAllLegalMovesForPenguin(penguin)) {
+                    switch (board.getTile(move.getNewRow(), move.getNewCol()).getFishCount()) {
                         case 3:
                             if (!threeFishPenguins.contains(penguin)) {
                                 threeFishPenguins.add(penguin);
@@ -61,8 +62,8 @@ public class GreedyAiPlayer extends Player {
         List<IceFloeTile> threeFishTiles = new ArrayList<>();
         List<IceFloeTile> twoFishTiles = new ArrayList<>();
         List<IceFloeTile> oneFishTiles = new ArrayList<>();
-        for (int[] positions : board.getAllLegalMovesForPenguin(penguin)) {
-            IceFloeTile tile = board.getTile(positions[0], positions[1]);
+        for (Move move : board.getAllLegalMovesForPenguin(penguin)) {
+            IceFloeTile tile = board.getTile(move.getNewRow(), move.getNewCol());
             if (tile != null) {
                 switch (tile.getFishCount()) {
                     case 3:
@@ -79,7 +80,7 @@ public class GreedyAiPlayer extends Player {
         }
 
         // TODO index out of bounds exception (0)
-        int[] bestPosition = board.getAllLegalMovesForPenguin(penguin).get(RandomNumbers.getRandomIndex(board.getAllLegalMovesForPenguin(penguin).size()));
+        int[] bestPosition = board.getAllLegalMovesForPenguin(penguin).get(RandomNumbers.getRandomIndex(board.getAllLegalMovesForPenguin(penguin).size())).getNewPosition();
         if (!threeFishTiles.isEmpty()) {
             bestPosition = threeFishTiles.get(getRandomIndex(threeFishTiles.size())).getPosition();
         } else if (!twoFishTiles.isEmpty()) {

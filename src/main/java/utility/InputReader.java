@@ -24,7 +24,7 @@ public class InputReader {
     return scanner.nextLine().trim();
   }
 
-  public static int getPlayerCount() {
+  public static int getTotalPlayerCount() {
     int playerCount;
     do {
       playerCount = readInt("Number of total players (2-4): ");
