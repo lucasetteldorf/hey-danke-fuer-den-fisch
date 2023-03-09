@@ -135,8 +135,9 @@ public class GameBoard {
         if (player.canPlacePenguin() && isLegalPlacementTile(selectedTile)) {
             selectedTile.setUnoccupied(false);
             Penguin penguinToPlace = player.getPenguinToPlace();
-            penguinToPlace.place(row, col);
+            penguinToPlace.setPosition(row, col);
             penguins.put(penguinToPlace.hashCode(), penguinToPlace);
+            penguinToPlace.setOnBoard(true);
             player.updatePenguinToPlace();
         }
     }
@@ -256,6 +257,7 @@ public class GameBoard {
     }
 
     private void removePenguin(Penguin penguin) {
+        penguin.setOnBoard(false);
         penguins.remove(hashPosition(penguin.getRow(), penguin.getCol()));
     }
 
@@ -299,7 +301,7 @@ public class GameBoard {
     public List<Move> getAllLegalMovesForPlayer(Player player) {
         List<Move> possibleMoves = new ArrayList<>();
         for (Penguin penguin : player.getPenguins()) {
-            if (penguin.isOnGameBoard()) {
+            if (penguin.isOnBoard()) {
                 for (Move move : getAllLegalMovesForPenguin(penguin)) {
                     possibleMoves.add(move);
                 }

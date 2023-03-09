@@ -21,7 +21,7 @@ public class GreedyAiPlayer extends Player {
         List<Penguin> oneFishPenguins = new ArrayList<>();
 
         for (Penguin penguin : this.getPenguins()) {
-            if (penguin.isOnGameBoard()) {
+            if (penguin.isOnBoard()) {
                 for (int[] position : board.getAllLegalMovesForPenguin(penguin)) {
                     switch (board.getTile(position[0], position[1]).getFishCount()) {
                         case 3:

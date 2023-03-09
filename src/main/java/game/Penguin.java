@@ -1,6 +1,5 @@
 package game;
 
-import game.players.Player;
 import utility.ConsoleColors;
 
 import java.util.Arrays;
@@ -8,11 +7,10 @@ import java.util.Arrays;
 public class Penguin {
     // values: "B" = blue, "R" = red, "G" = green, "Y" = yellow
     private final String color;
-    private final Player player;
-    private int[] position;
+    private final int[] position;
+    private boolean isOnBoard;
 
-    public Penguin(String color, Player player) {
-        this.player = player;
+    public Penguin(String color) {
         switch (color) {
             case "B":
                 this.color = ConsoleColors.BLUE_PLAYER;
@@ -30,17 +28,13 @@ public class Penguin {
                 this.color = ConsoleColors.RESET;
                 break;
         }
+        this.position = new int[2];
     }
 
     // copy constructor
     public Penguin(Penguin penguin) {
         this.color = penguin.color;
-        this.player = penguin.player;
-        this.position = new int[]{penguin.getPosition()[0], penguin.getPosition()[1]};
-    }
-
-    public Player getPlayer() {
-        return player;
+        this.position = new int[]{penguin.getRow(), penguin.getCol()};
     }
 
     public void setPosition(int rowIndex, int colIndex) {
@@ -64,17 +58,12 @@ public class Penguin {
         return color;
     }
 
-    public void place(int rowIndex, int colIndex) {
-        this.position = new int[2];
-        setPosition(rowIndex, colIndex);
+    public boolean isOnBoard() {
+        return isOnBoard
     }
 
-    public void removeFromGameBoard() {
-        this.position = null;
-    }
-
-    public boolean isOnGameBoard() {
-        return this.position != null;
+    public void setOnBoard(boolean onBoard) {
+        isOnBoard = onBoard;
     }
 
     @Override
