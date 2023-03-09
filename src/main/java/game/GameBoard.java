@@ -164,22 +164,15 @@ public class GameBoard {
         IceFloeTile oldTile = getTile(move.getOldRow(), move.getOldCol());
         IceFloeTile newTile = getTile(move.getNewRow(), move.getNewCol());
 
-        if (canPenguinMove(penguin) && isLegalMove(oldTile, newTile)) {
+        if (hasPenguinLegalMoves(penguin) && isLegalMove(oldTile, newTile)) {
             newTile.setUnoccupied(false);
+            removePenguin(penguin);
             penguin.setPosition(move.getNewRow(), move.getNewCol());
+            penguins.put(penguin.hashCode(), penguin);
             player.updateCollectedTileCount();
             player.updateCollectedFishCount(oldTile.getFishCount());
             removeTile(oldTile);
         }
-    }
-
-    public boolean canPenguinMove(int row, int col) {
-        Penguin penguin = getPenguin(row, col);
-        return penguin != null && hasPenguinLegalMoves(penguin);
-    }
-
-    public boolean canPenguinMove(Penguin penguin) {
-        return penguin != null && hasPenguinLegalMoves(penguin);
     }
 
     public boolean isLegalMove(int[] oldPosition, int[] newPosition) {
@@ -271,8 +264,8 @@ public class GameBoard {
     }
 
     private void removePenguin(Penguin penguin) {
-        penguin.setOnBoard(false);
         penguins.remove(hashPosition(penguin.getRow(), penguin.getCol()));
+        penguin.setOnBoard(false);
     }
 
     public void removeAllPenguinsAndTiles(Player player) {
@@ -310,6 +303,10 @@ public class GameBoard {
 
     public boolean hasPenguinLegalMoves(Penguin penguin) {
         return !getAllLegalMovesForPenguin(penguin).isEmpty();
+    }
+
+    public boolean hasPenguinLegalMoves(int row, int col) {
+        return !getAllLegalMovesForPenguin(getPenguin(row, col)).isEmpty();
     }
 
     public List<Move> getAllLegalMovesForPlayer(Player player) {
@@ -363,7 +360,7 @@ public class GameBoard {
                     spacingLeft = (j < 10) ? "" : " ";
                     spacingRight = (j < 9) ? "   " : "    ";
                 }
-                String tileStr = (getTile(i, j) == null) ? "X" : (getPenguin(i, j) == null) ? getTile(i, j).toString() : getPenguin(i, j).toString();
+                String tileStr = (getTile(i, j) == null) ? "X" : (getTile(i, j).isUnoccupied()) ? getTile(i, j).toString() : getPenguin(i, j).toString();
                 str.append(spacingLeft).append(tileStr).append(spacingRight);
             }
             str.append("\n");

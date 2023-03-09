@@ -5,6 +5,8 @@ import game.players.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameBoardTest {
@@ -90,4 +92,16 @@ public class GameBoardTest {
         assertTrue(board.isPlacementPhaseOver(players));
         board.printBoard();
     }
+
+    @Test
+    void testIsLegalMove(){};
+
+    @Test
+    void testHasPenguinLegalMoves(){};
+
+    @Test
+    void testPenguinMovement(){};
+
+    @Test
+    void testIsMovementPhaseOver(){};
 }

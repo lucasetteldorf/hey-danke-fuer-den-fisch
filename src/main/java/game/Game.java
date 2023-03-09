@@ -146,7 +146,7 @@ public class Game {
                 case HUMAN:
                     do {
                         oldPosition = InputReader.getPenguinPosition(getCurrentPlayer());
-                    } while (!this.board.canPenguinMove(oldPosition[0], oldPosition[1]));
+                    } while (!this.board.hasPenguinLegalMoves(oldPosition[0], oldPosition[1]));
                     do {
                         newPosition = InputReader.getMovementPosition(getCurrentPlayer());
                     } while (!board.isLegalMove(oldPosition, newPosition));
