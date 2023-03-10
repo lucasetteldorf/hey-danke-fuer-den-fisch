@@ -94,14 +94,11 @@ public class GameBoardTest {
     }
 
     @Test
-    void testIsLegalMove(){};
-
-    @Test
-    void testHasPenguinLegalMoves(){};
-
-    @Test
-    void testPenguinMovement(){};
-
-    @Test
-    void testIsMovementPhaseOver(){};
+    void testHasPenguinLegalMoves(){
+        board.placePenguin(p1, 0, 3);
+        board.printBoard();
+        for (Move move : board.getAllLegalMovesForPenguin(p1.getPenguin(0))) {
+            System.out.print(Arrays.toString(move.getNewPosition()) + " ");
+        }
+    }
 }

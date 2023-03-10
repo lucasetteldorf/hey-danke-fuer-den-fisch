@@ -7,17 +7,14 @@ import utility.InputReader;
 public class Game {
     private final GameBoard board;
     private final Player[] players;
-    private final String filePath;
     private int currentPlayer;
 
     public Game() {
-        this.filePath = "";
         this.board = new GameBoard();
         this.players = initPlayers();
     }
 
-    public Game(String filePath, Player[] players) {
-        this.filePath = filePath;
+    public Game(Player[] players) {
         this.board = new GameBoard();
         this.players = players;
     }
@@ -85,6 +82,8 @@ public class Game {
     public void start() {
         startPlacementPhase();
         startMovementPhase();
+        printScores();
+        printWinner();
     }
 
     private Player getCurrentPlayer() {
@@ -155,7 +154,7 @@ public class Game {
                 case RANDOM:
                     RandomPlayer randomPlayer = (RandomPlayer) getCurrentPlayer();
                     oldPosition = randomPlayer.getRandomPenguinPosition(this.board);
-                    newPosition = randomPlayer.getRandomMovementPositionForPenguin(this.board, this.board.getPenguin(oldPosition[0], oldPosition[1]));
+                    newPosition = randomPlayer.getRandomMovementPositionForPenguin(this.board, oldPosition);
                     move = new Move(oldPosition, newPosition);
                     break;
                 case GREEDY:
@@ -173,9 +172,6 @@ public class Game {
             updateCurrentPlayer();
             board.printBoard();
         }
-
-
-        writeResults();
     }
 
     private void printScores() {
@@ -186,11 +182,5 @@ public class Game {
 
     private void printWinner() {
         System.out.println("Winner: " + board.getWinner(players));
-    }
-
-    private void writeResults() {
-        if (!this.filePath.equals("")) {
-            DataWriter.writeDataLine(this.filePath, players);
-        }
     }
 }

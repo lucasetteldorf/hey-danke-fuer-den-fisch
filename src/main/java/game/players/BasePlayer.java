@@ -67,6 +67,10 @@ public class BasePlayer implements Player {
         return penguins;
     }
 
+    public Penguin getPenguin(int index) {
+        return penguins[index];
+    }
+
     @Override
     public Penguin getPenguinToPlace() {
         return this.penguins[this.penguinToPlaceIndex];

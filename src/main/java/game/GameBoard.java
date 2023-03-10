@@ -265,12 +265,12 @@ public class GameBoard {
 
     private void removePenguin(Penguin penguin) {
         penguins.remove(hashPosition(penguin.getRow(), penguin.getCol()));
-        penguin.setOnBoard(false);
     }
 
     public void removeAllPenguinsAndTiles(Player player) {
         for (Penguin penguin : player.getPenguins()) {
             removePenguin(penguin);
+            penguin.setOnBoard(false);
             removeTile(getTile(penguin.getRow(), penguin.getCol()));
         }
     }

@@ -11,6 +11,8 @@ public interface Player {
 
     Penguin[] getPenguins();
 
+    Penguin getPenguin(int index);
+
     Penguin getPenguinToPlace();
 
     void updatePenguinToPlace();
