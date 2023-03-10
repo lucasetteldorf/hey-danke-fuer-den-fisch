@@ -34,5 +34,8 @@ public interface Player {
     String getScore();
 
     @Override
+    boolean equals(Object obj);
+
+    @Override
     String toString();
 }

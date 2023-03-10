@@ -127,6 +127,14 @@ public class BasePlayer implements Player {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Player player) {
+            return this.penguins.equals(player.getPenguinColor());
+        }
+        return false;
+    }
+
+    @Override
     public String toString() {
         return this.name + " (" + penguinColor + ")";
     }
