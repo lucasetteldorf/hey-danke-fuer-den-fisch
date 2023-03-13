@@ -1,100 +1,132 @@
 package mcts;
 
-import utility.RandomNumbers;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import utility.RandomNumbers;
 
 public class Node {
-    private Node parent;
-    private List<Node> children;
-    private State state;
-    private int visits;
-    private double score;
+  private Node parent;
+  private List<Node> children;
+  private List<Node> unexpandedChildren;
+  private State state;
+  private int visits;
+  private double score;
 
-    public Node() {
-        this.state = new State();
-        this.children = new ArrayList<>();
-    }
+  public Node() {
+    this.state = new State();
+    this.children = new ArrayList<>();
+  }
 
-    public Node(Node node) {
-        if (node.parent != null) {
-            this.parent = node.parent;
-        }
-        this.children = new ArrayList<>();
-        for (Node child : node.getChildren()) {
-            this.children.add(child);
-        }
-        this.state = new State(node.state);
-        this.visits = node.visits;
-        this.score = node.score;
+  public Node(Node node) {
+    if (node.parent != null) {
+      this.parent = node.parent;
     }
+    this.children = new ArrayList<>();
+    for (Node child : node.getChildren()) {
+      this.children.add(child);
+    }
+    this.unexpandedChildren = new ArrayList<>();
+    for (Node unexpandedChild : node.getUnexpandedChildren()) {
+      this.unexpandedChildren.add(unexpandedChild);
+    }
+    this.state = new State(node.state);
+    this.visits = node.visits;
+    this.score = node.score;
+  }
 
-    public Node(State state) {
-        this.state = state;
-        this.children = new ArrayList<>();
-        // TODO set visits and score?
-    }
+  public Node(State state) {
+    this.state = new State(state);
+    this.children = new ArrayList<>();
+    // TODO children need to be added
+    this.unexpandedChildren = new ArrayList<>();
+  }
 
-    public Node getParent() {
-        return parent;
+  public void initUnexpandedChildren(List<State> states) {
+    this.unexpandedChildren = new ArrayList<>();
+    for (State state : states) {
+      Node child = new Node(state);
+      child.setParent(this);
+      this.unexpandedChildren.add(child);
     }
+  }
 
-    public void setParent(Node parent) {
-        this.parent = parent;
-    }
+  public Node getParent() {
+    return parent;
+  }
 
-    public List<Node> getChildren() {
-        return children;
-    }
+  public void setParent(Node parent) {
+    this.parent = parent;
+  }
 
-    public void setChildren(List<Node> children) {
-        this.children = children;
-    }
+  public List<Node> getChildren() {
+    return children;
+  }
 
-    public State getState() {
-        return state;
-    }
+  public void setChildren(List<Node> children) {
+    this.children = children;
+  }
 
-    public void setState(State state) {
-        this.state = state;
-    }
+  public List<Node> getUnexpandedChildren() {
+    return unexpandedChildren;
+  }
 
-    public int getVisits() {
-        return visits;
-    }
+  public void setUnexpandedChildren(List<Node> unexpandedChildren) {
+    this.unexpandedChildren = unexpandedChildren;
+  }
 
-    public void updateVisits() {
-        visits++;
-    }
+  public State getState() {
+    return state;
+  }
 
-    public void setVisits(int visits) {
-        this.visits = visits;
-    }
+  public void setState(State state) {
+    this.state = state;
+  }
 
-    public double getScore() {
-        return score;
-    }
+  public int getVisits() {
+    return visits;
+  }
 
-    public void updateScore(double score) {
-        this.score += score;
-    }
+  public void setVisits(int visits) {
+    this.visits = visits;
+  }
 
-    public void setScore(double score) {
-        this.score = score;
-    }
+  public void updateVisits() {
+    visits++;
+  }
 
-    public void addChild(Node node) {
-        children.add(node);
-    }
+  public double getScore() {
+    return score;
+  }
 
-    public Node getRandomChild() {
-        return children.get(RandomNumbers.getRandomIndex(this.children.size()));
-    }
+  public void setScore(double score) {
+    this.score = score;
+  }
 
-    public Node getChildWithMaxVisits() {
-        return Collections.max(children, Comparator.comparing(child -> child.getVisits()));
-    }
+  public void updateScore(double score) {
+    this.score += score;
+  }
+
+  public void addChild(Node node) {
+    children.add(node);
+  }
+
+  // TODO working as intended?
+  public boolean hasUnexpandedChildren() {
+    // if this is true, there are still children than can be expanded
+    return children.size() < this.children.size() + unexpandedChildren.size();
+  }
+
+  public Node getRandomChild() {
+    return children.get(RandomNumbers.getRandomIndex(this.children.size()));
+  }
+
+  public Node getRandomUnexpandedChild() {
+    return unexpandedChildren.get(RandomNumbers.getRandomIndex(unexpandedChildren.size()));
+  }
+
+  public Node getChildWithMaxVisits() {
+    return Collections.max(children, Comparator.comparing(child -> child.getVisits()));
+  }
 }
