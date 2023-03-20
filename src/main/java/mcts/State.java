@@ -56,19 +56,12 @@ public class State {
     for (Move move : board.getAllLegalMovesForPlayer(currentPlayer)) {
       State state = new State(this);
       state.setPreviousMove(move);
-      // TODO PROBLEM: player gets all tiles and fish because of these calls!!! create extra
-      // method?!
-      state.getBoard().movePenguin(currentPlayer, move);
+      state.getBoard().movePenguin(state.getCurrentPlayer(), move);
       // TODO working as intended?
-      state.setCurrentPlayer(board.getGame().getNextPlayer());
+      state.setCurrentPlayer(board.getNextPlayer());
       possibleStates.add(state);
     }
     return possibleStates;
-  }
-
-  public State getRandomPossibleState() {
-    List<State> possibleStates = getAllPossibleStates();
-    return possibleStates.get(RandomNumbers.getRandomIndex(possibleStates.size()));
   }
 
   // TODO only works for second phase (movement)
@@ -76,10 +69,10 @@ public class State {
     // TODO problem: at this point legal moves is always empty because penguin of player have made
     // TODO all the moves of the calculated possible moves -> calling getAllPossibleStates() causes
     // TODO problems because the tiles, penguins and players are updated
-    List<Move> possibleMoves = this.board.getAllLegalMovesForPlayer(this.currentPlayer);
+    List<Move> possibleMoves = board.getAllLegalMovesForPlayer(currentPlayer);
     Move randomMove = possibleMoves.get(RandomNumbers.getRandomIndex(possibleMoves.size()));
     // TODO working as intended?
     board.movePenguin(currentPlayer, randomMove);
-    currentPlayer = board.getGame().getNextPlayer();
+    currentPlayer = board.getNextPlayer();
   }
 }

@@ -27,7 +27,10 @@ public class Player {
     this.type = player.type;
     this.name = player.name;
     this.penguinColor = player.penguinColor;
-    this.penguins = initPenguins(player.penguins.length, player.penguinColor);
+    this.penguins = new Penguin[player.penguins.length];
+    for (int i = 0; i < player.penguins.length; i++) {
+      this.penguins[i] = new Penguin(player.penguins[i]);
+    }
     this.penguinToPlaceIndex = player.penguinToPlaceIndex;
     this.collectedTileCount = player.collectedTileCount;
     this.collectedFishCount = player.collectedFishCount;
@@ -113,13 +116,15 @@ public class Player {
         + " fish collected";
   }
 
+  @Override
   public boolean equals(Object obj) {
     if (obj instanceof Player player) {
-      return this.penguins.equals(player.getPenguinColor());
+      return this.penguinColor.equals(player.getPenguinColor());
     }
     return false;
   }
 
+  @Override
   public String toString() {
     return this.name + " (" + penguinColor + ")";
   }

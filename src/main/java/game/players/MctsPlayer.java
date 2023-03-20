@@ -13,12 +13,7 @@ public class MctsPlayer extends Player {
     mcts = new Mcts();
   }
 
-  public void setPlayers(Player[] players) {
-    this.mcts.setPlayers(players);
-  }
-
   public int[] getBestPlacementPosition(GameBoard board) {
-    // TODO change to MCTS when implemented
     return board
         .getAllLegalPlacementPositions()
         .get(RandomNumbers.getRandomIndex(board.getAllLegalPlacementPositions().size()));

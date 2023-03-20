@@ -9,13 +9,13 @@ public class Game {
   private int currentPlayer;
 
   public Game() {
-    this.board = new GameBoard(this);
     this.players = initPlayers();
+    this.board = new GameBoard(players);
   }
 
   public Game(Player[] players) {
-    this.board = new GameBoard(this);
     this.players = players;
+    this.board = new GameBoard(players);
   }
 
   public static void main(String[] args) {
@@ -82,12 +82,6 @@ public class Game {
       InputReader.AVAILABLE_COLORS.remove(0);
     }
 
-    for (Player player : players) {
-      if (player.getType() == PlayerType.MCTS) {
-        ((MctsPlayer) player).setPlayers(players);
-      }
-    }
-
     return players;
   }
 
@@ -114,6 +108,10 @@ public class Game {
       nextPlayer = players[nextPlayerIndex];
     } while (!board.hasPlayerLegalMoves(nextPlayer));
     return nextPlayer;
+  }
+
+  public Player[] getPlayers() {
+    return players;
   }
 
   private void startPlacementPhase() {
@@ -157,6 +155,7 @@ public class Game {
           board.printBoard();
         }
         updateCurrentPlayer();
+        board.updateCurrentPlayer();
         continue;
       }
 

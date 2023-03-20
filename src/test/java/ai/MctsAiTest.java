@@ -12,7 +12,6 @@ public class MctsAiTest {
     RandomPlayer p1 = new RandomPlayer("Random AI", 4, "B");
     MctsPlayer p2 = new MctsPlayer("MCTS AI", 4, "R");
     Player[] players = new Player[]{p1, p2};
-    p2.setPlayers(players);
     Game game = new Game(players);
     game.start();
   }

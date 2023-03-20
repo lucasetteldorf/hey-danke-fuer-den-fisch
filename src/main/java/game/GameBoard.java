@@ -15,18 +15,28 @@ public class GameBoard {
   private final HashMap<Integer, IceFloeTile> tiles;
   private final HashMap<Integer, Penguin> penguins;
   private final Game game;
+  private final Player[] players;
+  private int currentPlayerIndex;
 
-  // TODO fix constructor (game is null)
   public GameBoard() {
     this.tiles = createGameBoard();
     this.penguins = new HashMap<>();
     this.game = null;
+    this.players = null;
   }
 
   public GameBoard(Game game) {
     this.tiles = createGameBoard();
     this.penguins = new HashMap<>();
     this.game = game;
+    this.players = null;
+  }
+
+  public GameBoard(Player[] players) {
+    this.tiles = createGameBoard();
+    this.penguins = new HashMap<>();
+    this.game = null;
+    this.players = players;
   }
 
   public GameBoard(int[] fishCounts) {
@@ -39,6 +49,7 @@ public class GameBoard {
     }
     this.penguins = new HashMap<>();
     this.game = null;
+    this.players = null;
   }
 
   // copy constructor
@@ -53,8 +64,11 @@ public class GameBoard {
       Penguin penguinCopy = new Penguin(penguin);
       this.penguins.put(penguinCopy.hashCode(), penguinCopy);
     }
-    // TODO shallow copy sufficient?
     this.game = board.game;
+    this.players = new Player[board.players.length];
+    for (int i = 0; i < this.players.length; i++) {
+      this.players[i] = new Player(board.players[i]);
+    }
   }
 
   private HashMap<Integer, IceFloeTile> createGameBoard() {
@@ -78,6 +92,28 @@ public class GameBoard {
       }
     }
     return tiles;
+  }
+
+  public Player getCurrentPlayer() {
+    return players[currentPlayerIndex];
+  }
+
+  public void updateCurrentPlayer() {
+    currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+  }
+
+  public Player getNextPlayer() {
+    int nextPlayerIndex = currentPlayerIndex;
+    Player nextPlayer;
+    do {
+      nextPlayerIndex = (nextPlayerIndex + 1) % players.length;
+      nextPlayer = players[nextPlayerIndex];
+    } while (!hasPlayerLegalMoves(nextPlayer));
+    return nextPlayer;
+  }
+
+  public Player[] getPlayers() {
+    return players;
   }
 
   private int hashPosition(int row, int col) {
@@ -162,6 +198,7 @@ public class GameBoard {
       penguins.put(penguinToPlace.hashCode(), penguinToPlace);
       penguinToPlace.setOnBoard(true);
       player.updatePenguinToPlace();
+      updateCurrentPlayer();
     }
   }
 
@@ -187,6 +224,7 @@ public class GameBoard {
       player.updateCollectedTileCount();
       player.updateCollectedFishCount(oldTile.getFishCount());
       removeTile(oldTile);
+      updateCurrentPlayer();
     }
   }
 
@@ -338,7 +376,6 @@ public class GameBoard {
   }
 
   // return index of the winning player (-1 if tied)
-  // TODO adjust winning/tie rules
   public int getWinnerIndex(Player[] players) {
     int maxFishCount = 0;
     int winnerIndex = -1;
@@ -352,7 +389,6 @@ public class GameBoard {
   }
 
   // return null if there is no clear winner/a tie
-  // TODO maybe adjust to return array of tied players
   public Player getWinner(Player[] players) {
     return (getWinnerIndex(players) != -1) ? players[getWinnerIndex(players)] : null;
   }

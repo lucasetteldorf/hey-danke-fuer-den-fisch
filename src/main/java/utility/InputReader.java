@@ -12,7 +12,6 @@ public class InputReader {
 
   private static int readInt(String prompt) {
     System.out.print(prompt);
-    // TODO add error handling
     int input = scanner.nextInt();
     scanner.nextLine();
     return input;
@@ -49,7 +48,6 @@ public class InputReader {
     return readLine("Player " + (playerIndex + 1) + " name: ");
   }
 
-  // TODO same color can be chosen twice
   public static String getPenguinColor(int playerIndex) {
     String penguinColor;
     do {
@@ -83,13 +81,11 @@ public class InputReader {
       if (coordinates.length != 2) {
         System.out.println("Please enter two valid coordinates separated by a space...");
       }
-      // TODO make sure only numbers are entered
     } while (coordinates.length != 2);
 
     return new int[] {Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1])};
   }
 
-  // TODO validate input
   public static int[] getPlacementPosition(Player currentPlayer) {
     return readPosition(currentPlayer + ": Coordinates to place penguin (separated by a space): ");
   }

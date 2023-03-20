@@ -9,6 +9,7 @@ import utility.RandomNumbers;
 public class Node {
   private Node parent;
   private List<Node> children;
+  // TODO maybe use untried moves instead
   private List<Node> unexpandedChildren;
   private State state;
   private int visits;
@@ -42,7 +43,6 @@ public class Node {
   public Node(State state) {
     this.state = new State(state);
     this.children = new ArrayList<>();
-    // TODO children need to be added
     this.unexpandedChildren = new ArrayList<>();
   }
 
@@ -115,7 +115,6 @@ public class Node {
     children.add(node);
   }
 
-  // TODO working as intended?
   public boolean hasUnexpandedChildren() {
     // if this is true, there are still children than can be expanded
     return children.size() < children.size() + unexpandedChildren.size();
