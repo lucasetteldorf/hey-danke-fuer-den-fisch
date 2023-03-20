@@ -9,13 +9,7 @@ public class Mcts {
   private static final int WIN_SCORE = 1;
   private static final double TIE_SCORE = 0.5;
 
-  private final int level;
   private Player[] players;
-
-  public Mcts() {
-    // TODO adjust level/initialize tree with some levels?!
-    this.level = 3;
-  }
 
   public Player[] getPlayers() {
     return players;
@@ -33,7 +27,7 @@ public class Mcts {
     root.getState().setBoard(board);
     // TODO working as intended?
     root.getState().setCurrentPlayer(currentPlayer);
-    root.initUnexpandedChildren(root.getState().getAllPossibleStates());
+    root.initUnexpandedChildren();
 
     while ((System.currentTimeMillis() - start) < COMPUTATIONAL_BUDGET) {
       // 1: Selection
@@ -51,7 +45,7 @@ public class Mcts {
 
       // 4: Backpropagation
       // TODO adjust backpropagation of result
-      backPropagation(expandedNode, playoutResult);
+      backpropagate(expandedNode, playoutResult);
     }
 
     Node winnerNode = root.getChildWithMaxVisits();
@@ -80,6 +74,7 @@ public class Mcts {
       node.getUnexpandedChildren().remove(expandedNode);
     } else {
       expandedNode = new Node(node.getState().getRandomPossibleState());
+      expandedNode.initUnexpandedChildren();
     }
     expandedNode.setParent(node);
     node.addChild(expandedNode);
@@ -92,7 +87,7 @@ public class Mcts {
 
     // TODO set score to Integer.MIN_VALUE if opponent wins?
 
-    // TODO internal logic/update of states may not work as needed (update of palayer)
+    // TODO internal logic/update of states may not work as needed (update of player)
     while (!tmpState.getBoard().isMovementPhaseOver(players)) {
       tmpState.playRandomMove();
     }
@@ -101,7 +96,7 @@ public class Mcts {
     return tmpState.getBoard().getWinnerIndex(players);
   }
 
-  private void backPropagation(Node expandedNode, int playerIndex) {
+  private void backpropagate(Node expandedNode, int playerIndex) {
     Node tmp = expandedNode;
     while (tmp != null) {
       tmp.updateVisits();

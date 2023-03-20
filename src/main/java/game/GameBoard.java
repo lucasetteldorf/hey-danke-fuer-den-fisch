@@ -51,7 +51,7 @@ public class GameBoard {
     this.penguins = new HashMap<>();
     for (Penguin penguin : board.getAllPenguins()) {
       Penguin penguinCopy = new Penguin(penguin);
-      this.penguins.put(penguin.hashCode(), penguinCopy);
+      this.penguins.put(penguinCopy.hashCode(), penguinCopy);
     }
     // TODO shallow copy sufficient?
     this.game = board.game;

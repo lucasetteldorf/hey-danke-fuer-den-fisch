@@ -1,35 +1,41 @@
 package game;
 
 public class Move {
-    private final int[] oldPosition;
-    private final int[] newPosition;
+  private final int[] oldPosition;
+  private final int[] newPosition;
 
-    public Move(int[] oldPosition, int[] newPosition) {
-        this.oldPosition = oldPosition;
-        this.newPosition = newPosition;
-    }
+  public Move(int[] oldPosition, int[] newPosition) {
+    this.oldPosition = oldPosition;
+    this.newPosition = newPosition;
+  }
 
-    public int[] getOldPosition() {
-        return oldPosition;
-    }
+  // copy constructor
+  public Move(Move move) {
+    this.oldPosition = new int[] {move.getOldRow(), move.getOldCol()};
+    this.newPosition = new int[] {move.getNewRow(), move.getNewCol()};
+  }
 
-    public int getOldRow() {
-        return oldPosition[0];
-    }
+  public int[] getOldPosition() {
+    return oldPosition;
+  }
 
-    public int getOldCol() {
-        return oldPosition[1];
-    }
+  public int getOldRow() {
+    return oldPosition[0];
+  }
 
-    public int[] getNewPosition() {
-        return newPosition;
-    }
+  public int getOldCol() {
+    return oldPosition[1];
+  }
 
-    public int getNewRow() {
-        return newPosition[0];
-    }
+  public int[] getNewPosition() {
+    return newPosition;
+  }
 
-    public int getNewCol() {
-        return newPosition[1];
-    }
+  public int getNewRow() {
+    return newPosition[0];
+  }
+
+  public int getNewCol() {
+    return newPosition[1];
+  }
 }

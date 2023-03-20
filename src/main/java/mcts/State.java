@@ -2,9 +2,9 @@ package mcts;
 
 import game.GameBoard;
 import game.Move;
+import game.players.Player;
 import java.util.ArrayList;
 import java.util.List;
-import game.players.Player;
 import utility.RandomNumbers;
 
 public class State {
@@ -19,12 +19,11 @@ public class State {
   // copy constructor
   public State(State state) {
     this.board = new GameBoard(state.board);
-    // TODO shallow copy sufficient?
-    this.currentPlayer = state.getCurrentPlayer();
-  }
-
-  public State(GameBoard board) {
-    this.board = new GameBoard(board);
+    this.currentPlayer = new Player(state.currentPlayer);
+    // previousMove at root is null
+    if (state.previousMove != null) {
+      this.previousMove = new Move(state.previousMove);
+    }
   }
 
   public GameBoard getBoard() {
@@ -55,13 +54,14 @@ public class State {
   public List<State> getAllPossibleStates() {
     List<State> possibleStates = new ArrayList<>();
     for (Move move : board.getAllLegalMovesForPlayer(currentPlayer)) {
-      State newState = new State(this);
-      newState.setPreviousMove(move);
-      // TODO PROBLEM: player gets all tiles and fish because of these calls!!! create extra method
-      newState.getBoard().movePenguin(currentPlayer, move);
+      State state = new State(this);
+      state.setPreviousMove(move);
+      // TODO PROBLEM: player gets all tiles and fish because of these calls!!! create extra
+      // method?!
+      state.getBoard().movePenguin(currentPlayer, move);
       // TODO working as intended?
-      newState.setCurrentPlayer(board.getGame().getNextPlayer());
-      possibleStates.add(newState);
+      state.setCurrentPlayer(board.getGame().getNextPlayer());
+      possibleStates.add(state);
     }
     return possibleStates;
   }
@@ -73,11 +73,13 @@ public class State {
 
   // TODO only works for second phase (movement)
   public void playRandomMove() {
-    List<Move> allPossibleMoves = this.board.getAllLegalMovesForPlayer(this.currentPlayer);
-    Move randomMove = allPossibleMoves.get(RandomNumbers.getRandomIndex(allPossibleMoves.size()));
-    // TODO also set next player?
-    board.movePenguin(currentPlayer, randomMove);
+    // TODO problem: at this point legal moves is always empty because penguin of player have made
+    // TODO all the moves of the calculated possible moves -> calling getAllPossibleStates() causes
+    // TODO problems because the tiles, penguins and players are updated
+    List<Move> possibleMoves = this.board.getAllLegalMovesForPlayer(this.currentPlayer);
+    Move randomMove = possibleMoves.get(RandomNumbers.getRandomIndex(possibleMoves.size()));
     // TODO working as intended?
+    board.movePenguin(currentPlayer, randomMove);
     currentPlayer = board.getGame().getNextPlayer();
   }
 }

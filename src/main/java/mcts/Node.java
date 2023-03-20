@@ -12,13 +12,16 @@ public class Node {
   private List<Node> unexpandedChildren;
   private State state;
   private int visits;
+  // TODO maybe change to wins (int)
   private double score;
 
   public Node() {
     this.state = new State();
     this.children = new ArrayList<>();
+    this.unexpandedChildren = new ArrayList<>();
   }
 
+  // copy constructor
   public Node(Node node) {
     if (node.parent != null) {
       this.parent = node.parent;
@@ -43,9 +46,9 @@ public class Node {
     this.unexpandedChildren = new ArrayList<>();
   }
 
-  public void initUnexpandedChildren(List<State> states) {
+  public void initUnexpandedChildren() {
     this.unexpandedChildren = new ArrayList<>();
-    for (State state : states) {
+    for (State state : state.getAllPossibleStates()) {
       Node child = new Node(state);
       child.setParent(this);
       this.unexpandedChildren.add(child);
@@ -93,7 +96,7 @@ public class Node {
   }
 
   public void updateVisits() {
-    visits++;
+    this.visits++;
   }
 
   public double getScore() {
@@ -115,11 +118,11 @@ public class Node {
   // TODO working as intended?
   public boolean hasUnexpandedChildren() {
     // if this is true, there are still children than can be expanded
-    return children.size() < this.children.size() + unexpandedChildren.size();
+    return children.size() < children.size() + unexpandedChildren.size();
   }
 
   public Node getRandomChild() {
-    return children.get(RandomNumbers.getRandomIndex(this.children.size()));
+    return children.get(RandomNumbers.getRandomIndex(children.size()));
   }
 
   public Node getRandomUnexpandedChild() {
