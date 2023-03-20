@@ -2,9 +2,9 @@ package mcts;
 
 import game.GameBoard;
 import game.Move;
-import game.players.Player;
 import java.util.ArrayList;
 import java.util.List;
+import game.players.Player;
 import utility.RandomNumbers;
 
 public class State {

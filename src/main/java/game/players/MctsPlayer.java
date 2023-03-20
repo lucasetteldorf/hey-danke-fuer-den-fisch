@@ -5,7 +5,7 @@ import game.Move;
 import mcts.Mcts;
 import utility.RandomNumbers;
 
-public class MctsPlayer extends BasePlayer {
+public class MctsPlayer extends Player {
   private final Mcts mcts;
 
   public MctsPlayer(String name, int penguinCount, String penguinColor) {

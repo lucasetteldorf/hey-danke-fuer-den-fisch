@@ -1,7 +1,6 @@
 package utility;
 
 import game.players.Player;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -90,9 +89,9 @@ public class InputReader {
     return new int[] {Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1])};
   }
 
+  // TODO validate input
   public static int[] getPlacementPosition(Player currentPlayer) {
-    return readPosition(
-        currentPlayer + ": Coordinates to place penguin (separated by a space): ");
+    return readPosition(currentPlayer + ": Coordinates to place penguin (separated by a space): ");
   }
 
   public static int[] getPenguinPosition(Player currentPlayer) {

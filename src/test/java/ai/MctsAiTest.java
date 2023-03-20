@@ -1,6 +1,10 @@
 package ai;
 
-import game.Game;import game.players.MctsPlayer;import game.players.Player;import game.players.RandomPlayer;import org.junit.jupiter.api.Test;import utility.RandomNumbers;
+import game.Game;
+import game.players.MctsPlayer;
+import game.players.Player;
+import game.players.RandomPlayer;
+import org.junit.jupiter.api.Test;
 
 public class MctsAiTest {
   @Test

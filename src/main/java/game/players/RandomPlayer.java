@@ -8,7 +8,7 @@ import utility.RandomNumbers;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RandomPlayer extends BasePlayer {
+public class RandomPlayer extends Player {
     public RandomPlayer(String name, int penguinCount, String penguinColor) {
         super(PlayerType.RANDOM, name, penguinCount, penguinColor);
     }

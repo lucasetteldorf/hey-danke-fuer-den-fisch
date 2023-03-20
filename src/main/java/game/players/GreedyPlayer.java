@@ -11,7 +11,7 @@ import java.util.List;
 
 import static utility.RandomNumbers.getRandomIndex;
 
-public class GreedyPlayer extends BasePlayer {
+public class GreedyPlayer extends Player {
     public GreedyPlayer(String name, int penguinCount, String penguinColor) {
         super(PlayerType.GREEDY, name, penguinCount, penguinColor);
     }
