@@ -5,16 +5,12 @@ import utility.InputReader;
 
 public class Game {
   private final GameBoard board;
-  private final Player[] players;
-  private int currentPlayer;
 
   public Game() {
-    this.players = initPlayers();
-    this.board = new GameBoard(players);
+    this.board = new GameBoard(initPlayers());
   }
 
   public Game(Player[] players) {
-    this.players = players;
     this.board = new GameBoard(players);
   }
 
@@ -88,58 +84,35 @@ public class Game {
   public void start() {
     startPlacementPhase();
     startMovementPhase();
-    printScores();
-    printWinner();
-  }
-
-  private Player getCurrentPlayer() {
-    return players[currentPlayer];
-  }
-
-  private void updateCurrentPlayer() {
-    currentPlayer = (currentPlayer + 1) % players.length;
-  }
-
-  public Player getNextPlayer() {
-    int nextPlayerIndex = currentPlayer;
-    Player nextPlayer;
-    do {
-      nextPlayerIndex = (nextPlayerIndex + 1) % players.length;
-      nextPlayer = players[nextPlayerIndex];
-    } while (!board.hasPlayerLegalMoves(nextPlayer));
-    return nextPlayer;
-  }
-
-  public Player[] getPlayers() {
-    return players;
+    board.printScores();
+    board.printWinner();
   }
 
   private void startPlacementPhase() {
     board.printBoard();
     System.out.println("Start placement...\n");
 
-    while (!this.board.isPlacementPhaseOver(players)) {
+    while (!this.board.isPlacementPhaseOver(board.getPlayers())) {
       int[] placementPosition = new int[2];
-      switch (getCurrentPlayer().getType()) {
+      switch (board.getCurrentPlayer().getType()) {
         case HUMAN:
           do {
-            placementPosition = InputReader.getPlacementPosition(getCurrentPlayer());
+            placementPosition = InputReader.getPlacementPosition(board.getCurrentPlayer());
           } while (!board.isLegalPlacementPosition(placementPosition));
           break;
         case RANDOM:
-          RandomPlayer randomPlayer = (RandomPlayer) getCurrentPlayer();
+          RandomPlayer randomPlayer = (RandomPlayer) board.getCurrentPlayer();
           placementPosition = randomPlayer.getRandomPlacementPosition(board);
           break;
         case GREEDY:
-          GreedyPlayer greedyPlayer = (GreedyPlayer) getCurrentPlayer();
+          GreedyPlayer greedyPlayer = (GreedyPlayer) board.getCurrentPlayer();
           placementPosition = greedyPlayer.getRandomPlacementPosition(board);
           break;
         case MCTS:
-          MctsPlayer mctsPlayer = (MctsPlayer) getCurrentPlayer();
+          MctsPlayer mctsPlayer = (MctsPlayer) board.getCurrentPlayer();
           placementPosition = mctsPlayer.getBestPlacementPosition(this.board);
       }
-      this.board.placePenguin(getCurrentPlayer(), placementPosition[0], placementPosition[1]);
-      updateCurrentPlayer();
+      this.board.placePenguin(board.getCurrentPlayer(), placementPosition[0], placementPosition[1]);
       board.printBoard();
     }
   }
@@ -147,39 +120,28 @@ public class Game {
   private void startMovementPhase() {
     System.out.println("Start movement...\n");
 
-    while (!this.board.isMovementPhaseOver(players)) {
-      if (!board.hasPlayerLegalMoves(getCurrentPlayer())) {
-        if (!getCurrentPlayer().arePenguinsRemovedFromBoard()) {
-          board.removeAllPenguinsAndTiles(getCurrentPlayer());
-          getCurrentPlayer().setPenguinsRemovedFromBoard(true);
-          board.printBoard();
-        }
-        updateCurrentPlayer();
-        board.updateCurrentPlayer();
-        continue;
-      }
-
+    while (!this.board.isMovementPhaseOver(board.getPlayers())) {
       int[] oldPosition;
       int[] newPosition;
       Move move = null;
-      switch (getCurrentPlayer().getType()) {
+      switch (board.getCurrentPlayer().getType()) {
         case HUMAN:
           do {
-            oldPosition = InputReader.getPenguinPosition(getCurrentPlayer());
+            oldPosition = InputReader.getPenguinPosition(board.getCurrentPlayer());
           } while (!this.board.hasPenguinLegalMoves(oldPosition[0], oldPosition[1]));
           do {
-            newPosition = InputReader.getMovementPosition(getCurrentPlayer());
+            newPosition = InputReader.getMovementPosition(board.getCurrentPlayer());
           } while (!board.isLegalMove(oldPosition, newPosition));
           move = new Move(oldPosition, newPosition);
           break;
         case RANDOM:
-          RandomPlayer randomPlayer = (RandomPlayer) getCurrentPlayer();
+          RandomPlayer randomPlayer = (RandomPlayer) board.getCurrentPlayer();
           oldPosition = randomPlayer.getRandomPenguinPosition(this.board);
           newPosition = randomPlayer.getRandomMovementPositionForPenguin(this.board, oldPosition);
           move = new Move(oldPosition, newPosition);
           break;
         case GREEDY:
-          GreedyPlayer greedyPlayer = (GreedyPlayer) getCurrentPlayer();
+          GreedyPlayer greedyPlayer = (GreedyPlayer) board.getCurrentPlayer();
           oldPosition = greedyPlayer.getBestPenguinPosition(this.board);
           newPosition =
               greedyPlayer.getBestMovementPosition(
@@ -187,23 +149,12 @@ public class Game {
           move = new Move(oldPosition, newPosition);
           break;
         case MCTS:
-          MctsPlayer mctsPlayer = (MctsPlayer) getCurrentPlayer();
+          MctsPlayer mctsPlayer = (MctsPlayer) board.getCurrentPlayer();
           move = mctsPlayer.getBestMove(board);
           break;
       }
-      board.movePenguin(getCurrentPlayer(), move);
-      updateCurrentPlayer();
+      board.movePenguin(board.getCurrentPlayer(), move);
       board.printBoard();
     }
-  }
-
-  private void printScores() {
-    for (Player player : players) {
-      System.out.println(player.getScore());
-    }
-  }
-
-  private void printWinner() {
-    System.out.println("Winner: " + board.getWinner(players));
   }
 }

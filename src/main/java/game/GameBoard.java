@@ -14,28 +14,18 @@ public class GameBoard {
 
   private final HashMap<Integer, IceFloeTile> tiles;
   private final HashMap<Integer, Penguin> penguins;
-  private final Game game;
   private final Player[] players;
   private int currentPlayerIndex;
 
   public GameBoard() {
     this.tiles = createGameBoard();
     this.penguins = new HashMap<>();
-    this.game = null;
-    this.players = null;
-  }
-
-  public GameBoard(Game game) {
-    this.tiles = createGameBoard();
-    this.penguins = new HashMap<>();
-    this.game = game;
     this.players = null;
   }
 
   public GameBoard(Player[] players) {
     this.tiles = createGameBoard();
     this.penguins = new HashMap<>();
-    this.game = null;
     this.players = players;
   }
 
@@ -48,7 +38,6 @@ public class GameBoard {
       }
     }
     this.penguins = new HashMap<>();
-    this.game = null;
     this.players = null;
   }
 
@@ -64,11 +53,11 @@ public class GameBoard {
       Penguin penguinCopy = new Penguin(penguin);
       this.penguins.put(penguinCopy.hashCode(), penguinCopy);
     }
-    this.game = board.game;
     this.players = new Player[board.players.length];
     for (int i = 0; i < this.players.length; i++) {
       this.players[i] = new Player(board.players[i]);
     }
+    this.currentPlayerIndex = board.currentPlayerIndex;
   }
 
   private HashMap<Integer, IceFloeTile> createGameBoard() {
@@ -94,26 +83,48 @@ public class GameBoard {
     return tiles;
   }
 
+  public Player[] getPlayers() {
+    return players;
+  }
+
   public Player getCurrentPlayer() {
     return players[currentPlayerIndex];
   }
 
-  public void updateCurrentPlayer() {
-    currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
-  }
-
   public Player getNextPlayer() {
+    if (!isPlacementPhaseOver(players)) {
+      return players[(currentPlayerIndex + 1) % players.length];
+    }
+
     int nextPlayerIndex = currentPlayerIndex;
     Player nextPlayer;
     do {
       nextPlayerIndex = (nextPlayerIndex + 1) % players.length;
       nextPlayer = players[nextPlayerIndex];
+      // TODO needed?
+      if (isMovementPhaseOver(players)) {
+        break;
+      }
     } while (!hasPlayerLegalMoves(nextPlayer));
     return nextPlayer;
   }
 
-  public Player[] getPlayers() {
-    return players;
+  public void updateCurrentPlayer() {
+    if (!isPlacementPhaseOver(players)) {
+      currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+    } else {
+      do {
+        if (isMovementPhaseOver(players)) {
+          break;
+        }
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+        if (!hasPlayerLegalMoves(getCurrentPlayer())
+            && !getCurrentPlayer().arePenguinsRemovedFromBoard()) {
+          removeAllPenguinsAndTiles(getCurrentPlayer());
+          getCurrentPlayer().setPenguinsRemovedFromBoard(true);
+        }
+      } while (!hasPlayerLegalMoves(getCurrentPlayer()));
+    }
   }
 
   private int hashPosition(int row, int col) {
@@ -152,10 +163,6 @@ public class GameBoard {
       }
     }
     return allPenguins;
-  }
-
-  public Game getGame() {
-    return game;
   }
 
   public boolean isPlacementPhaseOver(Player[] players) {
@@ -422,5 +429,16 @@ public class GameBoard {
     }
 
     System.out.println(str);
+  }
+
+  public void printScores() {
+    for (Player player : players) {
+      System.out.println(player.getScore());
+    }
+  }
+
+  public void printWinner() {
+    System.out.println(
+        getWinnerIndex(players) != -1 ? "Winner: " + players[getWinnerIndex(players)] : "Tie");
   }
 }
