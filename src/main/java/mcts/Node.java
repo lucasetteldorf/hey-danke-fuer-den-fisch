@@ -1,5 +1,6 @@
 package mcts;
 
+import game.Move;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -9,8 +10,7 @@ import utility.RandomNumbers;
 public class Node {
   private Node parent;
   private List<Node> children;
-  // TODO maybe use untried moves instead
-  private List<Node> unexpandedChildren;
+  private List<Move> untriedMoves;
   private State state;
   private int visits;
   // TODO maybe change to wins (int)
@@ -19,7 +19,7 @@ public class Node {
   public Node() {
     this.state = new State();
     this.children = new ArrayList<>();
-    this.unexpandedChildren = new ArrayList<>();
+    this.untriedMoves = new ArrayList<>();
   }
 
   // copy constructor
@@ -31,9 +31,9 @@ public class Node {
     for (Node child : node.getChildren()) {
       this.children.add(child);
     }
-    this.unexpandedChildren = new ArrayList<>();
-    for (Node unexpandedChild : node.getUnexpandedChildren()) {
-      this.unexpandedChildren.add(unexpandedChild);
+    this.untriedMoves = new ArrayList<>();
+    for (Move move : node.getUntriedMoves()) {
+      this.untriedMoves.add(move);
     }
     this.state = new State(node.state);
     this.visits = node.visits;
@@ -43,16 +43,7 @@ public class Node {
   public Node(State state) {
     this.state = new State(state);
     this.children = new ArrayList<>();
-    this.unexpandedChildren = new ArrayList<>();
-  }
-
-  public void initUnexpandedChildren() {
-    this.unexpandedChildren = new ArrayList<>();
-    for (State state : state.getAllPossibleStates()) {
-      Node child = new Node(state);
-      child.setParent(this);
-      this.unexpandedChildren.add(child);
-    }
+    this.untriedMoves = new ArrayList<>();
   }
 
   public Node getParent() {
@@ -71,12 +62,26 @@ public class Node {
     this.children = children;
   }
 
-  public List<Node> getUnexpandedChildren() {
-    return unexpandedChildren;
+  public List<Move> getUntriedMoves() {
+    return untriedMoves;
   }
 
-  public void setUnexpandedChildren(List<Node> unexpandedChildren) {
-    this.unexpandedChildren = unexpandedChildren;
+  public void setUntriedMoves(List<Move> untriedMoves) {
+    this.untriedMoves = untriedMoves;
+  }
+
+  public void initUntriedMoves() {
+    for (Move move : state.getBoard().getAllLegalMovesForCurrentPlayer()) {
+      untriedMoves.add(move);
+    }
+  }
+
+  public boolean hasUntriedMoves() {
+    return this.untriedMoves.size() > 0;
+  }
+
+  public Move getRandomUntriedMove() {
+    return untriedMoves.get(RandomNumbers.getRandomIndex(untriedMoves.size()));
   }
 
   public State getState() {
@@ -115,17 +120,8 @@ public class Node {
     children.add(node);
   }
 
-  public boolean hasUnexpandedChildren() {
-    // if this is true, there are still children than can be expanded
-    return children.size() < children.size() + unexpandedChildren.size();
-  }
-
   public Node getRandomChild() {
     return children.get(RandomNumbers.getRandomIndex(children.size()));
-  }
-
-  public Node getRandomUnexpandedChild() {
-    return unexpandedChildren.get(RandomNumbers.getRandomIndex(unexpandedChildren.size()));
   }
 
   public Node getChildWithMaxVisits() {

@@ -5,18 +5,19 @@ import game.Move;
 import game.players.Player;
 
 public class Mcts {
-  private static final long COMPUTATIONAL_BUDGET = 500;
+  private static final long COMPUTATIONAL_BUDGET = 200;
   private static final int WIN_SCORE = 1;
   private static final double TIE_SCORE = 0.5;
 
   public Move getNextMove(GameBoard board, Player currentPlayer) {
     long start = System.currentTimeMillis();
+    int numberOfSimulations = 0;
 
     Tree tree = new Tree();
     Node root = tree.getRoot();
+    // TODO board contains and updates current player internally
     root.getState().setBoard(board);
-    root.getState().setCurrentPlayer(currentPlayer);
-    root.initUnexpandedChildren();
+    root.initUntriedMoves();
 
     while ((System.currentTimeMillis() - start) < COMPUTATIONAL_BUDGET) {
       // 1: Selection
@@ -25,12 +26,13 @@ public class Mcts {
       // 2: Expansion
       // TODO working as intended?
       Node expandedNode = selectedNode;
-      if (!selectedNode.getState().getBoard().isMovementPhaseOver()) {
+      if (!selectedNode.getState().isTerminalState()) {
         expandedNode = expandNode(selectedNode);
       }
 
       // 3: Simulation
       int playoutResult = simulateRandomPlayout(expandedNode);
+      numberOfSimulations++;
 
       // 4: Backpropagation
       // TODO adjust backpropagation of result
@@ -39,14 +41,15 @@ public class Mcts {
 
     Node winnerNode = root.getChildWithMaxVisits();
     tree.setRoot(winnerNode);
+    System.out.println("Simulations: " + numberOfSimulations);
     return winnerNode.getState().getPreviousMove();
   }
 
   private Node selectNode(Node root) {
     Node node = root;
     // TODO working as intended?
-    while (!node.getChildren().isEmpty()) {
-      if (node.hasUnexpandedChildren()) {
+    while (node.getChildren().size() > 0) {
+      if (node.hasUntriedMoves()) {
         break;
       } else {
         node = Uct.findBestNode(node);
@@ -57,10 +60,15 @@ public class Mcts {
 
   // TODO working as intended?
   private Node expandNode(Node node) {
-    Node expandedNode = node.getRandomUnexpandedChild();
-    node.getUnexpandedChildren().remove(expandedNode);
+    // TODO working as intended or two cases needed for untried moves and no untried moves?
+    Move randomUntriedMove = node.getRandomUntriedMove();
+    node.getUntriedMoves().remove(randomUntriedMove);
+    State newState = new State(node.getState());
+    newState.setPreviousMove(randomUntriedMove);
+    newState.getBoard().movePenguin(randomUntriedMove);
+    Node expandedNode = new Node(newState);
     expandedNode.setParent(node);
-    expandedNode.initUnexpandedChildren();
+    expandedNode.initUntriedMoves();
     node.addChild(expandedNode);
     return expandedNode;
   }
@@ -72,7 +80,7 @@ public class Mcts {
     // TODO set score to Integer.MIN_VALUE if opponent wins?
 
     // TODO internal logic/update of states may not work as needed (update of player)
-    while (!tmpState.getBoard().isMovementPhaseOver()) {
+    while (!tmpState.isTerminalState()) {
       tmpState.playRandomMove();
     }
 
@@ -88,6 +96,7 @@ public class Mcts {
       if (playerIndex == -1) {
         tmp.updateScore(TIE_SCORE);
       } else if (tmp.getState()
+          .getBoard()
           .getCurrentPlayer()
           .equals(tmp.getState().getBoard().getPlayers()[playerIndex])) {
         tmp.updateScore(WIN_SCORE);

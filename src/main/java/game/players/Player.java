@@ -71,6 +71,15 @@ public class Player {
     return penguins[index];
   }
 
+  public Penguin getPenguinByPosition(int row, int col) {
+    for (Penguin penguin : penguins) {
+      if (row == penguin.getRow() && col == penguin.getCol()) {
+        return penguin;
+      }
+    }
+    return null;
+  }
+
   public Penguin getPenguinToPlace() {
     return this.penguins[this.penguinToPlaceIndex];
   }

@@ -228,6 +228,7 @@ public class GameBoard {
 
   public void movePenguin(Player player, Move move) {
     Penguin penguin = getPenguin(move.getOldRow(), move.getOldCol());
+    Penguin playerPenguin = player.getPenguinByPosition(move.getOldRow(), move.getOldCol());
     IceFloeTile oldTile = getTile(move.getOldRow(), move.getOldCol());
     IceFloeTile newTile = getTile(move.getNewRow(), move.getNewCol());
 
@@ -235,6 +236,7 @@ public class GameBoard {
       newTile.setUnoccupied(false);
       removePenguin(penguin);
       penguin.setPosition(move.getNewRow(), move.getNewCol());
+      playerPenguin.setPosition(move.getNewRow(), move.getNewCol());
       penguins.put(penguin.hashCode(), penguin);
       player.updateCollectedTileCount();
       player.updateCollectedFishCount(oldTile.getFishCount());
@@ -387,6 +389,10 @@ public class GameBoard {
       }
     }
     return possibleMoves;
+  }
+
+  public List<Move> getAllLegalMovesForCurrentPlayer() {
+    return getAllLegalMovesForPlayer(getCurrentPlayer());
   }
 
   public boolean hasPlayerLegalMoves(Player player) {

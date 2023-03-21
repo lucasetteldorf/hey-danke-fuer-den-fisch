@@ -2,14 +2,12 @@ package mcts;
 
 import game.GameBoard;
 import game.Move;
-import game.players.Player;
 import java.util.ArrayList;
 import java.util.List;
 import utility.RandomNumbers;
 
 public class State {
   private GameBoard board;
-  private Player currentPlayer;
   private Move previousMove;
 
   public State() {
@@ -19,8 +17,6 @@ public class State {
   // copy constructor
   public State(State state) {
     this.board = new GameBoard(state.board);
-    this.currentPlayer = new Player(state.currentPlayer);
-    // previousMove at root is null
     if (state.previousMove != null) {
       this.previousMove = new Move(state.previousMove);
     }
@@ -34,14 +30,6 @@ public class State {
     this.board = board;
   }
 
-  public Player getCurrentPlayer() {
-    return currentPlayer;
-  }
-
-  public void setCurrentPlayer(Player currentPlayer) {
-    this.currentPlayer = currentPlayer;
-  }
-
   public Move getPreviousMove() {
     return previousMove;
   }
@@ -50,15 +38,19 @@ public class State {
     this.previousMove = previousMove;
   }
 
+  public boolean isTerminalState() {
+    return board.isMovementPhaseOver();
+  }
+
   // TODO only works for second phase (movement)
+  // TODO SHOULD ONLY BE CALLED ONCE PER STATE
   public List<State> getAllPossibleStates() {
     List<State> possibleStates = new ArrayList<>();
-    for (Move move : board.getAllLegalMovesForPlayer(currentPlayer)) {
+    for (Move move : board.getAllLegalMovesForCurrentPlayer()) {
       State state = new State(this);
       state.setPreviousMove(move);
-      state.getBoard().movePenguin(state.getCurrentPlayer(), move);
-      // TODO working as intended?
-      state.setCurrentPlayer(board.getNextPlayer());
+      // TODO current player performs move and next player is set WORKING?
+      state.getBoard().movePenguin(move);
       possibleStates.add(state);
     }
     return possibleStates;
@@ -68,11 +60,10 @@ public class State {
   public void playRandomMove() {
     // TODO problem: at this point legal moves is always empty because penguin of player have made
     // TODO all the moves of the calculated possible moves -> calling getAllPossibleStates() causes
-    // TODO problems because the tiles, penguins and players are updated
-    List<Move> possibleMoves = board.getAllLegalMovesForPlayer(currentPlayer);
+    // TODO problems because the tiles, penguins and players are updated^
+    List<Move> possibleMoves = board.getAllLegalMovesForCurrentPlayer();
     Move randomMove = possibleMoves.get(RandomNumbers.getRandomIndex(possibleMoves.size()));
-    // TODO working as intended?
-    board.movePenguin(currentPlayer, randomMove);
-    currentPlayer = board.getNextPlayer();
+    // TODO current player performs move and next player is set
+    board.movePenguin(randomMove);
   }
 }
