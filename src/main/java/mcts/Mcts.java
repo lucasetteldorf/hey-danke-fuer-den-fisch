@@ -25,10 +25,7 @@ public class Mcts {
       // 2: Expansion
       // TODO working as intended?
       Node expandedNode = selectedNode;
-      if (!selectedNode
-          .getState()
-          .getBoard()
-          .isMovementPhaseOver(selectedNode.getState().getBoard().getPlayers())) {
+      if (!selectedNode.getState().getBoard().isMovementPhaseOver()) {
         expandedNode = expandNode(selectedNode);
       }
 
@@ -75,12 +72,12 @@ public class Mcts {
     // TODO set score to Integer.MIN_VALUE if opponent wins?
 
     // TODO internal logic/update of states may not work as needed (update of player)
-    while (!tmpState.getBoard().isMovementPhaseOver(tmpState.getBoard().getPlayers())) {
+    while (!tmpState.getBoard().isMovementPhaseOver()) {
       tmpState.playRandomMove();
     }
 
     // TODO working as intended?
-    return tmpState.getBoard().getWinnerIndex(tmpState.getBoard().getPlayers());
+    return tmpState.getBoard().getWinnerIndex();
   }
 
   private void backpropagate(Node expandedNode, int playerIndex) {

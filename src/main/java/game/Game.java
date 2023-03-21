@@ -92,7 +92,7 @@ public class Game {
     board.printBoard();
     System.out.println("Start placement...\n");
 
-    while (!this.board.isPlacementPhaseOver(board.getPlayers())) {
+    while (!this.board.isPlacementPhaseOver()) {
       int[] placementPosition = new int[2];
       switch (board.getCurrentPlayer().getType()) {
         case HUMAN:
@@ -112,7 +112,7 @@ public class Game {
           MctsPlayer mctsPlayer = (MctsPlayer) board.getCurrentPlayer();
           placementPosition = mctsPlayer.getBestPlacementPosition(this.board);
       }
-      this.board.placePenguin(board.getCurrentPlayer(), placementPosition[0], placementPosition[1]);
+      this.board.placePenguin(placementPosition[0], placementPosition[1]);
       board.printBoard();
     }
   }
@@ -120,7 +120,7 @@ public class Game {
   private void startMovementPhase() {
     System.out.println("Start movement...\n");
 
-    while (!this.board.isMovementPhaseOver(board.getPlayers())) {
+    while (!this.board.isMovementPhaseOver()) {
       int[] oldPosition;
       int[] newPosition;
       Move move = null;
@@ -153,7 +153,7 @@ public class Game {
           move = mctsPlayer.getBestMove(board);
           break;
       }
-      board.movePenguin(board.getCurrentPlayer(), move);
+      board.movePenguin(move);
       board.printBoard();
     }
   }

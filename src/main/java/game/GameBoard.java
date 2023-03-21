@@ -92,7 +92,7 @@ public class GameBoard {
   }
 
   public Player getNextPlayer() {
-    if (!isPlacementPhaseOver(players)) {
+    if (!isPlacementPhaseOver()) {
       return players[(currentPlayerIndex + 1) % players.length];
     }
 
@@ -102,7 +102,7 @@ public class GameBoard {
       nextPlayerIndex = (nextPlayerIndex + 1) % players.length;
       nextPlayer = players[nextPlayerIndex];
       // TODO needed?
-      if (isMovementPhaseOver(players)) {
+      if (isMovementPhaseOver()) {
         break;
       }
     } while (!hasPlayerLegalMoves(nextPlayer));
@@ -110,18 +110,18 @@ public class GameBoard {
   }
 
   public void updateCurrentPlayer() {
-    if (!isPlacementPhaseOver(players)) {
+    if (!isPlacementPhaseOver()) {
       currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
     } else {
       do {
-        if (isMovementPhaseOver(players)) {
-          break;
+        if (!hasPlayerLegalMoves(getCurrentPlayer())
+                && !getCurrentPlayer().arePenguinsRemovedFromBoard()) {
+          removeAllPenguinsAndTiles();
+          getCurrentPlayer().setPenguinsRemovedFromBoard(true);
         }
         currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
-        if (!hasPlayerLegalMoves(getCurrentPlayer())
-            && !getCurrentPlayer().arePenguinsRemovedFromBoard()) {
-          removeAllPenguinsAndTiles(getCurrentPlayer());
-          getCurrentPlayer().setPenguinsRemovedFromBoard(true);
+        if (isMovementPhaseOver()) {
+          break;
         }
       } while (!hasPlayerLegalMoves(getCurrentPlayer()));
     }
@@ -165,7 +165,7 @@ public class GameBoard {
     return allPenguins;
   }
 
-  public boolean isPlacementPhaseOver(Player[] players) {
+  public boolean isPlacementPhaseOver() {
     for (Player player : players) {
       if (player.canPlacePenguin()) {
         return false;
@@ -196,6 +196,10 @@ public class GameBoard {
     return legalPlacementPositions;
   }
 
+  public void placePenguin(int row, int col) {
+    placePenguin(getCurrentPlayer(), row, col);
+  }
+
   public void placePenguin(Player player, int row, int col) {
     IceFloeTile selectedTile = getTile(row, col);
     if (player.canPlacePenguin() && isLegalPlacementTile(selectedTile)) {
@@ -209,13 +213,17 @@ public class GameBoard {
     }
   }
 
-  public boolean isMovementPhaseOver(Player[] players) {
+  public boolean isMovementPhaseOver() {
     for (Player player : players) {
       if (hasPlayerLegalMoves(player)) {
         return false;
       }
     }
     return true;
+  }
+
+  public void movePenguin(Move move) {
+    movePenguin(getCurrentPlayer(), move);
   }
 
   public void movePenguin(Player player, Move move) {
@@ -327,11 +335,14 @@ public class GameBoard {
     penguins.remove(hashPosition(penguin.getRow(), penguin.getCol()));
   }
 
-  public void removeAllPenguinsAndTiles(Player player) {
-    for (Penguin penguin : player.getPenguins()) {
+  public void removeAllPenguinsAndTiles() {
+    for (Penguin penguin : getCurrentPlayer().getPenguins()) {
       removePenguin(penguin);
       penguin.setOnBoard(false);
-      removeTile(getTile(penguin.getRow(), penguin.getCol()));
+      IceFloeTile tile = getTile(penguin.getRow(), penguin.getCol());
+      removeTile(tile);
+      getCurrentPlayer().updateCollectedTileCount();
+      getCurrentPlayer().updateCollectedFishCount(tile.getFishCount());
     }
   }
 
@@ -383,7 +394,7 @@ public class GameBoard {
   }
 
   // return index of the winning player (-1 if tied)
-  public int getWinnerIndex(Player[] players) {
+  public int getWinnerIndex() {
     int maxFishCount = 0;
     int winnerIndex = -1;
     for (int i = 0; i < players.length; i++) {
@@ -396,8 +407,8 @@ public class GameBoard {
   }
 
   // return null if there is no clear winner/a tie
-  public Player getWinner(Player[] players) {
-    return (getWinnerIndex(players) != -1) ? players[getWinnerIndex(players)] : null;
+  public Player getWinner() {
+    return (getWinnerIndex() != -1) ? players[getWinnerIndex()] : null;
   }
 
   public void printBoard() {
@@ -438,7 +449,6 @@ public class GameBoard {
   }
 
   public void printWinner() {
-    System.out.println(
-        getWinnerIndex(players) != -1 ? "Winner: " + players[getWinnerIndex(players)] : "Tie");
+    System.out.println(getWinnerIndex() != -1 ? "Winner: " + players[getWinnerIndex()] : "Tie");
   }
 }

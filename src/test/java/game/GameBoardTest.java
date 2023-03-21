@@ -81,15 +81,15 @@ public class GameBoardTest {
         assertTrue(p1.canPlacePenguin());
         board.placePenguin(p1, 0, 9);
         assertFalse(p1.canPlacePenguin());
-        assertFalse(board.isPlacementPhaseOver(players));
+        assertFalse(board.isPlacementPhaseOver());
         board.placePenguin(p2, 0, 11);
         board.placePenguin(p2, 0, 13);
         board.placePenguin(p2, 1, 0);
         assertTrue(p2.canPlacePenguin());
-        assertFalse(board.isPlacementPhaseOver(players));
+        assertFalse(board.isPlacementPhaseOver());
         board.placePenguin(p2, 1, 4);
         assertFalse(p2.canPlacePenguin());
-        assertTrue(board.isPlacementPhaseOver(players));
+        assertTrue(board.isPlacementPhaseOver());
         board.printBoard();
     }
 
