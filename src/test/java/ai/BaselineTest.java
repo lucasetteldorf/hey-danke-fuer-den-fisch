@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import utility.DataWriter;
 
 public class BaselineTest {
-  private static final int NUMBER_OF_GAMES = 10000;
+  private static final int NUMBER_OF_GAMES = 50000;
 
   @Test
   void testRandomVsRandom() {
@@ -18,7 +18,7 @@ public class BaselineTest {
       RandomPlayer p1 = new RandomPlayer("Random AI 1", 4, "B");
       RandomPlayer p2 = new RandomPlayer("Random AI 2", 4, "R");
       players = new Player[] {p1, p2};
-      game = new Game(players);
+      game = new Game(players, false);
       game.start();
       DataWriter.writeDataLine("/Users/Lucas/thesis-data/random-vs-random-" + NUMBER_OF_GAMES + ".csv", players);
     }
@@ -32,7 +32,7 @@ public class BaselineTest {
       RandomPlayer p1 = new RandomPlayer("Random AI", 4, "B");
       GreedyPlayer p2 = new GreedyPlayer("Greedy AI", 4, "R");
       players = new Player[] {p1, p2};
-      game = new Game(players);
+      game = new Game(players, false);
       game.start();
       DataWriter.writeDataLine("/Users/Lucas/thesis-data/random-vs-greedy-" + NUMBER_OF_GAMES + ".csv", players);
     }
@@ -46,7 +46,7 @@ public class BaselineTest {
       GreedyPlayer p1 = new GreedyPlayer("Greedy AI 1", 4, "B");
       GreedyPlayer p2 = new GreedyPlayer("Greedy AI 2", 4, "R");
       players = new Player[] {p1, p2};
-      game = new Game(players);
+      game = new Game(players, false);
       game.start();
       DataWriter.writeDataLine("/Users/Lucas/thesis-data/greedy-vs-greedy-" + NUMBER_OF_GAMES + ".csv", players);
     }

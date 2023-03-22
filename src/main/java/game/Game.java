@@ -5,6 +5,7 @@ import utility.InputReader;
 
 public class Game {
   private final GameBoard board;
+  private boolean printBoard;
 
   public Game() {
     this.board = new GameBoard(initPlayers());
@@ -12,6 +13,12 @@ public class Game {
 
   public Game(Player[] players) {
     this.board = new GameBoard(players);
+    this.printBoard = true;
+  }
+
+  public Game(Player[] players, boolean printBoard) {
+    this.board = new GameBoard(players);
+    this.printBoard = printBoard;
   }
 
   public static void main(String[] args) {
@@ -89,8 +96,10 @@ public class Game {
   }
 
   private void startPlacementPhase() {
-    board.printBoard();
-    System.out.println("Start placement...\n");
+    if (printBoard) {
+      board.printBoard();
+      System.out.println("Start placement...\n");
+    }
 
     while (!this.board.isPlacementPhaseOver()) {
       int[] placementPosition = new int[2];
@@ -113,12 +122,16 @@ public class Game {
           placementPosition = mctsPlayer.getBestPlacementPosition(this.board);
       }
       this.board.placePenguin(placementPosition[0], placementPosition[1]);
-      board.printBoard();
+      if (printBoard) {
+        board.printBoard();
+      }
     }
   }
 
   private void startMovementPhase() {
-    System.out.println("Start movement...\n");
+    if (printBoard) {
+      System.out.println("Start movement...\n");
+    }
 
     while (!this.board.isMovementPhaseOver()) {
       int[] oldPosition;
@@ -154,7 +167,9 @@ public class Game {
           break;
       }
       board.movePenguin(move);
-      board.printBoard();
+      if (printBoard) {
+        board.printBoard();
+      }
     }
   }
 }

@@ -91,24 +91,6 @@ public class GameBoard {
     return players[currentPlayerIndex];
   }
 
-  public Player getNextPlayer() {
-    if (!isPlacementPhaseOver()) {
-      return players[(currentPlayerIndex + 1) % players.length];
-    }
-
-    int nextPlayerIndex = currentPlayerIndex;
-    Player nextPlayer;
-    do {
-      nextPlayerIndex = (nextPlayerIndex + 1) % players.length;
-      nextPlayer = players[nextPlayerIndex];
-      // TODO needed?
-      if (isMovementPhaseOver()) {
-        break;
-      }
-    } while (!hasPlayerLegalMoves(nextPlayer));
-    return nextPlayer;
-  }
-
   public void updateCurrentPlayer() {
     if (!isPlacementPhaseOver()) {
       currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
@@ -120,10 +102,7 @@ public class GameBoard {
           getCurrentPlayer().setPenguinsRemovedFromBoard(true);
         }
         currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
-        if (isMovementPhaseOver()) {
-          break;
-        }
-      } while (!hasPlayerLegalMoves(getCurrentPlayer()));
+      } while (!hasPlayerLegalMoves(getCurrentPlayer()) && !isMovementPhaseOver());
     }
   }
 
@@ -360,7 +339,6 @@ public class GameBoard {
       }
 
       IceFloeTile neighbor = getTile(neighborPositions[i][0], neighborPositions[i][1]);
-      // continue to move in this direction until no more move can be made
       while (neighbor != null && neighbor.isUnoccupied()) {
         possibleMoves.add(new Move(penguin.getPosition(), neighbor.getPosition()));
         if (neighbor.getNeighborPositions()[i] == null) {
@@ -401,14 +379,28 @@ public class GameBoard {
 
   // return index of the winning player (-1 if tied)
   public int getWinnerIndex() {
-    int maxFishCount = 0;
-    int winnerIndex = -1;
-    for (int i = 0; i < players.length; i++) {
+    int maxFishCount = players[0].getCollectedFishCount();
+    int winnerIndex = 0;
+    for (int i = 1; i < players.length; i++) {
       if (players[i].getCollectedFishCount() > maxFishCount) {
         maxFishCount = players[i].getCollectedFishCount();
         winnerIndex = i;
       }
     }
+
+    if (winnerIndex == 0) {
+      List<Player> tiedPlayers = new ArrayList<>();
+      tiedPlayers.add(players[0]);
+      for (int i = 1; i < players.length; i++) {
+        if (players[i].getCollectedFishCount() == players[0].getCollectedFishCount()) {
+          tiedPlayers.add(players[i]);
+        }
+      }
+      if (tiedPlayers.size() > 1) {
+        winnerIndex = -1;
+      }
+    }
+
     return winnerIndex;
   }
 
