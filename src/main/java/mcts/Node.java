@@ -14,7 +14,6 @@ public class Node {
   private List<int[]> untriedPlacements;
   private State state;
   private int visits;
-  // TODO maybe change to wins (int)
   private double score;
 
   public Node() {

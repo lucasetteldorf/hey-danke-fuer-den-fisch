@@ -53,8 +53,7 @@ public class State {
   public boolean isTerminalState() {
     return board.isMovementPhaseOver();
   }
-
-  // TODO only works for second phase (movement)
+  
   public void playRandomMove() {
     List<Move> possibleMoves = board.getAllLegalMovesForCurrentPlayer();
     Move randomMove = possibleMoves.get(RandomNumbers.getRandomIndex(possibleMoves.size()));

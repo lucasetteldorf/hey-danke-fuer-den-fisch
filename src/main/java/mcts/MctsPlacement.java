@@ -15,8 +15,7 @@ public class MctsPlacement {
     long start = System.currentTimeMillis();
     int numberOfSimulations = 0;
 
-    Tree tree = new Tree();
-    Node root = tree.getRoot();
+    Node root = new Node();
     root.getState().setBoard(board);
     root.initUntriedPlacements();
 
@@ -41,7 +40,6 @@ public class MctsPlacement {
     }
     System.out.println(numberOfSimulations + " simulations (placement)");
     Node bestNode = root.getChildWithMaxVisits();
-    tree.setRoot(bestNode);
     return bestNode.getState().getPreviousPlacement();
   }
 
