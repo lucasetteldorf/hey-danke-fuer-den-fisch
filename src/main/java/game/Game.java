@@ -27,6 +27,10 @@ public class Game {
     game.start();
   }
 
+  public GameBoard getBoard() {
+    return board;
+  }
+
   private Player[] initPlayers() {
     int totalPlayerCount = InputReader.getTotalPlayerCount();
     int aiPlayerCount = InputReader.getAiPlayerCount(totalPlayerCount);
