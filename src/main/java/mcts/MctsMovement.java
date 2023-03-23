@@ -5,7 +5,7 @@ import game.Move;
 import game.players.Player;
 
 public class MctsMovement {
-  private static final long COMPUTATIONAL_BUDGET = 500;
+  private static final long COMPUTATIONAL_BUDGET = 1000;
   private static final int WIN_SCORE = 1;
   private static final double TIE_SCORE = 0.5;
   private Player currentPlayer;
@@ -39,7 +39,7 @@ public class MctsMovement {
       // 4: Backpropagation
       backpropagate(expandedNode, playoutResult);
     }
-    System.out.println(numberOfSimulations + " simulations");
+    System.out.println(numberOfSimulations + " simulations (movement)");
     Node bestNode = root.getChildWithMaxVisits();
     tree.setRoot(bestNode);
     return bestNode.getState().getPreviousMove();

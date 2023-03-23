@@ -4,7 +4,7 @@ import game.GameBoard;
 import game.players.Player;
 
 public class MctsPlacement {
-  private static final long COMPUTATIONAL_BUDGET = 500;
+  private static final long COMPUTATIONAL_BUDGET = 1000;
   private static final int WIN_SCORE = 1;
   private static final double TIE_SCORE = 0.5;
   private Player currentPlayer;
@@ -39,7 +39,7 @@ public class MctsPlacement {
       // 4: Backpropagation
       backpropagate(expandedNode, playoutResult);
     }
-    System.out.println(numberOfSimulations + " simulations");
+    System.out.println(numberOfSimulations + " simulations (placement)");
     Node bestNode = root.getChildWithMaxVisits();
     tree.setRoot(bestNode);
     return bestNode.getState().getPreviousPlacement();

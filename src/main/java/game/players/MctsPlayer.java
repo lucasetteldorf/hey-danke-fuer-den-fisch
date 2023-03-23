@@ -3,7 +3,7 @@ package game.players;
 import game.GameBoard;
 import game.Move;
 import mcts.MctsMovement;
-import mcts.MctsPlacement;import utility.RandomNumbers;
+import mcts.MctsPlacement;
 
 public class MctsPlayer extends Player {
   private final MctsPlacement mctsPlacement;
