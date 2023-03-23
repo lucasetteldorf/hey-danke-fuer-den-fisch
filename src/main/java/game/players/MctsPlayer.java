@@ -2,15 +2,15 @@ package game.players;
 
 import game.GameBoard;
 import game.Move;
-import mcts.Mcts;
+import mcts.MctsMovement;
 import utility.RandomNumbers;
 
 public class MctsPlayer extends Player {
-  private final Mcts mcts;
+  private final MctsMovement mctsMovement;
 
   public MctsPlayer(String name, int penguinCount, String penguinColor) {
     super(PlayerType.MCTS, name, penguinCount, penguinColor);
-    mcts = new Mcts();
+    mctsMovement = new MctsMovement();
   }
 
   public int[] getBestPlacementPosition(GameBoard board) {
@@ -20,6 +20,6 @@ public class MctsPlayer extends Player {
   }
 
   public Move getBestMove(GameBoard board) {
-    return mcts.getNextMove(board, this);
+    return mctsMovement.getNextMove(board);
   }
 }

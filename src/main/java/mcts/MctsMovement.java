@@ -4,16 +4,17 @@ import game.GameBoard;
 import game.Move;
 import game.players.Player;
 
-public class Mcts {
-  private static final long COMPUTATIONAL_BUDGET = 200;
+public class MctsMovement {
+  private static final long COMPUTATIONAL_BUDGET = 500;
   private static final int WIN_SCORE = 1;
   private static final double TIE_SCORE = 0.5;
   private Player currentPlayer;
 
-  public Move getNextMove(GameBoard board, Player player) {
-    this.currentPlayer = player;
+  public Move getNextMove(GameBoard board) {
+    this.currentPlayer = board.getCurrentPlayer();
 
     long start = System.currentTimeMillis();
+    int numberOfSimulations = 0;
 
     Tree tree = new Tree();
     Node root = tree.getRoot();
@@ -33,11 +34,12 @@ public class Mcts {
 
       // 3: Simulation
       int playoutResult = simulateRandomPlayout(expandedNode);
+      numberOfSimulations++;
 
       // 4: Backpropagation
       backpropagate(expandedNode, playoutResult);
     }
-
+    System.out.println(numberOfSimulations + " simulations");
     Node bestNode = root.getChildWithMaxVisits();
     tree.setRoot(bestNode);
     return bestNode.getState().getPreviousMove();
