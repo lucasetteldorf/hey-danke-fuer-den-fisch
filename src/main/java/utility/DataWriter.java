@@ -19,7 +19,7 @@ public class DataWriter {
         fw = new FileWriter(file);
         writer = new CSVWriter(fw);
 
-        String[] header = new String[2 * players.length];
+        String[] header = new String[2 * players.length + 1];
         int index = 0;
         for (Player player : players) {
           header[index++] = player.getName() + " collected tiles";

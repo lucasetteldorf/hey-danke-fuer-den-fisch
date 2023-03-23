@@ -1,16 +1,15 @@
 package mcts;
 
 import game.GameBoard;
-import game.Move;
 import game.players.Player;
 
-public class MctsMovement {
+public class MctsPlacement {
   private static final long COMPUTATIONAL_BUDGET = 500;
   private static final int WIN_SCORE = 1;
   private static final double TIE_SCORE = 0.5;
   private Player currentPlayer;
 
-  public Move getNextMove(GameBoard board) {
+  public int[] getNextPlacement(GameBoard board) {
     this.currentPlayer = board.getCurrentPlayer();
 
     long start = System.currentTimeMillis();
@@ -19,16 +18,17 @@ public class MctsMovement {
     Tree tree = new Tree();
     Node root = tree.getRoot();
     root.getState().setBoard(board);
-    root.initUntriedMoves();
+    root.initUntriedPlacements();
 
     while ((System.currentTimeMillis() - start) < COMPUTATIONAL_BUDGET) {
       // 1: Selection
       Node selectedNode = selectNode(root);
 
       // 2: Expansion
-      // TODO working as intended?
+      // TODO condition needed for placement?
       Node expandedNode = selectedNode;
-      if (!selectedNode.getState().isTerminalState()) {
+      // TODO correct condition?
+      if (!selectedNode.getState().getBoard().isPlacementPhaseOver()) {
         expandedNode = expandNode(selectedNode);
       }
 
@@ -42,14 +42,13 @@ public class MctsMovement {
     System.out.println(numberOfSimulations + " simulations");
     Node bestNode = root.getChildWithMaxVisits();
     tree.setRoot(bestNode);
-    return bestNode.getState().getPreviousMove();
+    return bestNode.getState().getPreviousPlacement();
   }
 
   private Node selectNode(Node root) {
     Node node = root;
-    // TODO working as intended?
     while (node.getChildren().size() > 0) {
-      if (node.hasUntriedMoves()) {
+      if (node.hasUntriedPlacements()) {
         break;
       } else {
         node = Uct.findBestNode(node);
@@ -58,16 +57,15 @@ public class MctsMovement {
     return node;
   }
 
-  // TODO working as intended?
   private Node expandNode(Node node) {
-    Move randomUntriedMove = node.getRandomUntriedMove();
-    node.getUntriedMoves().remove(randomUntriedMove);
+    int[] randomUntriedPlacement = node.getRandomUntriedPlacement();
+    node.getUntriedPlacements().remove(randomUntriedPlacement);
     State newState = new State(node.getState());
-    newState.setPreviousMove(randomUntriedMove);
-    newState.getBoard().movePenguin(randomUntriedMove);
+    newState.setPreviousPlacement(randomUntriedPlacement);
+    newState.getBoard().placePenguin(randomUntriedPlacement[0], randomUntriedPlacement[1]);
     Node expandedNode = new Node(newState);
     expandedNode.setParent(node);
-    expandedNode.initUntriedMoves();
+    expandedNode.initUntriedPlacements();
     node.addChild(expandedNode);
     return expandedNode;
   }
@@ -75,6 +73,10 @@ public class MctsMovement {
   private int simulateRandomPlayout(Node node) {
     Node tmpNode = new Node(node);
     State tmpState = tmpNode.getState();
+
+    while (!tmpState.getBoard().isPlacementPhaseOver()) {
+      tmpState.playRandomPlacement();
+    }
 
     while (!tmpState.isTerminalState()) {
       tmpState.playRandomMove();

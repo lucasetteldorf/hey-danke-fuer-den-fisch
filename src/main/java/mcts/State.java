@@ -2,16 +2,17 @@ package mcts;
 
 import game.GameBoard;
 import game.Move;
-import java.util.ArrayList;
 import java.util.List;
 import utility.RandomNumbers;
 
 public class State {
   private GameBoard board;
   private Move previousMove;
+  private int[] previousPlacement;
 
   public State() {
     this.board = new GameBoard();
+    previousPlacement = new int[2];
   }
 
   // copy constructor
@@ -19,6 +20,9 @@ public class State {
     this.board = new GameBoard(state.board);
     if (state.previousMove != null) {
       this.previousMove = new Move(state.previousMove);
+    }
+    if (state.previousPlacement != null) {
+      this.previousPlacement = new int[] {state.previousPlacement[0], state.previousPlacement[1]};
     }
   }
 
@@ -38,32 +42,29 @@ public class State {
     this.previousMove = previousMove;
   }
 
+  public int[] getPreviousPlacement() {
+    return previousPlacement;
+  }
+
+  public void setPreviousPlacement(int[] previousPlacement) {
+    this.previousPlacement = previousPlacement;
+  }
+
   public boolean isTerminalState() {
     return board.isMovementPhaseOver();
   }
 
   // TODO only works for second phase (movement)
-  // TODO SHOULD ONLY BE CALLED ONCE PER STATE
-  public List<State> getAllPossibleStates() {
-    List<State> possibleStates = new ArrayList<>();
-    for (Move move : board.getAllLegalMovesForCurrentPlayer()) {
-      State state = new State(this);
-      state.setPreviousMove(move);
-      // TODO current player performs move and next player is set WORKING?
-      state.getBoard().movePenguin(move);
-      possibleStates.add(state);
-    }
-    return possibleStates;
-  }
-
-  // TODO only works for second phase (movement)
   public void playRandomMove() {
-    // TODO problem: at this point legal moves is always empty because penguin of player have made
-    // TODO all the moves of the calculated possible moves -> calling getAllPossibleStates() causes
-    // TODO problems because the tiles, penguins and players are updated^
     List<Move> possibleMoves = board.getAllLegalMovesForCurrentPlayer();
     Move randomMove = possibleMoves.get(RandomNumbers.getRandomIndex(possibleMoves.size()));
-    // TODO current player performs move and next player is set
     board.movePenguin(randomMove);
+  }
+
+  public void playRandomPlacement() {
+    List<int[]> possiblePlacements = board.getAllLegalPlacementPositions();
+    int[] randomPlacement =
+        possiblePlacements.get(RandomNumbers.getRandomIndex(possiblePlacements.size()));
+    board.placePenguin(randomPlacement[0], randomPlacement[1]);
   }
 }

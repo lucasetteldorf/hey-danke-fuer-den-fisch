@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import utility.DataWriter;
 
 public class MctsMovementAiTest {
-  private static final int NUMBER_OF_GAMES = 10;
+  private static final int NUMBER_OF_GAMES = 100;
 
   @Test
   void testMctsAi() {
@@ -22,7 +22,7 @@ public class MctsMovementAiTest {
       game = new Game(players, false);
       game.start();
       DataWriter.writeDataLine(
-          "/Users/Lucas/thesis-data/random-vs-mcts-" + NUMBER_OF_GAMES + ".csv", game.getBoard());
+          "/Users/Lucas/thesis-data/random-vs-mcts" + NUMBER_OF_GAMES + ".csv", game.getBoard());
     }
   }
 

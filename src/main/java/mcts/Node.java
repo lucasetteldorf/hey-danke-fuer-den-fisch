@@ -11,6 +11,7 @@ public class Node {
   private Node parent;
   private List<Node> children;
   private List<Move> untriedMoves;
+  private List<int[]> untriedPlacements;
   private State state;
   private int visits;
   // TODO maybe change to wins (int)
@@ -20,6 +21,7 @@ public class Node {
     this.state = new State();
     this.children = new ArrayList<>();
     this.untriedMoves = new ArrayList<>();
+    this.untriedPlacements = new ArrayList<>();
   }
 
   // copy constructor
@@ -35,6 +37,10 @@ public class Node {
     for (Move move : node.getUntriedMoves()) {
       this.untriedMoves.add(move);
     }
+    this.untriedPlacements = new ArrayList<>();
+    for (int[] placement : node.getUntriedPlacements()) {
+      this.untriedPlacements.add(new int[] {placement[0], placement[1]});
+    }
     this.state = new State(node.state);
     this.visits = node.visits;
     this.score = node.score;
@@ -44,6 +50,7 @@ public class Node {
     this.state = new State(state);
     this.children = new ArrayList<>();
     this.untriedMoves = new ArrayList<>();
+    this.untriedPlacements = new ArrayList<>();
   }
 
   public Node getParent() {
@@ -82,6 +89,28 @@ public class Node {
 
   public Move getRandomUntriedMove() {
     return untriedMoves.get(RandomNumbers.getRandomIndex(untriedMoves.size()));
+  }
+
+  public List<int[]> getUntriedPlacements() {
+    return untriedPlacements;
+  }
+
+  public void setUntriedPlacements(List<int[]> untriedPlacements) {
+    this.untriedPlacements = untriedPlacements;
+  }
+
+  public void initUntriedPlacements() {
+    for (int[] placement : state.getBoard().getAllLegalPlacementPositions()) {
+      untriedPlacements.add(placement);
+    }
+  }
+
+  public boolean hasUntriedPlacements() {
+    return untriedPlacements.size() > 0;
+  }
+
+  public int[] getRandomUntriedPlacement() {
+    return untriedPlacements.get(RandomNumbers.getRandomIndex(untriedPlacements.size()));
   }
 
   public State getState() {
