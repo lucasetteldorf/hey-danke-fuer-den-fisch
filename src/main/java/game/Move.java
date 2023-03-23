@@ -15,10 +15,6 @@ public class Move {
     this.newPosition = new int[] {move.getNewRow(), move.getNewCol()};
   }
 
-  public int[] getOldPosition() {
-    return oldPosition;
-  }
-
   public int getOldRow() {
     return oldPosition[0];
   }

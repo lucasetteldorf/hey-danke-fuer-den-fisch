@@ -6,28 +6,31 @@ import utility.ConsoleColors;
 public class Penguin {
   // values: "B" = blue, "R" = red, "G" = green, "Y" = yellow
   private final String color;
+  private final int index;
   private final int[] position;
   private boolean isOnBoard;
 
-  public Penguin(String color) {
+  public Penguin(String color, int index) {
     this.color = ConsoleColors.getColorString(color);
+    this.index = index;
     this.position = new int[2];
   }
 
   // copy constructor
   public Penguin(Penguin penguin) {
     this.color = penguin.color;
+    this.index = penguin.index;
     this.position = new int[] {penguin.getRow(), penguin.getCol()};
     this.isOnBoard = penguin.isOnBoard;
   }
 
   public void setPosition(int rowIndex, int colIndex) {
-    this.position[0] = rowIndex;
-    this.position[1] = colIndex;
+    position[0] = rowIndex;
+    position[1] = colIndex;
   }
 
   public int[] getPosition() {
-    return this.position;
+    return position;
   }
 
   public int getRow() {
@@ -42,6 +45,10 @@ public class Penguin {
     return color;
   }
 
+  public int getIndex() {
+    return index;
+  }
+
   public boolean isOnBoard() {
     return isOnBoard;
   }
@@ -53,7 +60,7 @@ public class Penguin {
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof Penguin penguin) {
-      return this.position[0] == penguin.position[0] && this.position[1] == penguin.position[1];
+      return position[0] == penguin.position[0] && position[1] == penguin.position[1];
     }
     return false;
   }

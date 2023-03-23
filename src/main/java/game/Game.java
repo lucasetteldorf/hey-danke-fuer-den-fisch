@@ -95,8 +95,8 @@ public class Game {
   public void start() {
     startPlacementPhase();
     startMovementPhase();
-    board.printScores();
-    board.printWinner();
+    printScores();
+    printWinner();
   }
 
   private void startPlacementPhase() {
@@ -175,5 +175,15 @@ public class Game {
         board.printBoard();
       }
     }
+  }
+
+  private void printScores() {
+    for (Player player : board.getPlayers()) {
+      System.out.println(player.getScore());
+    }
+  }
+
+  private void printWinner() {
+    System.out.println((board.getWinner() == null) ? "Tie" : "Winner: " + board.getWinner());
   }
 }

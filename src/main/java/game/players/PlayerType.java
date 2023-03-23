@@ -1,5 +1,8 @@
 package game.players;
 
 public enum PlayerType {
-    HUMAN, RANDOM, GREEDY, MCTS;
+  HUMAN,
+  RANDOM,
+  GREEDY,
+  MCTS
 }

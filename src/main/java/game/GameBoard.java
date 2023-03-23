@@ -97,7 +97,7 @@ public class GameBoard {
     } else {
       do {
         if (!hasPlayerLegalMoves(getCurrentPlayer())
-                && !getCurrentPlayer().arePenguinsRemovedFromBoard()) {
+            && !getCurrentPlayer().arePenguinsRemovedFromBoard()) {
           removeAllPenguinsAndTiles();
           getCurrentPlayer().setPenguinsRemovedFromBoard(true);
         }
@@ -206,17 +206,16 @@ public class GameBoard {
   }
 
   public void movePenguin(Player player, Move move) {
-    Penguin penguin = getPenguin(move.getOldRow(), move.getOldCol());
-    Penguin playerPenguin = player.getPenguinByPosition(move.getOldRow(), move.getOldCol());
+    Penguin penguinToMove = getPenguin(move.getOldRow(), move.getOldCol());
     IceFloeTile oldTile = getTile(move.getOldRow(), move.getOldCol());
     IceFloeTile newTile = getTile(move.getNewRow(), move.getNewCol());
 
-    if (hasPenguinLegalMoves(penguin) && isLegalMove(oldTile, newTile)) {
+    if (hasPenguinLegalMoves(penguinToMove) && isLegalMove(oldTile, newTile)) {
       newTile.setUnoccupied(false);
-      removePenguin(penguin);
-      penguin.setPosition(move.getNewRow(), move.getNewCol());
-      playerPenguin.setPosition(move.getNewRow(), move.getNewCol());
-      penguins.put(penguin.hashCode(), penguin);
+      removePenguin(penguinToMove);
+      penguinToMove.setPosition(move.getNewRow(), move.getNewCol());
+      player.getPenguin(penguinToMove.getIndex()).setPosition(move.getNewRow(), move.getNewCol());
+      penguins.put(penguinToMove.hashCode(), penguinToMove);
       player.updateCollectedTileCount();
       player.updateCollectedFishCount(oldTile.getFishCount());
       removeTile(oldTile);
@@ -230,6 +229,7 @@ public class GameBoard {
     return isLegalMove(oldTile, newTile);
   }
 
+  // TODO optimize?!
   private boolean isLegalMove(IceFloeTile oldTile, IceFloeTile newTile) {
     if (newTile != null && !oldTile.equals(newTile) && newTile.isUnoccupied()) {
       int rowDiff = newTile.getPosition()[0] - oldTile.getPosition()[0];
@@ -282,6 +282,7 @@ public class GameBoard {
     return false;
   }
 
+  // TODO optimize?!
   private boolean areAllTilesValid(IceFloeTile oldTile, IceFloeTile newTile, int direction) {
     IceFloeTile neighbor = oldTile;
 
@@ -327,13 +328,12 @@ public class GameBoard {
     }
   }
 
+  // TODO optimize?!
   public List<Move> getAllLegalMovesForPenguin(Penguin penguin) {
     List<Move> possibleMoves = new ArrayList<>();
     IceFloeTile oldTile = getTile(penguin.getRow(), penguin.getCol());
     int[][] neighborPositions = oldTile.getNeighborPositions();
-    // iterate through all neighbors
     for (int i = 0; i < neighborPositions.length; i++) {
-      // no neighbor at this position
       if (neighborPositions[i] == null) {
         continue;
       }
@@ -404,7 +404,7 @@ public class GameBoard {
     return winnerIndex;
   }
 
-  // return null if there is no clear winner/a tie
+  // return null if there is a tie
   public Player getWinner() {
     return (getWinnerIndex() != -1) ? players[getWinnerIndex()] : null;
   }
@@ -438,15 +438,5 @@ public class GameBoard {
     }
 
     System.out.println(str);
-  }
-
-  public void printScores() {
-    for (Player player : players) {
-      System.out.println(player.getScore());
-    }
-  }
-
-  public void printWinner() {
-    System.out.println(getWinnerIndex() != -1 ? "Winner: " + players[getWinnerIndex()] : "Tie");
   }
 }

@@ -40,15 +40,9 @@ public class Player {
   private Penguin[] initPenguins(int penguinCount, String color) {
     Penguin[] penguins = new Penguin[penguinCount];
     for (int i = 0; i < penguins.length; i++) {
-      penguins[i] = new Penguin(color);
+      penguins[i] = new Penguin(color, i);
     }
     return penguins;
-  }
-
-  public int[] getRandomPlacementPosition(GameBoard board) {
-    return board
-        .getAllLegalPlacementPositions()
-        .get(RandomNumbers.getRandomIndex(board.getAllLegalPlacementPositions().size()));
   }
 
   public PlayerType getType() {
@@ -69,15 +63,6 @@ public class Player {
 
   public Penguin getPenguin(int index) {
     return penguins[index];
-  }
-
-  public Penguin getPenguinByPosition(int row, int col) {
-    for (Penguin penguin : penguins) {
-      if (row == penguin.getRow() && col == penguin.getCol()) {
-        return penguin;
-      }
-    }
-    return null;
   }
 
   public Penguin getPenguinToPlace() {
@@ -116,6 +101,12 @@ public class Player {
     this.penguinsRemovedFromBoard = penguinsRemovedFromBoard;
   }
 
+  public int[] getRandomPlacementPosition(GameBoard board) {
+    return board
+        .getAllLegalPlacementPositions()
+        .get(RandomNumbers.getRandomIndex(board.getAllLegalPlacementPositions().size()));
+  }
+
   public String getScore() {
     return this
         + ": "
@@ -128,13 +119,13 @@ public class Player {
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof Player player) {
-      return this.penguinColor.equals(player.getPenguinColor());
+      return penguinColor.equals(player.penguinColor);
     }
     return false;
   }
 
   @Override
   public String toString() {
-    return this.name + " (" + penguinColor + ")";
+    return name + " (" + penguinColor + ")";
   }
 }
