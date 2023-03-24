@@ -155,4 +155,30 @@ public class Node {
   public Node getChildWithMaxVisits() {
     return Collections.max(children, Comparator.comparing(child -> child.getVisits()));
   }
+
+  public void expandChildrenPlacement() {
+    for (int[] placementPosition : untriedPlacements) {
+      State newState = new State(state);
+      newState.getBoard().placePenguin(placementPosition[0], placementPosition[1]);
+      Node newNode = new Node(newState);
+      newNode.setParent(this);
+      newNode.initUntriedPlacements();
+      newNode.getState().setPreviousPlacement(placementPosition);
+      addChild(newNode);
+    }
+    untriedPlacements.clear();
+  }
+
+  public void expandChildrenMovement() {
+    for (Move move : untriedMoves) {
+      State newState = new State(state);
+      newState.getBoard().movePenguin(move);
+      Node newNode = new Node(newState);
+      newNode.setParent(this);
+      newNode.initUntriedMoves();
+      newNode.getState().setPreviousMove(move);
+      addChild(newNode);
+    }
+    untriedMoves.clear();
+  }
 }

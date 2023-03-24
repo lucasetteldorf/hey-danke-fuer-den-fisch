@@ -22,25 +22,25 @@ public class IceFloeTile {
   // copy constructor
   public IceFloeTile(IceFloeTile tile) {
     this.fishCount = tile.fishCount;
-    this.position = new int[] {tile.position[0], tile.position[1]};
-    this.neighborPositions = initNeighborPositions(tile.position[0], tile.position[1]);
+    this.position = tile.position;
+    this.neighborPositions = tile.neighborPositions;
     this.isUnoccupied = tile.isUnoccupied;
   }
 
   private int[][] initNeighborPositions(int row, int col) {
-    int[][] neighborCoordinates = new int[6][2];
+    int[][] neighborPositions = new int[6][2];
     for (int i = 0; i < TILE_NEIGHBOR_DISTANCES.length; i++) {
       int neighborRow = row + TILE_NEIGHBOR_DISTANCES[i][0];
       int neighborCol = col + TILE_NEIGHBOR_DISTANCES[i][1];
 
       if (neighborRow >= 0 && neighborRow <= 7 && neighborCol >= 0 && neighborCol <= 14) {
-        neighborCoordinates[i][0] = neighborRow;
-        neighborCoordinates[i][1] = neighborCol;
+        neighborPositions[i][0] = neighborRow;
+        neighborPositions[i][1] = neighborCol;
       } else {
-        neighborCoordinates[i] = null;
+        neighborPositions[i] = null;
       }
     }
-    return neighborCoordinates;
+    return neighborPositions;
   }
 
   public int getFishCount() {

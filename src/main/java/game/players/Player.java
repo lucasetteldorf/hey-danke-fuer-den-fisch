@@ -28,7 +28,7 @@ public class Player {
     this.name = player.name;
     this.penguinColor = player.penguinColor;
     this.penguins = new Penguin[player.penguins.length];
-    for (int i = 0; i < player.penguins.length; i++) {
+    for (int i = 0; i < this.penguins.length; i++) {
       this.penguins[i] = new Penguin(player.penguins[i]);
     }
     this.penguinToPlaceIndex = player.penguinToPlaceIndex;
@@ -51,10 +51,6 @@ public class Player {
 
   public String getName() {
     return name;
-  }
-
-  public String getPenguinColor() {
-    return penguinColor;
   }
 
   public Penguin[] getPenguins() {

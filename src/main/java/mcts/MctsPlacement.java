@@ -6,7 +6,6 @@ import game.players.Player;
 public class MctsPlacement {
   private static final long COMPUTATIONAL_BUDGET = 1000;
   private static final int WIN_SCORE = 1;
-  private static final double TIE_SCORE = 0.5;
   private Player currentPlayer;
 
   public int[] getNextPlacement(GameBoard board) {
@@ -18,6 +17,7 @@ public class MctsPlacement {
     Node root = new Node();
     root.getState().setBoard(board);
     root.initUntriedPlacements();
+    initTree(root);
 
     while ((System.currentTimeMillis() - start) < COMPUTATIONAL_BUDGET) {
       // 1: Selection
@@ -41,6 +41,13 @@ public class MctsPlacement {
     System.out.println(numberOfSimulations + " simulations (placement)");
     Node bestNode = root.getChildWithMaxVisits();
     return bestNode.getState().getPreviousPlacement();
+  }
+
+  private void initTree(Node root) {
+    root.expandChildrenPlacement();
+    for (Node child : root.getChildren()) {
+      child.expandChildrenPlacement();
+    }
   }
 
   private Node selectNode(Node root) {
@@ -87,11 +94,7 @@ public class MctsPlacement {
     Node tmp = expandedNode;
     while (tmp != null) {
       tmp.updateVisits();
-      // TODO may need to be adjusted
-      if (playerIndex == -1) {
-        tmp.updateScore(TIE_SCORE);
-      } else if (currentPlayer.equals(tmp.getState().getBoard().getPlayers()[playerIndex])) {
-        // TODO are scores properly updated this way???
+      if (playerIndex != -1 && currentPlayer.equals(tmp.getState().getBoard().getPlayers()[playerIndex])) {
         tmp.updateScore(WIN_SCORE);
       }
       tmp = tmp.getParent();

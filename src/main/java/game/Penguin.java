@@ -20,7 +20,7 @@ public class Penguin {
   public Penguin(Penguin penguin) {
     this.color = penguin.color;
     this.index = penguin.index;
-    this.position = new int[] {penguin.getRow(), penguin.getCol()};
+    this.position = Arrays.copyOf(penguin.position, 2);
     this.isOnBoard = penguin.isOnBoard;
   }
 
@@ -39,10 +39,6 @@ public class Penguin {
 
   public int getCol() {
     return position[1];
-  }
-
-  public String getColor() {
-    return color;
   }
 
   public int getIndex() {

@@ -1,5 +1,7 @@
 package game;
 
+import java.util.Arrays;
+
 public class Move {
   private final int[] oldPosition;
   private final int[] newPosition;
@@ -11,8 +13,8 @@ public class Move {
 
   // copy constructor
   public Move(Move move) {
-    this.oldPosition = new int[] {move.getOldRow(), move.getOldCol()};
-    this.newPosition = new int[] {move.getNewRow(), move.getNewCol()};
+    this.oldPosition = Arrays.copyOf(move.oldPosition, 2);
+    this.newPosition = Arrays.copyOf(move.newPosition, 2);
   }
 
   public int getOldRow() {

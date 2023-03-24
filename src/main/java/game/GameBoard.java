@@ -1,10 +1,7 @@
 package game;
 
 import game.players.Player;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import utility.RandomNumbers;
 
 public class GameBoard {
@@ -44,14 +41,12 @@ public class GameBoard {
   // copy constructor
   public GameBoard(GameBoard board) {
     this.tiles = new HashMap<>();
-    for (IceFloeTile tile : board.getAllTiles()) {
-      IceFloeTile tileCopy = new IceFloeTile(tile);
-      this.tiles.put(tileCopy.hashCode(), tileCopy);
+    for (Map.Entry<Integer, IceFloeTile> entry : board.tiles.entrySet()) {
+      this.tiles.put(entry.getKey(), new IceFloeTile(entry.getValue()));
     }
     this.penguins = new HashMap<>();
-    for (Penguin penguin : board.getAllPenguins()) {
-      Penguin penguinCopy = new Penguin(penguin);
-      this.penguins.put(penguinCopy.hashCode(), penguinCopy);
+    for (Map.Entry<Integer, Penguin> entry : board.penguins.entrySet()) {
+      this.penguins.put(entry.getKey(), new Penguin(entry.getValue()));
     }
     this.players = new Player[board.players.length];
     for (int i = 0; i < this.players.length; i++) {

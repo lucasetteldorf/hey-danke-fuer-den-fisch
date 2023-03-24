@@ -31,7 +31,7 @@ public class MctsAiTest {
     MctsPlayer p1 = new MctsPlayer("MCTS AI", 4, "B");
     RandomPlayer p2 = new RandomPlayer("Random AI", 4, "R");
     Player[] players = new Player[] {p1, p2};
-    Game game = new Game(players);
+    Game game = new Game(players, false);
     game.start();
   }
 
@@ -40,7 +40,7 @@ public class MctsAiTest {
     RandomPlayer p1 = new RandomPlayer("Random AI", 4, "B");
     MctsPlayer p2 = new MctsPlayer("MCTS AI", 4, "R");
     Player[] players = new Player[] {p1, p2};
-    Game game = new Game(players);
+    Game game = new Game(players, false);
     game.start();
   }
 
@@ -49,7 +49,7 @@ public class MctsAiTest {
     MctsPlayer p1 = new MctsPlayer("MCTS AI", 4, "B");
     GreedyPlayer p2 = new GreedyPlayer("Greedy AI", 4, "R");
     Player[] players = new Player[] {p1, p2};
-    Game game = new Game(players);
+    Game game = new Game(players, false);
     game.start();
   }
 
@@ -58,7 +58,7 @@ public class MctsAiTest {
     GreedyPlayer p1 = new GreedyPlayer("Greedy AI", 4, "B");
     MctsPlayer p2 = new MctsPlayer("MCTS AI", 4, "R");
     Player[] players = new Player[] {p1, p2};
-    Game game = new Game(players);
+    Game game = new Game(players, false);
     game.start();
   }
 

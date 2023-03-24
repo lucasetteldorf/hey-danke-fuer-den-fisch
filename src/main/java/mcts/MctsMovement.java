@@ -7,7 +7,6 @@ import game.players.Player;
 public class MctsMovement {
   private static final long COMPUTATIONAL_BUDGET = 1000;
   private static final int WIN_SCORE = 1;
-  private static final double TIE_SCORE = 0.5;
   private Player currentPlayer;
 
   public Move getNextMove(GameBoard board) {
@@ -19,13 +18,13 @@ public class MctsMovement {
     Node root = new Node();
     root.getState().setBoard(board);
     root.initUntriedMoves();
+    initTree(root);
 
     while ((System.currentTimeMillis() - start) < COMPUTATIONAL_BUDGET) {
       // 1: Selection
       Node selectedNode = selectNode(root);
 
       // 2: Expansion
-      // TODO working as intended?
       Node expandedNode = selectedNode;
       if (!selectedNode.getState().isTerminalState()) {
         expandedNode = expandNode(selectedNode);
@@ -43,9 +42,15 @@ public class MctsMovement {
     return bestNode.getState().getPreviousMove();
   }
 
+  private void initTree(Node root) {
+    root.expandChildrenMovement();
+    for (Node child : root.getChildren()) {
+      child.expandChildrenMovement();
+    }
+  }
+
   private Node selectNode(Node root) {
     Node node = root;
-    // TODO working as intended?
     while (node.getChildren().size() > 0) {
       if (node.hasUntriedMoves()) {
         break;
@@ -56,7 +61,6 @@ public class MctsMovement {
     return node;
   }
 
-  // TODO working as intended?
   private Node expandNode(Node node) {
     Move randomUntriedMove = node.getRandomUntriedMove();
     node.getUntriedMoves().remove(randomUntriedMove);
@@ -85,11 +89,8 @@ public class MctsMovement {
     Node tmp = expandedNode;
     while (tmp != null) {
       tmp.updateVisits();
-      // TODO may need to be adjusted
-      if (playerIndex == -1) {
-        tmp.updateScore(TIE_SCORE);
-      } else if (currentPlayer.equals(tmp.getState().getBoard().getPlayers()[playerIndex])) {
-        // TODO are scores properly updated this way???
+      if (playerIndex != -1
+          && currentPlayer.equals(tmp.getState().getBoard().getPlayers()[playerIndex])) {
         tmp.updateScore(WIN_SCORE);
       }
       tmp = tmp.getParent();
