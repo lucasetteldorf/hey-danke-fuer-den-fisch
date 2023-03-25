@@ -109,6 +109,15 @@ public class GameBoard {
     return POSITIONS[index];
   }
 
+  private static int[] calculateNeighborPosition(int direction, int row, int col) {
+    int neighborRow = row + NEIGHBOR_DISTANCES[direction][0];
+    int neighborCol = col + NEIGHBOR_DISTANCES[direction][1];
+    if (neighborRow >= 0 && neighborRow <= 7 && neighborCol >= 0 && neighborCol <= 14) {
+      return new int[] {neighborRow, neighborCol};
+    }
+    return null;
+  }
+
   private int[] initGameBoard() {
     List<Integer> fishCounts = new ArrayList<>();
     int fishCount = 1;
@@ -166,12 +175,6 @@ public class GameBoard {
     return getPenguinByPosition(new int[] {row, col});
   }
 
-  // TODO !!! optimize (check for equals is slow), maybe give player penguin arrays back or think of
-  // TODO better way to manage penguins for players
-
-  // TODO maybe delete Penguin class and only store their positions
-  // TODO then also store the corresponding positions for player or use indices to check if penguin
-  // TODO belongs to a certain player
   public Penguin[] getAllPenguinsForPlayer(Player player) {
     Penguin[] playerPenguins = new Penguin[penguinCount / players.length];
     for (int i = 0, k = 0; i < penguins.length; i++) {
@@ -194,10 +197,6 @@ public class GameBoard {
     return unoccupiedPositions[getIndexFromPosition(position)];
   }
 
-  public boolean getUnoccupiedPositionByPosition(int row, int col) {
-    return getUnoccupiedPositionByPosition(new int[] {row, col});
-  }
-
   public boolean isPlacementPhaseOver() {
     for (Player player : players) {
       if (player.canPlacePenguin()) {
@@ -210,10 +209,6 @@ public class GameBoard {
   public boolean isLegalPlacementPosition(int[] position) {
     return unoccupiedPositions[getIndexFromPosition(position)]
         && fishCounts[getIndexFromPosition(position)] == 1;
-  }
-
-  public boolean isLegalPlacementPosition(int row, int col) {
-    return isLegalPlacementPosition(new int[] {row, col});
   }
 
   public boolean isLegalPlacementIndex(int index) {
@@ -365,7 +360,7 @@ public class GameBoard {
     }
   }
 
-  // TODO optimize?!
+  // TODO optimize!
   public List<Move> getAllLegalMovesForPenguin(Penguin penguin) {
     List<Move> possibleMoves = new ArrayList<>();
 
@@ -384,15 +379,6 @@ public class GameBoard {
       }
     }
     return possibleMoves;
-  }
-
-  private int[] calculateNeighborPosition(int direction, int row, int col) {
-    int neighborRow = row + NEIGHBOR_DISTANCES[direction][0];
-    int neighborCol = col + NEIGHBOR_DISTANCES[direction][1];
-    if (neighborRow >= 0 && neighborRow <= 7 && neighborCol >= 0 && neighborCol <= 14) {
-      return new int[] {neighborRow, neighborCol};
-    }
-    return null;
   }
 
   public boolean isValidPenguin(int[] position) {
