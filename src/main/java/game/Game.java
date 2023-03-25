@@ -9,6 +9,7 @@ public class Game {
 
   public Game() {
     this.board = new GameBoard(initPlayers());
+    this.printBoard = true;
   }
 
   public Game(Player[] players) {

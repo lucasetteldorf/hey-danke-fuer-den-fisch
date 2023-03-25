@@ -20,7 +20,7 @@ public class GreedyPlayer extends Player {
     List<Penguin> twoFishPenguins = new ArrayList<>();
     List<Penguin> oneFishPenguins = new ArrayList<>();
 
-    for (Penguin penguin : this.getPenguins()) {
+    for (Penguin penguin : board.getAllPenguinsForPlayer(this)) {
       if (penguin.isOnBoard()) {
         for (Move move : board.getAllLegalMovesForPenguin(penguin)) {
           switch (board.getTile(move.getNewRow(), move.getNewCol()).getFishCount()) {

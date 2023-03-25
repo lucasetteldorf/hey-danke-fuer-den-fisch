@@ -1,16 +1,15 @@
 package game.players;
 
 import game.GameBoard;
-import game.Penguin;
 import utility.ConsoleColors;
 import utility.RandomNumbers;
 
 public class Player {
   private final PlayerType type;
   private final String name;
+  private final int penguinCount;
   private final String penguinColor;
-  private final Penguin[] penguins;
-  private int penguinToPlaceIndex;
+  private int placedPenguinCount;
   private int collectedTileCount;
   private int collectedFishCount;
   private boolean penguinsRemovedFromBoard;
@@ -18,31 +17,20 @@ public class Player {
   public Player(PlayerType type, String name, int penguinCount, String penguinColor) {
     this.type = type;
     this.name = name;
+    this.penguinCount = penguinCount;
     this.penguinColor = ConsoleColors.getColorString(penguinColor);
-    this.penguins = initPenguins(penguinCount, penguinColor);
   }
 
   // copy constructor
   public Player(Player player) {
     this.type = player.type;
     this.name = player.name;
+    this.penguinCount = player.penguinCount;
+    this.placedPenguinCount = player.placedPenguinCount;
     this.penguinColor = player.penguinColor;
-    this.penguins = new Penguin[player.penguins.length];
-    for (int i = 0; i < this.penguins.length; i++) {
-      this.penguins[i] = new Penguin(player.penguins[i]);
-    }
-    this.penguinToPlaceIndex = player.penguinToPlaceIndex;
     this.collectedTileCount = player.collectedTileCount;
     this.collectedFishCount = player.collectedFishCount;
     this.penguinsRemovedFromBoard = player.penguinsRemovedFromBoard;
-  }
-
-  private Penguin[] initPenguins(int penguinCount, String color) {
-    Penguin[] penguins = new Penguin[penguinCount];
-    for (int i = 0; i < penguins.length; i++) {
-      penguins[i] = new Penguin(color, i);
-    }
-    return penguins;
   }
 
   public PlayerType getType() {
@@ -53,24 +41,16 @@ public class Player {
     return name;
   }
 
-  public Penguin[] getPenguins() {
-    return penguins;
-  }
-
-  public Penguin getPenguin(int index) {
-    return penguins[index];
-  }
-
-  public Penguin getPenguinToPlace() {
-    return this.penguins[this.penguinToPlaceIndex];
-  }
-
-  public void updatePenguinToPlace() {
-    this.penguinToPlaceIndex++;
+  public void updatePlacedPenguinCount() {
+    placedPenguinCount++;
   }
 
   public boolean canPlacePenguin() {
-    return this.penguinToPlaceIndex < this.penguins.length;
+    return placedPenguinCount < penguinCount;
+  }
+
+  public String getPenguinColor() {
+    return penguinColor;
   }
 
   public int getCollectedTileCount() {

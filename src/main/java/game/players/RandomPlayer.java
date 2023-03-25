@@ -14,7 +14,7 @@ public class RandomPlayer extends Player {
 
   public int[] getRandomPenguinPosition(GameBoard board) {
     List<Penguin> movablePenguins = new ArrayList<>();
-    for (Penguin penguin : this.getPenguins()) {
+    for (Penguin penguin : board.getAllPenguinsForPlayer(this)) {
       if (board.hasPenguinLegalMoves(penguin)) {
         movablePenguins.add(penguin);
       }

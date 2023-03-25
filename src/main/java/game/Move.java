@@ -17,6 +17,10 @@ public class Move {
     this.newPosition = Arrays.copyOf(move.newPosition, 2);
   }
 
+  public int[] getOldPosition() {
+    return oldPosition;
+  }
+
   public int getOldRow() {
     return oldPosition[0];
   }
