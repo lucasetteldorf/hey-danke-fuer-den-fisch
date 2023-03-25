@@ -3,7 +3,6 @@ package game.players;
 import static utility.RandomNumbers.getRandomIndex;
 
 import game.GameBoard;
-import game.IceFloeTile;
 import game.Move;
 import game.Penguin;
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ public class GreedyPlayer extends Player {
     for (Penguin penguin : board.getAllPenguinsForPlayer(this)) {
       if (penguin.isOnBoard()) {
         for (Move move : board.getAllLegalMovesForPenguin(penguin)) {
-          switch (board.getTile(move.getNewRow(), move.getNewCol()).getFishCount()) {
+          switch (board.getFishCountByPosition(move.getNewPosition())) {
             case 3:
               if (!threeFishPenguins.contains(penguin)) {
                 threeFishPenguins.add(penguin);
@@ -57,23 +56,20 @@ public class GreedyPlayer extends Player {
   }
 
   public int[] getBestMovementPosition(GameBoard board, Penguin penguin) {
-    List<IceFloeTile> threeFishTiles = new ArrayList<>();
-    List<IceFloeTile> twoFishTiles = new ArrayList<>();
-    List<IceFloeTile> oneFishTiles = new ArrayList<>();
+    List<int[]> threeFishPositions = new ArrayList<>();
+    List<int[]> twoFishPositions = new ArrayList<>();
+    List<int[]> oneFishPositions = new ArrayList<>();
     for (Move move : board.getAllLegalMovesForPenguin(penguin)) {
-      IceFloeTile tile = board.getTile(move.getNewRow(), move.getNewCol());
-      if (tile != null) {
-        switch (tile.getFishCount()) {
-          case 3:
-            threeFishTiles.add(tile);
-            break;
-          case 2:
-            twoFishTiles.add(tile);
-            break;
-          case 1:
-            oneFishTiles.add(tile);
-            break;
-        }
+      switch (board.getFishCountByPosition(move.getNewPosition())) {
+        case 3:
+          threeFishPositions.add(move.getNewPosition());
+          break;
+        case 2:
+          twoFishPositions.add(move.getNewPosition());
+          break;
+        case 1:
+          oneFishPositions.add(move.getNewPosition());
+          break;
       }
     }
 
@@ -82,12 +78,12 @@ public class GreedyPlayer extends Player {
             .getAllLegalMovesForPenguin(penguin)
             .get(RandomNumbers.getRandomIndex(board.getAllLegalMovesForPenguin(penguin).size()))
             .getNewPosition();
-    if (!threeFishTiles.isEmpty()) {
-      bestPosition = threeFishTiles.get(getRandomIndex(threeFishTiles.size())).getPosition();
-    } else if (!twoFishTiles.isEmpty()) {
-      bestPosition = twoFishTiles.get(getRandomIndex(twoFishTiles.size())).getPosition();
-    } else if (!oneFishTiles.isEmpty()) {
-      bestPosition = oneFishTiles.get(getRandomIndex(oneFishTiles.size())).getPosition();
+    if (!threeFishPositions.isEmpty()) {
+      bestPosition = threeFishPositions.get(getRandomIndex(threeFishPositions.size()));
+    } else if (!twoFishPositions.isEmpty()) {
+      bestPosition = twoFishPositions.get(getRandomIndex(twoFishPositions.size()));
+    } else if (!oneFishPositions.isEmpty()) {
+      bestPosition = oneFishPositions.get(getRandomIndex(oneFishPositions.size()));
     }
 
     return bestPosition;

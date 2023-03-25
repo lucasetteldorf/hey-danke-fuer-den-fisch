@@ -1,6 +1,7 @@
 package game.players;
 
 import game.GameBoard;
+import java.util.List;
 import utility.ConsoleColors;
 import utility.RandomNumbers;
 
@@ -78,9 +79,8 @@ public class Player {
   }
 
   public int[] getRandomPlacementPosition(GameBoard board) {
-    return board
-        .getAllLegalPlacementPositions()
-        .get(RandomNumbers.getRandomIndex(board.getAllLegalPlacementPositions().size()));
+    List<int[]> legalPlacementPositions = board.getAllLegalPlacementPositions();
+    return legalPlacementPositions.get(RandomNumbers.getRandomIndex(legalPlacementPositions.size()));
   }
 
   public String getScore() {

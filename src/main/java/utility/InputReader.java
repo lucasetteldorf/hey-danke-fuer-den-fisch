@@ -80,6 +80,7 @@ public class InputReader {
       coordinates = input.split(" ");
       if (coordinates.length != 2) {
         System.out.println("Please enter two valid coordinates separated by a space...");
+        continue;
       }
     } while (coordinates.length != 2);
 

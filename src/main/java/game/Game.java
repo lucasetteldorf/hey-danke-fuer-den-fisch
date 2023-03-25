@@ -5,7 +5,7 @@ import utility.InputReader;
 
 public class Game {
   private final GameBoard board;
-  private boolean printBoard;
+  private final boolean printBoard;
 
   public Game() {
     this.board = new GameBoard(initPlayers());
@@ -110,9 +110,15 @@ public class Game {
       int[] placementPosition = new int[2];
       switch (board.getCurrentPlayer().getType()) {
         case HUMAN:
-          do {
+          while (true) {
             placementPosition = InputReader.getPlacementPosition(board.getCurrentPlayer());
-          } while (!board.isLegalPlacementPosition(placementPosition));
+            if (!board.isValidPosition(placementPosition)) {
+              continue;
+            }
+            if ((board.isLegalPlacementPosition(placementPosition))) {
+              break;
+            }
+          }
           break;
         case RANDOM:
           RandomPlayer randomPlayer = (RandomPlayer) board.getCurrentPlayer();
@@ -144,12 +150,24 @@ public class Game {
       Move move = null;
       switch (board.getCurrentPlayer().getType()) {
         case HUMAN:
-          do {
+          while (true) {
             oldPosition = InputReader.getPenguinPosition(board.getCurrentPlayer());
-          } while (!this.board.hasPenguinLegalMoves(oldPosition[0], oldPosition[1]));
-          do {
+            if (!board.isValidPosition(oldPosition)) {
+              continue;
+            }
+            if (board.isValidPenguin(oldPosition)) {
+              break;
+            }
+          }
+          while (true) {
             newPosition = InputReader.getMovementPosition(board.getCurrentPlayer());
-          } while (!board.isLegalMove(oldPosition, newPosition));
+            if (!board.isValidPosition(newPosition)) {
+              continue;
+            }
+            if (board.isLegalMove(oldPosition, newPosition)) {
+              break;
+            }
+          }
           move = new Move(oldPosition, newPosition);
           break;
         case RANDOM:
@@ -163,7 +181,7 @@ public class Game {
           oldPosition = greedyPlayer.getBestPenguinPosition(this.board);
           newPosition =
               greedyPlayer.getBestMovementPosition(
-                  this.board, this.board.getPenguin(oldPosition[0], oldPosition[1]));
+                  this.board, this.board.getPenguinByPosition(oldPosition));
           move = new Move(oldPosition, newPosition);
           break;
         case MCTS:

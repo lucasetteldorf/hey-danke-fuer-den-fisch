@@ -23,8 +23,7 @@ public class RandomPlayer extends Player {
   }
 
   public int[] getRandomMovementPositionForPenguin(GameBoard board, int[] position) {
-    List<Move> legalMoves =
-        board.getAllLegalMovesForPenguin(board.getPenguin(position[0], position[1]));
+    List<Move> legalMoves = board.getAllLegalMovesForPenguin(board.getPenguinByPosition(position));
     return legalMoves.get(RandomNumbers.getRandomIndex(legalMoves.size())).getNewPosition();
   }
 }

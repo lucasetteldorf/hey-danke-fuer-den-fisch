@@ -1,24 +1,30 @@
 package game;
 
 import java.util.Arrays;
-import utility.ConsoleColors;
 
 public class Penguin {
   // values: "B" = blue, "R" = red, "G" = green, "Y" = yellow
   private final String color;
+  private final int index;
   private final int[] position;
   private boolean isOnBoard;
 
-  public Penguin(String color) {
+  public Penguin(String color, int index) {
     this.color = color;
+    this.index = index;
     this.position = new int[2];
   }
 
   // copy constructor
   public Penguin(Penguin penguin) {
     this.color = penguin.color;
+    this.index = penguin.index;
     this.position = Arrays.copyOf(penguin.position, 2);
     this.isOnBoard = penguin.isOnBoard;
+  }
+
+  public int getIndex() {
+    return index;
   }
 
   public void setPosition(int rowIndex, int colIndex) {
