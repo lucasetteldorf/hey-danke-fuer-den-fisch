@@ -1,6 +1,7 @@
 package game.players;
 
 import game.GameBoard;
+import java.util.Arrays;
 import java.util.List;
 import utility.ConsoleColors;
 import utility.RandomNumbers;
@@ -10,6 +11,7 @@ public class Player {
   private final String name;
   private final int penguinCount;
   private final String penguinColor;
+  private final int[] penguinIndices;
   private int placedPenguinCount;
   private int collectedTileCount;
   private int collectedFishCount;
@@ -20,6 +22,8 @@ public class Player {
     this.name = name;
     this.penguinCount = penguinCount;
     this.penguinColor = ConsoleColors.getColorString(penguinColor);
+    this.penguinIndices = new int[penguinCount];
+    Arrays.fill(penguinIndices, -1);
   }
 
   // copy constructor
@@ -29,6 +33,7 @@ public class Player {
     this.penguinCount = player.penguinCount;
     this.placedPenguinCount = player.placedPenguinCount;
     this.penguinColor = player.penguinColor;
+    this.penguinIndices = Arrays.copyOf(player.penguinIndices, penguinCount);
     this.collectedTileCount = player.collectedTileCount;
     this.collectedFishCount = player.collectedFishCount;
     this.penguinsRemovedFromBoard = player.penguinsRemovedFromBoard;
@@ -52,6 +57,23 @@ public class Player {
 
   public String getPenguinColor() {
     return penguinColor;
+  }
+
+  public int[] getPenguinIndices() {
+    return penguinIndices;
+  }
+
+  public void addPenguinIndex(int index) {
+    penguinIndices[placedPenguinCount] = index;
+  }
+
+  public boolean ownsPenguinAtIndex(int index) {
+    for (int penguinIndex : penguinIndices) {
+      if (penguinIndex == index) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public int getCollectedTileCount() {
@@ -80,7 +102,8 @@ public class Player {
 
   public int[] getRandomPlacementPosition(GameBoard board) {
     List<int[]> legalPlacementPositions = board.getAllLegalPlacementPositions();
-    return legalPlacementPositions.get(RandomNumbers.getRandomIndex(legalPlacementPositions.size()));
+    return legalPlacementPositions.get(
+        RandomNumbers.getRandomIndex(legalPlacementPositions.size()));
   }
 
   public String getScore() {
@@ -95,7 +118,7 @@ public class Player {
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof Player player) {
-      return penguinColor.equals(player.penguinColor);
+      return this.penguinColor.equals(player.penguinColor);
     }
     return false;
   }

@@ -181,7 +181,7 @@ public class Game {
           oldPosition = greedyPlayer.getBestPenguinPosition(this.board);
           newPosition =
               greedyPlayer.getBestMovementPosition(
-                  this.board, this.board.getPenguinByPosition(oldPosition));
+                  this.board, oldPosition);
           move = new Move(oldPosition, newPosition);
           break;
         case MCTS:

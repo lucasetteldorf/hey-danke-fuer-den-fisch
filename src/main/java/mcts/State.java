@@ -2,6 +2,7 @@ package mcts;
 
 import game.GameBoard;
 import game.Move;
+import java.util.Arrays;
 import java.util.List;
 import utility.RandomNumbers;
 
@@ -12,7 +13,7 @@ public class State {
 
   public State() {
     this.board = new GameBoard();
-    previousPlacement = new int[2];
+    this.previousPlacement = new int[2];
   }
 
   // copy constructor
@@ -22,7 +23,7 @@ public class State {
       this.previousMove = new Move(state.previousMove);
     }
     if (state.previousPlacement != null) {
-      this.previousPlacement = new int[] {state.previousPlacement[0], state.previousPlacement[1]};
+      this.previousPlacement = Arrays.copyOf(state.previousPlacement, 2);
     }
   }
 
@@ -53,7 +54,7 @@ public class State {
   public boolean isTerminalState() {
     return board.isMovementPhaseOver();
   }
-  
+
   public void playRandomMove() {
     List<Move> possibleMoves = board.getAllLegalMovesForCurrentPlayer();
     Move randomMove = possibleMoves.get(RandomNumbers.getRandomIndex(possibleMoves.size()));

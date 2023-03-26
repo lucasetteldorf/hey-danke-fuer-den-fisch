@@ -10,14 +10,16 @@ public class MctsPlacement {
 
   public int[] getNextPlacement(GameBoard board) {
     this.currentPlayer = board.getCurrentPlayer();
-
-    long start = System.currentTimeMillis();
     int numberOfSimulations = 0;
+
+    // TODO move start back to here?
 
     Node root = new Node();
     root.getState().setBoard(board);
     root.initUntriedPlacements();
+    long start = System.currentTimeMillis();
     initTree(root);
+
 
     while ((System.currentTimeMillis() - start) < COMPUTATIONAL_BUDGET) {
       // 1: Selection
@@ -46,7 +48,8 @@ public class MctsPlacement {
   private void initTree(Node root) {
     root.expandChildrenPlacement();
     for (Node child : root.getChildren()) {
-      child.expandChildrenPlacement();
+      int playoutResult = simulateRandomPlayout(child);
+      backpropagate(child, playoutResult);
     }
   }
 
@@ -83,7 +86,7 @@ public class MctsPlacement {
       tmpState.playRandomPlacement();
     }
 
-    while (!tmpState.isTerminalState()) {
+    while (!tmpState.getBoard().isMovementPhaseOver()) {
       tmpState.playRandomMove();
     }
 

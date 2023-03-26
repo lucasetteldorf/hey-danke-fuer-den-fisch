@@ -1,9 +1,6 @@
 package game.players;
 
-import static utility.RandomNumbers.getRandomIndex;
-
 import game.GameBoard;
-import game.Move;
 import game.Penguin;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,29 +16,29 @@ public class GreedyPlayer extends Player {
     List<Penguin> twoFishPenguins = new ArrayList<>();
     List<Penguin> oneFishPenguins = new ArrayList<>();
 
-    for (Penguin penguin : board.getAllPenguinsForPlayer(this)) {
-      if (penguin.isOnBoard()) {
-        for (Move move : board.getAllLegalMovesForPenguin(penguin)) {
-          switch (board.getFishCountByPosition(move.getNewPosition())) {
-            case 3:
-              if (!threeFishPenguins.contains(penguin)) {
-                threeFishPenguins.add(penguin);
-              }
-              break;
-            case 2:
-              if (!twoFishPenguins.contains(penguin)) {
-                twoFishPenguins.add(penguin);
-              }
-              break;
-            case 1:
-              if (!oneFishPenguins.contains(penguin)) {
-                oneFishPenguins.add(penguin);
-              }
-              break;
-          }
-        }
-      }
-    }
+    //    for (Penguin penguin : board.getAllPenguinPositionsForPlayer(this)) {
+    //      if (penguin.isOnBoard()) {
+    //        for (Move move : board.getAllLegalMovesForPenguin(penguin)) {
+    //          switch (board.getFishCountByPosition(move.getNewPosition())) {
+    //            case 3:
+    //              if (!threeFishPenguins.contains(penguin)) {
+    //                threeFishPenguins.add(penguin);
+    //              }
+    //              break;
+    //            case 2:
+    //              if (!twoFishPenguins.contains(penguin)) {
+    //                twoFishPenguins.add(penguin);
+    //              }
+    //              break;
+    //            case 1:
+    //              if (!oneFishPenguins.contains(penguin)) {
+    //                oneFishPenguins.add(penguin);
+    //              }
+    //              break;
+    //          }
+    //        }
+    //      }
+    //    }
 
     Penguin bestPenguin;
     if (threeFishPenguins.size() > 0) {
@@ -55,37 +52,38 @@ public class GreedyPlayer extends Player {
     return bestPenguin.getPosition();
   }
 
-  public int[] getBestMovementPosition(GameBoard board, Penguin penguin) {
+  public int[] getBestMovementPosition(GameBoard board, int[] position) {
     List<int[]> threeFishPositions = new ArrayList<>();
     List<int[]> twoFishPositions = new ArrayList<>();
     List<int[]> oneFishPositions = new ArrayList<>();
-    for (Move move : board.getAllLegalMovesForPenguin(penguin)) {
-      switch (board.getFishCountByPosition(move.getNewPosition())) {
-        case 3:
-          threeFishPositions.add(move.getNewPosition());
-          break;
-        case 2:
-          twoFishPositions.add(move.getNewPosition());
-          break;
-        case 1:
-          oneFishPositions.add(move.getNewPosition());
-          break;
-      }
-    }
+    //    for (Move move : board.getAllLegalMovesForPenguin(penguin)) {
+    //      switch (board.getFishCountByPosition(move.getNewPosition())) {
+    //        case 3:
+    //          threeFishPositions.add(move.getNewPosition());
+    //          break;
+    //        case 2:
+    //          twoFishPositions.add(move.getNewPosition());
+    //          break;
+    //        case 1:
+    //          oneFishPositions.add(move.getNewPosition());
+    //          break;
+    //      }
+    //    }
+    //
+    //    int[] bestPosition =
+    //        board
+    //            .getAllLegalMovesForPenguin(penguin)
+    //
+    // .get(RandomNumbers.getRandomIndex(board.getAllLegalMovesForPenguin(penguin).size()))
+    //            .getNewPosition();
+    //    if (!threeFishPositions.isEmpty()) {
+    //      bestPosition = threeFishPositions.get(getRandomIndex(threeFishPositions.size()));
+    //    } else if (!twoFishPositions.isEmpty()) {
+    //      bestPosition = twoFishPositions.get(getRandomIndex(twoFishPositions.size()));
+    //    } else if (!oneFishPositions.isEmpty()) {
+    //      bestPosition = oneFishPositions.get(getRandomIndex(oneFishPositions.size()));
+    //    }
 
-    int[] bestPosition =
-        board
-            .getAllLegalMovesForPenguin(penguin)
-            .get(RandomNumbers.getRandomIndex(board.getAllLegalMovesForPenguin(penguin).size()))
-            .getNewPosition();
-    if (!threeFishPositions.isEmpty()) {
-      bestPosition = threeFishPositions.get(getRandomIndex(threeFishPositions.size()));
-    } else if (!twoFishPositions.isEmpty()) {
-      bestPosition = twoFishPositions.get(getRandomIndex(twoFishPositions.size()));
-    } else if (!oneFishPositions.isEmpty()) {
-      bestPosition = oneFishPositions.get(getRandomIndex(oneFishPositions.size()));
-    }
-
-    return bestPosition;
+    return null;
   }
 }

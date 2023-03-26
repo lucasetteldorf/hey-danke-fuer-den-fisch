@@ -11,13 +11,14 @@ public class MctsMovement {
 
   public Move getNextMove(GameBoard board) {
     this.currentPlayer = board.getCurrentPlayer();
-
-    long start = System.currentTimeMillis();
     int numberOfSimulations = 0;
+
+    // TODO move start back to here?
 
     Node root = new Node();
     root.getState().setBoard(board);
     root.initUntriedMoves();
+    long start = System.currentTimeMillis();
     initTree(root);
 
     while ((System.currentTimeMillis() - start) < COMPUTATIONAL_BUDGET) {
@@ -45,7 +46,8 @@ public class MctsMovement {
   private void initTree(Node root) {
     root.expandChildrenMovement();
     for (Node child : root.getChildren()) {
-      child.expandChildrenMovement();
+      int playoutResult = simulateRandomPlayout(child);
+      backpropagate(child, playoutResult);
     }
   }
 

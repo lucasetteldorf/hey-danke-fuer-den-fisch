@@ -13,17 +13,17 @@ public class RandomPlayer extends Player {
   }
 
   public int[] getRandomPenguinPosition(GameBoard board) {
-    List<Penguin> movablePenguins = new ArrayList<>();
-    for (Penguin penguin : board.getAllPenguinsForPlayer(this)) {
-      if (board.hasPenguinLegalMoves(penguin)) {
-        movablePenguins.add(penguin);
+    List<int[]> penguinPositions = new ArrayList<>();
+    for (int[] position : board.getAllPenguinPositionsForPlayer(this)) {
+      if (board.hasPenguinLegalMoves(position)) {
+        penguinPositions.add(position);
       }
     }
-    return movablePenguins.get(RandomNumbers.getRandomIndex(movablePenguins.size())).getPosition();
+    return penguinPositions.get(RandomNumbers.getRandomIndex(penguinPositions.size()));
   }
 
   public int[] getRandomMovementPositionForPenguin(GameBoard board, int[] position) {
-    List<Move> legalMoves = board.getAllLegalMovesForPenguin(board.getPenguinByPosition(position));
+    List<Move> legalMoves = board.getAllLegalMovesForPenguin(position);
     return legalMoves.get(RandomNumbers.getRandomIndex(legalMoves.size())).getNewPosition();
   }
 }

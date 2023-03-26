@@ -2,9 +2,10 @@ package game;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import game.players.GreedyPlayer;import game.players.HumanPlayer;
 import game.players.Player;
-import game.players.RandomPlayer;import org.junit.jupiter.api.BeforeEach;import org.junit.jupiter.api.Test;
+import game.players.RandomPlayer;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class GameBoardTest {
   static final int[] fishCounts = {
@@ -19,8 +20,8 @@ public class GameBoardTest {
   @BeforeEach
   void reset() {
     board = new GameBoard(fishCounts);
-    p1 = new RandomPlayer("Random", 4, "B");
-    p2 = new GreedyPlayer("Greedy", 4, "R");
+    p1 = new RandomPlayer("Random 1", 4, "B");
+    p2 = new RandomPlayer("Random 2", 4, "R");
     players = new Player[] {p1, p2};
   }
 
