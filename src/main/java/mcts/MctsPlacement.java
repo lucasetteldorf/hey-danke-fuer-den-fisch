@@ -8,28 +8,23 @@ public class MctsPlacement {
   private static final int WIN_SCORE = 1;
   private Player currentPlayer;
 
-  public int[] getNextPlacement(GameBoard board) {
+  public int[] getNextPlacementPosition(GameBoard board) {
     this.currentPlayer = board.getCurrentPlayer();
     int numberOfSimulations = 0;
 
-    // TODO move start back to here?
-
-    Node root = new Node();
-    root.getState().setBoard(board);
+    NodePlacement root = new NodePlacement();
+    root.setBoard(board);
     root.initUntriedPlacements();
     long start = System.currentTimeMillis();
     initTree(root);
 
-
     while ((System.currentTimeMillis() - start) < COMPUTATIONAL_BUDGET) {
       // 1: Selection
-      Node selectedNode = selectNode(root);
+      NodePlacement selectedNode = selectNode(root);
 
       // 2: Expansion
-      // TODO condition needed for placement?
-      Node expandedNode = selectedNode;
-      // TODO correct condition?
-      if (!selectedNode.getState().getBoard().isPlacementPhaseOver()) {
+      NodePlacement expandedNode = selectedNode;
+      if (!selectedNode.getBoard().isPlacementPhaseOver()) {
         expandedNode = expandNode(selectedNode);
       }
 
@@ -41,67 +36,68 @@ public class MctsPlacement {
       backpropagate(expandedNode, playoutResult);
     }
     System.out.println(numberOfSimulations + " simulations (placement)");
-    Node bestNode = root.getChildWithMaxVisits();
-    return bestNode.getState().getPreviousPlacement();
+    NodePlacement bestNode = (NodePlacement) root.getChildWithMaxVisits();
+    return bestNode.getPreviousPlacementPosition();
   }
 
-  private void initTree(Node root) {
+  private void initTree(NodePlacement root) {
     root.expandChildrenPlacement();
     for (Node child : root.getChildren()) {
-      int playoutResult = simulateRandomPlayout(child);
-      backpropagate(child, playoutResult);
+      NodePlacement childPlacement = (NodePlacement) child;
+      int playoutResult = simulateRandomPlayout(childPlacement);
+      backpropagate(childPlacement, playoutResult);
     }
   }
 
-  private Node selectNode(Node root) {
-    Node node = root;
+  private NodePlacement selectNode(NodePlacement root) {
+    NodePlacement node = root;
     while (node.getChildren().size() > 0) {
       if (node.hasUntriedPlacements()) {
         break;
       } else {
-        node = Uct.findBestNode(node);
+        node = (NodePlacement) Uct.findBestNode(node);
       }
     }
     return node;
   }
 
-  private Node expandNode(Node node) {
-    int[] randomUntriedPlacement = node.getRandomUntriedPlacement();
-    node.getUntriedPlacements().remove(randomUntriedPlacement);
-    State newState = new State(node.getState());
-    newState.setPreviousPlacement(randomUntriedPlacement);
-    newState.getBoard().placePenguin(randomUntriedPlacement[0], randomUntriedPlacement[1]);
-    Node expandedNode = new Node(newState);
+  private NodePlacement expandNode(NodePlacement node) {
+    int[] randomUntriedPlacementPosition = node.getRandomUntriedPlacement();
+    node.getUntriedPlacementPositions().remove(randomUntriedPlacementPosition);
+    NodePlacement expandedNode = new NodePlacement(node);
+    expandedNode.setPreviousPlacementPosition(randomUntriedPlacementPosition);
+    expandedNode
+        .getBoard()
+        .placePenguin(randomUntriedPlacementPosition[0], randomUntriedPlacementPosition[1]);
     expandedNode.setParent(node);
     expandedNode.initUntriedPlacements();
     node.addChild(expandedNode);
     return expandedNode;
   }
 
-  private int simulateRandomPlayout(Node node) {
-    Node tmpNode = new Node(node);
-    State tmpState = tmpNode.getState();
+  private int simulateRandomPlayout(NodePlacement node) {
+    NodePlacement tmp = new NodePlacement(node);
 
-    while (!tmpState.getBoard().isPlacementPhaseOver()) {
-      tmpState.playRandomPlacement();
+    while (!tmp.getBoard().isPlacementPhaseOver()) {
+      tmp.playRandomPlacement();
     }
 
-    while (!tmpState.getBoard().isMovementPhaseOver()) {
-      tmpState.playRandomMove();
+    while (!tmp.getBoard().isMovementPhaseOver()) {
+      tmp.playRandomMove();
     }
 
-    return tmpState.getBoard().getWinnerIndex();
+    return tmp.getBoard().getWinnerIndex();
   }
 
-  private void backpropagate(Node expandedNode, int playerIndex) {
-    Node tmp = expandedNode;
+  private void backpropagate(NodePlacement expandedNode, int playerIndex) {
+    NodePlacement tmp = expandedNode;
     while (tmp != null) {
       tmp.updateVisits();
-      if (playerIndex != -1 && currentPlayer.equals(tmp.getState().getBoard().getPlayers()[playerIndex])) {
+      if (playerIndex != -1 && currentPlayer.equals(tmp.getBoard().getPlayers()[playerIndex])) {
         tmp.updateScore(WIN_SCORE);
       }
       // TODO else setScore to MIN VALUE
-      tmp = tmp.getParent();
+      tmp = (NodePlacement) tmp.getParent();
     }
   }
 }

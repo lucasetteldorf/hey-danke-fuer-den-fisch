@@ -1,26 +1,25 @@
 package mcts;
 
+import game.GameBoard;
 import game.Move;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import utility.RandomNumbers;
 
 public class Node {
+  protected GameBoard board;
   private Node parent;
   private List<Node> children;
-  private List<Move> untriedMoves;
-  private List<int[]> untriedPlacements;
-  private State state;
   private int visits;
   private double score;
 
   public Node() {
-    this.state = new State();
+    this.board = new GameBoard();
     this.children = new ArrayList<>();
-    this.untriedMoves = new ArrayList<>();
-    this.untriedPlacements = new ArrayList<>();
+  }
+
+  public Node(GameBoard board) {
+    this.board = new GameBoard(board);
+    this.children = new ArrayList<>();
   }
 
   // copy constructor
@@ -32,24 +31,9 @@ public class Node {
     for (Node child : node.getChildren()) {
       this.children.add(child);
     }
-    this.untriedMoves = new ArrayList<>();
-    for (Move move : node.getUntriedMoves()) {
-      this.untriedMoves.add(move);
-    }
-    this.untriedPlacements = new ArrayList<>();
-    for (int[] placement : node.getUntriedPlacements()) {
-      this.untriedPlacements.add(new int[] {placement[0], placement[1]});
-    }
-    this.state = new State(node.state);
+    this.board = new GameBoard(node.board);
     this.visits = node.visits;
     this.score = node.score;
-  }
-
-  public Node(State state) {
-    this.state = new State(state);
-    this.children = new ArrayList<>();
-    this.untriedMoves = new ArrayList<>();
-    this.untriedPlacements = new ArrayList<>();
   }
 
   public Node getParent() {
@@ -68,56 +52,12 @@ public class Node {
     this.children = children;
   }
 
-  public List<Move> getUntriedMoves() {
-    return untriedMoves;
+  public GameBoard getBoard() {
+    return board;
   }
 
-  public void setUntriedMoves(List<Move> untriedMoves) {
-    this.untriedMoves = untriedMoves;
-  }
-
-  public void initUntriedMoves() {
-    for (Move move : state.getBoard().getAllLegalMovesForCurrentPlayer()) {
-      untriedMoves.add(move);
-    }
-  }
-
-  public boolean hasUntriedMoves() {
-    return this.untriedMoves.size() > 0;
-  }
-
-  public Move getRandomUntriedMove() {
-    return untriedMoves.get(RandomNumbers.getRandomIndex(untriedMoves.size()));
-  }
-
-  public List<int[]> getUntriedPlacements() {
-    return untriedPlacements;
-  }
-
-  public void setUntriedPlacements(List<int[]> untriedPlacements) {
-    this.untriedPlacements = untriedPlacements;
-  }
-
-  public void initUntriedPlacements() {
-    for (int[] placement : state.getBoard().getAllLegalPlacementPositions()) {
-      untriedPlacements.add(placement);
-    }
-  }
-
-  public boolean hasUntriedPlacements() {
-    return untriedPlacements.size() > 0;
-  }
-
-  public int[] getRandomUntriedPlacement() {
-    return untriedPlacements.get(RandomNumbers.getRandomIndex(untriedPlacements.size()));
-  }
-
-  public State getState() {
-    return state;
-  }
-
-  public void setState(State state) {
-    this.state = state;
+  public void setBoard(GameBoard board) {
+    this.board = board;
   }
 
   public int getVisits() {
@@ -156,29 +96,16 @@ public class Node {
     return Collections.max(children, Comparator.comparing(child -> child.getVisits()));
   }
 
-  public void expandChildrenPlacement() {
-    for (int[] placementPosition : untriedPlacements) {
-      State newState = new State(state);
-      newState.getBoard().placePenguin(placementPosition[0], placementPosition[1]);
-      Node newNode = new Node(newState);
-      newNode.setParent(this);
-      newNode.initUntriedPlacements();
-      newNode.getState().setPreviousPlacement(placementPosition);
-      addChild(newNode);
-    }
-    untriedPlacements.clear();
+  public void playRandomMove() {
+    List<Move> possibleMoves = board.getAllLegalMovesForCurrentPlayer();
+    Move randomMove = possibleMoves.get(RandomNumbers.getRandomIndex(possibleMoves.size()));
+    board.movePenguin(randomMove);
   }
 
-  public void expandChildrenMovement() {
-    for (Move move : untriedMoves) {
-      State newState = new State(state);
-      newState.getBoard().movePenguin(move);
-      Node newNode = new Node(newState);
-      newNode.setParent(this);
-      newNode.initUntriedMoves();
-      newNode.getState().setPreviousMove(move);
-      addChild(newNode);
-    }
-    untriedMoves.clear();
+  public void playRandomPlacement() {
+    List<int[]> possiblePlacements = board.getAllLegalPlacementPositions();
+    int[] randomPlacement =
+        possiblePlacements.get(RandomNumbers.getRandomIndex(possiblePlacements.size()));
+    board.placePenguin(randomPlacement[0], randomPlacement[1]);
   }
 }
