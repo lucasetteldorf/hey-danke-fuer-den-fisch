@@ -8,8 +8,6 @@ public class GameBoard {
   private static final int TILE_COUNT = 60;
   private static final int ROW_COUNT = 8;
   private static final int COL_COUNT = 15;
-  private static final int[][] NEIGHBOR_DISTANCES =
-      new int[][] {{-1, 1}, {0, 2}, {1, 1}, {1, -1}, {0, -2}, {-1, -1}};
   private static final int[][] POSITIONS =
       new int[][] {
         {0, 1}, {0, 3}, {0, 5}, {0, 7}, {0, 9}, {0, 11}, {0, 13}, {1, 0}, {1, 2}, {1, 4}, {1, 6},
@@ -19,57 +17,63 @@ public class GameBoard {
         {5, 14}, {6, 1}, {6, 3}, {6, 5}, {6, 7}, {6, 9}, {6, 11}, {6, 13}, {7, 0}, {7, 2}, {7, 4},
         {7, 6}, {7, 8}, {7, 10}, {7, 12}, {7, 14}
       };
+  // order: top right, right, bottom right, bottom left, left, top left
+  private static final int[][] NEIGHBOR_DISTANCES =
+      new int[][] {{-1, 1}, {0, 2}, {1, 1}, {1, -1}, {0, -2}, {-1, -1}};
 
   // 0 = tile removed from board
   private final int[] fishCounts;
-  private final int[] penguinIndices;
-  // true if tile is on board and no penguin is at the corresponding position
   private final boolean[] unoccupiedPositions;
+  private final int[] penguinIndices;
   private final Player[] players;
-  private final int penguinCount;
+  private final int totalPenguinCount;
   private int currentPenguinIndex;
   private int currentPlayerIndex;
 
   public GameBoard() {
-    this.unoccupiedPositions = new boolean[TILE_COUNT];
     this.fishCounts = initGameBoard();
+    this.unoccupiedPositions = new boolean[TILE_COUNT];
+    Arrays.fill(unoccupiedPositions, true);
     this.penguinIndices = null;
-    this.penguinCount = 0;
+    this.totalPenguinCount = 0;
     this.players = null;
   }
 
   public GameBoard(Player[] players) {
-    this.unoccupiedPositions = new boolean[TILE_COUNT];
     this.fishCounts = initGameBoard();
-    this.penguinCount = calculatePenguinCount(players.length);
-    this.penguinIndices = new int[penguinCount];
+    this.unoccupiedPositions = new boolean[TILE_COUNT];
+    Arrays.fill(unoccupiedPositions, true);
+    this.totalPenguinCount = calculateTotalPenguinCount(players.length);
+    this.penguinIndices = new int[totalPenguinCount];
     Arrays.fill(penguinIndices, -1);
     this.players = players;
   }
 
   public GameBoard(int[] fishCounts) {
+    this.fishCounts = Arrays.copyOf(fishCounts, fishCounts.length);
     this.unoccupiedPositions = new boolean[TILE_COUNT];
-    this.fishCounts = Arrays.copyOf(fishCounts, TILE_COUNT);
+    Arrays.fill(unoccupiedPositions, true);
     this.penguinIndices = null;
-    this.penguinCount = 0;
+    this.totalPenguinCount = 0;
     this.players = null;
   }
 
   // copy constructor
   public GameBoard(GameBoard board) {
-    this.fishCounts = Arrays.copyOf(board.fishCounts, TILE_COUNT);
-    this.penguinCount = board.penguinCount;
-    this.penguinIndices = Arrays.copyOf(board.penguinIndices, penguinCount);
-    this.currentPenguinIndex = board.currentPenguinIndex;
-    this.unoccupiedPositions = Arrays.copyOf(board.unoccupiedPositions, TILE_COUNT);
+    this.fishCounts = Arrays.copyOf(board.fishCounts, board.fishCounts.length);
+    this.unoccupiedPositions =
+        Arrays.copyOf(board.unoccupiedPositions, board.unoccupiedPositions.length);
+    this.penguinIndices = Arrays.copyOf(board.penguinIndices, board.penguinIndices.length);
+    this.totalPenguinCount = board.totalPenguinCount;
     this.players = new Player[board.players.length];
     for (int i = 0; i < this.players.length; i++) {
       this.players[i] = new Player(board.players[i]);
     }
+    this.currentPenguinIndex = board.currentPenguinIndex;
     this.currentPlayerIndex = board.currentPlayerIndex;
   }
 
-  private static int calculatePenguinCount(int playerCount) {
+  private static int calculateTotalPenguinCount(int playerCount) {
     return (playerCount == 3) ? 9 : 8;
   }
 
@@ -89,7 +93,7 @@ public class GameBoard {
     return isValidPosition(position[0], position[1]);
   }
 
-  public static int getIndexFromPosition(int row, int col) {
+  public static int getTileIndexFromPosition(int row, int col) {
     if (row % 2 == 0) {
       return ((row / 2) * 15) + (col / 2);
     } else {
@@ -97,11 +101,11 @@ public class GameBoard {
     }
   }
 
-  private static int getIndexFromPosition(int[] position) {
-    return getIndexFromPosition(position[0], position[1]);
+  public static int getTileIndexFromPosition(int[] position) {
+    return getTileIndexFromPosition(position[0], position[1]);
   }
 
-  private static int[] getPositionFromIndex(int index) {
+  public static int[] getPositionFromTileIndex(int index) {
     return POSITIONS[index];
   }
 
@@ -127,7 +131,6 @@ public class GameBoard {
 
     int[] randomFishCounts = new int[TILE_COUNT];
     for (int i = 0; i < TILE_COUNT; i++) {
-      unoccupiedPositions[i] = true;
       int randomIndex = RandomNumbers.getRandomIndex(fishCounts.size());
       randomFishCounts[i] = fishCounts.get(randomIndex);
       fishCounts.remove(randomIndex);
@@ -158,13 +161,9 @@ public class GameBoard {
     }
   }
 
-  public int[] getPenguinPosition(int index) {
-    return getPositionFromIndex(penguinIndices[index]);
-  }
-
   public int getPenguinIndexFromPosition(int[] position) {
     for (int i = 0; i < penguinIndices.length; i++) {
-      if (Arrays.equals(getPositionFromIndex(penguinIndices[i]), position)) {
+      if (Arrays.equals(getPositionFromTileIndex(penguinIndices[i]), position)) {
         return i;
       }
     }
@@ -175,18 +174,18 @@ public class GameBoard {
     return getPenguinIndexFromPosition(new int[] {row, col});
   }
 
-  public int[][] getAllPenguinPositionsForPlayer(Player player) {
-    int[][] playerPenguinPositions = new int[penguinCount / players.length][2];
-    for (int i = 0, k = 0; i < penguinIndices.length; i++) {
+  public List<int[]> getAllPenguinPositionsForPlayer(Player player) {
+    List<int[]> playerPenguinPositions = new ArrayList<>();
+    for (int i = 0; i < penguinIndices.length; i++) {
       if (player.ownsPenguinAtIndex(i)) {
-        playerPenguinPositions[k++] = getPositionFromIndex(penguinIndices[i]);
+        playerPenguinPositions.add(getPositionFromTileIndex(penguinIndices[i]));
       }
     }
     return playerPenguinPositions;
   }
 
   public int getFishCountByPosition(int[] position) {
-    return fishCounts[getIndexFromPosition(position)];
+    return fishCounts[getTileIndexFromPosition(position)];
   }
 
   public int getFishCountByPosition(int row, int col) {
@@ -194,7 +193,7 @@ public class GameBoard {
   }
 
   public boolean getUnoccupiedPositionByPosition(int[] position) {
-    return unoccupiedPositions[getIndexFromPosition(position)];
+    return unoccupiedPositions[getTileIndexFromPosition(position)];
   }
 
   public boolean isPlacementPhaseOver() {
@@ -207,8 +206,8 @@ public class GameBoard {
   }
 
   public boolean isLegalPlacementPosition(int[] position) {
-    return unoccupiedPositions[getIndexFromPosition(position)]
-        && fishCounts[getIndexFromPosition(position)] == 1;
+    return unoccupiedPositions[getTileIndexFromPosition(position)]
+        && fishCounts[getTileIndexFromPosition(position)] == 1;
   }
 
   public boolean isLegalPlacementIndex(int index) {
@@ -218,8 +217,8 @@ public class GameBoard {
   public List<int[]> getAllLegalPlacementPositions() {
     List<int[]> legalPlacementPositions = new ArrayList<>();
     for (int i = 0; i < TILE_COUNT; i++) {
-      if (isLegalPlacementPosition(POSITIONS[i])) {
-        legalPlacementPositions.add(POSITIONS[i]);
+      if (isLegalPlacementPosition(getPositionFromTileIndex(i))) {
+        legalPlacementPositions.add(getPositionFromTileIndex(i));
       }
     }
     return legalPlacementPositions;
@@ -230,10 +229,10 @@ public class GameBoard {
   }
 
   public void placePenguin(Player player, int row, int col) {
-    int placementIndex = getIndexFromPosition(row, col);
+    int placementIndex = getTileIndexFromPosition(row, col);
     if (player.canPlacePenguin() && isLegalPlacementIndex(placementIndex)) {
       unoccupiedPositions[placementIndex] = false;
-      penguinIndices[currentPenguinIndex] = getIndexFromPosition(row, col);
+      penguinIndices[currentPenguinIndex] = getTileIndexFromPosition(row, col);
       player.addPenguinIndex(currentPenguinIndex);
       currentPenguinIndex++;
       player.updatePlacedPenguinCount();
@@ -259,19 +258,19 @@ public class GameBoard {
         && isLegalMove(move.getOldPosition(), move.getNewPosition())
         && player.ownsPenguinAtIndex(getPenguinIndexFromPosition(move.getOldPosition()))) {
       player.updateCollectedTileCount();
-      player.updateCollectedFishCount(fishCounts[getIndexFromPosition(move.getOldPosition())]);
-      unoccupiedPositions[getIndexFromPosition(move.getOldPosition())] = false;
-      unoccupiedPositions[getIndexFromPosition(move.getNewPosition())] = false;
-      fishCounts[getIndexFromPosition(move.getOldPosition())] = 0;
+      player.updateCollectedFishCount(fishCounts[getTileIndexFromPosition(move.getOldPosition())]);
+      unoccupiedPositions[getTileIndexFromPosition(move.getOldPosition())] = false;
+      unoccupiedPositions[getTileIndexFromPosition(move.getNewPosition())] = false;
+      fishCounts[getTileIndexFromPosition(move.getOldPosition())] = 0;
       penguinIndices[getPenguinIndexFromPosition(move.getOldPosition())] =
-          getIndexFromPosition(move.getNewPosition());
+          getTileIndexFromPosition(move.getNewPosition());
       updateCurrentPlayer();
     }
   }
 
   public boolean isLegalMove(int[] oldPosition, int[] newPosition) {
     if (!Arrays.equals(oldPosition, newPosition)
-        && unoccupiedPositions[getIndexFromPosition(newPosition)]) {
+        && unoccupiedPositions[getTileIndexFromPosition(newPosition)]) {
       int rowDiff = newPosition[0] - oldPosition[0];
       int colDiff = newPosition[1] - oldPosition[1];
       int totalDiff = Math.abs(rowDiff) - Math.abs(colDiff);
@@ -348,16 +347,15 @@ public class GameBoard {
 
   public void removeAllPenguinsAndTiles() {
     for (int[] position : getAllPenguinPositionsForPlayer(getCurrentPlayer())) {
-      unoccupiedPositions[getIndexFromPosition(position)] = false;
+      unoccupiedPositions[getTileIndexFromPosition(position)] = false;
       getCurrentPlayer().updateCollectedTileCount();
-      getCurrentPlayer().updateCollectedFishCount(fishCounts[getIndexFromPosition(position)]);
-      fishCounts[getIndexFromPosition(position)] = 0;
+      getCurrentPlayer().updateCollectedFishCount(fishCounts[getTileIndexFromPosition(position)]);
+      fishCounts[getTileIndexFromPosition(position)] = 0;
     }
   }
 
-  // TODO optimize!
   public List<Move> getAllLegalMovesForPenguin(int index) {
-    return getAllLegalMovesForPenguin(getPositionFromIndex(penguinIndices[index]));
+    return getAllLegalMovesForPenguin(getPositionFromTileIndex(penguinIndices[index]));
   }
 
   public List<Move> getAllLegalMovesForPenguin(int[] position) {
@@ -390,7 +388,7 @@ public class GameBoard {
   }
 
   public boolean hasPenguinLegalMoves(int index) {
-    return hasPenguinLegalMoves(getPositionFromIndex(penguinIndices[index]));
+    return hasPenguinLegalMoves(getPositionFromTileIndex(penguinIndices[index]));
   }
 
   public boolean hasPenguinLegalMoves(int[] position) {
@@ -400,16 +398,12 @@ public class GameBoard {
         return true;
       }
     }
-
     return false;
   }
 
-  // TODO optimize?
   public List<Move> getAllLegalMovesForPlayer(Player player) {
     List<Move> possibleMoves = new ArrayList<>();
     for (int index : player.getPenguinIndices()) {
-      // TODO validate if penguin is on board?
-      // TODO (better way to achieve same result?)
       if (penguinIndices[index] != -1) {
         possibleMoves.addAll(getAllLegalMovesForPenguin(index));
       }
@@ -421,7 +415,6 @@ public class GameBoard {
     return getAllLegalMovesForPlayer(getCurrentPlayer());
   }
 
-  // TODO implement own method
   public boolean hasPlayerLegalMoves(Player player) {
     for (int penguinIndex : player.getPenguinIndices()) {
       if (hasPenguinLegalMoves(penguinIndex)) {
@@ -431,7 +424,7 @@ public class GameBoard {
     return false;
   }
 
-  // return index of the winning player (-1 if tied)
+  // returns index of the winning player (-1 if tied)
   public int getWinnerIndex() {
     int maxFishCount = players[0].getCollectedFishCount();
     int winnerIndex = 0;
@@ -458,7 +451,7 @@ public class GameBoard {
     return winnerIndex;
   }
 
-  // return null if there is a tie
+  // returns null if there is a tie
   public Player getWinner() {
     return (getWinnerIndex() != -1) ? players[getWinnerIndex()] : null;
   }
@@ -480,13 +473,13 @@ public class GameBoard {
           spacingLeft = (j < 10) ? "" : " ";
           spacingRight = (j < 9) ? "   " : "    ";
         }
-        String tileStr = "";
+        String tileStr;
         if (getFishCountByPosition(i, j) == 0) {
           tileStr = "X";
-        } else if (unoccupiedPositions[getIndexFromPosition(i, j)]) {
+        } else if (unoccupiedPositions[getTileIndexFromPosition(i, j)]) {
           tileStr = String.valueOf(getFishCountByPosition(i, j));
         } else {
-          tileStr = "?";
+          tileStr = " ";
           int index = getPenguinIndexFromPosition(i, j);
           for (Player player : players) {
             if (player.ownsPenguinAtIndex(index)) {

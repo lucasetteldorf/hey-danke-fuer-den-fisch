@@ -47,17 +47,10 @@ public class Game {
 
     int penguinCount = 0;
     switch (totalPlayerCount) {
-      case 2:
-        penguinCount = 4;
-        break;
-      case 3:
-        penguinCount = 3;
-        break;
-      case 4:
-        penguinCount = 2;
-        break;
-      default:
-        break;
+      case 2 -> penguinCount = 4;
+      case 3 -> penguinCount = 3;
+      case 4 -> penguinCount = 2;
+      default -> {}
     }
 
     Player[] players = new Player[totalPlayerCount];
@@ -69,23 +62,15 @@ public class Game {
 
     for (int i = humanPlayerCount; i < totalPlayerCount; i++) {
       switch (aiDifficulty) {
-        case "easy":
-          players[i] =
-              new RandomPlayer(
-                  "Random Baseline AI (easy)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
-          break;
-        case "medium":
-          players[i] =
-              new GreedyPlayer(
-                  "Greedy Baseline AI (medium)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
-          break;
-        case "hard":
-          players[i] =
-              new MctsPlayer("MCTS AI (hard)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
-          break;
-        default:
-          System.out.println("Invalid difficulty");
-          break;
+        case "easy" -> players[i] =
+            new RandomPlayer(
+                "Random Baseline AI (easy)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
+        case "medium" -> players[i] =
+            new GreedyPlayer(
+                "Greedy Baseline AI (medium)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
+        case "hard" -> players[i] =
+            new MctsPlayer("MCTS AI (hard)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
+        default -> System.out.println("Invalid difficulty");
       }
       InputReader.AVAILABLE_COLORS.remove(0);
     }
@@ -109,28 +94,29 @@ public class Game {
     while (!this.board.isPlacementPhaseOver()) {
       int[] placementPosition = new int[2];
       switch (board.getCurrentPlayer().getType()) {
-        case HUMAN:
+        case HUMAN -> {
           while (true) {
             placementPosition = InputReader.getPlacementPosition(board.getCurrentPlayer());
-            if (!board.isValidPosition(placementPosition)) {
+            if (!GameBoard.isValidPosition(placementPosition)) {
               continue;
             }
             if ((board.isLegalPlacementPosition(placementPosition))) {
               break;
             }
           }
-          break;
-        case RANDOM:
+        }
+        case RANDOM -> {
           RandomPlayer randomPlayer = (RandomPlayer) board.getCurrentPlayer();
           placementPosition = randomPlayer.getRandomPlacementPosition(board);
-          break;
-        case GREEDY:
+        }
+        case GREEDY -> {
           GreedyPlayer greedyPlayer = (GreedyPlayer) board.getCurrentPlayer();
           placementPosition = greedyPlayer.getRandomPlacementPosition(board);
-          break;
-        case MCTS:
+        }
+        case MCTS -> {
           MctsPlayer mctsPlayer = (MctsPlayer) board.getCurrentPlayer();
           placementPosition = mctsPlayer.getBestPlacementPosition(this.board);
+        }
       }
       this.board.placePenguin(placementPosition[0], placementPosition[1]);
       if (printBoard) {
@@ -149,10 +135,10 @@ public class Game {
       int[] newPosition;
       Move move = null;
       switch (board.getCurrentPlayer().getType()) {
-        case HUMAN:
+        case HUMAN -> {
           while (true) {
             oldPosition = InputReader.getPenguinPosition(board.getCurrentPlayer());
-            if (!board.isValidPosition(oldPosition)) {
+            if (!GameBoard.isValidPosition(oldPosition) || !board.hasPenguinLegalMoves(oldPosition)) {
               continue;
             }
             if (board.isValidPenguin(oldPosition)) {
@@ -161,7 +147,7 @@ public class Game {
           }
           while (true) {
             newPosition = InputReader.getMovementPosition(board.getCurrentPlayer());
-            if (!board.isValidPosition(newPosition)) {
+            if (!GameBoard.isValidPosition(newPosition)) {
               continue;
             }
             if (board.isLegalMove(oldPosition, newPosition)) {
@@ -169,25 +155,23 @@ public class Game {
             }
           }
           move = new Move(oldPosition, newPosition);
-          break;
-        case RANDOM:
+        }
+        case RANDOM -> {
           RandomPlayer randomPlayer = (RandomPlayer) board.getCurrentPlayer();
           oldPosition = randomPlayer.getRandomPenguinPosition(this.board);
           newPosition = randomPlayer.getRandomMovementPositionForPenguin(this.board, oldPosition);
           move = new Move(oldPosition, newPosition);
-          break;
-        case GREEDY:
+        }
+        case GREEDY -> {
           GreedyPlayer greedyPlayer = (GreedyPlayer) board.getCurrentPlayer();
-          oldPosition = greedyPlayer.getBestPenguinPosition(this.board);
-          newPosition =
-              greedyPlayer.getBestMovementPosition(
-                  this.board, oldPosition);
+          oldPosition = greedyPlayer.getBestMove(this.board);
+          newPosition = greedyPlayer.getBestMovementPosition(this.board, oldPosition);
           move = new Move(oldPosition, newPosition);
-          break;
-        case MCTS:
+        }
+        case MCTS -> {
           MctsPlayer mctsPlayer = (MctsPlayer) board.getCurrentPlayer();
           move = mctsPlayer.getBestMove(board);
-          break;
+        }
       }
       board.movePenguin(move);
       if (printBoard) {

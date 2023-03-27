@@ -2,7 +2,6 @@ package game.players;
 
 import game.GameBoard;
 import game.Move;
-import game.Penguin;
 import java.util.ArrayList;
 import java.util.List;
 import utility.RandomNumbers;

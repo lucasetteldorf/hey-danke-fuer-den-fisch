@@ -20,7 +20,8 @@ public class BaselineTest {
       players = new Player[] {p1, p2};
       game = new Game(players, false);
       game.start();
-      DataWriter.writeDataLine("/Users/Lucas/thesis-data/random-vs-random-" + NUMBER_OF_GAMES + ".csv", game.getBoard());
+      DataWriter.writeDataLine(
+          "/Users/Lucas/thesis-data/random-vs-random-" + NUMBER_OF_GAMES + ".csv", game.getBoard());
     }
   }
 
@@ -34,7 +35,8 @@ public class BaselineTest {
       players = new Player[] {p1, p2};
       game = new Game(players, false);
       game.start();
-      DataWriter.writeDataLine("/Users/Lucas/thesis-data/random-vs-greedy-" + NUMBER_OF_GAMES + ".csv", game.getBoard());
+      DataWriter.writeDataLine(
+          "/Users/Lucas/thesis-data/random-vs-greedy-" + NUMBER_OF_GAMES + ".csv", game.getBoard());
     }
   }
 
@@ -48,7 +50,8 @@ public class BaselineTest {
       players = new Player[] {p1, p2};
       game = new Game(players, false);
       game.start();
-      DataWriter.writeDataLine("/Users/Lucas/thesis-data/greedy-vs-greedy-" + NUMBER_OF_GAMES + ".csv", game.getBoard());
+      DataWriter.writeDataLine(
+          "/Users/Lucas/thesis-data/greedy-vs-greedy-" + NUMBER_OF_GAMES + ".csv", game.getBoard());
     }
   }
 }

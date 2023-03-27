@@ -66,7 +66,7 @@ public class MctsAiTest {
   void testMctsVsMcts() {
     MctsPlayer p1 = new MctsPlayer("MCTS AI 1", 4, "B");
     MctsPlayer p2 = new MctsPlayer("MCTS AI 2", 4, "R");
-    Player[] players = new Player[]{p1, p2};
+    Player[] players = new Player[] {p1, p2};
     Game game = new Game(players, false);
     game.start();
   }

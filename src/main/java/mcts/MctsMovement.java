@@ -95,6 +95,7 @@ public class MctsMovement {
           && currentPlayer.equals(tmp.getState().getBoard().getPlayers()[playerIndex])) {
         tmp.updateScore(WIN_SCORE);
       }
+      // TODO else setScore to MIN VALUE
       tmp = tmp.getParent();
     }
   }

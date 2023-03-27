@@ -1,7 +1,7 @@
 package game.players;
 
 import game.GameBoard;
-import game.Penguin;
+import game.Move;
 import java.util.ArrayList;
 import java.util.List;
 import utility.RandomNumbers;
@@ -11,79 +11,93 @@ public class GreedyPlayer extends Player {
     super(PlayerType.GREEDY, name, penguinCount, penguinColor);
   }
 
-  public int[] getBestPenguinPosition(GameBoard board) {
-    List<Penguin> threeFishPenguins = new ArrayList<>();
-    List<Penguin> twoFishPenguins = new ArrayList<>();
-    List<Penguin> oneFishPenguins = new ArrayList<>();
+  public int[] getBestMove(GameBoard board) {
+    List<Integer> threeFishIndices = new ArrayList<>();
+    List<Integer> twoFishIndices = new ArrayList<>();
+    List<Integer> oneFishIndices = new ArrayList<>();
 
-    //    for (Penguin penguin : board.getAllPenguinPositionsForPlayer(this)) {
-    //      if (penguin.isOnBoard()) {
-    //        for (Move move : board.getAllLegalMovesForPenguin(penguin)) {
-    //          switch (board.getFishCountByPosition(move.getNewPosition())) {
-    //            case 3:
-    //              if (!threeFishPenguins.contains(penguin)) {
-    //                threeFishPenguins.add(penguin);
-    //              }
-    //              break;
-    //            case 2:
-    //              if (!twoFishPenguins.contains(penguin)) {
-    //                twoFishPenguins.add(penguin);
-    //              }
-    //              break;
-    //            case 1:
-    //              if (!oneFishPenguins.contains(penguin)) {
-    //                oneFishPenguins.add(penguin);
-    //              }
-    //              break;
-    //          }
-    //        }
-    //      }
-    //    }
-
-    Penguin bestPenguin;
-    if (threeFishPenguins.size() > 0) {
-      bestPenguin = threeFishPenguins.get(RandomNumbers.getRandomIndex(threeFishPenguins.size()));
-    } else if (twoFishPenguins.size() > 0) {
-      bestPenguin = twoFishPenguins.get(RandomNumbers.getRandomIndex(twoFishPenguins.size()));
-    } else {
-      bestPenguin = oneFishPenguins.get(RandomNumbers.getRandomIndex(oneFishPenguins.size()));
+    for (int[] position : board.getAllPenguinPositionsForPlayer(this)) {
+      // TODO correct condition?
+      if (board.isValidPenguin(position)) {
+        for (Move move : board.getAllLegalMovesForPenguin(position)) {
+          int tileIndex = GameBoard.getTileIndexFromPosition(move.getNewPosition());
+          switch (board.getFishCountByPosition(move.getNewPosition())) {
+            case 3:
+              if (!threeFishIndices.contains(tileIndex)) {
+                threeFishIndices.add(GameBoard.getTileIndexFromPosition(position));
+              }
+              break;
+            case 2:
+              if (!twoFishIndices.contains(tileIndex)) {
+                twoFishIndices.add(GameBoard.getTileIndexFromPosition(position));
+              }
+              break;
+            case 1:
+              if (!oneFishIndices.contains(tileIndex)) {
+                oneFishIndices.add(GameBoard.getTileIndexFromPosition(position));
+              }
+              break;
+          }
+        }
+      }
     }
 
-    return bestPenguin.getPosition();
+    int[] bestPosition;
+    if (threeFishIndices.size() > 0) {
+      bestPosition =
+          GameBoard.getPositionFromTileIndex(
+              threeFishIndices.get(RandomNumbers.getRandomIndex(threeFishIndices.size())));
+    } else if (twoFishIndices.size() > 0) {
+      bestPosition =
+          GameBoard.getPositionFromTileIndex(
+              twoFishIndices.get(RandomNumbers.getRandomIndex(twoFishIndices.size())));
+    } else {
+      bestPosition =
+          GameBoard.getPositionFromTileIndex(
+              oneFishIndices.get(RandomNumbers.getRandomIndex(oneFishIndices.size())));
+    }
+    return bestPosition;
   }
 
   public int[] getBestMovementPosition(GameBoard board, int[] position) {
-    List<int[]> threeFishPositions = new ArrayList<>();
-    List<int[]> twoFishPositions = new ArrayList<>();
-    List<int[]> oneFishPositions = new ArrayList<>();
-    //    for (Move move : board.getAllLegalMovesForPenguin(penguin)) {
-    //      switch (board.getFishCountByPosition(move.getNewPosition())) {
-    //        case 3:
-    //          threeFishPositions.add(move.getNewPosition());
-    //          break;
-    //        case 2:
-    //          twoFishPositions.add(move.getNewPosition());
-    //          break;
-    //        case 1:
-    //          oneFishPositions.add(move.getNewPosition());
-    //          break;
-    //      }
-    //    }
-    //
-    //    int[] bestPosition =
-    //        board
-    //            .getAllLegalMovesForPenguin(penguin)
-    //
-    // .get(RandomNumbers.getRandomIndex(board.getAllLegalMovesForPenguin(penguin).size()))
-    //            .getNewPosition();
-    //    if (!threeFishPositions.isEmpty()) {
-    //      bestPosition = threeFishPositions.get(getRandomIndex(threeFishPositions.size()));
-    //    } else if (!twoFishPositions.isEmpty()) {
-    //      bestPosition = twoFishPositions.get(getRandomIndex(twoFishPositions.size()));
-    //    } else if (!oneFishPositions.isEmpty()) {
-    //      bestPosition = oneFishPositions.get(getRandomIndex(oneFishPositions.size()));
-    //    }
+    List<Integer> threeFishIndices = new ArrayList<>();
+    List<Integer> twoFishIndices = new ArrayList<>();
+    List<Integer> oneFishIndices = new ArrayList<>();
 
-    return null;
+    for (Move move : board.getAllLegalMovesForPenguin(position)) {
+      int tileIndex = GameBoard.getTileIndexFromPosition(move.getNewPosition());
+      switch (board.getFishCountByPosition(move.getNewPosition())) {
+        case 3:
+          threeFishIndices.add(tileIndex);
+          break;
+        case 2:
+          twoFishIndices.add(tileIndex);
+          break;
+        case 1:
+          oneFishIndices.add(tileIndex);
+          break;
+      }
+    }
+
+    int[] bestPosition =
+        board
+            .getAllLegalMovesForPenguin(position)
+            .get(RandomNumbers.getRandomIndex(board.getAllLegalMovesForPenguin(position).size()))
+            .getNewPosition();
+    if (threeFishIndices.size() > 0) {
+      bestPosition =
+          GameBoard.getPositionFromTileIndex(
+              threeFishIndices.get(RandomNumbers.getRandomIndex(threeFishIndices.size())));
+    } else if (twoFishIndices.size() > 0) {
+      bestPosition =
+          GameBoard.getPositionFromTileIndex(
+              twoFishIndices.get(RandomNumbers.getRandomIndex(twoFishIndices.size())));
+    } else if (oneFishIndices.size() > 0) {
+      bestPosition =
+          GameBoard.getPositionFromTileIndex(
+              oneFishIndices.get(RandomNumbers.getRandomIndex(oneFishIndices.size())));
+    }
+
+    return bestPosition;
   }
 }

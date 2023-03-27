@@ -13,31 +13,15 @@ public class Move {
 
   // copy constructor
   public Move(Move move) {
-    this.oldPosition = Arrays.copyOf(move.oldPosition, 2);
-    this.newPosition = Arrays.copyOf(move.newPosition, 2);
+    this.oldPosition = Arrays.copyOf(move.oldPosition, move.oldPosition.length);
+    this.newPosition = Arrays.copyOf(move.newPosition, move.newPosition.length);
   }
 
   public int[] getOldPosition() {
     return oldPosition;
   }
 
-  public int getOldRow() {
-    return oldPosition[0];
-  }
-
-  public int getOldCol() {
-    return oldPosition[1];
-  }
-
   public int[] getNewPosition() {
     return newPosition;
-  }
-
-  public int getNewRow() {
-    return newPosition[0];
-  }
-
-  public int getNewCol() {
-    return newPosition[1];
   }
 }
