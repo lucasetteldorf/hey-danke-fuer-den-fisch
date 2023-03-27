@@ -8,7 +8,7 @@ import utility.RandomNumbers;
 public class Node {
   protected GameBoard board;
   private Node parent;
-  private List<Node> children;
+  private final List<Node> children;
   private int visits;
   private double score;
 
@@ -28,9 +28,7 @@ public class Node {
       this.parent = node.parent;
     }
     this.children = new ArrayList<>();
-    for (Node child : node.getChildren()) {
-      this.children.add(child);
-    }
+    this.children.addAll(node.getChildren());
     this.board = new GameBoard(node.board);
     this.visits = node.visits;
     this.score = node.score;
@@ -48,10 +46,6 @@ public class Node {
     return children;
   }
 
-  public void setChildren(List<Node> children) {
-    this.children = children;
-  }
-
   public GameBoard getBoard() {
     return board;
   }
@@ -64,20 +58,12 @@ public class Node {
     return visits;
   }
 
-  public void setVisits(int visits) {
-    this.visits = visits;
-  }
-
   public void updateVisits() {
     this.visits++;
   }
 
   public double getScore() {
     return score;
-  }
-
-  public void setScore(double score) {
-    this.score = score;
   }
 
   public void updateScore(double score) {
@@ -88,12 +74,8 @@ public class Node {
     children.add(node);
   }
 
-  public Node getRandomChild() {
-    return children.get(RandomNumbers.getRandomIndex(children.size()));
-  }
-
   public Node getChildWithMaxVisits() {
-    return Collections.max(children, Comparator.comparing(child -> child.getVisits()));
+    return Collections.max(children, Comparator.comparing(Node::getVisits));
   }
 
   public void playRandomMove() {

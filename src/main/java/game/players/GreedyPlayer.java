@@ -22,21 +22,21 @@ public class GreedyPlayer extends Player {
         for (Move move : board.getAllLegalMovesForPenguin(position)) {
           int tileIndex = GameBoard.getTileIndexFromPosition(move.getNewPosition());
           switch (board.getFishCountByPosition(move.getNewPosition())) {
-            case 3:
+            case 3 -> {
               if (!threeFishIndices.contains(tileIndex)) {
                 threeFishIndices.add(GameBoard.getTileIndexFromPosition(position));
               }
-              break;
-            case 2:
+            }
+            case 2 -> {
               if (!twoFishIndices.contains(tileIndex)) {
                 twoFishIndices.add(GameBoard.getTileIndexFromPosition(position));
               }
-              break;
-            case 1:
+            }
+            case 1 -> {
               if (!oneFishIndices.contains(tileIndex)) {
                 oneFishIndices.add(GameBoard.getTileIndexFromPosition(position));
               }
-              break;
+            }
           }
         }
       }
@@ -67,15 +67,9 @@ public class GreedyPlayer extends Player {
     for (Move move : board.getAllLegalMovesForPenguin(position)) {
       int tileIndex = GameBoard.getTileIndexFromPosition(move.getNewPosition());
       switch (board.getFishCountByPosition(move.getNewPosition())) {
-        case 3:
-          threeFishIndices.add(tileIndex);
-          break;
-        case 2:
-          twoFishIndices.add(tileIndex);
-          break;
-        case 1:
-          oneFishIndices.add(tileIndex);
-          break;
+        case 3 -> threeFishIndices.add(tileIndex);
+        case 2 -> twoFishIndices.add(tileIndex);
+        case 1 -> oneFishIndices.add(tileIndex);
       }
     }
 

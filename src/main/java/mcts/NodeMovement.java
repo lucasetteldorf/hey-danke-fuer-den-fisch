@@ -7,7 +7,7 @@ import java.util.List;
 import utility.RandomNumbers;
 
 public class NodeMovement extends Node {
-  private List<Move> untriedMoves;
+  private final List<Move> untriedMoves;
   private Move previousMove;
 
   public NodeMovement() {
@@ -24,9 +24,7 @@ public class NodeMovement extends Node {
   public NodeMovement(NodeMovement node) {
     super(node);
     this.untriedMoves = new ArrayList<>();
-    for (Move move : node.getUntriedMoves()) {
-      this.untriedMoves.add(move);
-    }
+    this.untriedMoves.addAll(node.getUntriedMoves());
     if (node.previousMove != null) {
       this.previousMove = new Move(node.previousMove);
     }
@@ -34,10 +32,6 @@ public class NodeMovement extends Node {
 
   public List<Move> getUntriedMoves() {
     return untriedMoves;
-  }
-
-  public void setUntriedMoves(List<Move> untriedMoves) {
-    this.untriedMoves = untriedMoves;
   }
 
   public Move getPreviousMove() {
@@ -49,9 +43,7 @@ public class NodeMovement extends Node {
   }
 
   public void initUntriedMoves() {
-    for (Move move : board.getAllLegalMovesForCurrentPlayer()) {
-      untriedMoves.add(move);
-    }
+    untriedMoves.addAll(board.getAllLegalMovesForCurrentPlayer());
   }
 
   public boolean hasUntriedMoves() {

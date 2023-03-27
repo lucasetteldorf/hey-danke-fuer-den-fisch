@@ -1,19 +1,22 @@
 package mcts;
 
-import game.GameBoard;import game.Move;public class Mcts {
-    private MctsPlacement mctsPlacement;
-    private MctsMovement mctsMovement;
+import game.GameBoard;
+import game.Move;
 
-    public Mcts() {
-        this.mctsPlacement = new MctsPlacement();
-        this.mctsMovement = new MctsMovement();
-    }
+public class Mcts {
+  private final MctsPlacement mctsPlacement;
+  private final MctsMovement mctsMovement;
 
-    public int[] computeBestPlacementPosition(GameBoard board) {
-        return mctsPlacement.getNextPlacementPosition(board);
-    }
+  public Mcts() {
+    this.mctsPlacement = new MctsPlacement();
+    this.mctsMovement = new MctsMovement();
+  }
 
-    public Move computeBestMove(GameBoard board) {
-        return mctsMovement.getNextMove(board);
-    }
+  public int[] computeBestPlacementPosition(GameBoard board) {
+    return mctsPlacement.getNextPlacementPosition(board);
+  }
+
+  public Move computeBestMove(GameBoard board) {
+    return mctsMovement.getNextMove(board);
+  }
 }

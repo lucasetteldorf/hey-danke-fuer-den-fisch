@@ -7,7 +7,7 @@ import java.util.List;
 import utility.RandomNumbers;
 
 public class NodePlacement extends Node {
-  private List<int[]> untriedPlacementPositions;
+  private final List<int[]> untriedPlacementPositions;
   private int[] previousPlacementPosition;
 
   public NodePlacement() {
@@ -46,14 +46,8 @@ public class NodePlacement extends Node {
     return untriedPlacementPositions;
   }
 
-  public void setUntriedPlacementPositions(List<int[]> untriedPlacementPositions) {
-    this.untriedPlacementPositions = untriedPlacementPositions;
-  }
-
   public void initUntriedPlacements() {
-    for (int[] placement : board.getAllLegalPlacementPositions()) {
-      untriedPlacementPositions.add(placement);
-    }
+    untriedPlacementPositions.addAll(board.getAllLegalPlacementPositions());
   }
 
   public boolean hasUntriedPlacements() {
