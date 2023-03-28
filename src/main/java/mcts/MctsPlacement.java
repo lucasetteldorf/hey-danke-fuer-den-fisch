@@ -7,6 +7,7 @@ public class MctsPlacement {
   private static final long COMPUTATIONAL_BUDGET = 1000;
   private static final int WIN_SCORE = 1;
   private Player currentPlayer;
+  private int callCount;
 
   public int[] getNextPlacementPosition(GameBoard board) {
     this.currentPlayer = board.getCurrentPlayer();
@@ -35,7 +36,8 @@ public class MctsPlacement {
       // 4: Backpropagation
       backpropagate(expandedNode, playoutResult);
     }
-    System.out.println(numberOfSimulations + " simulations (placement)");
+    callCount++;
+    System.out.println(callCount + ": " +numberOfSimulations + " simulations (placement)");
     NodePlacement bestNode = (NodePlacement) root.getChildWithMaxVisits();
     return bestNode.getPreviousPlacementPosition();
   }

@@ -13,7 +13,6 @@ public class Node {
   private double score;
 
   public Node() {
-    this.board = new GameBoard();
     this.children = new ArrayList<>();
   }
 

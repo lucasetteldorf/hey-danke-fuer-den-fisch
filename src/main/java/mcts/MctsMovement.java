@@ -8,6 +8,7 @@ public class MctsMovement {
   private static final long COMPUTATIONAL_BUDGET = 1000;
   private static final int WIN_SCORE = 1;
   private Player currentPlayer;
+  private int callCount;
 
   public Move getNextMove(GameBoard board) {
     this.currentPlayer = board.getCurrentPlayer();
@@ -36,7 +37,8 @@ public class MctsMovement {
       // 4: Backpropagation
       backpropagate(expandedNode, playoutResult);
     }
-    System.out.println(numberOfSimulations + " simulations (movement)");
+    callCount++;
+    System.out.println(callCount + ": " + numberOfSimulations + " simulations (movement)");
     NodeMovement bestNode = (NodeMovement) root.getChildWithMaxVisits();
     return bestNode.getPreviousMove();
   }
