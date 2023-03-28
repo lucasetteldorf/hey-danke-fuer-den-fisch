@@ -4,7 +4,7 @@ import game.GameBoard;
 import java.util.Arrays;
 import java.util.List;
 import utility.ConsoleColors;
-import utility.RandomNumbers;
+import utility.RandomUtility;
 
 public class Player {
   private final PlayerType type;
@@ -16,6 +16,8 @@ public class Player {
   private int collectedTileCount;
   private int collectedFishCount;
   private boolean penguinsRemovedFromBoard;
+  // TODO working as intended?
+  private int moveCount;
 
   public Player(PlayerType type, String name, int penguinCount, String penguinColor) {
     this.type = type;
@@ -103,7 +105,15 @@ public class Player {
   public int[] getRandomPlacementPosition(GameBoard board) {
     List<int[]> legalPlacementPositions = board.getAllLegalPlacementPositions();
     return legalPlacementPositions.get(
-        RandomNumbers.getRandomIndex(legalPlacementPositions.size()));
+        RandomUtility.getRandomIndex(legalPlacementPositions.size()));
+  }
+
+  public void updateMoveCount() {
+    moveCount++;
+  }
+
+  public int getMoveCount() {
+    return moveCount;
   }
 
   public String getScore() {

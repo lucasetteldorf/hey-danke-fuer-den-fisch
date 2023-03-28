@@ -4,7 +4,7 @@ import game.GameBoard;
 import game.Move;
 import java.util.ArrayList;
 import java.util.List;
-import utility.RandomNumbers;
+import utility.RandomUtility;
 
 public class GreedyPlayer extends Player {
   public GreedyPlayer(String name, int penguinCount, String penguinColor) {
@@ -46,15 +46,15 @@ public class GreedyPlayer extends Player {
     if (threeFishIndices.size() > 0) {
       bestPosition =
           GameBoard.getPositionFromTileIndex(
-              threeFishIndices.get(RandomNumbers.getRandomIndex(threeFishIndices.size())));
+              threeFishIndices.get(RandomUtility.getRandomIndex(threeFishIndices.size())));
     } else if (twoFishIndices.size() > 0) {
       bestPosition =
           GameBoard.getPositionFromTileIndex(
-              twoFishIndices.get(RandomNumbers.getRandomIndex(twoFishIndices.size())));
+              twoFishIndices.get(RandomUtility.getRandomIndex(twoFishIndices.size())));
     } else {
       bestPosition =
           GameBoard.getPositionFromTileIndex(
-              oneFishIndices.get(RandomNumbers.getRandomIndex(oneFishIndices.size())));
+              oneFishIndices.get(RandomUtility.getRandomIndex(oneFishIndices.size())));
     }
     return bestPosition;
   }
@@ -76,20 +76,20 @@ public class GreedyPlayer extends Player {
     int[] bestPosition =
         board
             .getAllLegalMovesForPenguin(position)
-            .get(RandomNumbers.getRandomIndex(board.getAllLegalMovesForPenguin(position).size()))
+            .get(RandomUtility.getRandomIndex(board.getAllLegalMovesForPenguin(position).size()))
             .getNewPosition();
     if (threeFishIndices.size() > 0) {
       bestPosition =
           GameBoard.getPositionFromTileIndex(
-              threeFishIndices.get(RandomNumbers.getRandomIndex(threeFishIndices.size())));
+              threeFishIndices.get(RandomUtility.getRandomIndex(threeFishIndices.size())));
     } else if (twoFishIndices.size() > 0) {
       bestPosition =
           GameBoard.getPositionFromTileIndex(
-              twoFishIndices.get(RandomNumbers.getRandomIndex(twoFishIndices.size())));
+              twoFishIndices.get(RandomUtility.getRandomIndex(twoFishIndices.size())));
     } else if (oneFishIndices.size() > 0) {
       bestPosition =
           GameBoard.getPositionFromTileIndex(
-              oneFishIndices.get(RandomNumbers.getRandomIndex(oneFishIndices.size())));
+              oneFishIndices.get(RandomUtility.getRandomIndex(oneFishIndices.size())));
     }
 
     return bestPosition;

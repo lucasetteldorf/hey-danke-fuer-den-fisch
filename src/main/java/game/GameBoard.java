@@ -1,8 +1,8 @@
 package game;
 
-import game.players.Player;
+import experiments.utility.PlayerUtility;import game.players.Player;
 import java.util.*;
-import utility.RandomNumbers;
+import utility.RandomUtility;
 
 public class GameBoard {
   private static final int TILE_COUNT = 60;
@@ -134,7 +134,7 @@ public class GameBoard {
 
     int[] randomFishCounts = new int[TILE_COUNT];
     for (int i = 0; i < TILE_COUNT; i++) {
-      int randomIndex = RandomNumbers.getRandomIndex(fishCounts.size());
+      int randomIndex = RandomUtility.getRandomIndex(fishCounts.size());
       randomFishCounts[i] = fishCounts.get(randomIndex);
       fishCounts.remove(randomIndex);
     }
@@ -267,6 +267,10 @@ public class GameBoard {
       fishCounts[getTileIndexFromPosition(move.getOldPosition())] = 0;
       penguinPositionIndices[getPenguinIndexFromPosition(move.getOldPosition())] =
           getTileIndexFromPosition(move.getNewPosition());
+
+      // TODO working as intended?
+      getCurrentPlayer().updateMoveCount();
+
       updateCurrentPlayer();
     }
   }

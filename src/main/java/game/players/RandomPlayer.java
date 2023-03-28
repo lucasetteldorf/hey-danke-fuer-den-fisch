@@ -4,7 +4,7 @@ import game.GameBoard;
 import game.Move;
 import java.util.ArrayList;
 import java.util.List;
-import utility.RandomNumbers;
+import utility.RandomUtility;
 
 public class RandomPlayer extends Player {
   public RandomPlayer(String name, int penguinCount, String penguinColor) {
@@ -18,11 +18,11 @@ public class RandomPlayer extends Player {
         penguinPositions.add(position);
       }
     }
-    return penguinPositions.get(RandomNumbers.getRandomIndex(penguinPositions.size()));
+    return penguinPositions.get(RandomUtility.getRandomIndex(penguinPositions.size()));
   }
 
   public int[] getRandomMovementPositionForPenguin(GameBoard board, int[] position) {
     List<Move> legalMoves = board.getAllLegalMovesForPenguin(position);
-    return legalMoves.get(RandomNumbers.getRandomIndex(legalMoves.size())).getNewPosition();
+    return legalMoves.get(RandomUtility.getRandomIndex(legalMoves.size())).getNewPosition();
   }
 }

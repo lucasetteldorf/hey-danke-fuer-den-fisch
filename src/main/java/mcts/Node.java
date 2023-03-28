@@ -3,22 +3,23 @@ package mcts;
 import game.GameBoard;
 import game.Move;
 import java.util.*;
-import utility.RandomNumbers;
+import utility.RandomUtility;
 
 public class Node {
   protected GameBoard board;
   private Node parent;
+  // TODO change back to ArrayList instead of LinkedList?
   private final List<Node> children;
   private int visits;
   private double score;
 
   public Node() {
-    this.children = new ArrayList<>();
+    this.children = new LinkedList<>();
   }
 
   public Node(GameBoard board) {
     this.board = new GameBoard(board);
-    this.children = new ArrayList<>();
+    this.children = new LinkedList<>();
   }
 
   // copy constructor
@@ -26,7 +27,7 @@ public class Node {
     if (node.parent != null) {
       this.parent = node.parent;
     }
-    this.children = new ArrayList<>();
+    this.children = new LinkedList<>();
     this.children.addAll(node.getChildren());
     this.board = new GameBoard(node.board);
     this.visits = node.visits;
@@ -79,14 +80,14 @@ public class Node {
 
   public void playRandomMove() {
     List<Move> possibleMoves = board.getAllLegalMovesForCurrentPlayer();
-    Move randomMove = possibleMoves.get(RandomNumbers.getRandomIndex(possibleMoves.size()));
+    Move randomMove = possibleMoves.get(RandomUtility.getRandomIndex(possibleMoves.size()));
     board.movePenguin(randomMove);
   }
 
   public void playRandomPlacement() {
     List<int[]> possiblePlacements = board.getAllLegalPlacementPositions();
     int[] randomPlacement =
-        possiblePlacements.get(RandomNumbers.getRandomIndex(possiblePlacements.size()));
+        possiblePlacements.get(RandomUtility.getRandomIndex(possiblePlacements.size()));
     board.placePenguin(randomPlacement[0], randomPlacement[1]);
   }
 }

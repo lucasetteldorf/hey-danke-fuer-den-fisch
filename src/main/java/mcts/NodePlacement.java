@@ -4,7 +4,7 @@ import game.GameBoard;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import utility.RandomNumbers;
+import utility.RandomUtility;
 
 public class NodePlacement extends Node {
   private final List<int[]> untriedPlacementPositions;
@@ -56,7 +56,7 @@ public class NodePlacement extends Node {
 
   public int[] getRandomUntriedPlacement() {
     return untriedPlacementPositions.get(
-        RandomNumbers.getRandomIndex(untriedPlacementPositions.size()));
+        RandomUtility.getRandomIndex(untriedPlacementPositions.size()));
   }
 
   public void expandChildrenPlacement() {

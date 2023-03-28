@@ -5,21 +5,16 @@ import utility.InputReader;
 
 public class Game {
   private final GameBoard board;
-  private final boolean printBoard;
+  private final boolean printOutput;
 
   public Game() {
     this.board = new GameBoard(initPlayers());
-    this.printBoard = true;
+    this.printOutput = true;
   }
 
-  public Game(Player[] players) {
+  public Game(Player[] players, boolean printOutput) {
     this.board = new GameBoard(players);
-    this.printBoard = true;
-  }
-
-  public Game(Player[] players, boolean printBoard) {
-    this.board = new GameBoard(players);
-    this.printBoard = printBoard;
+    this.printOutput = printOutput;
   }
 
   public static void main(String[] args) {
@@ -81,12 +76,14 @@ public class Game {
   public void start() {
     startPlacementPhase();
     startMovementPhase();
-    printScores();
-    printWinner();
+    if (printOutput) {
+      printScores();
+      printWinner();
+    }
   }
 
   private void startPlacementPhase() {
-    if (printBoard) {
+    if (printOutput) {
       board.printBoard();
       System.out.println("Start placement...\n");
     }
@@ -119,14 +116,14 @@ public class Game {
         }
       }
       this.board.placePenguin(placementPosition[0], placementPosition[1]);
-      if (printBoard) {
+      if (printOutput) {
         board.printBoard();
       }
     }
   }
 
   private void startMovementPhase() {
-    if (printBoard) {
+    if (printOutput) {
       System.out.println("Start movement...\n");
     }
 
@@ -138,7 +135,8 @@ public class Game {
         case HUMAN -> {
           while (true) {
             oldPosition = InputReader.getPenguinPosition(board.getCurrentPlayer());
-            if (!GameBoard.isValidPosition(oldPosition) || !board.hasPenguinLegalMoves(oldPosition)) {
+            if (!GameBoard.isValidPosition(oldPosition)
+                || !board.hasPenguinLegalMoves(oldPosition)) {
               continue;
             }
             if (board.isValidPenguin(oldPosition)) {
@@ -174,7 +172,7 @@ public class Game {
         }
       }
       board.movePenguin(move);
-      if (printBoard) {
+      if (printOutput) {
         board.printBoard();
       }
     }

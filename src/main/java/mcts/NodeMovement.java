@@ -4,7 +4,7 @@ import game.GameBoard;
 import game.Move;
 import java.util.ArrayList;
 import java.util.List;
-import utility.RandomNumbers;
+import utility.RandomUtility;
 
 public class NodeMovement extends Node {
   private final List<Move> untriedMoves;
@@ -51,7 +51,7 @@ public class NodeMovement extends Node {
   }
 
   public Move getRandomUntriedMove() {
-    return untriedMoves.get(RandomNumbers.getRandomIndex(untriedMoves.size()));
+    return untriedMoves.get(RandomUtility.getRandomIndex(untriedMoves.size()));
   }
 
   public void expandChildrenMovement() {
