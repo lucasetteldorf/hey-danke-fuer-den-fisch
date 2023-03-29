@@ -14,42 +14,42 @@ public class ExperimentSetup {
       Player p1 = null;
       Player p2 = null;
       switch (mode) {
-        case "random-vs-random":
+        case "random-vs-random" -> {
           p1 = new RandomPlayer("Random 1", 4, "B");
           p2 = new RandomPlayer("Random 2", 4, "R");
-          break;
-        case "random-vs-greedy":
+        }
+        case "random-vs-greedy" -> {
           p1 = new RandomPlayer("Random", 4, "B");
           p2 = new GreedyPlayer("Greedy", 4, "R");
-          break;
-        case "greedy-vs-random":
+        }
+        case "greedy-vs-random" -> {
           p1 = new GreedyPlayer("Greedy", 4, "B");
           p2 = new RandomPlayer("Random", 4, "R");
-          break;
-        case "greedy-vs-greedy":
+        }
+        case "greedy-vs-greedy" -> {
           p1 = new GreedyPlayer("Greedy 1", 4, "B");
           p2 = new GreedyPlayer("Greedy 2", 4, "R");
-          break;
-        case "mcts-vs-random":
+        }
+        case "mcts-vs-random" -> {
           p1 = new MctsPlayer("MCTS", 4, "B");
           p2 = new RandomPlayer("Random", 4, "R");
-          break;
-        case "random-vs-mcts":
+        }
+        case "random-vs-mcts" -> {
           p1 = new RandomPlayer("Random", 4, "B");
           p2 = new MctsPlayer("MCTS", 4, "R");
-          break;
-        case "mcts-vs-greedy":
+        }
+        case "mcts-vs-greedy" -> {
           p1 = new MctsPlayer("MCTS", 4, "B");
           p2 = new GreedyPlayer("Greedy", 4, "R");
-          break;
-        case "greedy-vs-mcts":
+        }
+        case "greedy-vs-mcts" -> {
           p1 = new GreedyPlayer("Greedy", 4, "B");
           p2 = new MctsPlayer("MCTS", 4, "R");
-          break;
-        case "mcts-vs-mcts":
+        }
+        case "mcts-vs-mcts" -> {
           p1 = new MctsPlayer("MCTS 1", 4, "B");
           p2 = new MctsPlayer("MCTS 2", 4, "R");
-          break;
+        }
       }
       players = new Player[] {p1, p2};
       game = new Game(players, false);
@@ -64,9 +64,12 @@ public class ExperimentSetup {
         for (Player player : players) {
           if (player.getType() == PlayerType.MCTS) {
             MctsPlayer mctsPlayer = (MctsPlayer) player;
-            gameStatistics.updateAverageMctsPlacementSimulations(mctsPlayer.getAveragePlacementSimulations());
-            gameStatistics.updateAverageMctsMovementSimulations(mctsPlayer.getAverageMovementSimulations());
-            gameStatistics.updateAverageMctsTotalSimulations(mctsPlayer.getAverageTotalSimulations());
+            gameStatistics.updateAverageMctsPlacementSimulations(
+                mctsPlayer.getAveragePlacementSimulations());
+            gameStatistics.updateAverageMctsMovementSimulations(
+                mctsPlayer.getAverageMovementSimulations());
+            gameStatistics.updateAverageMctsTotalSimulations(
+                mctsPlayer.getAverageTotalSimulations());
           }
         }
       }

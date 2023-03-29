@@ -17,7 +17,6 @@ public class GreedyPlayer extends Player {
     List<Integer> oneFishIndices = new ArrayList<>();
 
     for (int[] position : board.getAllPenguinPositionsForPlayer(this)) {
-      // TODO correct condition?
       if (board.isValidPenguin(position)) {
         for (Move move : board.getAllLegalMovesForPenguin(position)) {
           int tileIndex = GameBoard.getTileIndexFromPosition(move.getNewPosition());

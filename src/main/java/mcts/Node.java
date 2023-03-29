@@ -6,10 +6,10 @@ import java.util.*;
 import utility.RandomUtility;
 
 public class Node {
-  protected GameBoard board;
-  private Node parent;
   // TODO change back to ArrayList instead of LinkedList?
   private final List<Node> children;
+  protected GameBoard board;
+  private Node parent;
   private int visits;
   private double score;
 

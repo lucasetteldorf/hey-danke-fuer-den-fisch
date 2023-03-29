@@ -29,8 +29,9 @@ public class MctsPlayer extends Player {
   }
 
   public double getAverageTotalSimulations() {
-    return (double) (mcts.getMctsPlacement().getTotalNumberOfSimulations()
-            + mcts.getMctsMovement().getTotalNumberOfSimulations())
+    return (double)
+            (mcts.getMctsPlacement().getTotalNumberOfSimulations()
+                + mcts.getMctsMovement().getTotalNumberOfSimulations())
         / (mcts.getMctsPlacement().getCallCount() + mcts.getMctsMovement().getCallCount());
   }
 }

@@ -13,7 +13,6 @@ public class Player {
   private final String penguinColor;
   private final int[] penguinIndices;
   private int placedPenguinCount;
-  private int collectedTileCount;
   private int collectedFishCount;
   private boolean penguinsRemovedFromBoard;
   // TODO working as intended?
@@ -36,7 +35,6 @@ public class Player {
     this.placedPenguinCount = player.placedPenguinCount;
     this.penguinColor = player.penguinColor;
     this.penguinIndices = Arrays.copyOf(player.penguinIndices, penguinCount);
-    this.collectedTileCount = player.collectedTileCount;
     this.collectedFishCount = player.collectedFishCount;
     this.penguinsRemovedFromBoard = player.penguinsRemovedFromBoard;
   }
@@ -78,14 +76,6 @@ public class Player {
     return false;
   }
 
-  public int getCollectedTileCount() {
-    return collectedTileCount;
-  }
-
-  public void updateCollectedTileCount() {
-    this.collectedTileCount++;
-  }
-
   public int getCollectedFishCount() {
     return collectedFishCount;
   }
@@ -117,12 +107,7 @@ public class Player {
   }
 
   public String getScore() {
-    return this
-        + ": "
-        + this.collectedTileCount
-        + " tiles and "
-        + this.collectedFishCount
-        + " fish collected";
+    return this + ": " + this.collectedFishCount + " fish collected";
   }
 
   @Override

@@ -58,11 +58,10 @@ public class Game {
     for (int i = humanPlayerCount; i < totalPlayerCount; i++) {
       switch (aiDifficulty) {
         case "easy" -> players[i] =
-            new RandomPlayer(
-                "Random Baseline AI (easy)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
+            new RandomPlayer("Random AI (easy)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
         case "medium" -> players[i] =
             new GreedyPlayer(
-                "Greedy Baseline AI (medium)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
+                "Greedy AI (medium)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
         case "hard" -> players[i] =
             new MctsPlayer("MCTS AI (hard)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
         default -> System.out.println("Invalid difficulty");

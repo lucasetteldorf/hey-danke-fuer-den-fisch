@@ -8,7 +8,6 @@ public class Uct {
 
   public static double calculateUctValue(double nodeScore, int nodeVisits, int parentVisits) {
     if (nodeVisits == 0) {
-      // TODO smaller value?
       return Integer.MAX_VALUE;
     }
 
