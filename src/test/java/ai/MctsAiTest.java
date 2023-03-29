@@ -1,7 +1,7 @@
 package ai;
 
 import game.Game;
-import game.players.GreedyPlayer;
+import game.GameBoard;import game.players.GreedyPlayer;
 import game.players.MctsPlayer;
 import game.players.Player;
 import game.players.RandomPlayer;
