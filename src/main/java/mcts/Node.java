@@ -6,7 +6,6 @@ import java.util.*;
 import utility.RandomUtility;
 
 public class Node {
-  // TODO change back to ArrayList instead of LinkedList?
   private final List<Node> children;
   protected GameBoard board;
   private Node parent;
@@ -14,12 +13,12 @@ public class Node {
   private double score;
 
   public Node() {
-    this.children = new LinkedList<>();
+    this.children = new ArrayList<>();
   }
 
   public Node(GameBoard board) {
     this.board = new GameBoard(board);
-    this.children = new LinkedList<>();
+    this.children = new ArrayList<>();
   }
 
   // copy constructor
@@ -27,7 +26,7 @@ public class Node {
     if (node.parent != null) {
       this.parent = node.parent;
     }
-    this.children = new LinkedList<>();
+    this.children = new ArrayList<>();
     this.children.addAll(node.getChildren());
     this.board = new GameBoard(node.board);
     this.visits = node.visits;
@@ -64,6 +63,10 @@ public class Node {
 
   public double getScore() {
     return score;
+  }
+
+  public void setScore(double score) {
+    this.score = score;
   }
 
   public void updateScore(double score) {

@@ -15,7 +15,6 @@ public class Player {
   private int placedPenguinCount;
   private int collectedFishCount;
   private boolean penguinsRemovedFromBoard;
-  // TODO working as intended?
   private int moveCount;
 
   public Player(PlayerType type, String name, int penguinCount, String penguinColor) {

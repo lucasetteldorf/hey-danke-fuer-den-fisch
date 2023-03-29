@@ -10,6 +10,7 @@ public class MctsMovement {
   private Player currentPlayer;
   private int callCount;
   private int totalNumberOfSimulations;
+  private int numberOfSimulations;
 
   public static int getSimulationTime() {
     return COMPUTATIONAL_BUDGET;
@@ -17,6 +18,8 @@ public class MctsMovement {
 
   public Move getNextMove(GameBoard board) {
     this.currentPlayer = board.getCurrentPlayer();
+
+    numberOfSimulations = 0;
 
     NodeMovement root = new NodeMovement();
     root.setBoard(board);
@@ -41,6 +44,7 @@ public class MctsMovement {
       backpropagate(expandedNode, playoutResult);
     }
     callCount++;
+    System.out.println(callCount + ": " + numberOfSimulations + " simulations (movement)");
     NodeMovement bestNode = (NodeMovement) root.getChildWithMaxVisits();
     return bestNode.getPreviousMove();
   }
@@ -85,6 +89,7 @@ public class MctsMovement {
       tmp.playRandomMove();
     }
 
+    numberOfSimulations++;
     totalNumberOfSimulations++;
 
     return tmp.getBoard().getWinnerIndex();
@@ -97,7 +102,6 @@ public class MctsMovement {
       if (playerIndex != -1 && currentPlayer.equals(tmp.getBoard().getPlayers()[playerIndex])) {
         tmp.updateScore(WIN_SCORE);
       }
-      // TODO else setScore to MIN VALUE
       tmp = (NodeMovement) tmp.getParent();
     }
   }

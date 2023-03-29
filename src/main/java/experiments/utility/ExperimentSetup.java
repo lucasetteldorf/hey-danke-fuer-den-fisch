@@ -52,7 +52,7 @@ public class ExperimentSetup {
         }
       }
       players = new Player[] {p1, p2};
-      game = new Game(players, false);
+      game = new Game(players, false, false);
       game.start();
 
       for (int j = 0; j < players.length; j++) {

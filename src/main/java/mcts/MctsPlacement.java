@@ -9,6 +9,7 @@ public class MctsPlacement {
   private Player currentPlayer;
   private int callCount;
   private int totalNumberOfSimulations;
+  private int numberOfSimulations;
 
   public static int getSimulationTime() {
     return COMPUTATIONAL_BUDGET;
@@ -16,6 +17,8 @@ public class MctsPlacement {
 
   public int[] getNextPlacementPosition(GameBoard board) {
     this.currentPlayer = board.getCurrentPlayer();
+
+    numberOfSimulations = 0;
 
     NodePlacement root = new NodePlacement();
     root.setBoard(board);
@@ -40,6 +43,7 @@ public class MctsPlacement {
       backpropagate(expandedNode, playoutResult);
     }
     callCount++;
+    System.out.println(callCount + ": " + numberOfSimulations + " simulations (placement)");
     NodePlacement bestNode = (NodePlacement) root.getChildWithMaxVisits();
     return bestNode.getPreviousPlacementPosition();
   }
@@ -90,6 +94,7 @@ public class MctsPlacement {
       tmp.playRandomMove();
     }
 
+    numberOfSimulations++;
     totalNumberOfSimulations++;
 
     return tmp.getBoard().getWinnerIndex();
@@ -102,7 +107,6 @@ public class MctsPlacement {
       if (playerIndex != -1 && currentPlayer.equals(tmp.getBoard().getPlayers()[playerIndex])) {
         tmp.updateScore(WIN_SCORE);
       }
-      // TODO else setScore to MIN VALUE
       tmp = (NodePlacement) tmp.getParent();
     }
   }

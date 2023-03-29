@@ -5,16 +5,25 @@ import utility.InputReader;
 
 public class Game {
   private final GameBoard board;
-  private final boolean printOutput;
+  private final boolean printBoard;
+  private final boolean printResults;
 
   public Game() {
     this.board = new GameBoard(initPlayers());
-    this.printOutput = true;
+    this.printBoard = true;
+    this.printResults = true;
   }
 
-  public Game(Player[] players, boolean printOutput) {
+  public Game(Player[] players, boolean printBoard, boolean printResult) {
     this.board = new GameBoard(players);
-    this.printOutput = printOutput;
+    this.printBoard = printBoard;
+    this.printResults = printResult;
+  }
+
+  public Game(int[] fishCounts, Player[] players, boolean printBoard, boolean printResult) {
+    this.board = new GameBoard(players, fishCounts);
+    this.printBoard = printBoard;
+    this.printResults = printResult;
   }
 
   public static void main(String[] args) {
@@ -75,14 +84,14 @@ public class Game {
   public void start() {
     startPlacementPhase();
     startMovementPhase();
-    if (printOutput) {
+    if (printResults) {
       printScores();
       printWinner();
     }
   }
 
   private void startPlacementPhase() {
-    if (printOutput) {
+    if (printBoard) {
       board.printBoard();
       System.out.println("Start placement...\n");
     }
@@ -115,14 +124,14 @@ public class Game {
         }
       }
       this.board.placePenguin(placementPosition[0], placementPosition[1]);
-      if (printOutput) {
+      if (printBoard) {
         board.printBoard();
       }
     }
   }
 
   private void startMovementPhase() {
-    if (printOutput) {
+    if (printBoard) {
       System.out.println("Start movement...\n");
     }
 
@@ -171,7 +180,7 @@ public class Game {
         }
       }
       board.movePenguin(move);
-      if (printOutput) {
+      if (printBoard) {
         board.printBoard();
       }
     }
