@@ -1,7 +1,7 @@
 package experiments;
 
 import experiments.utility.OutputWriter;
-import experiments.utility.PlayerUtility;
+import experiments.utility.GameStatistics;
 import game.Game;
 import game.players.GreedyPlayer;
 import game.players.Player;
@@ -17,7 +17,7 @@ public class Baseline {
   }
 
   public static void randomVsRandom() {
-    PlayerUtility playerUtility = new PlayerUtility(NUMBER_OF_GAMES, 2);
+    GameStatistics gameStatistics = new GameStatistics(NUMBER_OF_GAMES, 2, false);
 
     Game game;
     Player[] players = new Player[2];
@@ -29,20 +29,20 @@ public class Baseline {
       game.start();
 
       for (int j = 0; j < players.length; j++) {
-        playerUtility.updatePlayerFishCount(j, players[j].getCollectedFishCount());
-        playerUtility.updatePlayerMoveCount(j, players[j].getMoveCount());
+        gameStatistics.updatePlayerFishCount(j, players[j].getCollectedFishCount());
+        gameStatistics.updatePlayerMoveCount(j, players[j].getMoveCount());
       }
-      playerUtility.updatePlayerWinCount(game.getBoard().getWinnerIndex());
+      gameStatistics.updatePlayerWinCount(game.getBoard().getWinnerIndex());
     }
 
     OutputWriter outputWriter =
         new OutputWriter(
             "/Users/Lucas/thesis-data/baseline/random-vs-random-stats-" + NUMBER_OF_GAMES + ".txt");
-    outputWriter.writeStatistics(playerUtility, players);
+    outputWriter.writeStatistics(gameStatistics, players);
   }
 
   public static void randomVsGreedy() {
-    PlayerUtility playerUtility = new PlayerUtility(NUMBER_OF_GAMES, 2);
+    GameStatistics gameStatistics = new GameStatistics(NUMBER_OF_GAMES, 2, false);
 
     Game game;
     Player[] players = new Player[2];
@@ -54,20 +54,20 @@ public class Baseline {
       game.start();
 
       for (int j = 0; j < players.length; j++) {
-        playerUtility.updatePlayerFishCount(j, players[j].getCollectedFishCount());
-        playerUtility.updatePlayerMoveCount(j, players[j].getMoveCount());
+        gameStatistics.updatePlayerFishCount(j, players[j].getCollectedFishCount());
+        gameStatistics.updatePlayerMoveCount(j, players[j].getMoveCount());
       }
-      playerUtility.updatePlayerWinCount(game.getBoard().getWinnerIndex());
+      gameStatistics.updatePlayerWinCount(game.getBoard().getWinnerIndex());
     }
 
     OutputWriter outputWriter =
             new OutputWriter(
                     "/Users/Lucas/thesis-data/baseline/random-vs-greedy-stats-" + NUMBER_OF_GAMES + ".txt");
-    outputWriter.writeStatistics(playerUtility, players);
+    outputWriter.writeStatistics(gameStatistics, players);
   }
 
   public static void greedyVsGreedy() {
-    PlayerUtility playerUtility = new PlayerUtility(NUMBER_OF_GAMES, 2);
+    GameStatistics gameStatistics = new GameStatistics(NUMBER_OF_GAMES, 2, false);
 
     Game game;
     Player[] players = new Player[2];
@@ -79,15 +79,15 @@ public class Baseline {
       game.start();
 
       for (int j = 0; j < players.length; j++) {
-        playerUtility.updatePlayerFishCount(j, players[j].getCollectedFishCount());
-        playerUtility.updatePlayerMoveCount(j, players[j].getMoveCount());
+        gameStatistics.updatePlayerFishCount(j, players[j].getCollectedFishCount());
+        gameStatistics.updatePlayerMoveCount(j, players[j].getMoveCount());
       }
-      playerUtility.updatePlayerWinCount(game.getBoard().getWinnerIndex());
+      gameStatistics.updatePlayerWinCount(game.getBoard().getWinnerIndex());
     }
 
     OutputWriter outputWriter =
             new OutputWriter(
                     "/Users/Lucas/thesis-data/baseline/greedy-vs-greedy-" + NUMBER_OF_GAMES + ".txt");
-    outputWriter.writeStatistics(playerUtility, players);
+    outputWriter.writeStatistics(gameStatistics, players);
   }
 }

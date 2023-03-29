@@ -19,4 +19,12 @@ public class Mcts {
   public Move computeBestMove(GameBoard board) {
     return mctsMovement.getNextMove(board);
   }
+
+  public MctsPlacement getMctsPlacement() {
+    return mctsPlacement;
+  }
+
+  public MctsMovement getMctsMovement() {
+    return mctsMovement;
+  }
 }

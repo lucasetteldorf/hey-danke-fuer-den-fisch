@@ -1,6 +1,6 @@
 package game;
 
-import experiments.utility.PlayerUtility;import game.players.Player;
+import game.players.Player;
 import java.util.*;
 import utility.RandomUtility;
 

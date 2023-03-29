@@ -19,4 +19,18 @@ public class MctsPlayer extends Player {
   public Move getBestMove(GameBoard board) {
     return mcts.computeBestMove(board);
   }
+
+  public double getAveragePlacementSimulations() {
+    return mcts.getMctsPlacement().getAverageSimulations();
+  }
+
+  public double getAverageMovementSimulations() {
+    return mcts.getMctsMovement().getAverageSimulations();
+  }
+
+  public double getAverageTotalSimulations() {
+    return (double) (mcts.getMctsPlacement().getTotalNumberOfSimulations()
+            + mcts.getMctsMovement().getTotalNumberOfSimulations())
+        / (mcts.getMctsPlacement().getCallCount() + mcts.getMctsMovement().getCallCount());
+  }
 }
