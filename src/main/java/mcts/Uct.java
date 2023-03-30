@@ -1,8 +1,5 @@
 package mcts;
 
-import java.util.Collections;
-import java.util.Comparator;
-
 public class Uct {
   private static final double C = Math.sqrt(2);
 
@@ -16,10 +13,17 @@ public class Uct {
   }
 
   public static Node findBestNode(Node node) {
+    // TODO problem that first element if always chosen when multiple maximums exist?
     int parentVisits = node.getVisits();
-    return Collections.max(
-        node.getChildren(),
-        Comparator.comparing(
-            child -> calculateUctValue(child.getScore(), child.getVisits(), parentVisits)));
+    double max = Integer.MIN_VALUE;
+    Node bestNode = null;
+    for (Node child : node.getChildren()) {
+      double uctValue = calculateUctValue(child.getScore(), child.getVisits(), parentVisits);
+      if (uctValue > max) {
+        max = uctValue;
+        bestNode = child;
+      }
+    }
+    return bestNode;
   }
 }
