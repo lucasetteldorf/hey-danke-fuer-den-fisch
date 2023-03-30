@@ -162,6 +162,11 @@ public class GameBoard {
       currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
     } else {
       do {
+        if (getCurrentPlayer().arePenguinsRemovedFromBoard()) {
+          currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+          continue;
+        }
+
         if (!hasPlayerLegalMoves(getCurrentPlayer())
             && !getCurrentPlayer().arePenguinsRemovedFromBoard()) {
           removeAllPenguinsAndTiles();
