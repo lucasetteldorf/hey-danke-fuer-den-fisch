@@ -5,7 +5,13 @@ import game.players.*;
 
 public class ExperimentSetup {
   public static void playGames(
-      int numberOfGames, int playerCount, boolean isMctsInGame, String directoryName, String mode) {
+      int numberOfGames,
+      int playerCount,
+      boolean isMctsInGame,
+      String directoryName,
+      String mode,
+      int timeBudget,
+      double c) {
     GameStatistics gameStatistics = new GameStatistics(numberOfGames, playerCount, isMctsInGame);
 
     Game game;
@@ -50,6 +56,18 @@ public class ExperimentSetup {
           p1 = new MctsPlayer("MCTS 1", 4, "B");
           p2 = new MctsPlayer("MCTS 2", 4, "R");
         }
+        case "mcts-time-budget" -> {
+          p1 = new MctsPlayer("MCTS", 4, "B", Math.sqrt(2), timeBudget);
+          p2 = new RandomPlayer("Random", 4, "R");
+        }
+        case "mcts-c-value-random" -> {
+          p1 = new MctsPlayer("MCTS", 4, "B", c, timeBudget);
+          p2 = new RandomPlayer("Random", 4, "R");
+        }
+        case "mcts-c-value-mcts" -> {
+          p1 = new MctsPlayer("MCTS 1 (C value test)", 4, "B", c, timeBudget);
+          p2 = new MctsPlayer("MCTS 2 (C value baseline)", 4, "R", Math.sqrt(2), timeBudget);
+        }
       }
       players = new Player[] {p1, p2};
       game = new Game(players, false, false);
@@ -75,15 +93,22 @@ public class ExperimentSetup {
       }
     }
 
-    OutputWriter outputWriter =
-        new OutputWriter(
-            "/Users/Lucas/thesis-data/"
-                + directoryName
-                + "/"
-                + mode
-                + "-stats-"
-                + numberOfGames
-                + ".txt");
+    String path =
+        "/Users/Lucas/thesis-data/"
+            + directoryName
+            + "/"
+            + mode
+            + "-stats-"
+            + numberOfGames
+            + ".txt";
+    if (timeBudget != 0) {
+      path = "/Users/Lucas/thesis-data/" + directoryName + "/" + mode + "-" + timeBudget + "ms.txt";
+    }
+    if (c != -1) {
+      path = "/Users/Lucas/thesis-data/" + directoryName + "/" + mode + "-" + c + ".txt";
+    }
+
+    OutputWriter outputWriter = new OutputWriter(path);
     outputWriter.writeStatistics(gameStatistics, players);
   }
 }

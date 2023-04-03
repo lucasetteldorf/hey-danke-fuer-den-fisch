@@ -12,6 +12,11 @@ public class Mcts {
     this.mctsMovement = new MctsMovement();
   }
 
+  public Mcts(double c, int computationalBudget) {
+    this.mctsPlacement = new MctsPlacement(c, computationalBudget);
+    this.mctsMovement = new MctsMovement(c, computationalBudget);
+  }
+
   public int[] computeBestPlacementPosition(GameBoard board) {
     return mctsPlacement.getNextPlacementPosition(board);
   }

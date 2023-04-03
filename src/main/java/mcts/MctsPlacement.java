@@ -4,21 +4,28 @@ import game.GameBoard;
 import game.players.Player;
 
 public class MctsPlacement {
-  private static final int COMPUTATIONAL_BUDGET = 1000;
   private static final int WIN_SCORE = 1;
+  private final int computationalBudget;
+  private final double c;
   private Player currentPlayer;
   private int callCount;
   private int totalNumberOfSimulations;
   private int numberOfSimulations;
 
-  public static int getSimulationTime() {
-    return COMPUTATIONAL_BUDGET;
+  public MctsPlacement() {
+    this.computationalBudget = 1000;
+    this.c = Math.sqrt(2);
+  }
+
+  public MctsPlacement(double c, int computationalBudget) {
+    this.c = c;
+    this.computationalBudget = computationalBudget;
   }
 
   public int[] getNextPlacementPosition(GameBoard board) {
     this.currentPlayer = board.getCurrentPlayer();
 
-    numberOfSimulations = 0;
+//        numberOfSimulations = 0;
 
     NodePlacement root = new NodePlacement();
     root.setBoard(board);
@@ -26,7 +33,7 @@ public class MctsPlacement {
     long start = System.currentTimeMillis();
     initTree(root);
 
-    while ((System.currentTimeMillis() - start) < COMPUTATIONAL_BUDGET) {
+    while ((System.currentTimeMillis() - start) < computationalBudget) {
       // 1: Selection
       NodePlacement selectedNode = selectNode(root);
 
@@ -43,7 +50,7 @@ public class MctsPlacement {
       backpropagate(expandedNode, playoutResult);
     }
     callCount++;
-    System.out.println(callCount + ": " + numberOfSimulations + " simulations (placement)");
+//        System.out.println(callCount + ": " + numberOfSimulations + " simulations (placement)");
     NodePlacement bestNode = (NodePlacement) root.getChildWithMaxVisits();
     return bestNode.getPreviousPlacementPosition();
   }
@@ -63,7 +70,7 @@ public class MctsPlacement {
       if (node.hasUntriedPlacements()) {
         break;
       } else {
-        node = (NodePlacement) Uct.findBestNode(node);
+        node = (NodePlacement) Uct.findBestNode(node, c);
       }
     }
     return node;
@@ -94,7 +101,7 @@ public class MctsPlacement {
       tmp.playRandomMove();
     }
 
-    numberOfSimulations++;
+//        numberOfSimulations++;
     totalNumberOfSimulations++;
 
     return tmp.getBoard().getWinnerIndex();
@@ -121,5 +128,13 @@ public class MctsPlacement {
 
   public int getCallCount() {
     return callCount;
+  }
+
+  public int getComputationalBudget() {
+    return computationalBudget;
+  }
+
+  public double getC() {
+    return c;
   }
 }

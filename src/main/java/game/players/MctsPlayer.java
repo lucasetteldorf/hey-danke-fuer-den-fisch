@@ -12,6 +12,12 @@ public class MctsPlayer extends Player {
     this.mcts = new Mcts();
   }
 
+  public MctsPlayer(
+      String name, int penguinCount, String penguinColor, double c, int computationalBudget) {
+    super(PlayerType.MCTS, name, penguinCount, penguinColor);
+    this.mcts = new Mcts(c, computationalBudget);
+  }
+
   public int[] getBestPlacementPosition(GameBoard board) {
     return mcts.computeBestPlacementPosition(board);
   }
@@ -33,5 +39,21 @@ public class MctsPlayer extends Player {
             (mcts.getMctsPlacement().getTotalNumberOfSimulations()
                 + mcts.getMctsMovement().getTotalNumberOfSimulations())
         / (mcts.getMctsPlacement().getCallCount() + mcts.getMctsMovement().getCallCount());
+  }
+
+  public int getPlacementSimulationTime() {
+    return mcts.getMctsPlacement().getComputationalBudget();
+  }
+
+  public int getMovementSimulationTime() {
+    return mcts.getMctsMovement().getComputationalBudget();
+  }
+
+  public double getPlacementC() {
+    return mcts.getMctsPlacement().getC();
+  }
+
+  public double getMovementC() {
+    return mcts.getMctsMovement().getC();
   }
 }

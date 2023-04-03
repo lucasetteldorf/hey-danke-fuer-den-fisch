@@ -8,16 +8,16 @@ public class Baseline {
   public static void main(String[] args) {
     for (int numberOfGames : NUMBER_OF_GAMES) {
       // random vs. random
-      ExperimentSetup.playGames(numberOfGames, 2, false, "baseline", "random-vs-random");
+      ExperimentSetup.playGames(numberOfGames, 2, false, "baseline", "random-vs-random", 0, -1);
 
       // random vs. greedy
-      ExperimentSetup.playGames(numberOfGames, 2, false, "baseline", "random-vs-greedy");
+      ExperimentSetup.playGames(numberOfGames, 2, false, "baseline", "random-vs-greedy", 0, -1);
 
       // greedy vs. random
-      ExperimentSetup.playGames(numberOfGames, 2, false, "baseline", "greedy-vs-random");
+      ExperimentSetup.playGames(numberOfGames, 2, false, "baseline", "greedy-vs-random", 0, -1);
 
       // greedy vs. greedy
-      ExperimentSetup.playGames(numberOfGames, 2, false, "baseline", "greedy-vs-greedy");
+      ExperimentSetup.playGames(numberOfGames, 2, false, "baseline", "greedy-vs-greedy", 0, -1);
     }
   }
 }

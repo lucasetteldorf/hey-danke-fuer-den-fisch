@@ -5,21 +5,28 @@ import game.Move;
 import game.players.Player;
 
 public class MctsMovement {
-  private static final int COMPUTATIONAL_BUDGET = 1000;
   private static final int WIN_SCORE = 1;
+  private final int computationalBudget;
+  private final double c;
   private Player currentPlayer;
   private int callCount;
   private int totalNumberOfSimulations;
   private int numberOfSimulations;
 
-  public static int getSimulationTime() {
-    return COMPUTATIONAL_BUDGET;
+  public MctsMovement() {
+    this.computationalBudget = 1000;
+    this.c = Math.sqrt(2);
+  }
+
+  public MctsMovement(double c, int computationalBudget) {
+    this.c = c;
+    this.computationalBudget = computationalBudget;
   }
 
   public Move getNextMove(GameBoard board) {
     this.currentPlayer = board.getCurrentPlayer();
 
-    numberOfSimulations = 0;
+//        numberOfSimulations = 0;
 
     NodeMovement root = new NodeMovement();
     root.setBoard(board);
@@ -27,7 +34,7 @@ public class MctsMovement {
     long start = System.currentTimeMillis();
     initTree(root);
 
-    while ((System.currentTimeMillis() - start) < COMPUTATIONAL_BUDGET) {
+    while ((System.currentTimeMillis() - start) < computationalBudget) {
       // 1: Selection
       NodeMovement selectedNode = selectNode(root);
 
@@ -44,7 +51,7 @@ public class MctsMovement {
       backpropagate(expandedNode, playoutResult);
     }
     callCount++;
-    System.out.println(callCount + ": " + numberOfSimulations + " simulations (movement)");
+//        System.out.println(callCount + ": " + numberOfSimulations + " simulations (movement)");
     NodeMovement bestNode = (NodeMovement) root.getChildWithMaxVisits();
     return bestNode.getPreviousMove();
   }
@@ -64,7 +71,7 @@ public class MctsMovement {
       if (node.hasUntriedMoves()) {
         break;
       } else {
-        node = (NodeMovement) Uct.findBestNode(node);
+        node = (NodeMovement) Uct.findBestNode(node, c);
       }
     }
     return node;
@@ -89,7 +96,7 @@ public class MctsMovement {
       tmp.playRandomMove();
     }
 
-    numberOfSimulations++;
+//        numberOfSimulations++;
     totalNumberOfSimulations++;
 
     return tmp.getBoard().getWinnerIndex();
@@ -116,5 +123,13 @@ public class MctsMovement {
 
   public int getCallCount() {
     return callCount;
+  }
+
+  public int getComputationalBudget() {
+    return computationalBudget;
+  }
+
+  public double getC() {
+    return c;
   }
 }

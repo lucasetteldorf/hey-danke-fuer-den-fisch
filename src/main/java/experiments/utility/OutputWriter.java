@@ -1,11 +1,11 @@
 package experiments.utility;
 
+import game.players.MctsPlayer;
 import game.players.Player;
+import game.players.PlayerType;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import mcts.MctsMovement;
-import mcts.MctsPlacement;
 
 public class OutputWriter {
   private PrintWriter printWriter;
@@ -43,24 +43,38 @@ public class OutputWriter {
             + " average performed moves: "
             + gameStatistics.getAverageMoveCount(1));
     if (gameStatistics.isMctsInGame()) {
-      printWriter.println(
-          "MCTS placement simulation time : " + MctsPlacement.getSimulationTime() + "ms");
-      printWriter.println(
-          "MCTS movement simulation time: " + MctsMovement.getSimulationTime() + "ms");
-      printWriter.println(
-          "MCTS average placement simulations: "
-              + gameStatistics.getAverageMctsPlacementSimulations()
-              + " / "
-              + MctsPlacement.getSimulationTime()
-              + "ms");
-      printWriter.println(
-          "MCTS average movement simulations: "
-              + gameStatistics.getAverageMctsMovementSimulations()
-              + " / "
-              + MctsMovement.getSimulationTime()
-              + "ms");
-      printWriter.println(
-          "MCTS average total simulations. " + gameStatistics.getAverageMctsTotalSimulations());
+      for (Player player : players) {
+        if (player.getType() == PlayerType.MCTS) {
+          MctsPlayer mctsPlayer = (MctsPlayer) player;
+          String name = mctsPlayer.getName();
+          printWriter.println(
+              name + " C value for UCT selection (placement): " + mctsPlayer.getPlacementC());
+          printWriter.println(
+              name
+                  + " placement simulation time : "
+                  + mctsPlayer.getPlacementSimulationTime()
+                  + "ms");
+          printWriter.println(
+              name
+                  + " average placement simulations: "
+                  + gameStatistics.getAverageMctsPlacementSimulations());
+          printWriter.println(
+              name + " C value for UCT selection (movement): " + mctsPlayer.getMovementC());
+          printWriter.println(
+              name
+                  + " movement simulation time: "
+                  + mctsPlayer.getMovementSimulationTime()
+                  + "ms");
+          printWriter.println(
+              name
+                  + " average movement simulations: "
+                  + gameStatistics.getAverageMctsMovementSimulations());
+          printWriter.println(
+              name
+                  + " average total simulations. "
+                  + gameStatistics.getAverageMctsTotalSimulations());
+        }
+      }
     }
     printWriter.println(players[0].getName() + " win rate: " + gameStatistics.getWinRate(0));
     printWriter.println(players[1].getName() + " win rate: " + gameStatistics.getWinRate(1));
