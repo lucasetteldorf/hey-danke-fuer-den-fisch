@@ -131,6 +131,17 @@ public class GameBoard {
     return null;
   }
 
+  public static List<int[]> getNeighborPositions(int[] position) {
+    List<int[]> neighborPositions = new ArrayList<>();
+    for (int i = 0; i < 6; i++) {
+      int[] neighborPosition = calculateNeighborPosition(i, position[0], position[1]);
+      if (neighborPosition != null) {
+        neighborPositions.add(neighborPosition);
+      }
+    }
+    return neighborPositions;
+  }
+
   private int[] initGameBoard() {
     List<Integer> fishCounts = new ArrayList<>();
     int fishCount = 1;
@@ -198,6 +209,16 @@ public class GameBoard {
     List<int[]> playerPenguinPositions = new ArrayList<>();
     for (int i = 0; i < penguinPositionIndices.length; i++) {
       if (player.ownsPenguinAtIndex(i)) {
+        playerPenguinPositions.add(getPositionFromTileIndex(penguinPositionIndices[i]));
+      }
+    }
+    return playerPenguinPositions;
+  }
+
+  public List<int[]> getAllPenguinPositionsForOpponents(Player player) {
+    List<int[]> playerPenguinPositions = new ArrayList<>();
+    for (int i = 0; i < penguinPositionIndices.length; i++) {
+      if (!player.ownsPenguinAtIndex(i)) {
         playerPenguinPositions.add(getPositionFromTileIndex(penguinPositionIndices[i]));
       }
     }
@@ -390,7 +411,7 @@ public class GameBoard {
         continue;
       }
 
-      while (neighborPosition != null && getUnoccupiedPositionByPosition(neighborPosition)) {
+      while (getUnoccupiedPositionByPosition(neighborPosition)) {
         possibleMoves.add(new Move(position, neighborPosition));
         int[] newNeighborPosition =
             calculateNeighborPosition(i, neighborPosition[0], neighborPosition[1]);
@@ -440,7 +461,6 @@ public class GameBoard {
   public boolean hasPenguinLegalMoves(int[] position) {
     return hasPenguinLegalMoves(position[0], position[1]);
   }
-
 
   // TODO optimize? (faster way than addAll?)
   public List<Move> getAllLegalMovesForPlayer(Player player) {

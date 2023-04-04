@@ -5,7 +5,7 @@ import experiments.utility.ExperimentSetup;
 public class BasicMcts {
   private static final int[] NUMBER_OF_GAMES = new int[] {100, 250, 500, 1000};
   private static final double[] C_VALUES =
-      new double[] {4.5, 5};
+      new double[] {0.2, 0.3, 0.4, 1.6, 1.7, 1.8};
   private static final int[] TIME_BUDGETS = new int[] {10, 50, 100, 250, 500, 1000};
 
   public static void main(String[] args) {
@@ -27,11 +27,18 @@ public class BasicMcts {
     //    System.out.println("1000ms time budget done");
 
     // test different values for C parameter
+    //    double c = Math.sqrt(2);
+    //    ExperimentSetup.playGames(2000, 2, true, "mcts-c-value", "mcts-c-value-random", 10, c);
+    //    System.out.println("C value " + c + " MCTS vs. Random done");
+    //    ExperimentSetup.playGames(2000, 2, true, "mcts-c-value", "mcts-c-value-mcts", 10, c);
+    //    System.out.println("C value " + c + " MCTS vs. MCTS with C = sqrt(2) done");
+    //    ExperimentSetup.playGames(2000, 2, true, "mcts-c-value", "mcts-c-value-greedy", 10, c);
+    //    System.out.println("C value " + c + " MCTS vs. Greedy done");
+
+    // more precise examination of c-value
     for (double c : C_VALUES) {
-      ExperimentSetup.playGames(2000, 2, true, "mcts-c-value", "mcts-c-value-random", 10, c);
-      System.out.println("C value " + c + " MCTS vs. Random done");
-      ExperimentSetup.playGames(2000, 2, true, "mcts-c-value", "mcts-c-value-mcts", 10, c);
-      System.out.println("C value " + c + " MCTS vs. MCTS with C = sqrt(2) done");
+      ExperimentSetup.playGames(2000, 2, true, "mcts-c-value-2", "mcts-c-value-mcts-2", 10, c);
+      System.out.println("C = " + c + " done.");
     }
 
     // random vs. mcts

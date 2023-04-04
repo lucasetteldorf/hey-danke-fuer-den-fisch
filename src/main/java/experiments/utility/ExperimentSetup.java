@@ -64,9 +64,17 @@ public class ExperimentSetup {
           p1 = new MctsPlayer("MCTS", 4, "B", c, timeBudget);
           p2 = new RandomPlayer("Random", 4, "R");
         }
+        case "mcts-c-value-greedy" -> {
+          p1 = new MctsPlayer("MCTS", 4, "B", c, timeBudget);
+          p2 = new GreedyPlayer("Greedy", 4, "R");
+        }
         case "mcts-c-value-mcts" -> {
           p1 = new MctsPlayer("MCTS 1 (C value test)", 4, "B", c, timeBudget);
           p2 = new MctsPlayer("MCTS 2 (C value baseline)", 4, "R", Math.sqrt(2), timeBudget);
+        }
+        case "mcts-c-value-mcts-2" -> {
+          p1 = new MctsPlayer("MCTS, C = " + c, 4, "B", c, timeBudget);
+          p2 = new MctsPlayer("MCTS, C = 0.5", 4, "R", 0.5, timeBudget);
         }
       }
       players = new Player[] {p1, p2};
