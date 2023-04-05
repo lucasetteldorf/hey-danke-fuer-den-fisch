@@ -25,7 +25,11 @@ public class OutputWriter {
             + players[1].getName()
             + " ("
             + gameStatistics.getNumberOfGames()
-            + " games)");
+            + " games)\n" );
+    printWriter.println(players[0].getName() + " win rate: " + gameStatistics.getWinRate(0));
+    printWriter.println(players[1].getName() + " win rate: " + gameStatistics.getWinRate(1));
+    printWriter.println("Number of ties: " + gameStatistics.getTies());
+    printWriter.println("Percentage of ties: " + gameStatistics.getTiePercentage() + "\n");
     printWriter.println(
         players[0].getName()
             + " average collected fish count: "
@@ -33,7 +37,7 @@ public class OutputWriter {
     printWriter.println(
         players[1].getName()
             + " average collected fish count: "
-            + gameStatistics.getAverageFishCount(1));
+            + gameStatistics.getAverageFishCount(1) + "\n");
     printWriter.println(
         players[0].getName()
             + " average performed moves: "
@@ -41,9 +45,10 @@ public class OutputWriter {
     printWriter.println(
         players[1].getName()
             + " average performed moves: "
-            + gameStatistics.getAverageMoveCount(1));
+            + gameStatistics.getAverageMoveCount(1) + "\n");
     if (gameStatistics.isMctsInGame()) {
-      for (Player player : players) {
+      for (int i = 0; i < players.length; i++) {
+        Player player = players[i];
         if (player.getType() == PlayerType.MCTS) {
           MctsPlayer mctsPlayer = (MctsPlayer) player;
           String name = mctsPlayer.getName();
@@ -57,7 +62,7 @@ public class OutputWriter {
           printWriter.println(
               name
                   + " average placement simulations: "
-                  + gameStatistics.getAverageMctsPlacementSimulations());
+                  + gameStatistics.getAverageMctsPlacementSimulations(i));
           printWriter.println(
               name + " C value for UCT selection (movement): " + mctsPlayer.getMovementC());
           printWriter.println(
@@ -68,19 +73,14 @@ public class OutputWriter {
           printWriter.println(
               name
                   + " average movement simulations: "
-                  + gameStatistics.getAverageMctsMovementSimulations());
+                  + gameStatistics.getAverageMctsMovementSimulations(i));
           printWriter.println(
               name
                   + " average total simulations. "
-                  + gameStatistics.getAverageMctsTotalSimulations());
+                  + gameStatistics.getAverageMctsTotalSimulations(i) + "\n");
         }
       }
     }
-    printWriter.println(players[0].getName() + " win rate: " + gameStatistics.getWinRate(0));
-    printWriter.println(players[1].getName() + " win rate: " + gameStatistics.getWinRate(1));
-    printWriter.println("Number of ties: " + gameStatistics.getTies());
-    printWriter.println("Percentage of ties: " + gameStatistics.getTiePercentage());
-    printWriter.println("------------------------------------------------------------");
     printWriter.close();
   }
 }

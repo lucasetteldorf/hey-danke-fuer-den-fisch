@@ -1,45 +1,56 @@
-package mcts.heuristics;
+package mcts.heavyplayout;
 
 import game.GameBoard;
 import game.Move;
 import java.util.List;
+import utility.RandomUtility;
 
 // TODO copy board with new position before calculating the rest?
 public class PlacementHeuristics {
   // TODO working as intended?
   public static void playMaxFish(GameBoard board) {
     List<int[]> possiblePlacements = board.getAllLegalPlacementPositions();
-    int maxFishCounts = Integer.MIN_VALUE;
-    int[] bestPosition = null;
+    double maxFishPerTile = Double.MIN_VALUE;
+    int[] bestPosition =
+        possiblePlacements.get(RandomUtility.getRandomIndex(possiblePlacements.size()));
     for (int[] position : possiblePlacements) {
-      List<Move> possibleMoves = board.getAllLegalMovesForPenguin(position);
-      int fishCounts = 0;
+      GameBoard newBoard = new GameBoard(board);
+      newBoard.placePenguin(position[0], position[1]);
+      List<Move> possibleMoves = newBoard.getAllLegalMovesForPenguin(position);
+      int fishCount = 0;
       for (Move move : possibleMoves) {
-        fishCounts += board.getFishCountByPosition(move.getNewPosition());
+        fishCount += newBoard.getFishCountByPosition(move.getNewPosition());
       }
-      if (fishCounts > maxFishCounts) {
-        maxFishCounts = fishCounts;
+      double fishPerTile = (double) fishCount / possibleMoves.size();
+      if (fishPerTile > maxFishPerTile) {
+        maxFishPerTile = fishPerTile;
         bestPosition = position;
       }
     }
+    // TODO always randomly chosen by accident?
     board.placePenguin(bestPosition[0], bestPosition[1]);
   }
 
   // TODO working as intended?
   public static void playMaxDirectFish(GameBoard board) {
     List<int[]> possiblePlacements = board.getAllLegalPlacementPositions();
-    int maxFishCounts = Integer.MIN_VALUE;
-    int[] bestPosition = null;
+    double maxFishPerNeighborTile = Double.MIN_VALUE;
+    int[] bestPosition = possiblePlacements.get(RandomUtility.getRandomIndex(possiblePlacements.size()));
     for (int[] position : possiblePlacements) {
-      int fishCounts = 0;
-      for (int[] neighborPosition : GameBoard.getNeighborPositions(position)) {
-        fishCounts += board.getFishCountByPosition(neighborPosition);
+      GameBoard newBoard = new GameBoard(board);
+      newBoard.placePenguin(position[0], position[1]);
+      List<int[]> neighborPositions = GameBoard.getNeighborPositions(position);
+      int fishCount = 0;
+      for (int[] neighborPosition : neighborPositions) {
+        fishCount += newBoard.getFishCountByPosition(neighborPosition);
       }
-      if (fishCounts > maxFishCounts) {
-        maxFishCounts = fishCounts;
+      double fishPerTile = (double) fishCount / neighborPositions.size();
+      if (fishPerTile > maxFishPerNeighborTile) {
+        maxFishPerNeighborTile = fishPerTile;
         bestPosition = position;
       }
     }
+    // TODO always randomly chosen by accident?
     board.placePenguin(bestPosition[0], bestPosition[1]);
   }
 

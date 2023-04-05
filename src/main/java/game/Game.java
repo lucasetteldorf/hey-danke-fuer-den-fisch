@@ -120,7 +120,7 @@ public class Game {
         }
         case MCTS -> {
           MctsPlayer mctsPlayer = (MctsPlayer) board.getCurrentPlayer();
-          placementPosition = mctsPlayer.getBestPlacementPosition(this.board);
+          placementPosition = mctsPlayer.getBestPlacementPosition(board);
         }
       }
       this.board.placePenguin(placementPosition[0], placementPosition[1]);

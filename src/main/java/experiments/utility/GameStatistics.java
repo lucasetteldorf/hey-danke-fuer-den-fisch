@@ -8,15 +8,18 @@ public class GameStatistics {
   private final int[] playerWinCounts;
   private final boolean isMctsInGame;
   private int ties;
-  private double averageMctsPlacementSimulations;
-  private double averageMctsMovementSimulations;
-  private double averageMctsTotalSimulations;
+  private final double[] averageMctsPlacementSimulations;
+  private final double[] averageMctsMovementSimulations;
+  private final double[] averageMctsTotalSimulations;
 
   public GameStatistics(int numberOfGames, int playerCount, boolean isMctsInGame) {
     this.numberOfGames = numberOfGames;
     this.playerFishCounts = new int[playerCount];
     this.playerMoveCounts = new int[playerCount];
     this.playerWinCounts = new int[playerCount];
+    this.averageMctsPlacementSimulations = new double[playerCount];
+    this.averageMctsMovementSimulations = new double[playerCount];
+    this.averageMctsTotalSimulations = new double[playerCount];
     this.isMctsInGame = isMctsInGame;
   }
 
@@ -40,16 +43,18 @@ public class GameStatistics {
     playerMoveCounts[playerIndex] += moveCount;
   }
 
-  public void updateAverageMctsPlacementSimulations(double averagePlacementSimulations) {
-    averageMctsPlacementSimulations += averagePlacementSimulations;
+  public void updateAverageMctsPlacementSimulations(
+      int playerIndex, double averagePlacementSimulations) {
+    averageMctsPlacementSimulations[playerIndex] += averagePlacementSimulations;
   }
 
-  public void updateAverageMctsMovementSimulations(double averageMovementSimulations) {
-    averageMctsMovementSimulations += averageMovementSimulations;
+  public void updateAverageMctsMovementSimulations(
+      int playerIndex, double averageMovementSimulations) {
+    averageMctsMovementSimulations[playerIndex] += averageMovementSimulations;
   }
 
-  public void updateAverageMctsTotalSimulations(double averageTotalSimulations) {
-    averageMctsTotalSimulations += averageTotalSimulations;
+  public void updateAverageMctsTotalSimulations(int playerIndex, double averageTotalSimulations) {
+    averageMctsTotalSimulations[playerIndex] += averageTotalSimulations;
   }
 
   public boolean isMctsInGame() {
@@ -68,16 +73,16 @@ public class GameStatistics {
     return (double) playerWinCounts[playerIndex] / numberOfGames;
   }
 
-  public double getAverageMctsPlacementSimulations() {
-    return averageMctsPlacementSimulations / numberOfGames;
+  public double getAverageMctsPlacementSimulations(int playerIndex) {
+    return averageMctsPlacementSimulations[playerIndex] / numberOfGames;
   }
 
-  public double getAverageMctsMovementSimulations() {
-    return averageMctsMovementSimulations / numberOfGames;
+  public double getAverageMctsMovementSimulations(int playerIndex) {
+    return averageMctsMovementSimulations[playerIndex] / numberOfGames;
   }
 
-  public double getAverageMctsTotalSimulations() {
-    return averageMctsTotalSimulations / numberOfGames;
+  public double getAverageMctsTotalSimulations(int playerIndex) {
+    return averageMctsTotalSimulations[playerIndex] / numberOfGames;
   }
 
   public int getTies() {

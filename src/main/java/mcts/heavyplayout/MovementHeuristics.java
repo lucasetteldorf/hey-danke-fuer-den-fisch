@@ -1,4 +1,4 @@
-package mcts.heuristics;
+package mcts.heavyplayout;
 
 import game.GameBoard;
 import game.Move;

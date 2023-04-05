@@ -3,6 +3,8 @@ package mcts;
 import game.GameBoard;
 import game.Move;
 import java.util.*;
+
+import mcts.heavyplayout.PlacementHeuristics;
 import utility.RandomUtility;
 
 public class Node {

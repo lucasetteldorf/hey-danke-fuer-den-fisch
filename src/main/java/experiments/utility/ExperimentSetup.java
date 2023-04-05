@@ -14,8 +14,17 @@ public class ExperimentSetup {
       double c) {
     GameStatistics gameStatistics = new GameStatistics(numberOfGames, playerCount, isMctsInGame);
 
+    String path =
+        "/Users/Lucas/thesis-data/"
+            + directoryName
+            + "/"
+            + mode
+            + "-stats-"
+            + numberOfGames
+            + ".txt";
     Game game;
     Player[] players = new Player[2];
+    System.out.println(numberOfGames + " games starting...");
     for (int i = 0; i < numberOfGames; i++) {
       Player p1 = null;
       Player p2 = null;
@@ -59,6 +68,26 @@ public class ExperimentSetup {
         case "mcts-time-budget" -> {
           p1 = new MctsPlayer("MCTS", 4, "B", Math.sqrt(2), timeBudget);
           p2 = new RandomPlayer("Random", 4, "R");
+          path =
+              "/Users/Lucas/thesis-data/"
+                  + directoryName
+                  + "/"
+                  + mode
+                  + "-"
+                  + timeBudget
+                  + "ms.txt";
+        }
+        case "mcts-time-budget-greedy" -> {
+          p1 = new MctsPlayer("MCTS", 4, "B", Math.sqrt(2), timeBudget);
+          p2 = new GreedyPlayer("Greedy", 4, "R");
+          path =
+              "/Users/Lucas/thesis-data/"
+                  + directoryName
+                  + "/"
+                  + mode
+                  + "-"
+                  + timeBudget
+                  + "ms.txt";
         }
         case "mcts-c-value-random" -> {
           p1 = new MctsPlayer("MCTS", 4, "B", c, timeBudget);
@@ -87,35 +116,56 @@ public class ExperimentSetup {
       }
       gameStatistics.updatePlayerWinCount(game.getBoard().getWinnerIndex());
       if (isMctsInGame) {
-        for (Player player : players) {
+        for (int j = 0; j < players.length; j++) {
+          Player player = players[j];
           if (player.getType() == PlayerType.MCTS) {
             MctsPlayer mctsPlayer = (MctsPlayer) player;
             gameStatistics.updateAverageMctsPlacementSimulations(
-                mctsPlayer.getAveragePlacementSimulations());
+                j, mctsPlayer.getAveragePlacementSimulations());
             gameStatistics.updateAverageMctsMovementSimulations(
-                mctsPlayer.getAverageMovementSimulations());
+                j, mctsPlayer.getAverageMovementSimulations());
             gameStatistics.updateAverageMctsTotalSimulations(
-                mctsPlayer.getAverageTotalSimulations());
+                j, mctsPlayer.getAverageTotalSimulations());
           }
         }
       }
+      System.out.println("Game " + (i + 1) + " done.");
     }
 
-    String path =
-        "/Users/Lucas/thesis-data/"
-            + directoryName
-            + "/"
-            + mode
-            + "-stats-"
-            + numberOfGames
-            + ".txt";
-    if (timeBudget != 0) {
-      path = "/Users/Lucas/thesis-data/" + directoryName + "/" + mode + "-" + timeBudget + "ms.txt";
-    }
     if (c != -1) {
       path = "/Users/Lucas/thesis-data/" + directoryName + "/" + mode + "-" + c + ".txt";
     }
 
+    OutputWriter outputWriter = new OutputWriter(path);
+    outputWriter.writeStatistics(gameStatistics, players);
+  }
+
+  public static void updateStatistics(Game game, GameStatistics gameStatistics) {
+    Player[] players = game.getBoard().getPlayers();
+    boolean isMctsInGame = gameStatistics.isMctsInGame();
+
+    for (int j = 0; j < players.length; j++) {
+      gameStatistics.updatePlayerFishCount(j, players[j].getCollectedFishCount());
+      gameStatistics.updatePlayerMoveCount(j, players[j].getMoveCount());
+    }
+    gameStatistics.updatePlayerWinCount(game.getBoard().getWinnerIndex());
+    if (isMctsInGame) {
+      for (int i = 0; i < players.length; i++) {
+        Player player = players[i];
+        if (player.getType() == PlayerType.MCTS) {
+          MctsPlayer mctsPlayer = (MctsPlayer) player;
+          gameStatistics.updateAverageMctsPlacementSimulations(
+              i, mctsPlayer.getAveragePlacementSimulations());
+          gameStatistics.updateAverageMctsMovementSimulations(
+              i, mctsPlayer.getAverageMovementSimulations());
+          gameStatistics.updateAverageMctsTotalSimulations(
+              i, mctsPlayer.getAverageTotalSimulations());
+        }
+      }
+    }
+  }
+
+  public static void writeStatistics(String path, Player[] players, GameStatistics gameStatistics) {
     OutputWriter outputWriter = new OutputWriter(path);
     outputWriter.writeStatistics(gameStatistics, players);
   }

@@ -7,14 +7,14 @@ public class MctsPlacement {
   private static final int WIN_SCORE = 1;
   private final int computationalBudget;
   private final double c;
+  protected int totalNumberOfSimulations;
   private Player currentPlayer;
   private int callCount;
-  private int totalNumberOfSimulations;
-  private int numberOfSimulations;
+  protected int numberOfSimulations;
 
   public MctsPlacement() {
-    this.computationalBudget = 1000;
-    this.c = Math.sqrt(2);
+    this.computationalBudget = 100;
+    this.c = 0.35;
   }
 
   public MctsPlacement(double c, int computationalBudget) {
@@ -25,7 +25,7 @@ public class MctsPlacement {
   public int[] getNextPlacementPosition(GameBoard board) {
     this.currentPlayer = board.getCurrentPlayer();
 
-//        numberOfSimulations = 0;
+    numberOfSimulations = 0;
 
     NodePlacement root = new NodePlacement();
     root.setBoard(board);
@@ -44,13 +44,19 @@ public class MctsPlacement {
       }
 
       // 3: Simulation
-      int playoutResult = simulateRandomPlayout(expandedNode);
+      int playoutResult = simulatePlayout(expandedNode);
 
       // 4: Backpropagation
       backpropagate(expandedNode, playoutResult);
     }
     callCount++;
-//        System.out.println(callCount + ": " + numberOfSimulations + " simulations (placement)");
+    System.out.println(
+        callCount
+            + ": "
+            + numberOfSimulations
+            + " placement simulations ("
+            + currentPlayer.getName()
+            + ")");
     NodePlacement bestNode = (NodePlacement) root.getChildWithMaxVisits();
     return bestNode.getPreviousPlacementPosition();
   }
@@ -59,7 +65,7 @@ public class MctsPlacement {
     root.expandChildrenPlacement();
     for (Node child : root.getChildren()) {
       NodePlacement childPlacement = (NodePlacement) child;
-      int playoutResult = simulateRandomPlayout(childPlacement);
+      int playoutResult = simulatePlayout(childPlacement);
       backpropagate(childPlacement, playoutResult);
     }
   }
@@ -90,7 +96,8 @@ public class MctsPlacement {
     return expandedNode;
   }
 
-  private int simulateRandomPlayout(NodePlacement node) {
+  // light playout
+  protected int simulatePlayout(NodePlacement node) {
     NodePlacement tmp = new NodePlacement(node);
 
     while (!tmp.getBoard().isPlacementPhaseOver()) {
@@ -101,7 +108,7 @@ public class MctsPlacement {
       tmp.playRandomMove();
     }
 
-//        numberOfSimulations++;
+    numberOfSimulations++;
     totalNumberOfSimulations++;
 
     return tmp.getBoard().getWinnerIndex();

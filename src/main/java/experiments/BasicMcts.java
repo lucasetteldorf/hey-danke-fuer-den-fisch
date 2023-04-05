@@ -4,9 +4,8 @@ import experiments.utility.ExperimentSetup;
 
 public class BasicMcts {
   private static final int[] NUMBER_OF_GAMES = new int[] {100, 250, 500, 1000};
-  private static final double[] C_VALUES =
-      new double[] {0.2, 0.3, 0.4, 1.6, 1.7, 1.8};
-  private static final int[] TIME_BUDGETS = new int[] {10, 50, 100, 250, 500, 1000};
+  private static final double[] C_VALUES = new double[] {0.35, 0.5, Math.sqrt(2)};
+  private static final int[] TIME_BUDGETS = new int[] {1000};
 
   public static void main(String[] args) {
     //    for (int numberOfGames : NUMBER_OF_GAMES) {
@@ -22,9 +21,14 @@ public class BasicMcts {
     //    }
 
     // test different time budgets
-    //    ExperimentSetup.playGames(2000, 2, true, "mcts-time-budget", "mcts-time-budget", 1000,
-    // -1);
-    //    System.out.println("1000ms time budget done");
+    //    ExperimentSetup.playGames(2000, 2, true, "mcts-time-budget", "mcts-time-budget", 0, -1);
+    //    System.out.println("0 time budget done");
+
+    for (int timeBudget : TIME_BUDGETS) {
+      ExperimentSetup.playGames(
+          2000, 2, true, "mcts-time-budget", "mcts-time-budget-greedy", timeBudget, -1);
+      System.out.println(timeBudget + " time budget done");
+    }
 
     // test different values for C parameter
     //    double c = Math.sqrt(2);
@@ -36,10 +40,11 @@ public class BasicMcts {
     //    System.out.println("C value " + c + " MCTS vs. Greedy done");
 
     // more precise examination of c-value
-    for (double c : C_VALUES) {
-      ExperimentSetup.playGames(2000, 2, true, "mcts-c-value-2", "mcts-c-value-mcts-2", 10, c);
-      System.out.println("C = " + c + " done.");
-    }
+    //    for (double c : C_VALUES) {
+    //      ExperimentSetup.playGames(2000, 2, true, "mcts-c-value-2", "mcts-c-value-mcts-2", 10,
+    // c);
+    //      System.out.println("C = " + c + " done.");
+    //    }
 
     // random vs. mcts
     //    ExperimentSetup.playGames(NUMBER_OF_GAMES, 2, true, "basic-mcts", "random-vs-mcts");

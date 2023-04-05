@@ -11,11 +11,11 @@ public class MctsMovement {
   private Player currentPlayer;
   private int callCount;
   private int totalNumberOfSimulations;
-  private int numberOfSimulations;
+  protected int numberOfSimulations;
 
   public MctsMovement() {
-    this.computationalBudget = 1000;
-    this.c = Math.sqrt(2);
+    this.computationalBudget = 100;
+    this.c = 0.35;
   }
 
   public MctsMovement(double c, int computationalBudget) {
@@ -26,7 +26,7 @@ public class MctsMovement {
   public Move getNextMove(GameBoard board) {
     this.currentPlayer = board.getCurrentPlayer();
 
-//        numberOfSimulations = 0;
+    numberOfSimulations = 0;
 
     NodeMovement root = new NodeMovement();
     root.setBoard(board);
@@ -45,13 +45,13 @@ public class MctsMovement {
       }
 
       // 3: Simulation
-      int playoutResult = simulateRandomPlayout(expandedNode);
+      int playoutResult = simulatePlayout(expandedNode);
 
       // 4: Backpropagation
       backpropagate(expandedNode, playoutResult);
     }
     callCount++;
-//        System.out.println(callCount + ": " + numberOfSimulations + " simulations (movement)");
+    System.out.println(callCount + ": " + numberOfSimulations + " movement simulations (" + currentPlayer.getName() + ")");
     NodeMovement bestNode = (NodeMovement) root.getChildWithMaxVisits();
     return bestNode.getPreviousMove();
   }
@@ -60,7 +60,7 @@ public class MctsMovement {
     root.expandChildrenMovement();
     for (Node child : root.getChildren()) {
       NodeMovement childMovement = (NodeMovement) child;
-      int playoutResult = simulateRandomPlayout(childMovement);
+      int playoutResult = simulatePlayout(childMovement);
       backpropagate(childMovement, playoutResult);
     }
   }
@@ -89,14 +89,14 @@ public class MctsMovement {
     return expandedNode;
   }
 
-  private int simulateRandomPlayout(NodeMovement node) {
+  protected int simulatePlayout(NodeMovement node) {
     NodeMovement tmp = new NodeMovement(node);
 
     while (!tmp.getBoard().isMovementPhaseOver()) {
       tmp.playRandomMove();
     }
 
-//        numberOfSimulations++;
+    numberOfSimulations++;
     totalNumberOfSimulations++;
 
     return tmp.getBoard().getWinnerIndex();

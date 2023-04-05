@@ -2,58 +2,73 @@ package game.players;
 
 import game.GameBoard;
 import game.Move;
-import mcts.Mcts;
+import mcts.MctsMovement;
+import mcts.MctsPlacement;
 
 public class MctsPlayer extends Player {
-  private final Mcts mcts;
+  private final MctsPlacement mctsPlacement;
+  private final MctsMovement mctsMovement;
 
   public MctsPlayer(String name, int penguinCount, String penguinColor) {
     super(PlayerType.MCTS, name, penguinCount, penguinColor);
-    this.mcts = new Mcts();
+    this.mctsPlacement = new MctsPlacement();
+    this.mctsMovement = new MctsMovement();
   }
 
   public MctsPlayer(
       String name, int penguinCount, String penguinColor, double c, int computationalBudget) {
     super(PlayerType.MCTS, name, penguinCount, penguinColor);
-    this.mcts = new Mcts(c, computationalBudget);
+    this.mctsPlacement = new MctsPlacement(c, computationalBudget);
+    this.mctsMovement = new MctsMovement(c, computationalBudget);
+  }
+
+  public MctsPlayer(
+      String name,
+      int penguinCount,
+      String penguinColor,
+      MctsPlacement mctsPlacement,
+      MctsMovement mctsMovement) {
+    super(PlayerType.MCTS, name, penguinCount, penguinColor);
+    this.mctsPlacement = mctsPlacement;
+    this.mctsMovement = mctsMovement;
   }
 
   public int[] getBestPlacementPosition(GameBoard board) {
-    return mcts.computeBestPlacementPosition(board);
+    return mctsPlacement.getNextPlacementPosition(board);
   }
 
   public Move getBestMove(GameBoard board) {
-    return mcts.computeBestMove(board);
+    return mctsMovement.getNextMove(board);
   }
 
   public double getAveragePlacementSimulations() {
-    return mcts.getMctsPlacement().getAverageSimulations();
+    return mctsPlacement.getAverageSimulations();
   }
 
   public double getAverageMovementSimulations() {
-    return mcts.getMctsMovement().getAverageSimulations();
+    return mctsMovement.getAverageSimulations();
   }
 
   public double getAverageTotalSimulations() {
     return (double)
-            (mcts.getMctsPlacement().getTotalNumberOfSimulations()
-                + mcts.getMctsMovement().getTotalNumberOfSimulations())
-        / (mcts.getMctsPlacement().getCallCount() + mcts.getMctsMovement().getCallCount());
+            (mctsPlacement.getTotalNumberOfSimulations()
+                + mctsMovement.getTotalNumberOfSimulations())
+        / (mctsPlacement.getCallCount() + mctsMovement.getCallCount());
   }
 
   public int getPlacementSimulationTime() {
-    return mcts.getMctsPlacement().getComputationalBudget();
+    return mctsPlacement.getComputationalBudget();
   }
 
   public int getMovementSimulationTime() {
-    return mcts.getMctsMovement().getComputationalBudget();
+    return mctsMovement.getComputationalBudget();
   }
 
   public double getPlacementC() {
-    return mcts.getMctsPlacement().getC();
+    return mctsPlacement.getC();
   }
 
   public double getMovementC() {
-    return mcts.getMctsMovement().getC();
+    return mctsMovement.getC();
   }
 }

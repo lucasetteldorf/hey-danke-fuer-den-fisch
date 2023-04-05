@@ -1,7 +1,8 @@
 package mcts;
 
 public class Uct {
-  public static double calculateUctValue(double c, double nodeScore, int nodeVisits, int parentVisits) {
+  public static double calculateUctValue(
+      double c, double nodeScore, int nodeVisits, int parentVisits) {
     if (nodeVisits == 0) {
       return Integer.MAX_VALUE;
     }
@@ -11,7 +12,6 @@ public class Uct {
   }
 
   public static Node findBestNode(Node node, double c) {
-    // TODO problem that first element if always chosen when multiple maximums exist?
     int parentVisits = node.getVisits();
     double max = Integer.MIN_VALUE;
     Node bestNode = null;
