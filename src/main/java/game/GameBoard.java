@@ -218,11 +218,48 @@ public class GameBoard {
   public List<int[]> getAllPenguinPositionsForOpponents(Player player) {
     List<int[]> playerPenguinPositions = new ArrayList<>();
     for (int i = 0; i < penguinPositionIndices.length; i++) {
-      if (!player.ownsPenguinAtIndex(i)) {
+      if (!player.ownsPenguinAtIndex(i) && penguinPositionIndices[i] != -1) {
         playerPenguinPositions.add(getPositionFromTileIndex(penguinPositionIndices[i]));
       }
     }
     return playerPenguinPositions;
+  }
+
+  public int getReachableFishCountForPenguin(int[] penguinPosition) {
+    int fishCount = 0;
+    List<Move> possibleMoves = getAllLegalMovesForPenguin(penguinPosition);
+    for (Move move : possibleMoves) {
+      fishCount += getFishCountByPosition(move.getNewPosition());
+    }
+    return fishCount;
+  }
+
+  public double getReachableFishCountPerTileForPenguin(int[] penguinPosition) {
+    return (double) getReachableFishCountForPenguin(penguinPosition)
+        / getAllLegalMovesForPenguin(penguinPosition).size();
+  }
+
+  public int getReachableFishCountForPlayer(Player player) {
+    int fishCount = 0;
+    List<Move> possibleMoves = getAllLegalMovesForPlayer(player);
+    for (Move move : possibleMoves) {
+      fishCount += getFishCountByPosition(move.getNewPosition());
+    }
+    return fishCount;
+  }
+
+  public double getReachableFishCountPerTileForPlayer(Player player) {
+    return (double) getReachableFishCountForPlayer(player)
+        / getAllLegalMovesForPlayer(player).size();
+  }
+
+  public double getReachableFishCountPerNeighborTile(int[] position) {
+    List<int[]> neighborPositions = GameBoard.getNeighborPositions(position);
+    int fishCount = 0;
+    for (int[] neighborPosition : neighborPositions) {
+      fishCount += getFishCountByPosition(neighborPosition);
+    }
+    return (double) fishCount / neighborPositions.size();
   }
 
   public int getFishCountByPosition(int row, int col) {

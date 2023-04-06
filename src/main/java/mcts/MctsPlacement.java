@@ -8,9 +8,9 @@ public class MctsPlacement {
   private final int computationalBudget;
   private final double c;
   protected int totalNumberOfSimulations;
+  protected int numberOfSimulations;
   private Player currentPlayer;
   private int callCount;
-  protected int numberOfSimulations;
 
   public MctsPlacement() {
     this.computationalBudget = 100;
@@ -50,13 +50,13 @@ public class MctsPlacement {
       backpropagate(expandedNode, playoutResult);
     }
     callCount++;
-    System.out.println(
-        callCount
-            + ": "
-            + numberOfSimulations
-            + " placement simulations ("
-            + currentPlayer.getName()
-            + ")");
+    //    System.out.println(
+    //        callCount
+    //            + ": "
+    //            + numberOfSimulations
+    //            + " placement simulations ("
+    //            + currentPlayer.getName()
+    //            + ")");
     NodePlacement bestNode = (NodePlacement) root.getChildWithMaxVisits();
     return bestNode.getPreviousPlacementPosition();
   }

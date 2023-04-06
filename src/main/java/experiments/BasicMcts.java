@@ -24,11 +24,11 @@ public class BasicMcts {
     //    ExperimentSetup.playGames(2000, 2, true, "mcts-time-budget", "mcts-time-budget", 0, -1);
     //    System.out.println("0 time budget done");
 
-    for (int timeBudget : TIME_BUDGETS) {
-      ExperimentSetup.playGames(
-          2000, 2, true, "mcts-time-budget", "mcts-time-budget-greedy", timeBudget, -1);
-      System.out.println(timeBudget + " time budget done");
-    }
+    //    for (int timeBudget : TIME_BUDGETS) {
+    //      ExperimentSetup.playGames(
+    //          2000, 2, true, "mcts-time-budget", "mcts-time-budget-greedy", timeBudget, -1);
+    //      System.out.println(timeBudget + " time budget done");
+    //    }
 
     // test different values for C parameter
     //    double c = Math.sqrt(2);

@@ -51,7 +51,7 @@ public class MctsMovement {
       backpropagate(expandedNode, playoutResult);
     }
     callCount++;
-    System.out.println(callCount + ": " + numberOfSimulations + " movement simulations (" + currentPlayer.getName() + ")");
+//    System.out.println(callCount + ": " + numberOfSimulations + " movement simulations (" + currentPlayer.getName() + ")");
     NodeMovement bestNode = (NodeMovement) root.getChildWithMaxVisits();
     return bestNode.getPreviousMove();
   }

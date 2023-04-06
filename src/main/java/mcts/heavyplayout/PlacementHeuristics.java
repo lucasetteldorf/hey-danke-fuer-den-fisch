@@ -1,29 +1,30 @@
 package mcts.heavyplayout;
 
 import game.GameBoard;
-import game.Move;
+import game.players.Player;
 import java.util.List;
 import utility.RandomUtility;
 
-// TODO copy board with new position before calculating the rest?
+// TODO tiles that can be reached by multiple penguins can be counted multiple times !!!
+// TODO (also) try sum of fish counts instead of average per tile
 public class PlacementHeuristics {
   // TODO working as intended?
   public static void playMaxFish(GameBoard board) {
+    Player currentPlayer = board.getCurrentPlayer();
     List<int[]> possiblePlacements = board.getAllLegalPlacementPositions();
-    double maxFishPerTile = Double.MIN_VALUE;
+    double maxFishCountPerTile = Double.MIN_VALUE;
     int[] bestPosition =
         possiblePlacements.get(RandomUtility.getRandomIndex(possiblePlacements.size()));
     for (int[] position : possiblePlacements) {
       GameBoard newBoard = new GameBoard(board);
       newBoard.placePenguin(position[0], position[1]);
-      List<Move> possibleMoves = newBoard.getAllLegalMovesForPenguin(position);
-      int fishCount = 0;
-      for (Move move : possibleMoves) {
-        fishCount += newBoard.getFishCountByPosition(move.getNewPosition());
+      double fishCountPerTile = 0;
+      // calculate the value for ALL penguins (tiles might be counted multiple times)
+      for (int[] penguinPosition : newBoard.getAllPenguinPositionsForPlayer(currentPlayer)) {
+        fishCountPerTile += newBoard.getReachableFishCountPerTileForPenguin(penguinPosition);
       }
-      double fishPerTile = (double) fishCount / possibleMoves.size();
-      if (fishPerTile > maxFishPerTile) {
-        maxFishPerTile = fishPerTile;
+      if (fishCountPerTile > maxFishCountPerTile) {
+        maxFishCountPerTile = fishCountPerTile;
         bestPosition = position;
       }
     }
@@ -33,20 +34,20 @@ public class PlacementHeuristics {
 
   // TODO working as intended?
   public static void playMaxDirectFish(GameBoard board) {
+    Player currentPlayer = board.getCurrentPlayer();
     List<int[]> possiblePlacements = board.getAllLegalPlacementPositions();
-    double maxFishPerNeighborTile = Double.MIN_VALUE;
-    int[] bestPosition = possiblePlacements.get(RandomUtility.getRandomIndex(possiblePlacements.size()));
+    double maxFishCountPerNeighborTile = Double.MIN_VALUE;
+    int[] bestPosition =
+        possiblePlacements.get(RandomUtility.getRandomIndex(possiblePlacements.size()));
     for (int[] position : possiblePlacements) {
       GameBoard newBoard = new GameBoard(board);
       newBoard.placePenguin(position[0], position[1]);
-      List<int[]> neighborPositions = GameBoard.getNeighborPositions(position);
-      int fishCount = 0;
-      for (int[] neighborPosition : neighborPositions) {
-        fishCount += newBoard.getFishCountByPosition(neighborPosition);
+      double fishCountPerNeighborTile = 0;
+      for (int[] penguinPosition : newBoard.getAllPenguinPositionsForPlayer(currentPlayer)) {
+        fishCountPerNeighborTile += newBoard.getReachableFishCountPerNeighborTile(penguinPosition);
       }
-      double fishPerTile = (double) fishCount / neighborPositions.size();
-      if (fishPerTile > maxFishPerNeighborTile) {
-        maxFishPerNeighborTile = fishPerTile;
+      if (fishCountPerNeighborTile > maxFishCountPerNeighborTile) {
+        maxFishCountPerNeighborTile = fishCountPerNeighborTile;
         bestPosition = position;
       }
     }
@@ -56,33 +57,40 @@ public class PlacementHeuristics {
 
   // TODO working as intended?
   public static void playMaxOwnPossibilities(GameBoard board) {
+    Player currentPlayer = board.getCurrentPlayer();
     List<int[]> possiblePlacements = board.getAllLegalPlacementPositions();
     int maxOwnPossibilities = Integer.MIN_VALUE;
-    int[] bestPosition = null;
+    int[] bestPosition =
+        possiblePlacements.get(RandomUtility.getRandomIndex(possiblePlacements.size()));
     for (int[] position : possiblePlacements) {
+      GameBoard newBoard = new GameBoard(board);
+      newBoard.placePenguin(position[0], position[1]);
       int ownPossibilities = 0;
-      List<Move> possibleMoves = board.getAllLegalMovesForPenguin(position);
-      for (int[] penguinPosition :
-          board.getAllPenguinPositionsForPlayer(board.getCurrentPlayer())) {
-        ownPossibilities += board.getAllLegalMovesForPenguin(penguinPosition).size();
+      for (int[] penguinPosition : newBoard.getAllPenguinPositionsForPlayer(currentPlayer)) {
+        ownPossibilities += newBoard.getAllLegalMovesForPenguin(penguinPosition).size();
       }
       if (ownPossibilities > maxOwnPossibilities) {
         maxOwnPossibilities = ownPossibilities;
         bestPosition = position;
       }
     }
+    // TODO always randomly chosen by accident?
     board.placePenguin(bestPosition[0], bestPosition[1]);
   }
 
   // TODO working as intended?
   public static void playMinOpponentPossibilities(GameBoard board) {
+    Player currentPlayer = board.getCurrentPlayer();
     List<int[]> possiblePlacements = board.getAllLegalPlacementPositions();
     int minOpponentPossibilities = Integer.MAX_VALUE;
-    int[] bestPosition = null;
+    int[] bestPosition =
+        possiblePlacements.get(RandomUtility.getRandomIndex(possiblePlacements.size()));
     for (int[] position : possiblePlacements) {
+      GameBoard newBoard = new GameBoard(board);
+      newBoard.placePenguin(position[0], position[1]);
       int opponentPossibilities = 0;
       for (int[] opponentPenguinPosition :
-          board.getAllPenguinPositionsForOpponents(board.getCurrentPlayer())) {
+          newBoard.getAllPenguinPositionsForOpponents(currentPlayer)) {
         opponentPossibilities += board.getAllLegalMovesForPenguin(opponentPenguinPosition).size();
       }
       if (opponentPossibilities < minOpponentPossibilities) {
@@ -90,6 +98,7 @@ public class PlacementHeuristics {
         bestPosition = position;
       }
     }
+    // TODO always randomly chosen by accident?
     board.placePenguin(bestPosition[0], bestPosition[1]);
   }
 }
