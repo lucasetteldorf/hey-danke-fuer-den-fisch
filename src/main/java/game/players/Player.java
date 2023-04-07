@@ -1,6 +1,6 @@
 package game.players;
 
-import game.GameBoard;
+import game.logic.GameBoard;
 import java.util.Arrays;
 import java.util.List;
 import utility.ConsoleColors;
@@ -36,6 +36,14 @@ public class Player {
     this.penguinIndices = Arrays.copyOf(player.penguinIndices, penguinCount);
     this.collectedFishCount = player.collectedFishCount;
     this.penguinsRemovedFromBoard = player.penguinsRemovedFromBoard;
+  }
+
+  public void reset() {
+    Arrays.fill(penguinIndices, -1);
+    this.placedPenguinCount = 0;
+    this.collectedFishCount = 0;
+    this.penguinsRemovedFromBoard = false;
+    this.moveCount = 0;
   }
 
   public PlayerType getType() {

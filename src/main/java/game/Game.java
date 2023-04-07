@@ -1,5 +1,7 @@
 package game;
 
+import game.logic.GameBoard;
+import game.logic.Move;
 import game.players.*;
 import utility.InputReader;
 

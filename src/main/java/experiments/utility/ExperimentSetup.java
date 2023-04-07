@@ -140,6 +140,42 @@ public class ExperimentSetup {
     outputWriter.writeStatistics(gameStatistics, players);
   }
 
+  public static void playGames(
+      Player[] players, boolean isMctsInGame, int numberOfGames, String path) {
+    GameStatistics gameStatistics = new GameStatistics(numberOfGames, players.length, isMctsInGame);
+    Game game;
+    for (int i = 1; i <= numberOfGames; i++) {
+      game = new Game(players, false, false);
+      game.start();
+      for (int j = 0; j < players.length; j++) {
+        gameStatistics.updatePlayerFishCount(j, players[j].getCollectedFishCount());
+        gameStatistics.updatePlayerMoveCount(j, players[j].getMoveCount());
+      }
+      gameStatistics.updatePlayerWinCount(game.getBoard().getWinnerIndex());
+      if (isMctsInGame) {
+        for (int j = 0; j < players.length; j++) {
+          Player player = players[j];
+          if (player.getType() == PlayerType.MCTS) {
+            MctsPlayer mctsPlayer = (MctsPlayer) player;
+            gameStatistics.updateAverageMctsPlacementSimulations(
+                j, mctsPlayer.getAveragePlacementSimulations());
+            gameStatistics.updateAverageMctsMovementSimulations(
+                j, mctsPlayer.getAverageMovementSimulations());
+            gameStatistics.updateAverageMctsTotalSimulations(
+                j, mctsPlayer.getAverageTotalSimulations());
+          }
+        }
+      }
+      for (Player player : players) {
+        player.reset();
+      }
+      System.out.println("Game " + i + " done");
+    }
+    OutputWriter outputWriter = new OutputWriter(path);
+    outputWriter.writeStatistics(gameStatistics, players);
+    System.out.println(numberOfGames + " games done (" + path + ")");
+  }
+
   public static void updateStatistics(Game game, GameStatistics gameStatistics) {
     Player[] players = game.getBoard().getPlayers();
     boolean isMctsInGame = gameStatistics.isMctsInGame();

@@ -1,4 +1,4 @@
-package game;
+package game.logic;
 
 import game.players.Player;
 import java.util.*;
@@ -225,6 +225,7 @@ public class GameBoard {
     return playerPenguinPositions;
   }
 
+  // TODO eliminate multiple reachable tiles? (use a set to check if already contained)
   public int getReachableFishCountForPenguin(int[] penguinPosition) {
     int fishCount = 0;
     List<Move> possibleMoves = getAllLegalMovesForPenguin(penguinPosition);
@@ -239,11 +240,23 @@ public class GameBoard {
         / getAllLegalMovesForPenguin(penguinPosition).size();
   }
 
+  // TODO eliminate multiple reachable tiles? (use a set to check if already contained)
   public int getReachableFishCountForPlayer(Player player) {
     int fishCount = 0;
     List<Move> possibleMoves = getAllLegalMovesForPlayer(player);
     for (Move move : possibleMoves) {
       fishCount += getFishCountByPosition(move.getNewPosition());
+    }
+    return fishCount;
+  }
+
+  // TODO eliminate multiple reachable tiles? (use a set to check if already contained)
+  public int getReachableNeighborFishCountForPlayer(Player player) {
+    int fishCount = 0;
+    for (int[] penguinPosition : getAllPenguinPositionsForPlayer(player)) {
+      for (int[] neighborPosition : GameBoard.getNeighborPositions(penguinPosition)) {
+        fishCount += getFishCountByPosition(neighborPosition);
+      }
     }
     return fishCount;
   }
@@ -503,7 +516,8 @@ public class GameBoard {
   public List<Move> getAllLegalMovesForPlayer(Player player) {
     List<Move> possibleMoves = new ArrayList<>();
     for (int index : player.getPenguinIndices()) {
-      if (penguinPositionIndices[index] != -1) {
+      // TODO correct condition?
+      if (index != -1 && penguinPositionIndices[index] != -1) {
         possibleMoves.addAll(getAllLegalMovesForPenguin(index));
       }
     }

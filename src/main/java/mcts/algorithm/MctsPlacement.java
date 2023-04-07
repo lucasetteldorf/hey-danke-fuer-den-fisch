@@ -1,12 +1,17 @@
-package mcts;
+package mcts.algorithm;
 
-import game.GameBoard;
+import game.logic.GameBoard;
 import game.players.Player;
+import mcts.heavyplayout.PlacementHeuristicType;
+import mcts.heavyplayout.PlacementHeuristics;
+import mcts.node.Node;
+import mcts.node.NodePlacement;
 
 public class MctsPlacement {
   private static final int WIN_SCORE = 1;
   private final int computationalBudget;
   private final double c;
+  private final PlacementHeuristicType type;
   protected int totalNumberOfSimulations;
   protected int numberOfSimulations;
   private Player currentPlayer;
@@ -15,11 +20,19 @@ public class MctsPlacement {
   public MctsPlacement() {
     this.computationalBudget = 100;
     this.c = 0.35;
+    this.type = PlacementHeuristicType.NONE;
   }
 
   public MctsPlacement(double c, int computationalBudget) {
     this.c = c;
     this.computationalBudget = computationalBudget;
+    this.type = PlacementHeuristicType.NONE;
+  }
+
+  public MctsPlacement(double c, int computationalBudget, PlacementHeuristicType type) {
+    this.c = c;
+    this.computationalBudget = computationalBudget;
+    this.type = type;
   }
 
   public int[] getNextPlacementPosition(GameBoard board) {
@@ -100,8 +113,17 @@ public class MctsPlacement {
   protected int simulatePlayout(NodePlacement node) {
     NodePlacement tmp = new NodePlacement(node);
 
-    while (!tmp.getBoard().isPlacementPhaseOver()) {
-      tmp.playRandomPlacement();
+    GameBoard board = tmp.getBoard();
+    while (!board.isPlacementPhaseOver()) {
+      switch (type) {
+        case NONE -> tmp.playRandomPlacement();
+        case MAX_FISH_PER_TILE -> PlacementHeuristics.playMaxFishPerTile(board);
+        case MAX_FISH_PER_NEIGHBOR_TILE -> PlacementHeuristics.playMaxFishPerNeighborTile(board);
+        case MAX_TOTAL_FISH -> PlacementHeuristics.playMaxTotalFish(board);
+        case MAX_TOTAL_NEIGHBOR_FISH -> PlacementHeuristics.playMayTotalNeighborFish(board);
+        case MAX_OWN_POSSIBILITIES -> PlacementHeuristics.playMaxOwnPossibilities(board);
+        case MIN_OPPONENT_POSSIBILITIES -> PlacementHeuristics.playMinOpponentPossibilities(board);
+      }
     }
 
     while (!tmp.getBoard().isMovementPhaseOver()) {
@@ -143,5 +165,9 @@ public class MctsPlacement {
 
   public double getC() {
     return c;
+  }
+
+  public PlacementHeuristicType getType() {
+    return type;
   }
 }

@@ -1,6 +1,6 @@
-package mcts;
+package mcts.node;
 
-import game.GameBoard;
+import game.logic.GameBoard;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

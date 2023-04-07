@@ -1,7 +1,7 @@
 package game.players;
 
-import game.GameBoard;
-import game.Move;
+import game.logic.GameBoard;
+import game.logic.Move;
 import java.util.ArrayList;
 import java.util.List;
 import utility.RandomUtility;

@@ -1,4 +1,6 @@
-package mcts;
+package mcts.algorithm;
+
+import mcts.node.Node;
 
 public class Uct {
   public static double calculateUctValue(

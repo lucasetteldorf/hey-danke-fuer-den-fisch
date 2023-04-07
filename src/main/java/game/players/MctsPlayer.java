@@ -1,9 +1,11 @@
 package game.players;
 
-import game.GameBoard;
-import game.Move;
-import mcts.MctsMovement;
-import mcts.MctsPlacement;
+import game.logic.GameBoard;
+import game.logic.Move;
+import mcts.algorithm.MctsMovement;
+import mcts.algorithm.MctsPlacement;
+import mcts.heavyplayout.MovementHeuristicType;
+import mcts.heavyplayout.PlacementHeuristicType;
 
 public class MctsPlayer extends Player {
   private final MctsPlacement mctsPlacement;
@@ -18,8 +20,8 @@ public class MctsPlayer extends Player {
   public MctsPlayer(
       String name, int penguinCount, String penguinColor, double c, int computationalBudget) {
     super(PlayerType.MCTS, name, penguinCount, penguinColor);
-    this.mctsPlacement = new MctsPlacement(c, computationalBudget);
-    this.mctsMovement = new MctsMovement(c, computationalBudget);
+    this.mctsPlacement = new MctsPlacement(c, computationalBudget, PlacementHeuristicType.NONE);
+    this.mctsMovement = new MctsMovement(c, computationalBudget, MovementHeuristicType.NONE);
   }
 
   public MctsPlayer(

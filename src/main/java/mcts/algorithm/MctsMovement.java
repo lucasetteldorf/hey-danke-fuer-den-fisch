@@ -1,26 +1,39 @@
-package mcts;
+package mcts.algorithm;
 
-import game.GameBoard;
-import game.Move;
+import game.logic.GameBoard;
+import game.logic.Move;
 import game.players.Player;
+import mcts.heavyplayout.MovementHeuristicType;
+import mcts.heavyplayout.MovementHeuristics;
+import mcts.node.Node;
+import mcts.node.NodeMovement;
 
 public class MctsMovement {
   private static final int WIN_SCORE = 1;
   private final int computationalBudget;
   private final double c;
+  protected int numberOfSimulations;
+  MovementHeuristicType type;
   private Player currentPlayer;
   private int callCount;
   private int totalNumberOfSimulations;
-  protected int numberOfSimulations;
 
   public MctsMovement() {
     this.computationalBudget = 100;
     this.c = 0.35;
+    this.type = MovementHeuristicType.NONE;
   }
 
   public MctsMovement(double c, int computationalBudget) {
     this.c = c;
     this.computationalBudget = computationalBudget;
+    this.type = MovementHeuristicType.NONE;
+  }
+
+  public MctsMovement(double c, int computationalBudget, MovementHeuristicType type) {
+    this.c = c;
+    this.computationalBudget = computationalBudget;
+    this.type = type;
   }
 
   public Move getNextMove(GameBoard board) {
@@ -92,8 +105,16 @@ public class MctsMovement {
   protected int simulatePlayout(NodeMovement node) {
     NodeMovement tmp = new NodeMovement(node);
 
-    while (!tmp.getBoard().isMovementPhaseOver()) {
-      tmp.playRandomMove();
+    GameBoard board = tmp.getBoard();
+    while (!board.isMovementPhaseOver()) {
+      switch (type) {
+        case NONE -> tmp.playRandomMove();
+        case MAX_TOTAL_FISH -> MovementHeuristics.playMaxTotalFish(board);
+        case MAX_FISH_PER_TILE -> MovementHeuristics.playMaxFishPerTile(board);
+        case ISOLATE_OPPONENT -> MovementHeuristics.playIsolateOpponent(board);
+        case SECURE_AREA -> MovementHeuristics.playSecureArea(board);
+      }
+      
     }
 
     numberOfSimulations++;

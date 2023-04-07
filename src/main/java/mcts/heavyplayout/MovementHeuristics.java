@@ -1,14 +1,14 @@
 package mcts.heavyplayout;
 
-import game.GameBoard;
-import game.Move;
+import game.logic.GameBoard;
+import game.logic.Move;
 import game.players.Player;
 import java.util.List;
 
 public class MovementHeuristics {
   // TODO working as intended?
   // TODO maybe also look at max fish with new position (for all penguins)
-  public static void playMaxFish(GameBoard board) {
+  public static void playMaxTotalFish(GameBoard board) {
     List<Move> possibleMoves = board.getAllLegalMovesForCurrentPlayer();
     int maxFishCount = Integer.MIN_VALUE;
     Move bestMove = null;
@@ -20,6 +20,10 @@ public class MovementHeuristics {
       }
     }
     board.movePenguin(bestMove);
+  }
+
+  public static void playMaxFishPerTile(GameBoard board) {
+
   }
 
   // TODO working as intended???

@@ -1,10 +1,9 @@
-package mcts;
+package mcts.node;
 
-import game.GameBoard;
-import game.Move;
+import game.logic.GameBoard;
+import game.logic.Move;
 import java.util.*;
 
-import mcts.heavyplayout.PlacementHeuristics;
 import utility.RandomUtility;
 
 public class Node {
