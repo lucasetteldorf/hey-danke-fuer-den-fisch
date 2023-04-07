@@ -1,8 +1,6 @@
 package experiments;
 
-import experiments.utility.ExperimentSetup;
-
-public class BasicMcts {
+public class MctsLightPlayout {
   private static final int[] NUMBER_OF_GAMES = new int[] {100, 250, 500, 1000};
   private static final double[] C_VALUES = new double[] {0.35, 0.5, Math.sqrt(2)};
   private static final int[] TIME_BUDGETS = new int[] {1000};

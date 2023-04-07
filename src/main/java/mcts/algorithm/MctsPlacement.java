@@ -3,7 +3,6 @@ package mcts.algorithm;
 import game.logic.GameBoard;
 import game.players.Player;
 import mcts.heavyplayout.PlacementHeuristicType;
-import mcts.heavyplayout.PlacementHeuristics;
 import mcts.node.Node;
 import mcts.node.NodePlacement;
 
@@ -12,8 +11,9 @@ public class MctsPlacement {
   private final int computationalBudget;
   private final double c;
   private final PlacementHeuristicType type;
-  protected int totalNumberOfSimulations;
-  protected int numberOfSimulations;
+  private int totalNumberOfSimulations;
+  private int numberOfSimulations;
+  private boolean printSimulations;
   private Player currentPlayer;
   private int callCount;
 
@@ -38,7 +38,9 @@ public class MctsPlacement {
   public int[] getNextPlacementPosition(GameBoard board) {
     this.currentPlayer = board.getCurrentPlayer();
 
-    numberOfSimulations = 0;
+    if (printSimulations) {
+      numberOfSimulations = 0;
+    }
 
     NodePlacement root = new NodePlacement();
     root.setBoard(board);
@@ -63,13 +65,15 @@ public class MctsPlacement {
       backpropagate(expandedNode, playoutResult);
     }
     callCount++;
-    //    System.out.println(
-    //        callCount
-    //            + ": "
-    //            + numberOfSimulations
-    //            + " placement simulations ("
-    //            + currentPlayer.getName()
-    //            + ")");
+    if (printSimulations) {
+      System.out.println(
+          callCount
+              + ": "
+              + numberOfSimulations
+              + " placement simulations ("
+              + currentPlayer.getName()
+              + ")");
+    }
     NodePlacement bestNode = (NodePlacement) root.getChildWithMaxVisits();
     return bestNode.getPreviousPlacementPosition();
   }
@@ -113,16 +117,15 @@ public class MctsPlacement {
   protected int simulatePlayout(NodePlacement node) {
     NodePlacement tmp = new NodePlacement(node);
 
-    GameBoard board = tmp.getBoard();
-    while (!board.isPlacementPhaseOver()) {
+    while (!tmp.getBoard().isPlacementPhaseOver()) {
       switch (type) {
         case NONE -> tmp.playRandomPlacement();
-        case MAX_FISH_PER_TILE -> PlacementHeuristics.playMaxFishPerTile(board);
-        case MAX_FISH_PER_NEIGHBOR_TILE -> PlacementHeuristics.playMaxFishPerNeighborTile(board);
-        case MAX_TOTAL_FISH -> PlacementHeuristics.playMaxTotalFish(board);
-        case MAX_TOTAL_NEIGHBOR_FISH -> PlacementHeuristics.playMayTotalNeighborFish(board);
-        case MAX_OWN_POSSIBILITIES -> PlacementHeuristics.playMaxOwnPossibilities(board);
-        case MIN_OPPONENT_POSSIBILITIES -> PlacementHeuristics.playMinOpponentPossibilities(board);
+        case MAX_FISH_PER_TILE -> tmp.playMaxFishPerTilePlacement();
+        case MAX_FISH_PER_NEIGHBOR_TILE -> tmp.playMaxFishPerNeighborTilePlacement();
+        case MAX_TOTAL_FISH -> tmp.playMaxTotalFishPlacement();
+        case MAX_TOTAL_NEIGHBOR_FISH -> tmp.playMayTotalNeighborFishPlacement();
+        case MAX_OWN_POSSIBILITIES -> tmp.playMaxOwnPossibilitiesPlacement();
+        case MIN_OPPONENT_POSSIBILITIES -> tmp.playMinOpponentPossibilitiesPlacement();
       }
     }
 
@@ -130,7 +133,9 @@ public class MctsPlacement {
       tmp.playRandomMove();
     }
 
-    numberOfSimulations++;
+    if (printSimulations) {
+      numberOfSimulations++;
+    }
     totalNumberOfSimulations++;
 
     return tmp.getBoard().getWinnerIndex();
@@ -165,6 +170,10 @@ public class MctsPlacement {
 
   public double getC() {
     return c;
+  }
+
+  public void enableSimulationPrint() {
+    printSimulations = true;
   }
 
   public PlacementHeuristicType getType() {

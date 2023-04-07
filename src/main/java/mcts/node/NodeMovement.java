@@ -65,4 +65,62 @@ public class NodeMovement extends Node {
     }
     untriedMoves.clear();
   }
+
+  // TODO working as intended?
+  // TODO maybe also look at max fish with new position (for all penguins)
+  public void playMaxTotalFishMove() {
+    List<Move> possibleMoves = board.getAllLegalMovesForCurrentPlayer();
+    int maxFishCount = Integer.MIN_VALUE;
+    Move bestMove = null;
+    for (Move move : possibleMoves) {
+      int fishCount = board.getFishCountByPosition(move.getNewPosition());
+      if (fishCount > maxFishCount) {
+        maxFishCount = fishCount;
+        bestMove = move;
+      }
+    }
+    board.movePenguin(bestMove);
+  }
+
+  public void playMaxFishPerTileMove() {}
+
+  // TODO working as intended???
+  public void playIsolateOpponentMove() {
+    List<Move> possibleMoves = board.getAllLegalMovesForCurrentPlayer();
+    // score = reachable fish counts / reachable tiles (or sum?!)
+    double minScore = Double.MAX_VALUE;
+    Move bestMove = null;
+    for (Move move : possibleMoves) {
+      GameBoard newBoard = new GameBoard(board);
+      newBoard.movePenguin(move);
+      double score = 0;
+      // TODO working as intended?
+      for (int[] opponentPenguinPosition :
+          newBoard.getAllPenguinPositionsForOpponents(board.getCurrentPlayer())) {
+        score += newBoard.getReachableFishCountPerTileForPenguin(opponentPenguinPosition);
+      }
+      if (score < minScore) {
+        minScore = score;
+        bestMove = move;
+      }
+    }
+    board.movePenguin(bestMove);
+  }
+
+  // TODO working as intended???
+  public void playSecureAreaMove() {
+    List<Move> possibleMoves = board.getAllLegalMovesForCurrentPlayer();
+    double maxScore = Double.MIN_VALUE;
+    Move bestMove = null;
+    for (Move move : possibleMoves) {
+      GameBoard newBoard = new GameBoard(board);
+      // TODO working as intended?
+      double score = newBoard.getReachableFishCountPerTileForPlayer(board.getCurrentPlayer());
+      if (score > maxScore) {
+        maxScore = score;
+        bestMove = move;
+      }
+    }
+    board.movePenguin(bestMove);
+  }
 }

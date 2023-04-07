@@ -4,7 +4,6 @@ import game.logic.GameBoard;
 import game.logic.Move;
 import game.players.Player;
 import mcts.heavyplayout.MovementHeuristicType;
-import mcts.heavyplayout.MovementHeuristics;
 import mcts.node.Node;
 import mcts.node.NodeMovement;
 
@@ -12,8 +11,9 @@ public class MctsMovement {
   private static final int WIN_SCORE = 1;
   private final int computationalBudget;
   private final double c;
-  protected int numberOfSimulations;
   MovementHeuristicType type;
+  private int numberOfSimulations;
+  private boolean printSimulations;
   private Player currentPlayer;
   private int callCount;
   private int totalNumberOfSimulations;
@@ -39,7 +39,9 @@ public class MctsMovement {
   public Move getNextMove(GameBoard board) {
     this.currentPlayer = board.getCurrentPlayer();
 
-    numberOfSimulations = 0;
+    if (printSimulations) {
+      numberOfSimulations = 0;
+    }
 
     NodeMovement root = new NodeMovement();
     root.setBoard(board);
@@ -64,7 +66,15 @@ public class MctsMovement {
       backpropagate(expandedNode, playoutResult);
     }
     callCount++;
-//    System.out.println(callCount + ": " + numberOfSimulations + " movement simulations (" + currentPlayer.getName() + ")");
+    if (printSimulations) {
+      System.out.println(
+          callCount
+              + ": "
+              + numberOfSimulations
+              + " movement simulations ("
+              + currentPlayer.getName()
+              + ")");
+    }
     NodeMovement bestNode = (NodeMovement) root.getChildWithMaxVisits();
     return bestNode.getPreviousMove();
   }
@@ -105,19 +115,19 @@ public class MctsMovement {
   protected int simulatePlayout(NodeMovement node) {
     NodeMovement tmp = new NodeMovement(node);
 
-    GameBoard board = tmp.getBoard();
-    while (!board.isMovementPhaseOver()) {
+    while (!tmp.getBoard().isMovementPhaseOver()) {
       switch (type) {
         case NONE -> tmp.playRandomMove();
-        case MAX_TOTAL_FISH -> MovementHeuristics.playMaxTotalFish(board);
-        case MAX_FISH_PER_TILE -> MovementHeuristics.playMaxFishPerTile(board);
-        case ISOLATE_OPPONENT -> MovementHeuristics.playIsolateOpponent(board);
-        case SECURE_AREA -> MovementHeuristics.playSecureArea(board);
+        case MAX_TOTAL_FISH -> tmp.playMaxTotalFishMove();
+        case MAX_FISH_PER_TILE -> tmp.playMaxFishPerTileMove();
+        case ISOLATE_OPPONENT -> tmp.playIsolateOpponentMove();
+        case SECURE_AREA -> tmp.playSecureAreaMove();
       }
-      
     }
 
-    numberOfSimulations++;
+    if (printSimulations) {
+      numberOfSimulations++;
+    }
     totalNumberOfSimulations++;
 
     return tmp.getBoard().getWinnerIndex();
@@ -152,5 +162,13 @@ public class MctsMovement {
 
   public double getC() {
     return c;
+  }
+
+  public void enableSimulationPrint() {
+    printSimulations = true;
+  }
+
+  public MovementHeuristicType getType() {
+    return type;
   }
 }

@@ -6,13 +6,12 @@ public class GameStatistics {
   private final int[] playerFishCounts;
   private final int[] playerMoveCounts;
   private final int[] playerWinCounts;
-  private final boolean isMctsInGame;
-  private int ties;
   private final double[] averageMctsPlacementSimulations;
   private final double[] averageMctsMovementSimulations;
   private final double[] averageMctsTotalSimulations;
+  private int ties;
 
-  public GameStatistics(int numberOfGames, int playerCount, boolean isMctsInGame) {
+  public GameStatistics(int numberOfGames, int playerCount) {
     this.numberOfGames = numberOfGames;
     this.playerFishCounts = new int[playerCount];
     this.playerMoveCounts = new int[playerCount];
@@ -20,7 +19,6 @@ public class GameStatistics {
     this.averageMctsPlacementSimulations = new double[playerCount];
     this.averageMctsMovementSimulations = new double[playerCount];
     this.averageMctsTotalSimulations = new double[playerCount];
-    this.isMctsInGame = isMctsInGame;
   }
 
   public int getNumberOfGames() {
@@ -56,11 +54,7 @@ public class GameStatistics {
   public void updateAverageMctsTotalSimulations(int playerIndex, double averageTotalSimulations) {
     averageMctsTotalSimulations[playerIndex] += averageTotalSimulations;
   }
-
-  public boolean isMctsInGame() {
-    return isMctsInGame;
-  }
-
+  
   public double getAverageFishCount(int playerIndex) {
     return (double) playerFishCounts[playerIndex] / numberOfGames;
   }

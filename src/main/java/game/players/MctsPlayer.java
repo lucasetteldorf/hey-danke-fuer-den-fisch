@@ -35,6 +35,14 @@ public class MctsPlayer extends Player {
     this.mctsMovement = mctsMovement;
   }
 
+  public MctsPlacement getMctsPlacement() {
+    return mctsPlacement;
+  }
+
+  public MctsMovement getMctsMovement() {
+    return mctsMovement;
+  }
+
   public int[] getBestPlacementPosition(GameBoard board) {
     return mctsPlacement.getNextPlacementPosition(board);
   }
