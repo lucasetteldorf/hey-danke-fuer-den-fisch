@@ -119,7 +119,8 @@ public class MctsMovement {
       switch (type) {
         case NONE -> tmp.playRandomMove();
         case MAX_TOTAL_FISH -> tmp.playMaxTotalFishMove();
-        case MAX_FISH_PER_TILE -> tmp.playMaxFishPerTileMove();
+        case MAX_NEW_FISH_PER_TILE -> tmp.playMaxNewFishPerTileMove();
+        case MAX_NEW_TOTAL_FISH -> tmp.playMaxNewTotalFishMove();
         case ISOLATE_OPPONENT -> tmp.playIsolateOpponentMove();
         case SECURE_AREA -> tmp.playSecureAreaMove();
       }

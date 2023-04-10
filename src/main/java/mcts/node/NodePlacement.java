@@ -72,9 +72,7 @@ public class NodePlacement extends Node {
     untriedPlacementPositions.clear();
   }
 
-  // TODO tiles that can be reached by multiple penguins can be counted multiple times !!!
-
-  // TODO working as intended?
+  // TODO DOES NOT PROPERLY WORK AS PLAYER 2!
   public void playMaxFishPerTilePlacement() {
     List<int[]> possiblePlacements = board.getAllLegalPlacementPositions();
     double maxFishCountPerTile = Double.MIN_VALUE;

@@ -236,6 +236,10 @@ public class GameBoard {
   }
 
   public double getReachableFishCountPerTileForPenguin(int[] penguinPosition) {
+    if (getAllLegalMovesForPenguin(penguinPosition).size() == 0) {
+      return 1.0;
+    }
+
     return (double) getReachableFishCountForPenguin(penguinPosition)
         / getAllLegalMovesForPenguin(penguinPosition).size();
   }
@@ -262,6 +266,9 @@ public class GameBoard {
   }
 
   public double getReachableFishCountPerTileForPlayer(Player player) {
+    if (getAllLegalMovesForPlayer(player).size() == 0) {
+      return 1.0;
+    }
     return (double) getReachableFishCountForPlayer(player)
         / getAllLegalMovesForPlayer(player).size();
   }

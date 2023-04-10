@@ -82,7 +82,40 @@ public class NodeMovement extends Node {
     board.movePenguin(bestMove);
   }
 
-  public void playMaxFishPerTileMove() {}
+  // max. rel. fish count in new state after move
+  public void playMaxNewFishPerTileMove() {
+    List<Move> possibleMoves = board.getAllLegalMovesForCurrentPlayer();
+    Move bestMove = null;
+    double maxFishPerTile = Double.MIN_VALUE;
+    for (Move move : possibleMoves) {
+      GameBoard newBoard = new GameBoard(board);
+      newBoard.movePenguin(move);
+      double fishPerTile = newBoard.getReachableFishCountPerTileForPlayer(board.getCurrentPlayer());
+      if (fishPerTile > maxFishPerTile) {
+        maxFishPerTile = fishPerTile;
+        bestMove = move;
+      }
+    }
+    // TODO move seems to be null
+    board.movePenguin(bestMove);
+  }
+
+  // max. total/abs. fish count in new state after move
+  public void playMaxNewTotalFishMove() {
+    List<Move> possibleMoves = board.getAllLegalMovesForCurrentPlayer();
+    Move bestMove = null;
+    int maxFishCount = Integer.MIN_VALUE;
+    for (Move move : possibleMoves) {
+      GameBoard newBoard = new GameBoard(board);
+      newBoard.movePenguin(move);
+      int fishCount = newBoard.getReachableFishCountForPlayer(board.getCurrentPlayer());
+      if (fishCount > maxFishCount) {
+        maxFishCount = fishCount;
+        bestMove = move;
+      }
+    }
+    board.movePenguin(bestMove);
+  }
 
   // TODO working as intended???
   public void playIsolateOpponentMove() {
@@ -114,6 +147,7 @@ public class NodeMovement extends Node {
     Move bestMove = null;
     for (Move move : possibleMoves) {
       GameBoard newBoard = new GameBoard(board);
+      newBoard.movePenguin(move);
       // TODO working as intended?
       double score = newBoard.getReachableFishCountPerTileForPlayer(board.getCurrentPlayer());
       if (score > maxScore) {

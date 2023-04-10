@@ -18,7 +18,7 @@ public class MctsLpTest {
     MctsPlayer p1 = new MctsPlayer("MCTS AI", 4, "B");
     RandomPlayer p2 = new RandomPlayer("Random AI", 4, "R");
     Player[] players = new Player[] {p1, p2};
-    Game game = new Game(fishCounts, players, false, true);
+    Game game = new Game(fishCounts, players, true, true);
     game.start();
   }
 
@@ -27,7 +27,7 @@ public class MctsLpTest {
     RandomPlayer p1 = new RandomPlayer("Random AI", 4, "B");
     MctsPlayer p2 = new MctsPlayer("MCTS AI", 4, "R");
     Player[] players = new Player[] {p1, p2};
-    Game game = new Game(fishCounts, players, false, true);
+    Game game = new Game(fishCounts, players, true, true);
     game.start();
   }
 

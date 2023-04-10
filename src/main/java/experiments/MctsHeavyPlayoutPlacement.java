@@ -1,6 +1,7 @@
 package experiments;
 
 import experiments.utility.ExperimentSetup;
+import game.players.GreedyPlayer;
 import game.players.MctsPlayer;
 import game.players.Player;
 import mcts.algorithm.MctsMovement;
@@ -17,7 +18,8 @@ public class MctsHeavyPlayoutPlacement {
 
     file = "baseline-" + numberOfGames + "games-" + simulationTime + "ms.txt";
     p1 = new MctsPlayer("MCTS LP 1", 4, "B", c, simulationTime);
-    p2 = new MctsPlayer("MCTS LP 2", 4, "R", c, simulationTime);
+    //    p2 = new MctsPlayer("MCTS LP 2", 4, "R", c, simulationTime);
+    p2 = new GreedyPlayer("Greedy", 4, "R");
     ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
 
     file = "max-fish-per-tile-" + numberOfGames + "games-" + simulationTime + "ms.txt";
@@ -28,11 +30,13 @@ public class MctsHeavyPlayoutPlacement {
             "B",
             new MctsPlacement(c, simulationTime, PlacementHeuristicType.MAX_FISH_PER_TILE),
             new MctsMovement(c, simulationTime));
-    p2 = new MctsPlayer("MCTS LP Baseline", 4, "R", c, simulationTime);
+    //    p2 = new MctsPlayer("MCTS LP Baseline", 4, "R", c, simulationTime);
+    p2 = new GreedyPlayer("Greedy", 4, "R");
     ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
 
     file = "max-fish-per-tile-reverse-" + numberOfGames + "games-" + simulationTime + "ms.txt";
-    p1 = new MctsPlayer("MCTS LP Baseline", 4, "B", c, simulationTime);
+    //    p1 = new MctsPlayer("MCTS LP Baseline", 4, "B", c, simulationTime);
+    p1 = new GreedyPlayer("Greedy", 4, "R");
     p2 =
         new MctsPlayer(
             "MCTS Max Fish Per Tile HP",
@@ -50,7 +54,8 @@ public class MctsHeavyPlayoutPlacement {
             "B",
             new MctsPlacement(c, simulationTime, PlacementHeuristicType.MAX_FISH_PER_NEIGHBOR_TILE),
             new MctsMovement(c, simulationTime));
-    p2 = new MctsPlayer("MCTS LP Baseline", 4, "R", c, simulationTime);
+    //    p2 = new MctsPlayer("MCTS LP Baseline", 4, "R", c, simulationTime);
+    p2 = new GreedyPlayer("Greedy", 4, "R");
     ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
 
     file =
@@ -59,7 +64,8 @@ public class MctsHeavyPlayoutPlacement {
             + "games-"
             + simulationTime
             + "ms.txt";
-    p1 = new MctsPlayer("MCTS LP Baseline", 4, "B", c, simulationTime);
+    //    p1 = new MctsPlayer("MCTS LP Baseline", 4, "B", c, simulationTime);
+    p1 = new GreedyPlayer("Greedy", 4, "R");
     p2 =
         new MctsPlayer(
             "MCTS Max Fish Per Neighbor Tile HP",
@@ -77,11 +83,13 @@ public class MctsHeavyPlayoutPlacement {
             "B",
             new MctsPlacement(c, simulationTime, PlacementHeuristicType.MAX_TOTAL_FISH),
             new MctsMovement(c, simulationTime));
-    p2 = new MctsPlayer("MCTS LP Baseline", 4, "R", c, simulationTime);
+    //    p2 = new MctsPlayer("MCTS LP Baseline", 4, "R", c, simulationTime);
+    p2 = new GreedyPlayer("Greedy", 4, "R");
     ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
 
     file = "max-total-fish-reverse-" + numberOfGames + "games-" + simulationTime + "ms.txt";
-    p1 = new MctsPlayer("MCTS LP Baseline", 4, "B", c, simulationTime);
+    //    p1 = new MctsPlayer("MCTS LP Baseline", 4, "B", c, simulationTime);
+    p1 = new GreedyPlayer("Greedy", 4, "R");
     p2 =
         new MctsPlayer(
             "MCTS Max Total Fish HP",
@@ -99,12 +107,14 @@ public class MctsHeavyPlayoutPlacement {
             "B",
             new MctsPlacement(c, simulationTime, PlacementHeuristicType.MAX_TOTAL_NEIGHBOR_FISH),
             new MctsMovement(c, simulationTime));
-    p2 = new MctsPlayer("MCTS LP Baseline", 4, "R", c, simulationTime);
+    //    p2 = new MctsPlayer("MCTS LP Baseline", 4, "R", c, simulationTime);
+    p2 = new GreedyPlayer("Greedy", 4, "R");
     ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
 
     file =
         "max-total-neighbor-fish-reverse-" + numberOfGames + "games-" + simulationTime + "ms.txt";
-    p1 = new MctsPlayer("MCTS LP Baseline", 4, "B", c, simulationTime);
+    //    p1 = new MctsPlayer("MCTS LP Baseline", 4, "B", c, simulationTime);
+    p1 = new GreedyPlayer("Greedy", 4, "R");
     p2 =
         new MctsPlayer(
             "MCTS Max Total Neighbor Fish HP",
@@ -122,11 +132,13 @@ public class MctsHeavyPlayoutPlacement {
             "B",
             new MctsPlacement(c, simulationTime, PlacementHeuristicType.MAX_OWN_POSSIBILITIES),
             new MctsMovement(c, simulationTime));
-    p2 = new MctsPlayer("MCTS LP Baseline", 4, "R", c, simulationTime);
+    //    p2 = new MctsPlayer("MCTS LP Baseline", 4, "R", c, simulationTime);
+    p2 = new GreedyPlayer("Greedy", 4, "R");
     ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
 
     file = "max-own-possibilities-reverse-" + numberOfGames + "games-" + simulationTime + "ms.txt";
-    p1 = new MctsPlayer("MCTS LP Baseline", 4, "B", c, simulationTime);
+    //    p1 = new MctsPlayer("MCTS LP Baseline", 4, "B", c, simulationTime);
+    p1 = new GreedyPlayer("Greedy", 4, "R");
     p2 =
         new MctsPlayer(
             "MCTS Max Own Possibilities HP",
@@ -144,7 +156,8 @@ public class MctsHeavyPlayoutPlacement {
             "B",
             new MctsPlacement(c, simulationTime, PlacementHeuristicType.MIN_OPPONENT_POSSIBILITIES),
             new MctsMovement(c, simulationTime));
-    p2 = new MctsPlayer("MCTS LP Baseline", 4, "R", c, simulationTime);
+    //    p2 = new MctsPlayer("MCTS LP Baseline", 4, "R", c, simulationTime);
+    p2 = new GreedyPlayer("Greedy", 4, "R");
     ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
 
     file =
@@ -153,7 +166,8 @@ public class MctsHeavyPlayoutPlacement {
             + "games-"
             + simulationTime
             + "ms.txt";
-    p1 = new MctsPlayer("MCTS LP Baseline", 4, "B", c, simulationTime);
+    //    p1 = new MctsPlayer("MCTS LP Baseline", 4, "B", c, simulationTime);
+    p1 = new GreedyPlayer("Greedy", 4, "R");
     p2 =
         new MctsPlayer(
             "MCTS Min Opponent Possibilities HP",

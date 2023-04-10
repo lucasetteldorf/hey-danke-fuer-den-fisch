@@ -119,13 +119,13 @@ public class MctsPlacement {
 
     while (!tmp.getBoard().isPlacementPhaseOver()) {
       switch (type) {
-        case NONE -> tmp.playRandomPlacement();
         case MAX_FISH_PER_TILE -> tmp.playMaxFishPerTilePlacement();
         case MAX_FISH_PER_NEIGHBOR_TILE -> tmp.playMaxFishPerNeighborTilePlacement();
         case MAX_TOTAL_FISH -> tmp.playMaxTotalFishPlacement();
         case MAX_TOTAL_NEIGHBOR_FISH -> tmp.playMayTotalNeighborFishPlacement();
         case MAX_OWN_POSSIBILITIES -> tmp.playMaxOwnPossibilitiesPlacement();
         case MIN_OPPONENT_POSSIBILITIES -> tmp.playMinOpponentPossibilitiesPlacement();
+        default -> tmp.playRandomPlacement();
       }
     }
 
