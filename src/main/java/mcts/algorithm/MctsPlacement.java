@@ -119,7 +119,16 @@ public class MctsPlacement {
 
     while (!tmp.getBoard().isPlacementPhaseOver()) {
       switch (type) {
-
+        case MAX_FISH_FOR_PENGUIN -> tmp.playMaxFishForPenguin();
+        case MAX_TILES_FOR_PENGUIN -> tmp.playMaxTilesForPenguin();
+        case MAX_FISH_PER_TILE_FOR_PENGUIN -> tmp.playMaxFishPerTileForPenguin();
+        case MAX_FISH_FOR_ALL_PENGUINS -> tmp.playMaxFishForAllPenguins();
+        case MAX_TILES_FOR_ALL_PENGUINS -> tmp.playMaxTilesForAllPenguins();
+        case MAX_FISH_PER_TILE_FOR_ALL_PENGUINS -> tmp.playMaxFishPerTileForAllPenguins();
+        case MIN_FISH_FOR_OPPONENT_PENGUINS -> tmp.playMinFishForOpponentPenguins();
+        case MIN_TILES_FOR_OPPONENT_PENGUINS -> tmp.playMinTilesForOpponentPenguins();
+        case MIN_FISH_PER_TILE_FOR_OPPONENT_PENGUINS -> tmp
+            .playFMinFishPerTileForOpponentPenguins();
         default -> tmp.playRandomPlacement();
       }
     }

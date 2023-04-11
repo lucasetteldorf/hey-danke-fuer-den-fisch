@@ -117,6 +117,17 @@ public class MctsMovement {
 
     while (!tmp.getBoard().isMovementPhaseOver()) {
       switch (type) {
+        case MAX_FISH_ON_NEW_TILE -> tmp.playMaxFishOnNewTile();
+        case MAX_NEW_FISH_FOR_PENGUIN -> tmp.playMaxNewFishForPenguin();
+        case MAX_NEW_TILES_FOR_PENGUIN -> tmp.playMaxNewTilesForPenguin();
+        case MAX_NEW_FISH_PER_TILE_FOR_PENGUIN -> tmp.playMaxNewFishPerTileForPenguin();
+        case MAX_NEW_FISH_FOR_ALL_PENGUINS -> tmp.playMaxNewFishForAllPenguins();
+        case MAX_NEW_TILES_FOR_ALL_PENGUINS -> tmp.playMaxNewTilesForAllPenguins();
+        case MAX_NEW_FISH_PER_TILE_FOR_ALL_PENGUINS -> tmp.playMaxNewFishPerTileForAllPenguins();
+        case MIN_NEW_FISH_FOR_OPPONENT_PENGUINS -> tmp.playMinNewFishForOpponentPenguins();
+        case MIN_NEW_TILES_FOR_ALL_PENGUINS -> tmp.playMinNewTilesForOpponentPenguins();
+        case MIM_NEW_FISH_PER_TILE_FOR_OPPONENT_PENGUINS -> tmp
+            .playMinNewFishPerTileForOpponentPenguins();
         case NONE -> tmp.playRandomMove();
       }
     }

@@ -2,8 +2,11 @@ package experiments;
 
 public class Experiments {
   public static void main(String[] args) {
-    // TODO placement opponents are set to greedy AI
-    //        MctsHeavyPlayoutPlacement.startExperiments(20, 20);
+    int numberOfGames = 20;
+    double c = 1 / Math.sqrt(2);
+    int simulationTime = 10;
+
+    MctsHeavyPlayoutPlacement.startExperiments(numberOfGames, c, simulationTime);
     //        MctsHeavyPlayoutMovement.startExperiments(1000, 10);
   }
 }

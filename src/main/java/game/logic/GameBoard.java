@@ -267,6 +267,10 @@ public class GameBoard {
 
   // TODO eliminate duplicates if multiple penguins can reach the same tile???
   public double getReachableFishPerTileForAllPenguins(List<int[]> penguinPositions) {
+    if (penguinPositions.size() == 0) {
+      return 1.0;
+    }
+
     double reachableFishPerTile = 0;
     for (int[] penguinPosition : penguinPositions) {
       reachableFishPerTile += getReachableFishPerTileForPenguin(penguinPosition);
