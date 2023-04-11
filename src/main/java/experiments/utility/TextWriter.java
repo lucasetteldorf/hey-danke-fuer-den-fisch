@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 public class TextWriter {
   public static void writeStatistics(GameStatistics gameStatistics, Player[] players, String path)
       throws IOException {
+    path += ".txt";
     PrintWriter printWriter = new PrintWriter(new FileWriter(path));
 
     printWriter.println(

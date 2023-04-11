@@ -8,6 +8,7 @@ import java.io.IOException;
 
 public class CsvWriter {
   public static void createCsv(String path) {
+    path += ".csv";
     try (CSVWriter writer = new CSVWriter(new FileWriter(path))) {
       String[] header =
           new String[] {"AI 1 Name", "AI 1 Fish Count", "AI 2 Name", "AI 2 Fish Count", "Winner"};
@@ -18,6 +19,7 @@ public class CsvWriter {
   }
 
   public static void appendLineToCsv(String path, Game game) {
+    path += ".csv";
     try (CSVWriter writer = new CSVWriter(new FileWriter(path, true))) {
       String[] data = new String[game.getBoard().getPlayers().length * 2 + 1];
       int index = 0;
