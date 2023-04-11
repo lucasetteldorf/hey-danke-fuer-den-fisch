@@ -7,18 +7,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class OutputWriter {
-  private PrintWriter printWriter;
+public class TextWriter {
+  public static void writeStatistics(GameStatistics gameStatistics, Player[] players, String path)
+      throws IOException {
+    PrintWriter printWriter = new PrintWriter(new FileWriter(path));
 
-  public OutputWriter(String filePath) {
-    try {
-      this.printWriter = new PrintWriter(new FileWriter(filePath));
-    } catch (IOException e) {
-      System.err.println("Invalid file path.");
-    }
-  }
-
-  public void writeStatistics(GameStatistics gameStatistics, Player[] players) {
     printWriter.println(
         players[0].getName()
             + " vs. "

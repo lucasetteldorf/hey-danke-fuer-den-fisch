@@ -208,7 +208,8 @@ public class GameBoard {
   public List<int[]> getAllPenguinPositionsForPlayer(Player player) {
     List<int[]> playerPenguinPositions = new ArrayList<>();
     for (int i = 0; i < penguinPositionIndices.length; i++) {
-      if (player.ownsPenguinAtIndex(i)) {
+      // TODO does the first condition break anything??!
+      if (penguinPositionIndices[i] != -1 && player.ownsPenguinAtIndex(i)) {
         playerPenguinPositions.add(getPositionFromTileIndex(penguinPositionIndices[i]));
       }
     }
@@ -218,68 +219,61 @@ public class GameBoard {
   public List<int[]> getAllPenguinPositionsForOpponents(Player player) {
     List<int[]> playerPenguinPositions = new ArrayList<>();
     for (int i = 0; i < penguinPositionIndices.length; i++) {
-      if (!player.ownsPenguinAtIndex(i) && penguinPositionIndices[i] != -1) {
+      // TODO does the first condition break anything??!
+      if (penguinPositionIndices[i] != -1 && !player.ownsPenguinAtIndex(i)) {
         playerPenguinPositions.add(getPositionFromTileIndex(penguinPositionIndices[i]));
       }
     }
     return playerPenguinPositions;
   }
 
-  // TODO eliminate multiple reachable tiles? (use a set to check if already contained)
-  public int getReachableFishCountForPenguin(int[] penguinPosition) {
-    int fishCount = 0;
-    List<Move> possibleMoves = getAllLegalMovesForPenguin(penguinPosition);
-    for (Move move : possibleMoves) {
-      fishCount += getFishCountByPosition(move.getNewPosition());
+  public int getReachableFishForPenguin(int[] penguinPosition) {
+    int reachableFish = 0;
+    for (Move move : getAllLegalMovesForPenguin(penguinPosition)) {
+      reachableFish += getFishCountByPosition(move.getNewPosition());
     }
-    return fishCount;
+    return reachableFish;
   }
 
-  public double getReachableFishCountPerTileForPenguin(int[] penguinPosition) {
-    if (getAllLegalMovesForPenguin(penguinPosition).size() == 0) {
+  public int getReachableTilesForPenguin(int[] penguinPosition) {
+    return getAllLegalMovesForPenguin(penguinPosition).size();
+  }
+
+  public double getReachableFishPerTileForPenguin(int[] penguinPosition) {
+    if (getReachableTilesForPenguin(penguinPosition) == 0) {
       return 1.0;
     }
-
-    return (double) getReachableFishCountForPenguin(penguinPosition)
-        / getAllLegalMovesForPenguin(penguinPosition).size();
+    return (double) getReachableFishForPenguin(penguinPosition)
+        / getReachableTilesForPenguin(penguinPosition);
   }
 
-  // TODO eliminate multiple reachable tiles? (use a set to check if already contained)
-  public int getReachableFishCountForPlayer(Player player) {
-    int fishCount = 0;
-    List<Move> possibleMoves = getAllLegalMovesForPlayer(player);
-    for (Move move : possibleMoves) {
-      fishCount += getFishCountByPosition(move.getNewPosition());
+  // TODO eliminate duplicates if multiple penguins can reach the same tile???
+  public int getReachableFishForAllPenguins(List<int[]> penguinPositions) {
+    int reachableFish = 0;
+    for (int[] penguinPosition : penguinPositions) {
+      reachableFish += getReachableFishForPenguin(penguinPosition);
     }
-    return fishCount;
+    return reachableFish;
   }
 
-  // TODO eliminate multiple reachable tiles? (use a set to check if already contained)
-  public int getReachableNeighborFishCountForPlayer(Player player) {
-    int fishCount = 0;
-    for (int[] penguinPosition : getAllPenguinPositionsForPlayer(player)) {
-      for (int[] neighborPosition : GameBoard.getNeighborPositions(penguinPosition)) {
-        fishCount += getFishCountByPosition(neighborPosition);
-      }
+  // TODO eliminate duplicates if multiple penguins can reach the same tile???
+  public int getReachableTilesForAllPenguins(List<int[]> penguinPositions) {
+    int reachableTiles = 0;
+    for (int[] penguinPosition : penguinPositions) {
+      reachableTiles += getReachableTilesForPenguin(penguinPosition);
     }
-    return fishCount;
+    return reachableTiles;
   }
 
-  public double getReachableFishCountPerTileForPlayer(Player player) {
-    if (getAllLegalMovesForPlayer(player).size() == 0) {
-      return 1.0;
+  // TODO eliminate duplicates if multiple penguins can reach the same tile???
+  public double getReachableFishPerTileForAllPenguins(List<int[]> penguinPositions) {
+    double reachableFishPerTile = 0;
+    for (int[] penguinPosition : penguinPositions) {
+      reachableFishPerTile += getReachableFishPerTileForPenguin(penguinPosition);
     }
-    return (double) getReachableFishCountForPlayer(player)
-        / getAllLegalMovesForPlayer(player).size();
-  }
-
-  public double getReachableFishCountPerNeighborTile(int[] position) {
-    List<int[]> neighborPositions = GameBoard.getNeighborPositions(position);
-    int fishCount = 0;
-    for (int[] neighborPosition : neighborPositions) {
-      fishCount += getFishCountByPosition(neighborPosition);
-    }
-    return (double) fishCount / neighborPositions.size();
+    // TODO correct?!
+    reachableFishPerTile /= penguinPositions.size();
+    return reachableFishPerTile;
   }
 
   public int getFishCountByPosition(int row, int col) {

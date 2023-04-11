@@ -35,6 +35,19 @@ public class MctsPlayer extends Player {
     this.mctsMovement = mctsMovement;
   }
 
+  public MctsPlayer(
+      String name,
+      int penguinCount,
+      String penguinColor,
+      PlacementHeuristicType placementHeuristicType,
+      MovementHeuristicType movementHeuristicType,
+      double c,
+      int computationalBudget) {
+    super(PlayerType.MCTS, name, penguinCount, penguinColor);
+    this.mctsPlacement = new MctsPlacement(c, computationalBudget, placementHeuristicType);
+    this.mctsMovement = new MctsMovement(c, computationalBudget, movementHeuristicType);
+  }
+
   public MctsPlacement getMctsPlacement() {
     return mctsPlacement;
   }

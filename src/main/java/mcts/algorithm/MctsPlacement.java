@@ -19,7 +19,7 @@ public class MctsPlacement {
 
   public MctsPlacement() {
     this.computationalBudget = 100;
-    this.c = 0.35;
+    this.c = 1 / Math.sqrt(2);
     this.type = PlacementHeuristicType.NONE;
   }
 
@@ -93,7 +93,7 @@ public class MctsPlacement {
       if (node.hasUntriedPlacements()) {
         break;
       } else {
-        node = (NodePlacement) Uct.findBestNode(node, c);
+        node = (NodePlacement) Ucb1.findBestNode(node, c);
       }
     }
     return node;
@@ -119,12 +119,7 @@ public class MctsPlacement {
 
     while (!tmp.getBoard().isPlacementPhaseOver()) {
       switch (type) {
-        case MAX_FISH_PER_TILE -> tmp.playMaxFishPerTilePlacement();
-        case MAX_FISH_PER_NEIGHBOR_TILE -> tmp.playMaxFishPerNeighborTilePlacement();
-        case MAX_TOTAL_FISH -> tmp.playMaxTotalFishPlacement();
-        case MAX_TOTAL_NEIGHBOR_FISH -> tmp.playMayTotalNeighborFishPlacement();
-        case MAX_OWN_POSSIBILITIES -> tmp.playMaxOwnPossibilitiesPlacement();
-        case MIN_OPPONENT_POSSIBILITIES -> tmp.playMinOpponentPossibilitiesPlacement();
+
         default -> tmp.playRandomPlacement();
       }
     }

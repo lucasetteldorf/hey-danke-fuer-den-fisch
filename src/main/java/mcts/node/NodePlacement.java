@@ -72,6 +72,79 @@ public class NodePlacement extends Node {
     untriedPlacementPositions.clear();
   }
 
+  public void playMaxFishForPenguin() {
+    int maxReachableFish = Integer.MIN_VALUE;
+    int[] bestPosition = null;
+
+    for (int[] placementPosition : board.getAllLegalPlacementPositions()) {
+      int reachableFish = board.getReachableFishForPenguin(placementPosition);
+      if (reachableFish > maxReachableFish) {
+        maxReachableFish = reachableFish;
+        bestPosition = placementPosition;
+      }
+    }
+
+    board.placePenguin(bestPosition[0], bestPosition[1]);
+  }
+
+  public void playMaxTilesForPenguin() {
+    int maxReachableTiles = Integer.MIN_VALUE;
+    int[] bestPosition = null;
+
+    for (int[] placementPosition : board.getAllLegalPlacementPositions()) {
+      int reachableTiles = board.getReachableTilesForPenguin(placementPosition);
+      if (reachableTiles > maxReachableTiles) {
+        maxReachableTiles = reachableTiles;
+        bestPosition = placementPosition;
+      }
+    }
+
+    board.placePenguin(bestPosition[0], bestPosition[1]);
+  }
+
+  public void playMaxFishPerTileForPenguin() {
+    double maxReachableFishPerTile = Integer.MIN_VALUE;
+    int[] bestPosition = null;
+
+    for (int[] placementPosition : board.getAllLegalPlacementPositions()) {
+      double reachableFishPerTile = board.getReachableFishPerTileForPenguin(placementPosition);
+      if (reachableFishPerTile > maxReachableFishPerTile) {
+        maxReachableFishPerTile = reachableFishPerTile;
+        bestPosition = placementPosition;
+      }
+    }
+
+    board.placePenguin(bestPosition[0], bestPosition[1]);
+  }
+
+  public void playMaxFishForAllPenguins() {
+    int maxReachableFish = Integer.MIN_VALUE;
+    int[] bestPosition = null;
+
+    for (int[] placementPosition : board.getAllLegalPlacementPositions()) {
+      GameBoard newBoard = new GameBoard(board);
+      newBoard.placePenguin(placementPosition[0], placementPosition[1]);
+      int reachableFish = board.getReachableFishForPenguin(placementPosition);
+      if (reachableFish > maxReachableFish) {
+        maxReachableFish = reachableFish;
+        bestPosition = placementPosition;
+      }
+    }
+
+    board.placePenguin(bestPosition[0], bestPosition[1]);
+  }
+
+  public void playMaxTilesForAllPenguins() {}
+
+  public void playMaxFishPerTileForAllPenguins() {}
+
+  public void playMinFishForOpponentPenguins() {}
+
+  public void playMinTilesForOpponentPenguins() {}
+
+  public void playFMinFishPerTileForOpponentPenguins() {
+  }
+
   // TODO DOES NOT PROPERLY WORK AS PLAYER 2!
   public void playMaxFishPerTilePlacement() {
     List<int[]> possiblePlacements = board.getAllLegalPlacementPositions();

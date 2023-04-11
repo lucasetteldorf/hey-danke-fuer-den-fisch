@@ -20,7 +20,7 @@ public class MctsMovement {
 
   public MctsMovement() {
     this.computationalBudget = 100;
-    this.c = 0.35;
+    this.c = 1 / Math.sqrt(2);
     this.type = MovementHeuristicType.NONE;
   }
 
@@ -94,7 +94,7 @@ public class MctsMovement {
       if (node.hasUntriedMoves()) {
         break;
       } else {
-        node = (NodeMovement) Uct.findBestNode(node, c);
+        node = (NodeMovement) Ucb1.findBestNode(node, c);
       }
     }
     return node;
