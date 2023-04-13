@@ -79,6 +79,16 @@ public class MctsPlayer extends Player {
         / (mctsPlacement.getCallCount() + mctsMovement.getCallCount());
   }
 
+  public void enableSimulationPrint() {
+    mctsPlacement.enableSimulationPrint();
+    mctsMovement.enableSimulationPrint();
+  }
+
+  public void resetStats() {
+    mctsPlacement.resetStats();
+    mctsMovement.resetStats();
+  }
+
   public int getPlacementSimulationTime() {
     return mctsPlacement.getComputationalBudget();
   }

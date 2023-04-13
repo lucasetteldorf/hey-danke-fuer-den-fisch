@@ -8,6 +8,8 @@ import mcts.node.NodePlacement;
 
 public class MctsPlacement {
   private static final int WIN_SCORE = 1;
+  private static final int TIE_SCORE = 0;
+  private static final int LOSE_SCORE = -1;
   private final int computationalBudget;
   private final double c;
   private final PlacementHeuristicType type;
@@ -19,7 +21,7 @@ public class MctsPlacement {
 
   public MctsPlacement() {
     this.computationalBudget = 100;
-    this.c = 1 / Math.sqrt(2);
+    this.c = Math.sqrt(2);
     this.type = PlacementHeuristicType.NONE;
   }
 
@@ -38,16 +40,14 @@ public class MctsPlacement {
   public int[] getNextPlacementPosition(GameBoard board) {
     this.currentPlayer = board.getCurrentPlayer();
 
-    if (printSimulations) {
-      numberOfSimulations = 0;
-    }
+    numberOfSimulations = 0;
 
     NodePlacement root = new NodePlacement();
     root.setBoard(board);
     root.initUntriedPlacements();
-    long start = System.currentTimeMillis();
     initTree(root);
 
+    long start = System.currentTimeMillis();
     while ((System.currentTimeMillis() - start) < computationalBudget) {
       // 1: Selection
       NodePlacement selectedNode = selectNode(root);
@@ -93,7 +93,7 @@ public class MctsPlacement {
       if (node.hasUntriedPlacements()) {
         break;
       } else {
-        node = (NodePlacement) Ucb1.findBestNode(node, c);
+        node = (NodePlacement) Uct.findBestNode(node, c);
       }
     }
     return node;
@@ -128,7 +128,7 @@ public class MctsPlacement {
         case MIN_FISH_FOR_OPPONENT_PENGUINS -> tmp.playMinFishForOpponentPenguins();
         case MIN_TILES_FOR_OPPONENT_PENGUINS -> tmp.playMinTilesForOpponentPenguins();
         case MIN_FISH_PER_TILE_FOR_OPPONENT_PENGUINS -> tmp
-            .playFMinFishPerTileForOpponentPenguins();
+            .playMinFishPerTileForOpponentPenguins();
         default -> tmp.playRandomPlacement();
       }
     }
@@ -137,20 +137,22 @@ public class MctsPlacement {
       tmp.playRandomMove();
     }
 
-    if (printSimulations) {
-      numberOfSimulations++;
-    }
+    numberOfSimulations++;
     totalNumberOfSimulations++;
 
     return tmp.getBoard().getWinnerIndex();
   }
 
-  private void backpropagate(NodePlacement expandedNode, int playerIndex) {
+  private void backpropagate(NodePlacement expandedNode, int winnerIndex) {
     NodePlacement tmp = expandedNode;
     while (tmp != null) {
       tmp.updateVisits();
-      if (playerIndex != -1 && currentPlayer.equals(tmp.getBoard().getPlayers()[playerIndex])) {
+      if (winnerIndex == -1) {
+        tmp.updateScore(TIE_SCORE);
+      } else if (currentPlayer.equals(tmp.getBoard().getPlayers()[winnerIndex])) {
         tmp.updateScore(WIN_SCORE);
+      } else if (!currentPlayer.equals(tmp.getBoard().getPlayers()[winnerIndex])) {
+        tmp.updateScore(LOSE_SCORE);
       }
       tmp = (NodePlacement) tmp.getParent();
     }
@@ -178,6 +180,12 @@ public class MctsPlacement {
 
   public void enableSimulationPrint() {
     printSimulations = true;
+  }
+
+  public void resetStats() {
+    callCount = 0;
+    totalNumberOfSimulations = 0;
+    numberOfSimulations = 0;
   }
 
   public PlacementHeuristicType getType() {

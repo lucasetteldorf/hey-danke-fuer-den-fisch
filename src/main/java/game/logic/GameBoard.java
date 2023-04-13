@@ -247,37 +247,53 @@ public class GameBoard {
         / getReachableTilesForPenguin(penguinPosition);
   }
 
-  // TODO eliminate duplicates if multiple penguins can reach the same tile???
   public int getReachableFishForAllPenguins(List<int[]> penguinPositions) {
     int reachableFish = 0;
+    HashSet<int[]> uniqueTiles = new HashSet<>();
     for (int[] penguinPosition : penguinPositions) {
-      reachableFish += getReachableFishForPenguin(penguinPosition);
+      for (Move move : getAllLegalMovesForPenguin(penguinPosition)) {
+        if (uniqueTiles.contains(move.getNewPosition())) {
+          continue;
+        }
+        uniqueTiles.add(move.getNewPosition());
+        reachableFish += getFishCountByPosition(move.getNewPosition());
+      }
     }
     return reachableFish;
   }
 
-  // TODO eliminate duplicates if multiple penguins can reach the same tile???
   public int getReachableTilesForAllPenguins(List<int[]> penguinPositions) {
     int reachableTiles = 0;
+    HashSet<int[]> uniqueTiles = new HashSet<>();
     for (int[] penguinPosition : penguinPositions) {
-      reachableTiles += getReachableTilesForPenguin(penguinPosition);
+      for (Move move : getAllLegalMovesForPenguin(penguinPosition)) {
+        if (uniqueTiles.contains(move.getNewPosition())) {
+          continue;
+        }
+        uniqueTiles.add(move.getNewPosition());
+        reachableTiles++;
+      }
     }
     return reachableTiles;
   }
 
-  // TODO eliminate duplicates if multiple penguins can reach the same tile???
   public double getReachableFishPerTileForAllPenguins(List<int[]> penguinPositions) {
     if (penguinPositions.size() == 0) {
       return 1.0;
     }
-
     double reachableFishPerTile = 0;
+    HashSet<int[]> uniqueTiles = new HashSet<>();
     for (int[] penguinPosition : penguinPositions) {
-      reachableFishPerTile += getReachableFishPerTileForPenguin(penguinPosition);
+      for (Move move : getAllLegalMovesForPenguin(penguinPosition)) {
+        if (uniqueTiles.contains(move.getNewPosition())) {
+          continue;
+        }
+        uniqueTiles.add(move.getNewPosition());
+        reachableFishPerTile += getFishCountByPosition(penguinPosition);
+      }
     }
-    // TODO correct?!
-    reachableFishPerTile /= penguinPositions.size();
-    return reachableFishPerTile;
+
+    return reachableFishPerTile / uniqueTiles.size();
   }
 
   public int getFishCountByPosition(int row, int col) {
@@ -327,6 +343,7 @@ public class GameBoard {
       player.addPenguinIndex(currentPenguinIndex);
       currentPenguinIndex++;
       player.updatePlacedPenguinCount();
+      getCurrentPlayer().updateTotalTurnCount();
       updateCurrentPlayer();
     }
   }
@@ -357,7 +374,7 @@ public class GameBoard {
       fishCounts[getTileIndexFromPosition(oldPosition)] = 0;
       penguinPositionIndices[getPenguinIndexFromPosition(oldPosition)] =
           getTileIndexFromPosition(newPosition);
-      getCurrentPlayer().updateMoveCount();
+      getCurrentPlayer().updateTotalTurnCount();
       updateCurrentPlayer();
     }
   }

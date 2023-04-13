@@ -211,7 +211,7 @@ public class NodePlacement extends Node {
     board.placePenguin(bestPosition[0], bestPosition[1]);
   }
 
-  public void playFMinFishPerTileForOpponentPenguins() {
+  public void playMinFishPerTileForOpponentPenguins() {
     double minReachableFishPerTile = Double.MAX_VALUE;
     int[] bestPosition = null;
 

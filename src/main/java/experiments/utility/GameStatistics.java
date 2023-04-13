@@ -4,7 +4,7 @@ public class GameStatistics {
   private final int numberOfGames;
 
   private final int[] playerFishCounts;
-  private final int[] playerMoveCounts;
+  private final int[] playerTotalTurnCounts;
   private final int[] playerWinCounts;
   private final double[] averageMctsPlacementSimulations;
   private final double[] averageMctsMovementSimulations;
@@ -14,7 +14,7 @@ public class GameStatistics {
   public GameStatistics(int numberOfGames, int playerCount) {
     this.numberOfGames = numberOfGames;
     this.playerFishCounts = new int[playerCount];
-    this.playerMoveCounts = new int[playerCount];
+    this.playerTotalTurnCounts = new int[playerCount];
     this.playerWinCounts = new int[playerCount];
     this.averageMctsPlacementSimulations = new double[playerCount];
     this.averageMctsMovementSimulations = new double[playerCount];
@@ -37,8 +37,8 @@ public class GameStatistics {
     playerFishCounts[playerIndex] += fishCount;
   }
 
-  public void updatePlayerMoveCount(int playerIndex, int moveCount) {
-    playerMoveCounts[playerIndex] += moveCount;
+  public void updatePlayerTotalTurnCount(int playerIndex, int turnCount) {
+    playerTotalTurnCounts[playerIndex] += turnCount;
   }
 
   public void updateAverageMctsPlacementSimulations(
@@ -59,8 +59,8 @@ public class GameStatistics {
     return (double) playerFishCounts[playerIndex] / numberOfGames;
   }
 
-  public double getAverageMoveCount(int playerIndex) {
-    return (double) playerMoveCounts[playerIndex] / numberOfGames;
+  public double getAverageTotalTurnCount(int playerIndex) {
+    return (double) playerTotalTurnCounts[playerIndex] / numberOfGames;
   }
 
   public double getWinRate(int playerIndex) {

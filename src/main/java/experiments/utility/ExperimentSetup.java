@@ -14,7 +14,7 @@ public class ExperimentSetup {
       game.start();
       for (int j = 0; j < players.length; j++) {
         gameStatistics.updatePlayerFishCount(j, players[j].getCollectedFishCount());
-        gameStatistics.updatePlayerMoveCount(j, players[j].getMoveCount());
+        gameStatistics.updatePlayerTotalTurnCount(j, players[j].getTotalTurnCount());
       }
       gameStatistics.updatePlayerWinCount(game.getBoard().getWinnerIndex());
       for (int j = 0; j < players.length; j++) {
@@ -31,6 +31,10 @@ public class ExperimentSetup {
       }
       CsvWriter.appendLineToCsv(path, game);
       for (Player player : players) {
+        if (player.getType() == PlayerType.MCTS) {
+          MctsPlayer mctsPlayer = (MctsPlayer) player;
+          mctsPlayer.resetStats();
+        }
         player.reset();
       }
       System.out.println("Game " + i + " done");

@@ -2,7 +2,7 @@ package mcts.algorithm;
 
 import mcts.node.Node;
 
-public class Ucb1 {
+public class Uct {
   public static double calculateUcb1Value(
       double c, double nodeScore, int nodeVisits, int parentVisits) {
     if (nodeVisits == 0) {
@@ -10,7 +10,7 @@ public class Ucb1 {
     }
 
     return (nodeScore / (double) nodeVisits)
-        + 2 * c * Math.sqrt(2 * Math.log(parentVisits) / (double) nodeVisits);
+        + c * Math.sqrt(Math.log(parentVisits) / (double) nodeVisits);
   }
 
   public static Node findBestNode(Node node, double c) {

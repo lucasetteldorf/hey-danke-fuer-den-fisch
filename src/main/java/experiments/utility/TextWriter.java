@@ -35,12 +35,12 @@ public class TextWriter {
             + "\n");
     printWriter.println(
         players[0].getName()
-            + " average performed moves: "
-            + gameStatistics.getAverageMoveCount(0));
+            + " average performed total moves (placement and movement): "
+            + gameStatistics.getAverageTotalTurnCount(0));
     printWriter.println(
         players[1].getName()
-            + " average performed moves: "
-            + gameStatistics.getAverageMoveCount(1)
+            + " average performed total moves (placement and movement: "
+            + gameStatistics.getAverageTotalTurnCount(1)
             + "\n");
     for (int i = 0; i < players.length; i++) {
       Player player = players[i];
@@ -68,7 +68,7 @@ public class TextWriter {
                 + gameStatistics.getAverageMctsMovementSimulations(i));
         printWriter.println(
             name
-                + " average total simulations. "
+                + " average total simulations: "
                 + gameStatistics.getAverageMctsTotalSimulations(i)
                 + "\n");
       }

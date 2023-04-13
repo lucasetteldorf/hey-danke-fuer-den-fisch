@@ -2,11 +2,16 @@ package experiments;
 
 public class Experiments {
   public static void main(String[] args) {
-    int numberOfGames = 20;
-    double c = 1 / Math.sqrt(2);
-    int simulationTime = 10;
+    int numberOfGames = 1000;
+    double c = Math.sqrt(2);
+    int simulationTime = 50;
 
-    MctsHeavyPlayoutPlacement.startExperiments(numberOfGames, c, simulationTime);
-    //        MctsHeavyPlayoutMovement.startExperiments(1000, 10);
+    MctsLightPlayoutSimulationTimes.startExperiments(numberOfGames, c);
+
+    //    MctsLightPlayoutCValue.startExperiments(numberOfGames, simulationTime);
+
+    //    MctsHeavyPlayoutPlacement.startExperiments(numberOfGames, c, simulationTime);
+
+    //    MctsHeavyPlayoutMovement.startExperiments(numberOfGames, c, simulationTime);
   }
 }

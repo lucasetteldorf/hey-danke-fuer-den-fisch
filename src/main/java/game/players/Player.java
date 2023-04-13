@@ -15,7 +15,7 @@ public class Player {
   private int placedPenguinCount;
   private int collectedFishCount;
   private boolean penguinsRemovedFromBoard;
-  private int moveCount;
+  private int totalTurnCount;
 
   public Player(PlayerType type, String name, int penguinCount, String penguinColor) {
     this.type = type;
@@ -43,7 +43,7 @@ public class Player {
     this.placedPenguinCount = 0;
     this.collectedFishCount = 0;
     this.penguinsRemovedFromBoard = false;
-    this.moveCount = 0;
+    this.totalTurnCount = 0;
   }
 
   public PlayerType getType() {
@@ -105,12 +105,12 @@ public class Player {
         RandomUtility.getRandomIndex(legalPlacementPositions.size()));
   }
 
-  public void updateMoveCount() {
-    moveCount++;
+  public void updateTotalTurnCount() {
+    totalTurnCount++;
   }
 
-  public int getMoveCount() {
-    return moveCount;
+  public int getTotalTurnCount() {
+    return totalTurnCount;
   }
 
   public String getScore() {
