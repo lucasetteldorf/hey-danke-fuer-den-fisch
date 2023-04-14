@@ -16,12 +16,26 @@ public class MctsLpTest {
 
   @Test
   void testMctsVsRandom() {
-    MctsPlayer p1 = new MctsPlayer("MCTS AI", 4, "B");
+    MctsPlayer p1 = new MctsPlayer("MCTS AI", 4, "B", Math.sqrt(2), 100);
     p1.enableSimulationPrint();
     RandomPlayer p2 = new RandomPlayer("Random AI", 4, "R");
     Player[] players = new Player[] {p1, p2};
     Game game = new Game(players, false, true);
     game.start();
+  }
+
+  @Test
+  void testMctsVsRandomLoop() {
+    MctsPlayer p1;
+    RandomPlayer p2;
+    Game game;
+    for (int i = 0; i < 2; i++) {
+      p1 = new MctsPlayer("MCTS AI", 4, "B", Math.sqrt(2), 100);
+      p1.enableSimulationPrint();
+      p2 = new RandomPlayer("Random AI", 4, "R");
+      game = new Game(new Player[]{p1 ,p2}, false, true);
+      game.start();
+    }
   }
 
   @Test

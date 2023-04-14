@@ -8,7 +8,7 @@ import game.players.RandomPlayer;
 import utility.Resources;
 
 public class MctsLightPlayoutSimulationTimes {
-  private static final int[] SIMULATION_TIMES = new int[] {0, 10, 50, 100, 250, 500, 1000};
+  private static final int[] SIMULATION_TIMES = new int[] {1000};
 
   public static void startExperiments(int numberOfGames, double c) {
     for (int simulationTime : SIMULATION_TIMES) {

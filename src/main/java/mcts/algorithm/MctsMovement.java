@@ -4,7 +4,6 @@ import game.logic.GameBoard;
 import game.logic.Move;
 import game.players.Player;
 import mcts.heavyplayout.MovementHeuristicType;
-import mcts.node.Node;
 import mcts.node.NodeMovement;
 
 public class MctsMovement {
@@ -46,8 +45,8 @@ public class MctsMovement {
     NodeMovement root = new NodeMovement();
     root.setBoard(board);
     root.initUntriedMoves();
-    initTree(root);
-
+    // init starting tree
+    root.expandChildrenMovement();
     long start = System.currentTimeMillis();
     while ((System.currentTimeMillis() - start) < computationalBudget) {
       // 1: Selection
@@ -77,15 +76,6 @@ public class MctsMovement {
     }
     NodeMovement bestNode = (NodeMovement) root.getChildWithMaxVisits();
     return bestNode.getPreviousMove();
-  }
-
-  private void initTree(NodeMovement root) {
-    root.expandChildrenMovement();
-    for (Node child : root.getChildren()) {
-      NodeMovement childMovement = (NodeMovement) child;
-      int playoutResult = simulatePlayout(childMovement);
-      backpropagate(childMovement, playoutResult);
-    }
   }
 
   private NodeMovement selectNode(NodeMovement root) {

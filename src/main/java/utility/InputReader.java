@@ -31,21 +31,13 @@ public class InputReader {
     return playerCount;
   }
 
-  public static int getAiPlayerCount(int totalPlayerCount) {
-    int aiPlayerCount;
-    do {
-      aiPlayerCount = readInt("Number of AI players (0-" + (totalPlayerCount - 1) + "): ");
-    } while (aiPlayerCount < 0 || aiPlayerCount >= totalPlayerCount);
-
-    return aiPlayerCount;
-  }
-
-  public static String getAiDifficulty() {
-    return readLine("AI difficulty (easy, medium, hard): ");
-  }
 
   public static String getPlayerName(int playerIndex) {
     return readLine("Player " + (playerIndex + 1) + " name: ");
+  }
+
+  public static int getPlayerType(int playerIndex) {
+    return readInt("Player " + playerIndex + " type (1 = Human, 2 = Random, 3 = Greedy, 4 = MCTS): ");
   }
 
   public static String getPenguinColor(int playerIndex) {

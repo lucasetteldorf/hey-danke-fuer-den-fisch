@@ -38,48 +38,55 @@ public class Game {
     return board;
   }
 
-  private Player[] initPlayers() {
-    int totalPlayerCount = InputReader.getTotalPlayerCount();
-    int aiPlayerCount = InputReader.getAiPlayerCount(totalPlayerCount);
-    int humanPlayerCount = totalPlayerCount - aiPlayerCount;
-    String aiDifficulty = "";
-    if (aiPlayerCount > 0) {
-      do {
-        aiDifficulty = InputReader.getAiDifficulty();
-      } while (!aiDifficulty.equals("easy")
-          && !aiDifficulty.equals("medium")
-          && !aiDifficulty.equals("hard"));
-    }
-
+  private int getPenguinCountFromPlayerCount(int playerCount) {
     int penguinCount = 0;
-    switch (totalPlayerCount) {
+    switch (playerCount) {
       case 2 -> penguinCount = 4;
       case 3 -> penguinCount = 3;
       case 4 -> penguinCount = 2;
       default -> {}
     }
+    return penguinCount;
+  }
 
+  private Player initPlayer(PlayerType type, int totalPlayerCount, int index) {
+    int penguinCount = getPenguinCountFromPlayerCount(totalPlayerCount);
+    Player player = null;
+    switch (type) {
+      case HUMAN:
+        player =
+            new HumanPlayer(
+                InputReader.getPlayerName(index), penguinCount, InputReader.getPenguinColor(index));
+        break;
+      case RANDOM:
+        player = new RandomPlayer("Random AI", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
+        InputReader.AVAILABLE_COLORS.remove(0);
+        break;
+      case GREEDY:
+        player = new GreedyPlayer("Greedy AI", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
+        InputReader.AVAILABLE_COLORS.remove(0);
+        break;
+      case MCTS:
+        player = new MctsPlayer("Random AI", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
+        InputReader.AVAILABLE_COLORS.remove(0);
+        break;
+    }
+    return player;
+  }
+
+  private Player[] initPlayers() {
+    int totalPlayerCount = InputReader.getTotalPlayerCount();
     Player[] players = new Player[totalPlayerCount];
-    for (int i = 0; i < humanPlayerCount; i++) {
-      players[i] =
-          new HumanPlayer(
-              InputReader.getPlayerName(i), penguinCount, InputReader.getPenguinColor(i));
-    }
-
-    for (int i = humanPlayerCount; i < totalPlayerCount; i++) {
-      switch (aiDifficulty) {
-        case "easy" -> players[i] =
-            new RandomPlayer("Random AI (easy)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
-        case "medium" -> players[i] =
-            new GreedyPlayer(
-                "Greedy AI (medium)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
-        case "hard" -> players[i] =
-            new MctsPlayer("MCTS AI (hard)", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
-        default -> System.out.println("Invalid difficulty");
+    int index = 1;
+    do {
+      int playerType;
+      playerType = InputReader.getPlayerType(index);
+      if (playerType >= 1 && playerType <= 4) {
+        players[index - 1] =
+            initPlayer(PlayerType.getTypeFromNumber(playerType), totalPlayerCount, index - 1);
+        index++;
       }
-      InputReader.AVAILABLE_COLORS.remove(0);
-    }
-
+    } while (index <= totalPlayerCount);
     return players;
   }
 

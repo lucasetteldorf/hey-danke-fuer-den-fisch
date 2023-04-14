@@ -45,7 +45,8 @@ public class MctsPlacement {
     NodePlacement root = new NodePlacement();
     root.setBoard(board);
     root.initUntriedPlacements();
-    initTree(root);
+    // init starting tree
+    root.expandChildrenPlacement();
 
     long start = System.currentTimeMillis();
     while ((System.currentTimeMillis() - start) < computationalBudget) {
@@ -76,15 +77,6 @@ public class MctsPlacement {
     }
     NodePlacement bestNode = (NodePlacement) root.getChildWithMaxVisits();
     return bestNode.getPreviousPlacementPosition();
-  }
-
-  private void initTree(NodePlacement root) {
-    root.expandChildrenPlacement();
-    for (Node child : root.getChildren()) {
-      NodePlacement childPlacement = (NodePlacement) child;
-      int playoutResult = simulatePlayout(childPlacement);
-      backpropagate(childPlacement, playoutResult);
-    }
   }
 
   private NodePlacement selectNode(NodePlacement root) {
