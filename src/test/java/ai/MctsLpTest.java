@@ -1,6 +1,5 @@
 package ai;
 
-import experiments.utility.ExperimentSetup;
 import game.Game;
 import game.players.GreedyPlayer;
 import game.players.MctsPlayer;
@@ -33,7 +32,7 @@ public class MctsLpTest {
       p1 = new MctsPlayer("MCTS AI", 4, "B", Math.sqrt(2), 100);
       p1.enableSimulationPrint();
       p2 = new RandomPlayer("Random AI", 4, "R");
-      game = new Game(new Player[]{p1 ,p2}, false, true);
+      game = new Game(new Player[] {p1, p2}, false, true);
       game.start();
     }
   }
