@@ -131,17 +131,6 @@ public class GameBoard {
     return null;
   }
 
-  public static List<int[]> getNeighborPositions(int[] position) {
-    List<int[]> neighborPositions = new ArrayList<>();
-    for (int i = 0; i < 6; i++) {
-      int[] neighborPosition = calculateNeighborPosition(i, position[0], position[1]);
-      if (neighborPosition != null) {
-        neighborPositions.add(neighborPosition);
-      }
-    }
-    return neighborPositions;
-  }
-
   private int[] initGameBoard() {
     List<Integer> fishCounts = new ArrayList<>();
     int fishCount = 1;
@@ -215,16 +204,45 @@ public class GameBoard {
   }
 
   public List<int[]> getAllPenguinPositionsForOpponents(Player player) {
-    List<int[]> playerPenguinPositions = new ArrayList<>();
+    List<int[]> opponentPenguinPositions = new ArrayList<>();
     for (int i = 0; i < penguinPositionIndices.length; i++) {
       if (penguinPositionIndices[i] != -1 && !player.ownsPenguinAtIndex(i)) {
-        playerPenguinPositions.add(getPositionFromTileIndex(penguinPositionIndices[i]));
+        opponentPenguinPositions.add(getPositionFromTileIndex(penguinPositionIndices[i]));
       }
     }
-    return playerPenguinPositions;
+    return opponentPenguinPositions;
   }
 
-  public int getReachableFishForPenguin(int[] penguinPosition) {
+  public int getThreeFishTilesCountForPenguin(int[] penguinPosition) {
+    int threeFishTilesCount = 0;
+    for (Move move : getAllLegalMovesForPenguin(penguinPosition)) {
+      if (getFishCountByPosition(move.getNewPosition()) == 3) {
+        threeFishTilesCount++;
+      }
+    }
+    return threeFishTilesCount;
+  }
+
+  public int getThreeFishTilesCountForAllPenguins(List<int[]> penguinPositions) {
+    int threeFishTilesCount = 0;
+    HashSet<Integer> uniqueTiles = new HashSet<>();
+    for (int[] penguinPosition : penguinPositions) {
+      for (Move move : getAllLegalMovesForPenguin(penguinPosition)) {
+        int[] newPosition = move.getNewPosition();
+        int newIndex = GameBoard.getTileIndexFromPosition(newPosition);
+        if (uniqueTiles.contains(newIndex)) {
+          continue;
+        }
+        if (getFishCountByPosition(newPosition) == 3) {
+          threeFishTilesCount++;
+          uniqueTiles.add(newIndex);
+        }
+      }
+    }
+    return threeFishTilesCount;
+  }
+
+  public int getReachableFishCountForPenguin(int[] penguinPosition) {
     int reachableFish = 0;
     for (Move move : getAllLegalMovesForPenguin(penguinPosition)) {
       reachableFish += getFishCountByPosition(move.getNewPosition());
@@ -236,24 +254,18 @@ public class GameBoard {
     return getAllLegalMovesForPenguin(penguinPosition).size();
   }
 
-  public double getReachableFishPerTileForPenguin(int[] penguinPosition) {
-    if (getReachableTilesForPenguin(penguinPosition) == 0) {
-      return 1.0;
-    }
-    return (double) getReachableFishForPenguin(penguinPosition)
-        / getReachableTilesForPenguin(penguinPosition);
-  }
-
-  public int getReachableFishForAllPenguins(List<int[]> penguinPositions) {
+  public int getReachableFishCountForAllPenguins(List<int[]> penguinPositions) {
     int reachableFish = 0;
-    HashSet<int[]> uniqueTiles = new HashSet<>();
+    HashSet<Integer> uniqueTiles = new HashSet<>();
     for (int[] penguinPosition : penguinPositions) {
       for (Move move : getAllLegalMovesForPenguin(penguinPosition)) {
-        if (uniqueTiles.contains(move.getNewPosition())) {
+        int[] newPosition = move.getNewPosition();
+        int newIndex = GameBoard.getTileIndexFromPosition(newPosition);
+        if (uniqueTiles.contains(newIndex)) {
           continue;
         }
-        uniqueTiles.add(move.getNewPosition());
-        reachableFish += getFishCountByPosition(move.getNewPosition());
+        uniqueTiles.add(newIndex);
+        reachableFish += getFishCountByPosition(newPosition);
       }
     }
     return reachableFish;
@@ -261,36 +273,18 @@ public class GameBoard {
 
   public int getReachableTilesForAllPenguins(List<int[]> penguinPositions) {
     int reachableTiles = 0;
-    HashSet<int[]> uniqueTiles = new HashSet<>();
+    HashSet<Integer> uniqueTiles = new HashSet<>();
     for (int[] penguinPosition : penguinPositions) {
       for (Move move : getAllLegalMovesForPenguin(penguinPosition)) {
-        if (uniqueTiles.contains(move.getNewPosition())) {
+        int newIndex = GameBoard.getTileIndexFromPosition(move.getNewPosition());
+        if (uniqueTiles.contains(newIndex) ) {
           continue;
         }
-        uniqueTiles.add(move.getNewPosition());
+        uniqueTiles.add(newIndex);
         reachableTiles++;
       }
     }
     return reachableTiles;
-  }
-
-  public double getReachableFishPerTileForAllPenguins(List<int[]> penguinPositions) {
-    if (penguinPositions.size() == 0) {
-      return 1.0;
-    }
-    double reachableFishPerTile = 0;
-    HashSet<int[]> uniqueTiles = new HashSet<>();
-    for (int[] penguinPosition : penguinPositions) {
-      for (Move move : getAllLegalMovesForPenguin(penguinPosition)) {
-        if (uniqueTiles.contains(move.getNewPosition())) {
-          continue;
-        }
-        uniqueTiles.add(move.getNewPosition());
-        reachableFishPerTile += getFishCountByPosition(penguinPosition);
-      }
-    }
-
-    return reachableFishPerTile / uniqueTiles.size();
   }
 
   public int getFishCountByPosition(int row, int col) {

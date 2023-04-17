@@ -66,174 +66,79 @@ public class NodeMovement extends Node {
     untriedMoves.clear();
   }
 
-  // like greedy
-  public void playMaxFishOnNewTile() {
-    int maxFish = Integer.MIN_VALUE;
+  public void playGreedy() {
     Move bestMove = null;
-
+    int maxFishCount = Integer.MIN_VALUE;
     for (Move move : board.getAllLegalMovesForCurrentPlayer()) {
-      int fish = board.getFishCountByPosition(move.getNewPosition());
-      if (fish > maxFish) {
-        maxFish = fish;
+      int[] newPosition = move.getNewPosition();
+      int fishCount = board.getFishCountByPosition(newPosition);
+      if (fishCount != 0 && fishCount > maxFishCount) {
+        maxFishCount = fishCount;
         bestMove = move;
       }
     }
-
     board.movePenguin(bestMove);
   }
 
-  public void playMaxNewFishForPenguin() {
-    int maxReachableFish = Integer.MIN_VALUE;
+  // TODO use all own penguins?!
+  public void playMaxOwnReachableFishCount() {
     Move bestMove = null;
-
+    int maxFishCount = Integer.MIN_VALUE;
     for (Move move : board.getAllLegalMovesForCurrentPlayer()) {
-      GameBoard newBoard = new GameBoard(board);
-      newBoard.movePenguin(move);
-      int newReachableFish = newBoard.getReachableFishForPenguin(move.getNewPosition());
-      if (newReachableFish > maxReachableFish) {
-        maxReachableFish = newReachableFish;
+      int fishCount = board.getReachableFishCountForPenguin(move.getOldPosition());
+      if (fishCount > maxFishCount) {
+        maxFishCount = fishCount;
         bestMove = move;
       }
     }
-
     board.movePenguin(bestMove);
   }
 
-  public void playMaxNewTilesForPenguin() {
-    int maxReachableTiles = Integer.MIN_VALUE;
+  public void playMinEnemyReachableFishCount() {
     Move bestMove = null;
-
+    int minFishCount = Integer.MAX_VALUE;
     for (Move move : board.getAllLegalMovesForCurrentPlayer()) {
       GameBoard newBoard = new GameBoard(board);
       newBoard.movePenguin(move);
-      int newReachableTiles = newBoard.getReachableTilesForPenguin(move.getNewPosition());
-      if (newReachableTiles > maxReachableTiles) {
-        maxReachableTiles = newReachableTiles;
+      int fishCount =
+          newBoard.getReachableFishCountForAllPenguins(
+              newBoard.getAllPenguinPositionsForOpponents(board.getCurrentPlayer()));
+      if (fishCount < minFishCount) {
+        minFishCount = fishCount;
         bestMove = move;
       }
     }
-
     board.movePenguin(bestMove);
   }
 
-  public void playMaxNewFishPerTileForPenguin() {
-    double maxReachableFishPerTile = Integer.MIN_VALUE;
+  // TODO use all own penguins?!
+  public void playMaxOwnReachableTiles() {
     Move bestMove = null;
+    int maxTiles = Integer.MIN_VALUE;
+    for (Move move : board.getAllLegalMovesForCurrentPlayer()) {
+      int tiles = board.getReachableTilesForPenguin(move.getOldPosition());
+      if (tiles > maxTiles) {
+        maxTiles = tiles;
+        bestMove = move;
+      }
+    }
+    board.movePenguin(bestMove);
+  }
 
+  public void playMinEnemyReachableTiles() {
+    Move bestMove = null;
+    int minTiles = Integer.MAX_VALUE;
     for (Move move : board.getAllLegalMovesForCurrentPlayer()) {
       GameBoard newBoard = new GameBoard(board);
       newBoard.movePenguin(move);
-      double newReachableFisPerTile = newBoard.getReachableFishPerTileForPenguin(move.getNewPosition());
-      if (newReachableFisPerTile > maxReachableFishPerTile) {
-        maxReachableFishPerTile = newReachableFisPerTile;
+      int tiles =
+          newBoard.getReachableTilesForAllPenguins(
+              newBoard.getAllPenguinPositionsForOpponents(board.getCurrentPlayer()));
+      if (tiles < minTiles) {
+        minTiles = tiles;
         bestMove = move;
       }
     }
-
-    board.movePenguin(bestMove);
-  }
-
-  public void playMaxNewFishForAllPenguins() {
-    int maxReachableFish = Integer.MIN_VALUE;
-    Move bestMove = null;
-
-    for (Move move : board.getAllLegalMovesForCurrentPlayer()) {
-      GameBoard newBoard = new GameBoard(board);
-      newBoard.movePenguin(move);
-      int newReachableFish = newBoard.getReachableFishForAllPenguins(newBoard.getAllPenguinPositionsForPlayer(board.getCurrentPlayer()));
-      if (newReachableFish > maxReachableFish) {
-        maxReachableFish = newReachableFish;
-        bestMove = move;
-      }
-    }
-
-    board.movePenguin(bestMove);
-  }
-
-  public void playMaxNewTilesForAllPenguins() {
-    int maxReachableTiles = Integer.MIN_VALUE;
-    Move bestMove = null;
-
-    for (Move move : board.getAllLegalMovesForCurrentPlayer()) {
-      GameBoard newBoard = new GameBoard(board);
-      newBoard.movePenguin(move);
-      int newReachableTiles = newBoard.getReachableTilesForAllPenguins(newBoard.getAllPenguinPositionsForPlayer(board.getCurrentPlayer()));
-      if (newReachableTiles > maxReachableTiles) {
-        maxReachableTiles = newReachableTiles;
-        bestMove = move;
-      }
-    }
-
-    board.movePenguin(bestMove);
-  }
-
-  public void playMaxNewFishPerTileForAllPenguins() {
-    double maxReachableFishPerTile = Double.MIN_VALUE;
-    List<Move> bestMoves = board.getAllLegalMovesForCurrentPlayer();
-    Move bestMove = bestMoves.get(RandomUtility.getRandomIndex(bestMoves.size()));
-
-    for (Move move : bestMoves) {
-      GameBoard newBoard = new GameBoard(board);
-      newBoard.movePenguin(move);
-      double newReachableFishPerTile = newBoard.getReachableFishPerTileForAllPenguins(newBoard.getAllPenguinPositionsForPlayer(board.getCurrentPlayer()));
-      if (newReachableFishPerTile > maxReachableFishPerTile) {
-        maxReachableFishPerTile = newReachableFishPerTile;
-        bestMove = move;
-      }
-    }
-
-    board.movePenguin(bestMove);
-  }
-
-  public void playMinNewFishForOpponentPenguins() {
-    int minReachableFish = Integer.MAX_VALUE;
-    Move bestMove = null;
-
-    for (Move move : board.getAllLegalMovesForCurrentPlayer()) {
-      GameBoard newBoard = new GameBoard(board);
-      newBoard.movePenguin(move);
-      int newReachableFish = newBoard.getReachableFishForAllPenguins(newBoard.getAllPenguinPositionsForOpponents(board.getCurrentPlayer()));
-      if (newReachableFish < minReachableFish) {
-        minReachableFish = newReachableFish;
-        bestMove = move;
-      }
-    }
-
-    board.movePenguin(bestMove);
-  }
-
-  public void playMinNewTilesForOpponentPenguins() {
-    int minReachableTiles = Integer.MAX_VALUE;
-    Move bestMove = null;
-
-    for (Move move : board.getAllLegalMovesForCurrentPlayer()) {
-      GameBoard newBoard = new GameBoard(board);
-      newBoard.movePenguin(move);
-      int newReachableTiles = newBoard.getReachableTilesForAllPenguins(newBoard.getAllPenguinPositionsForOpponents(board.getCurrentPlayer()));
-      if (newReachableTiles < minReachableTiles) {
-        minReachableTiles = newReachableTiles;
-        bestMove = move;
-      }
-    }
-
-    board.movePenguin(bestMove);
-  }
-
-  public void playMinNewFishPerTileForOpponentPenguins() {
-    double maxReachableFishPerTile = Double.MAX_VALUE;
-    List<Move> legalMoves = board.getAllLegalMovesForCurrentPlayer();
-    Move bestMove = legalMoves.get(RandomUtility.getRandomIndex(legalMoves.size()));
-
-    for (Move move : legalMoves) {
-      GameBoard newBoard = new GameBoard(board);
-      newBoard.movePenguin(move);
-      double newReachableFishPerTile = newBoard.getReachableFishPerTileForAllPenguins(newBoard.getAllPenguinPositionsForOpponents(board.getCurrentPlayer()));
-      if (newReachableFishPerTile < maxReachableFishPerTile) {
-        maxReachableFishPerTile = newReachableFishPerTile;
-        bestMove = move;
-      }
-    }
-
     board.movePenguin(bestMove);
   }
 }

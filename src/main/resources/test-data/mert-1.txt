@@ -1,0 +1,29 @@
+MCTS HP (MERT) vs. MCTS LP (Baseline) (20 games)
+
+MCTS HP (MERT) win rate: 0.3
+MCTS LP (Baseline) win rate: 0.7
+Number of ties: 0
+Percentage of ties: 0.0
+
+MCTS HP (MERT) average collected fish count: 42.4
+MCTS LP (Baseline) average collected fish count: 50.5
+
+MCTS HP (MERT) average performed total moves (placement and movement): 26.95
+MCTS LP (Baseline) average performed total moves (placement and movement: 28.8
+
+MCTS HP (MERT) C value for UCT selection (placement): 1.4142135623730951
+MCTS HP (MERT) placement simulation time : 20ms
+MCTS HP (MERT) average placement simulations: 316.8375
+MCTS HP (MERT) C value for UCT selection (movement): 1.4142135623730951
+MCTS HP (MERT) movement simulation time: 20ms
+MCTS HP (MERT) average movement simulations: 3160.8331995322683
+MCTS HP (MERT) average total simulations: 2781.6125549399617
+
+MCTS LP (Baseline) C value for UCT selection (placement): 1.4142135623730951
+MCTS LP (Baseline) placement simulation time : 20ms
+MCTS LP (Baseline) average placement simulations: 324.35
+MCTS LP (Baseline) C value for UCT selection (movement): 1.4142135623730951
+MCTS LP (Baseline) movement simulation time: 20ms
+MCTS LP (Baseline) average movement simulations: 6480.941848268597
+MCTS LP (Baseline) average total simulations: 5667.930829891239
+
