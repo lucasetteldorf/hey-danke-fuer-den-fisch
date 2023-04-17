@@ -1,10 +1,9 @@
-package mcts.node;
+package challenge;
 
 import game.logic.GameBoard;
 import game.logic.Move;
 import java.util.ArrayList;
 import java.util.List;
-import utility.RandomUtility;
 
 public class NodeMovement extends Node {
   private final List<Move> untriedMoves;
@@ -169,10 +168,9 @@ public class NodeMovement extends Node {
 
   public void playMaxNewFishPerTileForAllPenguins() {
     double maxReachableFishPerTile = Double.MIN_VALUE;
-    List<Move> bestMoves = board.getAllLegalMovesForCurrentPlayer();
-    Move bestMove = bestMoves.get(RandomUtility.getRandomIndex(bestMoves.size()));
+    Move bestMove = null;
 
-    for (Move move : bestMoves) {
+    for (Move move : board.getAllLegalMovesForCurrentPlayer()) {
       GameBoard newBoard = new GameBoard(board);
       newBoard.movePenguin(move);
       double newReachableFishPerTile = newBoard.getReachableFishPerTileForAllPenguins(newBoard.getAllPenguinPositionsForPlayer(board.getCurrentPlayer()));
@@ -221,10 +219,9 @@ public class NodeMovement extends Node {
 
   public void playMinNewFishPerTileForOpponentPenguins() {
     double maxReachableFishPerTile = Double.MAX_VALUE;
-    List<Move> legalMoves = board.getAllLegalMovesForCurrentPlayer();
-    Move bestMove = legalMoves.get(RandomUtility.getRandomIndex(legalMoves.size()));
+    Move bestMove = null;
 
-    for (Move move : legalMoves) {
+    for (Move move : board.getAllLegalMovesForCurrentPlayer()) {
       GameBoard newBoard = new GameBoard(board);
       newBoard.movePenguin(move);
       double newReachableFishPerTile = newBoard.getReachableFishPerTileForAllPenguins(newBoard.getAllPenguinPositionsForOpponents(board.getCurrentPlayer()));

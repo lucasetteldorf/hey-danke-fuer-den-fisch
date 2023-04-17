@@ -1,0 +1,21 @@
+MCTS Max Fish Per Tile For Penguin Placement vs. Greedy (1000 games)
+
+MCTS Max Fish Per Tile For Penguin Placement win rate: 0.981
+Greedy win rate: 0.016
+Number of ties: 3
+Percentage of ties: 0.003
+
+MCTS Max Fish Per Tile For Penguin Placement average collected fish count: 52.554
+Greedy average collected fish count: 38.652
+
+MCTS Max Fish Per Tile For Penguin Placement average performed total moves (placement and movement): 32.589
+Greedy average performed total moves (placement and movement: 21.077
+
+MCTS Max Fish Per Tile For Penguin Placement C value for UCT selection (placement): 1.4142135623730951
+MCTS Max Fish Per Tile For Penguin Placement placement simulation time : 50ms
+MCTS Max Fish Per Tile For Penguin Placement average placement simulations: 597.94675
+MCTS Max Fish Per Tile For Penguin Placement C value for UCT selection (movement): 1.4142135623730951
+MCTS Max Fish Per Tile For Penguin Placement movement simulation time: 50ms
+MCTS Max Fish Per Tile For Penguin Placement average movement simulations: 19903.48040316876
+MCTS Max Fish Per Tile For Penguin Placement average total simulations: 17519.112481828444
+

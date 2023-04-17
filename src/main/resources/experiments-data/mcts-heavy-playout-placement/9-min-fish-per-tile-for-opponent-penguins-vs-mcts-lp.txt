@@ -1,0 +1,29 @@
+MCTS Min Fish Per Tile For Opponent Penguins Placement vs. MCTS LP Baseline (2) (1000 games)
+
+MCTS Min Fish Per Tile For Opponent Penguins Placement win rate: 0.501
+MCTS LP Baseline (2) win rate: 0.477
+Number of ties: 22
+Percentage of ties: 0.022
+
+MCTS Min Fish Per Tile For Opponent Penguins Placement average collected fish count: 45.568
+MCTS LP Baseline (2) average collected fish count: 45.162
+
+MCTS Min Fish Per Tile For Opponent Penguins Placement average performed total moves (placement and movement): 26.836
+MCTS LP Baseline (2) average performed total moves (placement and movement: 26.758
+
+MCTS Min Fish Per Tile For Opponent Penguins Placement C value for UCT selection (placement): 1.4142135623730951
+MCTS Min Fish Per Tile For Opponent Penguins Placement placement simulation time : 50ms
+MCTS Min Fish Per Tile For Opponent Penguins Placement average placement simulations: 351.48475
+MCTS Min Fish Per Tile For Opponent Penguins Placement C value for UCT selection (movement): 1.4142135623730951
+MCTS Min Fish Per Tile For Opponent Penguins Placement movement simulation time: 50ms
+MCTS Min Fish Per Tile For Opponent Penguins Placement average movement simulations: 13208.61385821063
+MCTS Min Fish Per Tile For Opponent Penguins Placement average total simulations: 11409.497878902399
+
+MCTS LP Baseline (2) C value for UCT selection (placement): 1.4142135623730951
+MCTS LP Baseline (2) placement simulation time : 50ms
+MCTS LP Baseline (2) average placement simulations: 913.86025
+MCTS LP Baseline (2) C value for UCT selection (movement): 1.4142135623730951
+MCTS LP Baseline (2) movement simulation time: 50ms
+MCTS LP Baseline (2) average movement simulations: 14123.886486008687
+MCTS LP Baseline (2) average total simulations: 12265.075295195104
+

@@ -1,0 +1,29 @@
+MCTS Max New Fish For Penguin Movement vs. MCTS LP Baseline (2) (1000 games)
+
+MCTS Max New Fish For Penguin Movement win rate: 0.123
+MCTS LP Baseline (2) win rate: 0.87
+Number of ties: 7
+Percentage of ties: 0.007
+
+MCTS Max New Fish For Penguin Movement average collected fish count: 39.001
+MCTS LP Baseline (2) average collected fish count: 51.13
+
+MCTS Max New Fish For Penguin Movement average performed total moves (placement and movement): 23.666
+MCTS LP Baseline (2) average performed total moves (placement and movement: 29.78
+
+MCTS Max New Fish For Penguin Movement C value for UCT selection (placement): 1.4142135623730951
+MCTS Max New Fish For Penguin Movement placement simulation time : 50ms
+MCTS Max New Fish For Penguin Movement average placement simulations: 978.05225
+MCTS Max New Fish For Penguin Movement C value for UCT selection (movement): 1.4142135623730951
+MCTS Max New Fish For Penguin Movement movement simulation time: 50ms
+MCTS Max New Fish For Penguin Movement average movement simulations: 4994.5791393449845
+MCTS Max New Fish For Penguin Movement average total simulations: 4427.077067662239
+
+MCTS LP Baseline (2) C value for UCT selection (placement): 1.4142135623730951
+MCTS LP Baseline (2) placement simulation time : 50ms
+MCTS LP Baseline (2) average placement simulations: 1011.54575
+MCTS LP Baseline (2) C value for UCT selection (movement): 1.4142135623730951
+MCTS LP Baseline (2) movement simulation time: 50ms
+MCTS LP Baseline (2) average movement simulations: 20582.79999137008
+MCTS LP Baseline (2) average total simulations: 17987.70222640008
+

@@ -1,0 +1,29 @@
+MCTS Min New Fish For Opponent Penguins Movement vs. MCTS LP Baseline (2) (1000 games)
+
+MCTS Min New Fish For Opponent Penguins Movement win rate: 0.233
+MCTS LP Baseline (2) win rate: 0.749
+Number of ties: 18
+Percentage of ties: 0.018
+
+MCTS Min New Fish For Opponent Penguins Movement average collected fish count: 41.892
+MCTS LP Baseline (2) average collected fish count: 49.439
+
+MCTS Min New Fish For Opponent Penguins Movement average performed total moves (placement and movement): 26.846
+MCTS LP Baseline (2) average performed total moves (placement and movement: 27.557
+
+MCTS Min New Fish For Opponent Penguins Movement C value for UCT selection (placement): 1.4142135623730951
+MCTS Min New Fish For Opponent Penguins Movement placement simulation time : 50ms
+MCTS Min New Fish For Opponent Penguins Movement average placement simulations: 897.8905
+MCTS Min New Fish For Opponent Penguins Movement C value for UCT selection (movement): 1.4142135623730951
+MCTS Min New Fish For Opponent Penguins Movement movement simulation time: 50ms
+MCTS Min New Fish For Opponent Penguins Movement average movement simulations: 10233.5751689916
+MCTS Min New Fish For Opponent Penguins Movement average total simulations: 8970.378263968409
+
+MCTS LP Baseline (2) C value for UCT selection (placement): 1.4142135623730951
+MCTS LP Baseline (2) placement simulation time : 50ms
+MCTS LP Baseline (2) average placement simulations: 921.5475
+MCTS LP Baseline (2) C value for UCT selection (movement): 1.4142135623730951
+MCTS LP Baseline (2) movement simulation time: 50ms
+MCTS LP Baseline (2) average movement simulations: 15567.343296173982
+MCTS LP Baseline (2) average total simulations: 13526.131639530076
+

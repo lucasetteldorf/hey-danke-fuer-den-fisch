@@ -8,9 +8,9 @@ public class Experiments {
 
     //    MctsLightPlayoutSimulationTimes.startExperiments(numberOfGames, c);
 
-    MctsLightPlayoutCValue.startExperiments(numberOfGames, simulationTime);
+//    MctsLightPlayoutCValue.startExperiments(numberOfGames, simulationTime);
 
-    MctsHeavyPlayoutPlacement.startExperiments(numberOfGames, c, simulationTime);
+//    MctsHeavyPlayoutPlacement.startExperiments(numberOfGames, c, simulationTime);
 
     MctsHeavyPlayoutMovement.startExperiments(numberOfGames, c, simulationTime);
   }

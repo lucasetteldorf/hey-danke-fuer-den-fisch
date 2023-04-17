@@ -1,0 +1,29 @@
+MCTS Min Fish For Opponent Penguins Placement vs. MCTS LP Baseline (2) (1000 games)
+
+MCTS Min Fish For Opponent Penguins Placement win rate: 0.564
+MCTS LP Baseline (2) win rate: 0.42
+Number of ties: 16
+Percentage of ties: 0.016
+
+MCTS Min Fish For Opponent Penguins Placement average collected fish count: 46.114
+MCTS LP Baseline (2) average collected fish count: 44.412
+
+MCTS Min Fish For Opponent Penguins Placement average performed total moves (placement and movement): 27.056
+MCTS LP Baseline (2) average performed total moves (placement and movement: 26.432
+
+MCTS Min Fish For Opponent Penguins Placement C value for UCT selection (placement): 1.4142135623730951
+MCTS Min Fish For Opponent Penguins Placement placement simulation time : 50ms
+MCTS Min Fish For Opponent Penguins Placement average placement simulations: 370.1395
+MCTS Min Fish For Opponent Penguins Placement C value for UCT selection (movement): 1.4142135623730951
+MCTS Min Fish For Opponent Penguins Placement movement simulation time: 50ms
+MCTS Min Fish For Opponent Penguins Placement average movement simulations: 14004.29757726938
+MCTS Min Fish For Opponent Penguins Placement average total simulations: 12108.453744137889
+
+MCTS LP Baseline (2) C value for UCT selection (placement): 1.4142135623730951
+MCTS LP Baseline (2) placement simulation time : 50ms
+MCTS LP Baseline (2) average placement simulations: 913.65175
+MCTS LP Baseline (2) C value for UCT selection (movement): 1.4142135623730951
+MCTS LP Baseline (2) movement simulation time: 50ms
+MCTS LP Baseline (2) average movement simulations: 13181.310231219055
+MCTS LP Baseline (2) average total simulations: 11452.33231881238
+

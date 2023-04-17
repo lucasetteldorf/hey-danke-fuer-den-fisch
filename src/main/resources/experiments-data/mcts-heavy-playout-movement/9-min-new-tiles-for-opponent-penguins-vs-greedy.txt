@@ -1,0 +1,21 @@
+MCTS Min New Tiles For Opponent Penguins Movement vs. Greedy (1000 games)
+
+MCTS Min New Tiles For Opponent Penguins Movement win rate: 0.885
+Greedy win rate: 0.105
+Number of ties: 10
+Percentage of ties: 0.01
+
+MCTS Min New Tiles For Opponent Penguins Movement average collected fish count: 49.383
+Greedy average collected fish count: 43.464
+
+MCTS Min New Tiles For Opponent Penguins Movement average performed total moves (placement and movement): 32.474
+Greedy average performed total moves (placement and movement: 22.333
+
+MCTS Min New Tiles For Opponent Penguins Movement C value for UCT selection (placement): 1.4142135623730951
+MCTS Min New Tiles For Opponent Penguins Movement placement simulation time : 50ms
+MCTS Min New Tiles For Opponent Penguins Movement average placement simulations: 935.11525
+MCTS Min New Tiles For Opponent Penguins Movement C value for UCT selection (movement): 1.4142135623730951
+MCTS Min New Tiles For Opponent Penguins Movement movement simulation time: 50ms
+MCTS Min New Tiles For Opponent Penguins Movement average movement simulations: 19329.121787226286
+MCTS Min New Tiles For Opponent Penguins Movement average total simulations: 17061.425426789498
+

@@ -1,10 +1,9 @@
-package mcts.node;
+package challenge;
 
 import game.logic.GameBoard;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import utility.RandomUtility;
 
 public class NodePlacement extends Node {
   private final List<int[]> untriedPlacementPositions;
@@ -156,10 +155,9 @@ public class NodePlacement extends Node {
 
   public void playMaxFishPerTileForAllPenguins() {
     double maxReachableFishPerTile = Double.MIN_VALUE;
-    List<int[]> placementPositions = board.getAllLegalPlacementPositions();
-    int[] bestPosition = placementPositions.get(RandomUtility.getRandomIndex(placementPositions.size()));
+    int[] bestPosition = null;
 
-    for (int[] placementPosition : placementPositions) {
+    for (int[] placementPosition : board.getAllLegalPlacementPositions()) {
       GameBoard newBoard = new GameBoard(board);
       newBoard.placePenguin(placementPosition[0], placementPosition[1]);
       double reachableFishPerTile =

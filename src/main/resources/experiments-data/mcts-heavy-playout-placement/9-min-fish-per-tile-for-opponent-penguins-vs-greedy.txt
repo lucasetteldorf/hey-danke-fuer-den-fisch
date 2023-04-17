@@ -1,0 +1,21 @@
+MCTS Min Fish Per Tile For Opponent Penguins Placement vs. Greedy (1000 games)
+
+MCTS Min Fish Per Tile For Opponent Penguins Placement win rate: 0.98
+Greedy win rate: 0.015
+Number of ties: 5
+Percentage of ties: 0.005
+
+MCTS Min Fish Per Tile For Opponent Penguins Placement average collected fish count: 51.974
+Greedy average collected fish count: 39.024
+
+MCTS Min Fish Per Tile For Opponent Penguins Placement average performed total moves (placement and movement): 32.394
+Greedy average performed total moves (placement and movement: 21.087
+
+MCTS Min Fish Per Tile For Opponent Penguins Placement C value for UCT selection (placement): 1.4142135623730951
+MCTS Min Fish Per Tile For Opponent Penguins Placement placement simulation time : 50ms
+MCTS Min Fish Per Tile For Opponent Penguins Placement average placement simulations: 333.5215
+MCTS Min Fish Per Tile For Opponent Penguins Placement C value for UCT selection (movement): 1.4142135623730951
+MCTS Min Fish Per Tile For Opponent Penguins Placement movement simulation time: 50ms
+MCTS Min Fish Per Tile For Opponent Penguins Placement average movement simulations: 18957.099669530155
+MCTS Min Fish Per Tile For Opponent Penguins Placement average total simulations: 16635.662656224697
+

@@ -1,0 +1,21 @@
+MCTS LP (C = 1.5) vs. Greedy (1000 games)
+
+MCTS LP (C = 1.5) win rate: 0.976
+Greedy win rate: 0.02
+Number of ties: 4
+Percentage of ties: 0.004
+
+MCTS LP (C = 1.5) average collected fish count: 52.472
+Greedy average collected fish count: 38.832
+
+MCTS LP (C = 1.5) average performed total moves (placement and movement): 32.433
+Greedy average performed total moves (placement and movement: 21.261
+
+MCTS LP (C = 1.5) C value for UCT selection (placement): 1.5
+MCTS LP (C = 1.5) placement simulation time : 50ms
+MCTS LP (C = 1.5) average placement simulations: 982.026
+MCTS LP (C = 1.5) C value for UCT selection (movement): 1.5
+MCTS LP (C = 1.5) movement simulation time: 50ms
+MCTS LP (C = 1.5) average movement simulations: 20058.599807444672
+MCTS LP (C = 1.5) average total simulations: 17688.57994811387
+

@@ -26,94 +26,94 @@ public class MctsHeavyPlayoutPlacement {
 
     int experimentId = 0;
 
-    Player p4 =
-        new MctsPlayer(
-            "MCTS LP Baseline (1)",
-            4,
-            "B",
-            PlacementHeuristicType.NONE,
-            MovementHeuristicType.NONE,
-            c,
-            simulationTime);
-    file = experimentId + "-mcts-lp-vs-mcts-lp-baseline";
-    ExperimentSetup.playGames(new Player[] {p4, p3}, numberOfGames, path + file);
-    file = experimentId + "-mcts-lp-vs-greedy-baseline";
-    ExperimentSetup.playGames(new Player[] {p4, p2}, numberOfGames, path + file);
+    //    Player p4 =
+    //        new MctsPlayer(
+    //            "MCTS LP Baseline (1)",
+    //            4,
+    //            "B",
+    //            PlacementHeuristicType.NONE,
+    //            MovementHeuristicType.NONE,
+    //            c,
+    //            simulationTime);
+    //    file = experimentId + "-mcts-lp-vs-mcts-lp-baseline";
+    //    ExperimentSetup.playGames(new Player[] {p4, p3}, numberOfGames, path + file);
+    //    file = experimentId + "-mcts-lp-vs-greedy-baseline";
+    //    ExperimentSetup.playGames(new Player[] {p4, p2}, numberOfGames, path + file);
     experimentId++;
 
-    p1 =
-        new MctsPlayer(
-            "MCTS Max Fish For Penguin Placement",
-            4,
-            "B",
-            PlacementHeuristicType.MAX_FISH_FOR_PENGUIN,
-            MovementHeuristicType.NONE,
-            c,
-            simulationTime);
-    file = experimentId + "-max-fish-for-penguin-vs-greedy";
-    ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
-    file = experimentId + "-max-fish-for-penguin-vs-mcts-lp";
-    ExperimentSetup.playGames(new Player[] {p1, p3}, numberOfGames, path + file);
+    //    p1 =
+    //        new MctsPlayer(
+    //            "MCTS Max Fish For Penguin Placement",
+    //            4,
+    //            "B",
+    //            PlacementHeuristicType.MAX_FISH_FOR_PENGUIN,
+    //            MovementHeuristicType.NONE,
+    //            c,
+    //            simulationTime);
+    //    file = experimentId + "-max-fish-for-penguin-vs-greedy";
+    //    ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
+    //    file = experimentId + "-max-fish-for-penguin-vs-mcts-lp";
+    //    ExperimentSetup.playGames(new Player[] {p1, p3}, numberOfGames, path + file);
     experimentId++;
 
-    p1 =
-        new MctsPlayer(
-            "MCTS Max Tiles For Penguin Placement",
-            4,
-            "B",
-            PlacementHeuristicType.MAX_TILES_FOR_PENGUIN,
-            MovementHeuristicType.NONE,
-            c,
-            simulationTime);
-    file = experimentId + "-max-tiles-for-penguin-vs-greedy";
-    ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
-    file = experimentId + "-max-tiles-for-penguin-vs-mcts-lp";
-    ExperimentSetup.playGames(new Player[] {p1, p3}, numberOfGames, path + file);
+    //    p1 =
+    //        new MctsPlayer(
+    //            "MCTS Max Tiles For Penguin Placement",
+    //            4,
+    //            "B",
+    //            PlacementHeuristicType.MAX_TILES_FOR_PENGUIN,
+    //            MovementHeuristicType.NONE,
+    //            c,
+    //            simulationTime);
+    //    file = experimentId + "-max-tiles-for-penguin-vs-greedy";
+    //    ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
+    //    file = experimentId + "-max-tiles-for-penguin-vs-mcts-lp";
+    //    ExperimentSetup.playGames(new Player[] {p1, p3}, numberOfGames, path + file);
     experimentId++;
 
-    p1 =
-        new MctsPlayer(
-            "MCTS Max Fish Per Tile For Penguin Placement",
-            4,
-            "B",
-            PlacementHeuristicType.MAX_FISH_PER_TILE_FOR_PENGUIN,
-            MovementHeuristicType.NONE,
-            c,
-            simulationTime);
-    file = experimentId + "-max-fish-per-tile-for-penguin-vs-greedy";
-    ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
-    file = experimentId + "-max-fish-per-tile-for-penguin-vs-mcts-lp";
-    ExperimentSetup.playGames(new Player[] {p1, p3}, numberOfGames, path + file);
+    //    p1 =
+    //        new MctsPlayer(
+    //            "MCTS Max Fish Per Tile For Penguin Placement",
+    //            4,
+    //            "B",
+    //            PlacementHeuristicType.MAX_FISH_PER_TILE_FOR_PENGUIN,
+    //            MovementHeuristicType.NONE,
+    //            c,
+    //            simulationTime);
+    //    file = experimentId + "-max-fish-per-tile-for-penguin-vs-greedy";
+    //    ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
+    //    file = experimentId + "-max-fish-per-tile-for-penguin-vs-mcts-lp";
+    //    ExperimentSetup.playGames(new Player[] {p1, p3}, numberOfGames, path + file);
     experimentId++;
 
-    p1 =
-        new MctsPlayer(
-            "MCTS Max Fish For All Penguins Placement",
-            4,
-            "B",
-            PlacementHeuristicType.MAX_FISH_FOR_ALL_PENGUINS,
-            MovementHeuristicType.NONE,
-            c,
-            simulationTime);
-    file = experimentId + "-max-fish-for-all-penguins-vs-greedy";
-    ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
-    file = experimentId + "-max-fish-for-all-penguins-vs-mcts-lp";
-    ExperimentSetup.playGames(new Player[] {p1, p3}, numberOfGames, path + file);
+    //    p1 =
+    //        new MctsPlayer(
+    //            "MCTS Max Fish For All Penguins Placement",
+    //            4,
+    //            "B",
+    //            PlacementHeuristicType.MAX_FISH_FOR_ALL_PENGUINS,
+    //            MovementHeuristicType.NONE,
+    //            c,
+    //            simulationTime);
+    //    file = experimentId + "-max-fish-for-all-penguins-vs-greedy";
+    //    ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
+    //    file = experimentId + "-max-fish-for-all-penguins-vs-mcts-lp";
+    //    ExperimentSetup.playGames(new Player[] {p1, p3}, numberOfGames, path + file);
     experimentId++;
 
-    p1 =
-        new MctsPlayer(
-            "MCTS Max Tiles For All Penguins Placement",
-            4,
-            "B",
-            PlacementHeuristicType.MAX_TILES_FOR_ALL_PENGUINS,
-            MovementHeuristicType.NONE,
-            c,
-            simulationTime);
-    file = experimentId + "-max-tiles-for-all-penguins-vs-greedy";
-    ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
-    file = experimentId + "-max-tiles-for-all-penguins-vs-mcts-lp";
-    ExperimentSetup.playGames(new Player[] {p1, p3}, numberOfGames, path + file);
+    //    p1 =
+    //        new MctsPlayer(
+    //            "MCTS Max Tiles For All Penguins Placement",
+    //            4,
+    //            "B",
+    //            PlacementHeuristicType.MAX_TILES_FOR_ALL_PENGUINS,
+    //            MovementHeuristicType.NONE,
+    //            c,
+    //            simulationTime);
+    //    file = experimentId + "-max-tiles-for-all-penguins-vs-greedy";
+    //    ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
+    //    file = experimentId + "-max-tiles-for-all-penguins-vs-mcts-lp";
+    //    ExperimentSetup.playGames(new Player[] {p1, p3}, numberOfGames, path + file);
     experimentId++;
 
     p1 =

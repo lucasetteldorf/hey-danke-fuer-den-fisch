@@ -1,0 +1,29 @@
+MCTS Max Tiles For All Penguins Placement vs. MCTS LP Baseline (2) (1000 games)
+
+MCTS Max Tiles For All Penguins Placement win rate: 0.519
+MCTS LP Baseline (2) win rate: 0.459
+Number of ties: 22
+Percentage of ties: 0.022
+
+MCTS Max Tiles For All Penguins Placement average collected fish count: 45.717
+MCTS LP Baseline (2) average collected fish count: 44.94
+
+MCTS Max Tiles For All Penguins Placement average performed total moves (placement and movement): 26.811
+MCTS LP Baseline (2) average performed total moves (placement and movement: 26.741
+
+MCTS Max Tiles For All Penguins Placement C value for UCT selection (placement): 1.4142135623730951
+MCTS Max Tiles For All Penguins Placement placement simulation time : 50ms
+MCTS Max Tiles For All Penguins Placement average placement simulations: 447.9395
+MCTS Max Tiles For All Penguins Placement C value for UCT selection (movement): 1.4142135623730951
+MCTS Max Tiles For All Penguins Placement movement simulation time: 50ms
+MCTS Max Tiles For All Penguins Placement average movement simulations: 13021.080586270113
+MCTS Max Tiles For All Penguins Placement average total simulations: 11260.201086458546
+
+MCTS LP Baseline (2) C value for UCT selection (placement): 1.4142135623730951
+MCTS LP Baseline (2) placement simulation time : 50ms
+MCTS LP Baseline (2) average placement simulations: 966.227
+MCTS LP Baseline (2) C value for UCT selection (movement): 1.4142135623730951
+MCTS LP Baseline (2) movement simulation time: 50ms
+MCTS LP Baseline (2) average movement simulations: 13655.72680513107
+MCTS LP Baseline (2) average total simulations: 11876.039435043715
+

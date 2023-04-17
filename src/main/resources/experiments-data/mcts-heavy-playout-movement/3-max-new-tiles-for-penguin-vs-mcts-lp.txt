@@ -1,0 +1,29 @@
+MCTS Max New Tiles For Penguin Movement vs. MCTS LP Baseline (2) (1000 games)
+
+MCTS Max New Tiles For Penguin Movement win rate: 0.104
+MCTS LP Baseline (2) win rate: 0.882
+Number of ties: 14
+Percentage of ties: 0.014
+
+MCTS Max New Tiles For Penguin Movement average collected fish count: 39.185
+MCTS LP Baseline (2) average collected fish count: 51.53
+
+MCTS Max New Tiles For Penguin Movement average performed total moves (placement and movement): 23.73
+MCTS LP Baseline (2) average performed total moves (placement and movement: 30.055
+
+MCTS Max New Tiles For Penguin Movement C value for UCT selection (placement): 1.4142135623730951
+MCTS Max New Tiles For Penguin Movement placement simulation time : 50ms
+MCTS Max New Tiles For Penguin Movement average placement simulations: 978.36025
+MCTS Max New Tiles For Penguin Movement C value for UCT selection (movement): 1.4142135623730951
+MCTS Max New Tiles For Penguin Movement movement simulation time: 50ms
+MCTS Max New Tiles For Penguin Movement average movement simulations: 4910.7663330509895
+MCTS Max New Tiles For Penguin Movement average total simulations: 4357.401729262246
+
+MCTS LP Baseline (2) C value for UCT selection (placement): 1.4142135623730951
+MCTS LP Baseline (2) placement simulation time : 50ms
+MCTS LP Baseline (2) average placement simulations: 1010.88
+MCTS LP Baseline (2) C value for UCT selection (movement): 1.4142135623730951
+MCTS LP Baseline (2) movement simulation time: 50ms
+MCTS LP Baseline (2) average movement simulations: 21178.2814663585
+MCTS LP Baseline (2) average total simulations: 18517.44402731357
+

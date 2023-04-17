@@ -1,0 +1,21 @@
+MCTS Max New Tiles For Penguin Movement vs. Greedy (1000 games)
+
+MCTS Max New Tiles For Penguin Movement win rate: 0.787
+Greedy win rate: 0.203
+Number of ties: 10
+Percentage of ties: 0.01
+
+MCTS Max New Tiles For Penguin Movement average collected fish count: 48.295
+Greedy average collected fish count: 43.785
+
+MCTS Max New Tiles For Penguin Movement average performed total moves (placement and movement): 30.618
+Greedy average performed total moves (placement and movement: 23.353
+
+MCTS Max New Tiles For Penguin Movement C value for UCT selection (placement): 1.4142135623730951
+MCTS Max New Tiles For Penguin Movement placement simulation time : 50ms
+MCTS Max New Tiles For Penguin Movement average placement simulations: 980.13125
+MCTS Max New Tiles For Penguin Movement C value for UCT selection (movement): 1.4142135623730951
+MCTS Max New Tiles For Penguin Movement movement simulation time: 50ms
+MCTS Max New Tiles For Penguin Movement average movement simulations: 19127.77489431061
+MCTS Max New Tiles For Penguin Movement average total simulations: 16795.202309413187
+

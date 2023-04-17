@@ -1,0 +1,21 @@
+MCTS Max New Fish For All Penguins Movement vs. Greedy (1000 games)
+
+MCTS Max New Fish For All Penguins Movement win rate: 0.648
+Greedy win rate: 0.333
+Number of ties: 19
+Percentage of ties: 0.019
+
+MCTS Max New Fish For All Penguins Movement average collected fish count: 46.038
+Greedy average collected fish count: 46.356
+
+MCTS Max New Fish For All Penguins Movement average performed total moves (placement and movement): 30.185
+Greedy average performed total moves (placement and movement: 24.084
+
+MCTS Max New Fish For All Penguins Movement C value for UCT selection (placement): 1.4142135623730951
+MCTS Max New Fish For All Penguins Movement placement simulation time : 50ms
+MCTS Max New Fish For All Penguins Movement average placement simulations: 979.44775
+MCTS Max New Fish For All Penguins Movement C value for UCT selection (movement): 1.4142135623730951
+MCTS Max New Fish For All Penguins Movement movement simulation time: 50ms
+MCTS Max New Fish For All Penguins Movement average movement simulations: 16709.08290084865
+MCTS Max New Fish For All Penguins Movement average total simulations: 14702.210659091465
+

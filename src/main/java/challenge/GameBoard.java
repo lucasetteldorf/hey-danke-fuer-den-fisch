@@ -1,4 +1,4 @@
-package game.logic;
+package challenge;
 
 import game.players.Player;
 import java.util.*;
