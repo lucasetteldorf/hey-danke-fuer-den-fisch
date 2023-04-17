@@ -1,193 +1,102 @@
-//package experiments;
-//
-//import experiments.utility.ExperimentSetup;
-//import game.players.GreedyPlayer;
-//import game.players.MctsPlayer;
-//import game.players.Player;
-//import mcts.heavyplayout.MovementHeuristicType;
-//import mcts.heavyplayout.PlacementHeuristicType;
-//import utility.Resources;
-//
-//public class MctsHeavyPlayoutMovement {
-//  public static void startExperiments(int numberOfGames, double c, int simulationTime) {
-//    String path = Resources.ROOT_DIR + "mcts-heavy-playout-movement/";
-//    String file;
-//    Player p1;
-//    Player p2 = new GreedyPlayer("Greedy", 4, "R");
-//    Player p3 =
-//        new MctsPlayer(
-//            "MCTS LP Baseline (2)",
-//            4,
-//            "R",
-//            PlacementHeuristicType.NONE,
-//            MovementHeuristicType.NONE,
-//            c,
-//            simulationTime);
-//
-//    int experimentId = 0;
-//
-////    Player p4 =
-////        new MctsPlayer(
-////            "MCTS LP Baseline (1)",
-////            4,
-////            "B",
-////            PlacementHeuristicType.NONE,
-////            MovementHeuristicType.NONE,
-////            c,
-////            simulationTime);
-////    file = experimentId + "-mcts-lp-vs-mcts-lp-baseline";
-////    ExperimentSetup.playGames(new Player[] {p4, p3}, numberOfGames, path + file);
-////    file = experimentId + "-mcts-lp-vs-greedy-baseline";
-////    ExperimentSetup.playGames(new Player[] {p4, p2}, numberOfGames, path + file);
-//    experimentId++;
-//
-////    p1 =
-////        new MctsPlayer(
-////            "MCTS Max Fish On New Tile Movement",
-////            4,
-////            "B",
-////            PlacementHeuristicType.NONE,
-////            MovementHeuristicType.MAX_FISH_ON_NEW_TILE,
-////            c,
-////            simulationTime);
-////    file = experimentId + "-max-fish-on-new-tile-vs-greedy";
-////    ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
-////    file = experimentId + "-max-fish-on-new-tile-vs-mcts-lp";
-////    ExperimentSetup.playGames(new Player[] {p1, p3}, numberOfGames, path + file);
-//    experimentId++;
-//
-////    p1 =
-////        new MctsPlayer(
-////            "MCTS Max New Fish For Penguin Movement",
-////            4,
-////            "B",
-////            PlacementHeuristicType.NONE,
-////            MovementHeuristicType.MAX_NEW_FISH_FOR_PENGUIN,
-////            c,
-////            simulationTime);
-////    file = experimentId + "-max-new-fish-for-penguin-vs-greedy";
-////    ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
-////    file = experimentId + "-max-new-fish-for-penguin-vs-mcts-lp";
-////    ExperimentSetup.playGames(new Player[] {p1, p3}, numberOfGames, path + file);
-//    experimentId++;
-//
-////    p1 =
-////        new MctsPlayer(
-////            "MCTS Max New Tiles For Penguin Movement",
-////            4,
-////            "B",
-////            PlacementHeuristicType.NONE,
-////            MovementHeuristicType.MAX_NEW_TILES_FOR_PENGUIN,
-////            c,
-////            simulationTime);
-////    file = experimentId + "-max-new-tiles-for-penguin-vs-greedy";
-////    ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
-////    file = experimentId + "-max-new-tiles-for-penguin-vs-mcts-lp";
-////    ExperimentSetup.playGames(new Player[] {p1, p3}, numberOfGames, path + file);
-//    experimentId++;
-//
-////    p1 =
-////        new MctsPlayer(
-////            "MCTS Max Fish Per Tile For Penguin Movement",
-////            4,
-////            "B",
-////            PlacementHeuristicType.NONE,
-////            MovementHeuristicType.MAX_NEW_FISH_PER_TILE_FOR_PENGUIN,
-////            c,
-////            simulationTime);
-////    file = experimentId + "-max-new-fish-per-tile-for-penguin-vs-greedy";
-////    ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
-////    file = experimentId + "-max-new-fish-per-tile-for-penguin-vs-mcts-lp";
-////    ExperimentSetup.playGames(new Player[] {p1, p3}, numberOfGames, path + file);
-//    experimentId++;
-//
-////    p1 =
-////        new MctsPlayer(
-////            "MCTS Max New Fish For All Penguins Movement",
-////            4,
-////            "B",
-////            PlacementHeuristicType.NONE,
-////            MovementHeuristicType.MAX_NEW_FISH_FOR_ALL_PENGUINS,
-////            c,
-////            simulationTime);
-////    file = experimentId + "-max-new-fish-for-all-penguins-vs-greedy";
-////    ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
-////    file = experimentId + "-max-new-fish-for-all-penguins-vs-mcts-lp";
-////    ExperimentSetup.playGames(new Player[] {p1, p3}, numberOfGames, path + file);
-//    experimentId++;
-//
-////    p1 =
-////        new MctsPlayer(
-////            "MCTS Max New Tiles For All Penguins Movement",
-////            4,
-////            "B",
-////            PlacementHeuristicType.NONE,
-////            MovementHeuristicType.MAX_NEW_TILES_FOR_ALL_PENGUINS,
-////            c,
-////            simulationTime);
-////    file = experimentId + "-max-new-tiles-for-all-penguins-vs-greedy";
-////    ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
-////    file = experimentId + "-max-new-tiles-for-all-penguins-vs-mcts-lp";
-////    ExperimentSetup.playGames(new Player[] {p1, p3}, numberOfGames, path + file);
-//    experimentId++;
-//
-////    p1 =
-////        new MctsPlayer(
-////            "MCTS Max New Fish Per Tile For All Penguins Movement",
-////            4,
-////            "B",
-////            PlacementHeuristicType.NONE,
-////            MovementHeuristicType.MAX_NEW_FISH_PER_TILE_FOR_ALL_PENGUINS,
-////            c,
-////            simulationTime);
-////    file = experimentId + "-max-new-fish-per-tile-for-all-penguins-vs-greedy";
-////    ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
-////    file = experimentId + "max-new-fish-per-tile-for-all-penguins-vs-mcts-lp";
-////    ExperimentSetup.playGames(new Player[] {p1, p3}, numberOfGames, path + file);
-//    experimentId++;
-//
-////    p1 =
-////        new MctsPlayer(
-////            "MCTS Min New Fish For Opponent Penguins Movement",
-////            4,
-////            "B",
-////            PlacementHeuristicType.NONE,
-////            MovementHeuristicType.MIN_NEW_FISH_FOR_OPPONENT_PENGUINS,
-////            c,
-////            simulationTime);
-////    file = experimentId + "-min-new-fish-for-opponent-penguins-vs-greedy";
-////    ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
-////    file = experimentId + "-min-new-fish-for-opponent-penguins-vs-mcts-lp";
-////    ExperimentSetup.playGames(new Player[] {p1, p3}, numberOfGames, path + file);
-//    experimentId++;
-//
-////    p1 =
-////        new MctsPlayer(
-////            "MCTS Min New Tiles For Opponent Penguins Movement",
-////            4,
-////            "B",
-////            PlacementHeuristicType.NONE,
-////            MovementHeuristicType.MIN_NEW_TILES_FOR_OPPONENT_PENGUINS,
-////            c,
-////            simulationTime);
-////    file = experimentId + "-min-new-tiles-for-opponent-penguins-vs-greedy";
-////    ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
-////    file = experimentId + "-min-new-tiles-for-opponent-penguins-vs-mcts-lp";
-////    ExperimentSetup.playGames(new Player[] {p1, p3}, numberOfGames, path + file);
-//    experimentId++;
-//
-//    p1 =
-//        new MctsPlayer(
-//            "MCTS Min New Fish Per TIle For Opponent Penguins Movement",
-//            4,
-//            "B",
-//            PlacementHeuristicType.NONE,
-//            MovementHeuristicType.MIM_NEW_FISH_PER_TILE_FOR_OPPONENT_PENGUINS,
-//            c,
-//            simulationTime);
-//    file = experimentId + "-min-new-fish-per-tile-for-opponent-penguins-vs-greedy";
-//    ExperimentSetup.playGames(new Player[] {p1, p2}, numberOfGames, path + file);
-//    file = experimentId + "-min-new-fish-per-tile-for-opponent-penguins-vs-mcts-lp";
-//    ExperimentSetup.playGames(new Player[] {p1, p3}, numberOfGames, path + file);
-//  }
-//}
+package experiments;
+
+import experiments.utility.ExperimentSetup;
+import game.players.GreedyPlayer;
+import game.players.MctsPlayer;
+import game.players.Player;
+import mcts.heavyplayout.MovementHeuristicType;
+import mcts.heavyplayout.PlacementHeuristicType;
+import utility.Resources;
+
+public class MctsHeavyPlayoutMovement {
+  public static void startExperiments(int numberOfGames, double c, int simulationTime) {
+    String path = Resources.ROOT_DIR + "mcts-heavy-playout-movement/";
+    String file;
+    Player p1;
+    Player p2 = new GreedyPlayer("Greedy Baseline 1", 4, "B");
+    Player p3 = new GreedyPlayer("Greedy Baseline 2", 4, "R");
+    Player p4 =
+        new MctsPlayer(
+            "MCTS LP Baseline 1",
+            4,
+            "B",
+            PlacementHeuristicType.NONE,
+            MovementHeuristicType.NONE,
+            c,
+            simulationTime);
+    Player p5 =
+        new MctsPlayer(
+            "MCTS LP Baseline 2",
+            4,
+            "R",
+            PlacementHeuristicType.NONE,
+            MovementHeuristicType.NONE,
+            c,
+            simulationTime);
+
+    file = "lp-vs-lp-baseline";
+    ExperimentSetup.playGames(new Player[] {p4, p5}, numberOfGames, path + file);
+
+    numberOfGames /= 2;
+
+//    file = "lp-vs-greedy-baseline";
+//    ExperimentSetup.playGames(new Player[] {p4, p3}, numberOfGames, path + file);
+//    file = "greedy-vs-lp-baseline";
+//    ExperimentSetup.playGames(new Player[] {p2, p5}, numberOfGames, path + file);
+
+    p1 = new MctsPlayer("MCTS HP G 1", 4, "B", PlacementHeuristicType.NONE, MovementHeuristicType.G, c, simulationTime);
+    file = "g-vs-greedy-baseline";
+    ExperimentSetup.playGames(new Player[]{p1, p3}, numberOfGames, path + file);
+    file = "g-vs-lp-baseline";
+    ExperimentSetup.playGames(new Player[]{p1, p5}, numberOfGames, path + file);
+    p1 = new MctsPlayer("MCTS HP G 2", 4, "R", PlacementHeuristicType.NONE, MovementHeuristicType.G, c, simulationTime);
+    file = "greedy-vs-g-baseline";
+    ExperimentSetup.playGames(new Player[]{p2, p1}, numberOfGames, path + file);
+    file = "lp-vs-g-baseline";
+    ExperimentSetup.playGames(new Player[]{p4, p1}, numberOfGames, path + file);
+
+    p1 = new MctsPlayer("MCTS HP MORFC 1", 4, "B", PlacementHeuristicType.NONE, MovementHeuristicType.MORFC, c, simulationTime);
+    file = "morfc-vs-greedy-baseline";
+    ExperimentSetup.playGames(new Player[]{p1, p3}, numberOfGames, path + file);
+    file = "morfc-vs-lp-baseline";
+    ExperimentSetup.playGames(new Player[]{p1, p5}, numberOfGames, path + file);
+    p1 = new MctsPlayer("MCTS HP MORFC 2", 4, "R", PlacementHeuristicType.NONE, MovementHeuristicType.MORFC, c, simulationTime);
+    file = "greedy-vs-morfc-baseline";
+    ExperimentSetup.playGames(new Player[]{p2, p1}, numberOfGames, path + file);
+    file = "lp-vs-morfc-baseline";
+    ExperimentSetup.playGames(new Player[]{p4, p1}, numberOfGames, path + file);
+
+    p1 = new MctsPlayer("MCTS HP MERFC 1", 4, "B", PlacementHeuristicType.NONE, MovementHeuristicType.MERFC, c, simulationTime);
+    file = "merfc-vs-greedy-baseline";
+    ExperimentSetup.playGames(new Player[]{p1, p3}, numberOfGames, path + file);
+    file = "merfc-vs-lp-baseline";
+    ExperimentSetup.playGames(new Player[]{p1, p5}, numberOfGames, path + file);
+    p1 = new MctsPlayer("MCTS HP MERFC 2", 4, "R", PlacementHeuristicType.NONE, MovementHeuristicType.MERFC, c, simulationTime);
+    file = "greedy-vs-merfc-baseline";
+    ExperimentSetup.playGames(new Player[]{p2, p1}, numberOfGames, path + file);
+    file = "lp-vs-merfc-baseline";
+    ExperimentSetup.playGames(new Player[]{p4, p1}, numberOfGames, path + file);
+
+    p1 = new MctsPlayer("MCTS HP MORT 1", 4, "B", PlacementHeuristicType.NONE, MovementHeuristicType.MORT, c, simulationTime);
+    file = "mort-vs-greedy-baseline";
+    ExperimentSetup.playGames(new Player[]{p1, p3}, numberOfGames, path + file);
+    file = "mort-vs-lp-baseline";
+    ExperimentSetup.playGames(new Player[]{p1, p5}, numberOfGames, path + file);
+    p1 = new MctsPlayer("MCTS HP MORT 2", 4, "R", PlacementHeuristicType.NONE, MovementHeuristicType.MORT, c, simulationTime);
+    file = "greedy-vs-mort-baseline";
+    ExperimentSetup.playGames(new Player[]{p2, p1}, numberOfGames, path + file);
+    file = "lp-vs-mort-baseline";
+    ExperimentSetup.playGames(new Player[]{p4, p1}, numberOfGames, path + file);
+
+    p1 = new MctsPlayer("MCTS HP MERT 1", 4, "B", PlacementHeuristicType.NONE, MovementHeuristicType.MERT, c, simulationTime);
+    file = "mert-vs-greedy-baseline";
+    ExperimentSetup.playGames(new Player[]{p1, p3}, numberOfGames, path + file);
+    file = "mert-vs-lp-baseline";
+    ExperimentSetup.playGames(new Player[]{p1, p5}, numberOfGames, path + file);
+    p1 = new MctsPlayer("MCTS HP MERT 2", 4, "R", PlacementHeuristicType.NONE, MovementHeuristicType.MERT, c, simulationTime);
+    file = "greedy-vs-mert-baseline";
+    ExperimentSetup.playGames(new Player[]{p2, p1}, numberOfGames, path + file);
+    file = "lp-vs-mert-baseline";
+    ExperimentSetup.playGames(new Player[]{p4, p1}, numberOfGames, path + file);
+  }
+}

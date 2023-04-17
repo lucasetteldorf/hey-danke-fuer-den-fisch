@@ -71,13 +71,17 @@ public class NodePlacement extends Node {
     untriedPlacementPositions.clear();
   }
 
-  // TODO use all own penguins?!
+  // TODO just max. for placed penguin again instead of all?
   public void playMaxOwnThreeFishTiles() {
     int[] bestPlacementPosition = null;
     int maxThreeFishTiles = Integer.MIN_VALUE;
     List<int[]> placementPositions = board.getAllLegalPlacementPositions();
     for (int[] placementPosition : placementPositions) {
-      int threeFishTiles = board.getThreeFishTilesCountForPenguin(placementPosition);
+      GameBoard newBoard = new GameBoard(board);
+      newBoard.placePenguin(placementPosition[0], placementPosition[1]);
+      int threeFishTiles =
+          newBoard.getThreeFishTilesCountForAllPenguins(
+              newBoard.getAllPenguinPositionsForPlayer(board.getCurrentPlayer()));
       if (threeFishTiles > maxThreeFishTiles) {
         maxThreeFishTiles = threeFishTiles;
         bestPlacementPosition = placementPosition;
@@ -104,13 +108,17 @@ public class NodePlacement extends Node {
     board.placePenguin(bestPlacementPosition[0], bestPlacementPosition[1]);
   }
 
-  // TODO use all own penguins?!
+  // TODO just max. for placed penguin again instead of all?
   public void playMaxOwnTotalFishCount() {
     int[] bestPlacementPosition = null;
     int maxFishCount = Integer.MIN_VALUE;
     List<int[]> placementPositions = board.getAllLegalPlacementPositions();
     for (int[] placementPosition : placementPositions) {
-      int fishCount = board.getReachableFishCountForPenguin(placementPosition);
+      GameBoard newBoard = new GameBoard(board);
+      newBoard.placePenguin(placementPosition[0], placementPosition[1]);
+      int fishCount =
+          newBoard.getReachableFishCountForAllPenguins(
+              newBoard.getAllPenguinPositionsForPlayer(board.getCurrentPlayer()));
       if (fishCount > maxFishCount) {
         maxFishCount = fishCount;
         bestPlacementPosition = placementPosition;
@@ -137,13 +145,17 @@ public class NodePlacement extends Node {
     board.placePenguin(bestPlacementPosition[0], bestPlacementPosition[1]);
   }
 
-  // TODO use all own penguins?!
+  // TODO just max. for placed penguin again instead of all?
   public void playMaxOwnTotalTiles() {
     int[] bestPlacementPosition = null;
     int maxTiles = Integer.MIN_VALUE;
     List<int[]> placementPositions = board.getAllLegalPlacementPositions();
     for (int[] placementPosition : placementPositions) {
-      int tiles = board.getReachableTilesForPenguin(placementPosition);
+      GameBoard newBoard = new GameBoard(board);
+      newBoard.placePenguin(placementPosition[0], placementPosition[1]);
+      int tiles =
+          newBoard.getReachableFishCountForAllPenguins(
+              newBoard.getAllPenguinPositionsForPlayer(board.getCurrentPlayer()));
       if (tiles > maxTiles) {
         maxTiles = tiles;
         bestPlacementPosition = placementPosition;

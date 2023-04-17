@@ -38,8 +38,7 @@ public class MctsHpPlacementTest {
             "B",
             PlacementHeuristicType.MOTFT,
             MovementHeuristicType.NONE,
-            Math.sqrt(2),
-            20);
+            Math.sqrt(2), 10);
     ExperimentSetup.playGames(new Player[] {p1, p2}, 20, path + "motft-1");
   }
 

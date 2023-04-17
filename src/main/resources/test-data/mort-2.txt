@@ -1,29 +1,29 @@
 MCTS LP (Baseline) vs. MCTS HP (MORT) (20 games)
 
-MCTS LP (Baseline) win rate: 1.0
-MCTS HP (MORT) win rate: 0.0
+MCTS LP (Baseline) win rate: 0.95
+MCTS HP (MORT) win rate: 0.05
 Number of ties: 0
 Percentage of ties: 0.0
 
-MCTS LP (Baseline) average collected fish count: 51.6
-MCTS HP (MORT) average collected fish count: 40.0
+MCTS LP (Baseline) average collected fish count: 52.65
+MCTS HP (MORT) average collected fish count: 39.45
 
-MCTS LP (Baseline) average performed total moves (placement and movement): 30.15
-MCTS HP (MORT) average performed total moves (placement and movement: 24.7
+MCTS LP (Baseline) average performed total moves (placement and movement): 30.5
+MCTS HP (MORT) average performed total moves (placement and movement: 24.95
 
 MCTS LP (Baseline) C value for UCT selection (placement): 1.4142135623730951
 MCTS LP (Baseline) placement simulation time : 20ms
-MCTS LP (Baseline) average placement simulations: 333.3625
+MCTS LP (Baseline) average placement simulations: 326.375
 MCTS LP (Baseline) C value for UCT selection (movement): 1.4142135623730951
 MCTS LP (Baseline) movement simulation time: 20ms
-MCTS LP (Baseline) average movement simulations: 7493.473295799966
-MCTS LP (Baseline) average total simulations: 6541.123990205801
+MCTS LP (Baseline) average movement simulations: 7378.631873700472
+MCTS LP (Baseline) average total simulations: 6464.757951841577
 
 MCTS HP (MORT) C value for UCT selection (placement): 1.4142135623730951
 MCTS HP (MORT) placement simulation time : 20ms
-MCTS HP (MORT) average placement simulations: 350.9875
+MCTS HP (MORT) average placement simulations: 335.3
 MCTS HP (MORT) C value for UCT selection (movement): 1.4142135623730951
 MCTS HP (MORT) movement simulation time: 20ms
-MCTS HP (MORT) average movement simulations: 2865.0134680990946
-MCTS HP (MORT) average total simulations: 2493.8847650199837
+MCTS HP (MORT) average movement simulations: 1764.7755194083188
+MCTS HP (MORT) average total simulations: 1563.2193751076518
 

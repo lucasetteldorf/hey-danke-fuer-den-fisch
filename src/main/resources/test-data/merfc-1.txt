@@ -1,29 +1,29 @@
 MCTS HP (MERFC) vs. MCTS LP (Baseline) (20 games)
 
-MCTS HP (MERFC) win rate: 0.2
-MCTS LP (Baseline) win rate: 0.8
+MCTS HP (MERFC) win rate: 0.1
+MCTS LP (Baseline) win rate: 0.9
 Number of ties: 0
 Percentage of ties: 0.0
 
-MCTS HP (MERFC) average collected fish count: 41.15
-MCTS LP (Baseline) average collected fish count: 49.75
+MCTS HP (MERFC) average collected fish count: 39.55
+MCTS LP (Baseline) average collected fish count: 51.65
 
-MCTS HP (MERFC) average performed total moves (placement and movement): 26.45
-MCTS LP (Baseline) average performed total moves (placement and movement: 28.35
+MCTS HP (MERFC) average performed total moves (placement and movement): 25.45
+MCTS LP (Baseline) average performed total moves (placement and movement: 28.85
 
 MCTS HP (MERFC) C value for UCT selection (placement): 1.4142135623730951
 MCTS HP (MERFC) placement simulation time : 20ms
-MCTS HP (MERFC) average placement simulations: 276.5125
+MCTS HP (MERFC) average placement simulations: 303.3125
 MCTS HP (MERFC) C value for UCT selection (movement): 1.4142135623730951
 MCTS HP (MERFC) movement simulation time: 20ms
-MCTS HP (MERFC) average movement simulations: 2746.577805535423
-MCTS HP (MERFC) average total simulations: 2412.5233140372898
+MCTS HP (MERFC) average movement simulations: 2502.946471962502
+MCTS HP (MERFC) average total simulations: 2207.532689387134
 
 MCTS LP (Baseline) C value for UCT selection (placement): 1.4142135623730951
 MCTS LP (Baseline) placement simulation time : 20ms
-MCTS LP (Baseline) average placement simulations: 291.725
+MCTS LP (Baseline) average placement simulations: 313.375
 MCTS LP (Baseline) C value for UCT selection (movement): 1.4142135623730951
 MCTS LP (Baseline) movement simulation time: 20ms
-MCTS LP (Baseline) average movement simulations: 5119.429888622372
-MCTS LP (Baseline) average total simulations: 4456.115744363438
+MCTS LP (Baseline) average movement simulations: 7093.376144439766
+MCTS LP (Baseline) average total simulations: 6168.142848077047
 

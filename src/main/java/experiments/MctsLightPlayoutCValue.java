@@ -16,22 +16,28 @@ public class MctsLightPlayoutCValue {
       Player p2 = new GreedyPlayer("Greedy", 4, "R");
       ExperimentSetup.playGames(
           new Player[] {p1, p2},
-          numberOfGames,
+          numberOfGames / 2,
           Resources.ROOT_DIR + "mcts-light-playout-c-values/mcts-vs-greedy-c-value-" + cValue);
+      ExperimentSetup.playGames(
+          new Player[] {p2, p1},
+          numberOfGames / 2,
+          Resources.ROOT_DIR + "mcts-light-playout-c-values/greedy-vs-mcts-c-value-" + cValue);
 
       p1 = new MctsPlayer("MCTS LP (C = " + cValue + ")", 4, "B", cValue, simulationTime);
       p2 =
           new MctsPlayer(
-              "MCTS LP Baseline (C = " + Math.sqrt(2) + ")",
-              4,
-              "R",
-              Math.sqrt(2),
-              simulationTime);
+              "MCTS LP Baseline (C = " + Math.sqrt(2) + ")", 4, "R", Math.sqrt(2), simulationTime);
       ExperimentSetup.playGames(
           new Player[] {p1, p2},
-          numberOfGames,
+          numberOfGames / 2,
           Resources.ROOT_DIR
               + "mcts-light-playout-c-values/mcts-vs-baseline-mcts-c-value-"
+              + cValue);
+      ExperimentSetup.playGames(
+          new Player[] {p2, p1},
+          numberOfGames / 2,
+          Resources.ROOT_DIR
+              + "mcts-light-playout-c-values/baseline-mcts-vs-mcts-c-value-"
               + cValue);
     }
   }

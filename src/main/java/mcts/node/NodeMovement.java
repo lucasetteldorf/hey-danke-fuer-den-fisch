@@ -80,12 +80,16 @@ public class NodeMovement extends Node {
     board.movePenguin(bestMove);
   }
 
-  // TODO use all own penguins?!
+  // TODO just max. for placed penguin again instead of all?
   public void playMaxOwnReachableFishCount() {
     Move bestMove = null;
     int maxFishCount = Integer.MIN_VALUE;
     for (Move move : board.getAllLegalMovesForCurrentPlayer()) {
-      int fishCount = board.getReachableFishCountForPenguin(move.getOldPosition());
+      GameBoard newBoard = new GameBoard(board);
+      newBoard.movePenguin(move);
+      int fishCount =
+          newBoard.getReachableFishCountForAllPenguins(
+              newBoard.getAllPenguinPositionsForPlayer(board.getCurrentPlayer()));
       if (fishCount > maxFishCount) {
         maxFishCount = fishCount;
         bestMove = move;
@@ -111,12 +115,16 @@ public class NodeMovement extends Node {
     board.movePenguin(bestMove);
   }
 
-  // TODO use all own penguins?!
+  // TODO just max. for placed penguin again instead of all?
   public void playMaxOwnReachableTiles() {
     Move bestMove = null;
     int maxTiles = Integer.MIN_VALUE;
     for (Move move : board.getAllLegalMovesForCurrentPlayer()) {
-      int tiles = board.getReachableTilesForPenguin(move.getOldPosition());
+      GameBoard newBoard = new GameBoard(board);
+      newBoard.movePenguin(move);
+      int tiles =
+          newBoard.getReachableTilesForAllPenguins(
+              newBoard.getAllPenguinPositionsForPlayer(board.getCurrentPlayer()));
       if (tiles > maxTiles) {
         maxTiles = tiles;
         bestMove = move;

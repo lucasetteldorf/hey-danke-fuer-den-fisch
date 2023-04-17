@@ -5,25 +5,25 @@ MCTS LP (Baseline) win rate: 0.95
 Number of ties: 0
 Percentage of ties: 0.0
 
-MCTS HP (MORFC) average collected fish count: 40.65
-MCTS LP (Baseline) average collected fish count: 50.05
+MCTS HP (MORFC) average collected fish count: 39.3
+MCTS LP (Baseline) average collected fish count: 54.75
 
-MCTS HP (MORFC) average performed total moves (placement and movement): 24.4
-MCTS LP (Baseline) average performed total moves (placement and movement: 29.4
+MCTS HP (MORFC) average performed total moves (placement and movement): 25.0
+MCTS LP (Baseline) average performed total moves (placement and movement: 31.05
 
 MCTS HP (MORFC) C value for UCT selection (placement): 1.4142135623730951
 MCTS HP (MORFC) placement simulation time : 20ms
-MCTS HP (MORFC) average placement simulations: 344.7125
+MCTS HP (MORFC) average placement simulations: 359.8125
 MCTS HP (MORFC) C value for UCT selection (movement): 1.4142135623730951
 MCTS HP (MORFC) movement simulation time: 20ms
-MCTS HP (MORFC) average movement simulations: 2381.0277551689665
-MCTS HP (MORFC) average total simulations: 2067.868468905089
+MCTS HP (MORFC) average movement simulations: 1993.2056743390094
+MCTS HP (MORFC) average total simulations: 1781.8904915372884
 
 MCTS LP (Baseline) C value for UCT selection (placement): 1.4142135623730951
 MCTS LP (Baseline) placement simulation time : 20ms
-MCTS LP (Baseline) average placement simulations: 349.8
+MCTS LP (Baseline) average placement simulations: 369.4875
 MCTS LP (Baseline) C value for UCT selection (movement): 1.4142135623730951
 MCTS LP (Baseline) movement simulation time: 20ms
-MCTS LP (Baseline) average movement simulations: 8462.2100640359
-MCTS LP (Baseline) average total simulations: 7366.603026717395
+MCTS LP (Baseline) average movement simulations: 8107.767170366448
+MCTS LP (Baseline) average total simulations: 7117.745586870806
 
