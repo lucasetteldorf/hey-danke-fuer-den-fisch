@@ -34,8 +34,8 @@ public class MctsHeavyPlayoutMovement {
             c,
             simulationTime);
 
-    file = "lp-vs-lp-baseline";
-    ExperimentSetup.playGames(new Player[] {p4, p5}, numberOfGames, path + file);
+//    file = "lp-vs-lp-baseline";
+//    ExperimentSetup.playGames(new Player[] {p4, p5}, numberOfGames, path + file);
 
     numberOfGames /= 2;
 

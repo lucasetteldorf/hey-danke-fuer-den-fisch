@@ -1,0 +1,21 @@
+MCTS HP MOTFC 1 vs. Greedy Baseline 2 (1000 games)
+
+MCTS HP MOTFC 1 win rate: 0.949
+Greedy Baseline 2 win rate: 0.044
+Number of ties: 7
+Percentage of ties: 0.007
+
+MCTS HP MOTFC 1 average collected fish count: 51.454
+Greedy Baseline 2 average collected fish count: 40.041
+
+MCTS HP MOTFC 1 average performed total moves (placement and movement): 32.505
+Greedy Baseline 2 average performed total moves (placement and movement: 21.331
+
+MCTS HP MOTFC 1 C value for UCT selection (placement): 1.4142135623730951
+MCTS HP MOTFC 1 placement simulation time : 20ms
+MCTS HP MOTFC 1 average placement simulations: 168.16175
+MCTS HP MOTFC 1 C value for UCT selection (movement): 1.4142135623730951
+MCTS HP MOTFC 1 movement simulation time: 20ms
+MCTS HP MOTFC 1 average movement simulations: 8290.739885040875
+MCTS HP MOTFC 1 average total simulations: 7288.649657551459
+

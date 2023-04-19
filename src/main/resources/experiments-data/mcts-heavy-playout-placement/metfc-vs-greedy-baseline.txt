@@ -1,0 +1,21 @@
+MCTS HP METFC 1 vs. Greedy Baseline 2 (1000 games)
+
+MCTS HP METFC 1 win rate: 0.946
+Greedy Baseline 2 win rate: 0.043
+Number of ties: 11
+Percentage of ties: 0.011
+
+MCTS HP METFC 1 average collected fish count: 51.334
+Greedy Baseline 2 average collected fish count: 40.479
+
+MCTS HP METFC 1 average performed total moves (placement and movement): 32.385
+Greedy Baseline 2 average performed total moves (placement and movement: 21.525
+
+MCTS HP METFC 1 C value for UCT selection (placement): 1.4142135623730951
+MCTS HP METFC 1 placement simulation time : 20ms
+MCTS HP METFC 1 average placement simulations: 146.57075
+MCTS HP METFC 1 C value for UCT selection (movement): 1.4142135623730951
+MCTS HP METFC 1 movement simulation time: 20ms
+MCTS HP METFC 1 average movement simulations: 8268.641384472068
+MCTS HP METFC 1 average total simulations: 7259.519491842694
+

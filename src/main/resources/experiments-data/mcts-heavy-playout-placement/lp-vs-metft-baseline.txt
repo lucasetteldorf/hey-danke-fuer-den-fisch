@@ -1,0 +1,29 @@
+MCTS LP Baseline 1 vs. MCTS HP METFT 2 (1000 games)
+
+MCTS LP Baseline 1 win rate: 0.526
+MCTS HP METFT 2 win rate: 0.448
+Number of ties: 26
+Percentage of ties: 0.026
+
+MCTS LP Baseline 1 average collected fish count: 45.983
+MCTS HP METFT 2 average collected fish count: 45.023
+
+MCTS LP Baseline 1 average performed total moves (placement and movement): 27.187
+MCTS HP METFT 2 average performed total moves (placement and movement: 26.797
+
+MCTS LP Baseline 1 C value for UCT selection (placement): 1.4142135623730951
+MCTS LP Baseline 1 placement simulation time : 20ms
+MCTS LP Baseline 1 average placement simulations: 358.4965
+MCTS LP Baseline 1 C value for UCT selection (movement): 1.4142135623730951
+MCTS LP Baseline 1 movement simulation time: 20ms
+MCTS LP Baseline 1 average movement simulations: 5645.913254482765
+MCTS LP Baseline 1 average total simulations: 4914.273092092634
+
+MCTS HP METFT 2 C value for UCT selection (placement): 1.4142135623730951
+MCTS HP METFT 2 placement simulation time : 20ms
+MCTS HP METFT 2 average placement simulations: 187.177
+MCTS HP METFT 2 C value for UCT selection (movement): 1.4142135623730951
+MCTS HP METFT 2 movement simulation time: 20ms
+MCTS HP METFT 2 average movement simulations: 5788.9726125961815
+MCTS HP METFT 2 average total simulations: 5002.531752290025
+

@@ -1,0 +1,21 @@
+MCTS HP MERT 1 vs. Greedy Baseline 2 (1000 games)
+
+MCTS HP MERT 1 win rate: 0.743
+Greedy Baseline 2 win rate: 0.237
+Number of ties: 20
+Percentage of ties: 0.02
+
+MCTS HP MERT 1 average collected fish count: 47.377
+Greedy Baseline 2 average collected fish count: 45.596
+
+MCTS HP MERT 1 average performed total moves (placement and movement): 31.658
+Greedy Baseline 2 average performed total moves (placement and movement: 23.105
+
+MCTS HP MERT 1 C value for UCT selection (placement): 1.4142135623730951
+MCTS HP MERT 1 placement simulation time : 20ms
+MCTS HP MERT 1 average placement simulations: 376.77
+MCTS HP MERT 1 C value for UCT selection (movement): 1.4142135623730951
+MCTS HP MERT 1 movement simulation time: 20ms
+MCTS HP MERT 1 average movement simulations: 7512.416183027902
+MCTS HP MERT 1 average total simulations: 6623.377028592592
+

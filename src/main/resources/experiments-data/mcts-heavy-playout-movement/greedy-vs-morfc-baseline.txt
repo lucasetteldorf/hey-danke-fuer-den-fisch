@@ -1,0 +1,21 @@
+Greedy Baseline 1 vs. MCTS HP MORFC 2 (1000 games)
+
+Greedy Baseline 1 win rate: 0.686
+MCTS HP MORFC 2 win rate: 0.298
+Number of ties: 16
+Percentage of ties: 0.016
+
+Greedy Baseline 1 average collected fish count: 52.029
+MCTS HP MORFC 2 average collected fish count: 40.634
+
+Greedy Baseline 1 average performed total moves (placement and movement): 26.431
+MCTS HP MORFC 2 average performed total moves (placement and movement: 28.081
+
+MCTS HP MORFC 2 C value for UCT selection (placement): 1.4142135623730951
+MCTS HP MORFC 2 placement simulation time : 20ms
+MCTS HP MORFC 2 average placement simulations: 247.34325
+MCTS HP MORFC 2 C value for UCT selection (movement): 1.4142135623730951
+MCTS HP MORFC 2 movement simulation time: 20ms
+MCTS HP MORFC 2 average movement simulations: 3111.016071969191
+MCTS HP MORFC 2 average total simulations: 2735.915640665255
+

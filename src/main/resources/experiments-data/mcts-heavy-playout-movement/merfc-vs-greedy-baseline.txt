@@ -1,0 +1,21 @@
+MCTS HP MERFC 1 vs. Greedy Baseline 2 (1000 games)
+
+MCTS HP MERFC 1 win rate: 0.649
+Greedy Baseline 2 win rate: 0.336
+Number of ties: 15
+Percentage of ties: 0.015
+
+MCTS HP MERFC 1 average collected fish count: 46.113
+Greedy Baseline 2 average collected fish count: 46.888
+
+MCTS HP MERFC 1 average performed total moves (placement and movement): 31.228
+Greedy Baseline 2 average performed total moves (placement and movement: 23.657
+
+MCTS HP MERFC 1 C value for UCT selection (placement): 1.4142135623730951
+MCTS HP MERFC 1 placement simulation time : 20ms
+MCTS HP MERFC 1 average placement simulations: 235.15675
+MCTS HP MERFC 1 C value for UCT selection (movement): 1.4142135623730951
+MCTS HP MERFC 1 movement simulation time: 20ms
+MCTS HP MERFC 1 average movement simulations: 4270.941929609971
+MCTS HP MERFC 1 average total simulations: 3768.7865968607525
+

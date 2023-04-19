@@ -1,0 +1,21 @@
+Greedy Baseline 1 vs. MCTS LP Baseline 2 (1000 games)
+
+Greedy Baseline 1 win rate: 0.057
+MCTS LP Baseline 2 win rate: 0.931
+Number of ties: 12
+Percentage of ties: 0.012
+
+Greedy Baseline 1 average collected fish count: 41.012
+MCTS LP Baseline 2 average collected fish count: 50.355
+
+Greedy Baseline 1 average performed total moves (placement and movement): 21.533
+MCTS LP Baseline 2 average performed total moves (placement and movement: 32.108
+
+MCTS LP Baseline 2 C value for UCT selection (placement): 1.4142135623730951
+MCTS LP Baseline 2 placement simulation time : 20ms
+MCTS LP Baseline 2 average placement simulations: 379.599
+MCTS LP Baseline 2 C value for UCT selection (movement): 1.4142135623730951
+MCTS LP Baseline 2 movement simulation time: 20ms
+MCTS LP Baseline 2 average movement simulations: 8949.390232343072
+MCTS LP Baseline 2 average total simulations: 7879.522392404841
+
