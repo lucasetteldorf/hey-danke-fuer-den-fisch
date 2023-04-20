@@ -3,8 +3,8 @@ package mcts.heavyplayout;
 public enum PlacementHeuristicType {
   NONE,
   MOTFT,
-  MOTFC,
   METFT,
+  MOTFC,
   METFC,
   MOTT,
   METT

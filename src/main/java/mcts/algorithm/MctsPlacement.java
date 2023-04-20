@@ -2,8 +2,8 @@ package mcts.algorithm;
 
 import game.logic.GameBoard;
 import game.players.Player;
+import mcts.heavyplayout.MovementHeuristicType;
 import mcts.heavyplayout.PlacementHeuristicType;
-import mcts.node.Node;
 import mcts.node.NodePlacement;
 
 public class MctsPlacement {
@@ -12,7 +12,8 @@ public class MctsPlacement {
   private static final int LOSE_SCORE = -1;
   private final int computationalBudget;
   private final double c;
-  private final PlacementHeuristicType type;
+  private final PlacementHeuristicType placementType;
+  private final MovementHeuristicType movementType;
   private int totalNumberOfSimulations;
   private int numberOfSimulations;
   private boolean printSimulations;
@@ -22,19 +23,19 @@ public class MctsPlacement {
   public MctsPlacement() {
     this.computationalBudget = 100;
     this.c = Math.sqrt(2);
-    this.type = PlacementHeuristicType.NONE;
+    this.placementType = PlacementHeuristicType.NONE;
+    this.movementType = MovementHeuristicType.NONE;
   }
 
-  public MctsPlacement(double c, int computationalBudget) {
+  public MctsPlacement(
+      double c,
+      int computationalBudget,
+      PlacementHeuristicType placementType,
+      MovementHeuristicType movementType) {
     this.c = c;
     this.computationalBudget = computationalBudget;
-    this.type = PlacementHeuristicType.NONE;
-  }
-
-  public MctsPlacement(double c, int computationalBudget, PlacementHeuristicType type) {
-    this.c = c;
-    this.computationalBudget = computationalBudget;
-    this.type = type;
+    this.placementType = placementType;
+    this.movementType = movementType;
   }
 
   public int[] getNextPlacementPosition(GameBoard board) {
@@ -110,7 +111,7 @@ public class MctsPlacement {
     NodePlacement tmp = new NodePlacement(node);
 
     while (!tmp.getBoard().isPlacementPhaseOver()) {
-      switch (type) {
+      switch (placementType) {
         case MOTFT -> tmp.playMaxOwnThreeFishTiles();
         case METFT -> tmp.playMinEnemyThreeFishTiles();
         case MOTFC -> tmp.playMaxOwnTotalFishCount();
@@ -122,7 +123,16 @@ public class MctsPlacement {
     }
 
     while (!tmp.getBoard().isMovementPhaseOver()) {
-      tmp.playRandomMove();
+      switch (movementType) {
+        case G -> tmp.playGreedy();
+        case MORTFT -> tmp.playMaxOwnReachableThreeFishTiles();
+        case MERTFT -> tmp.playMinEnemyReachableThreeFishTiles();
+        case MORFC -> tmp.playMaxOwnReachableFishCount();
+        case MERFC -> tmp.playMinEnemyReachableFishCount();
+        case MORT -> tmp.playMaxOwnReachableTiles();
+        case MERT -> tmp.playMinEnemyReachableTiles();
+        case NONE -> tmp.playRandomMove();
+      }
     }
 
     numberOfSimulations++;
@@ -176,7 +186,7 @@ public class MctsPlacement {
     numberOfSimulations = 0;
   }
 
-  public PlacementHeuristicType getType() {
-    return type;
+  public PlacementHeuristicType getPlacementType() {
+    return placementType;
   }
 }

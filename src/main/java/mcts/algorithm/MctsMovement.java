@@ -108,6 +108,8 @@ public class MctsMovement {
     while (!tmp.getBoard().isMovementPhaseOver()) {
       switch (type) {
         case G -> tmp.playGreedy();
+        case MORTFT -> tmp.playMaxOwnReachableThreeFishTiles();
+        case MERTFT -> tmp.playMinEnemyReachableThreeFishTiles();
         case MORFC -> tmp.playMaxOwnReachableFishCount();
         case MERFC -> tmp.playMinEnemyReachableFishCount();
         case MORT -> tmp.playMaxOwnReachableTiles();

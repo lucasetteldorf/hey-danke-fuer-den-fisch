@@ -15,7 +15,7 @@ public class MctsLpTest {
 
   @Test
   void testMctsVsRandom() {
-    MctsPlayer p1 = new MctsPlayer("MCTS AI", 4, "B", Math.sqrt(2), 100);
+    MctsPlayer p1 = new MctsPlayer("MCTS AI", 4, "B", Math.sqrt(2), 5);
     p1.enableSimulationPrint();
     RandomPlayer p2 = new RandomPlayer("Random AI", 4, "R");
     Player[] players = new Player[] {p1, p2};

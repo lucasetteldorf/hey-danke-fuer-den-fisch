@@ -20,7 +20,7 @@ public class MctsPlayer extends Player {
   public MctsPlayer(
       String name, int penguinCount, String penguinColor, double c, int computationalBudget) {
     super(PlayerType.MCTS, name, penguinCount, penguinColor);
-    this.mctsPlacement = new MctsPlacement(c, computationalBudget, PlacementHeuristicType.NONE);
+    this.mctsPlacement = new MctsPlacement(c, computationalBudget, PlacementHeuristicType.NONE, MovementHeuristicType.NONE);
     this.mctsMovement = new MctsMovement(c, computationalBudget, MovementHeuristicType.NONE);
   }
 
@@ -44,7 +44,7 @@ public class MctsPlayer extends Player {
       double c,
       int computationalBudget) {
     super(PlayerType.MCTS, name, penguinCount, penguinColor);
-    this.mctsPlacement = new MctsPlacement(c, computationalBudget, placementHeuristicType);
+    this.mctsPlacement = new MctsPlacement(c, computationalBudget, placementHeuristicType, movementHeuristicType);
     this.mctsMovement = new MctsMovement(c, computationalBudget, movementHeuristicType);
   }
 
