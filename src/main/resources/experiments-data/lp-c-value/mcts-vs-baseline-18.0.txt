@@ -1,0 +1,29 @@
+MCTS LP (C = 18.0) vs. MCTS LP Baseline (C = 1.4142135623730951) (1000 games)
+
+MCTS LP (C = 18.0) win rate: 0.229
+MCTS LP Baseline (C = 1.4142135623730951) win rate: 0.753
+Number of ties: 18
+Percentage of ties: 0.018
+
+MCTS LP (C = 18.0) average collected fish count: 41.193
+MCTS LP Baseline (C = 1.4142135623730951) average collected fish count: 48.9
+
+MCTS LP (C = 18.0) average performed total moves (placement and movement): 24.869
+MCTS LP Baseline (C = 1.4142135623730951) average performed total moves (placement and movement: 28.891
+
+MCTS LP (C = 18.0) C value for UCT selection (placement): 18.0
+MCTS LP (C = 18.0) placement simulation time : 10ms
+MCTS LP (C = 18.0) average placement simulations: 166.504
+MCTS LP (C = 18.0) C value for UCT selection (movement): 18.0
+MCTS LP (C = 18.0) movement simulation time: 10ms
+MCTS LP (C = 18.0) average movement simulations: 1659.5556075327208
+MCTS LP (C = 18.0) average total simulations: 1444.7339601317115
+
+MCTS LP Baseline (C = 1.4142135623730951) C value for UCT selection (placement): 1.4142135623730951
+MCTS LP Baseline (C = 1.4142135623730951) placement simulation time : 10ms
+MCTS LP Baseline (C = 1.4142135623730951) average placement simulations: 167.28275
+MCTS LP Baseline (C = 1.4142135623730951) C value for UCT selection (movement): 1.4142135623730951
+MCTS LP Baseline (C = 1.4142135623730951) movement simulation time: 10ms
+MCTS LP Baseline (C = 1.4142135623730951) average movement simulations: 3226.8771879382107
+MCTS LP Baseline (C = 1.4142135623730951) average total simulations: 2812.3386823879537
+

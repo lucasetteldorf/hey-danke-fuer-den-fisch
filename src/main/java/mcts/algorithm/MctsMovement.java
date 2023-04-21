@@ -3,7 +3,6 @@ package mcts.algorithm;
 import game.logic.GameBoard;
 import game.logic.Move;
 import game.players.Player;
-import mcts.heavyplayout.MovementHeuristicType;
 import mcts.node.NodeMovement;
 
 public class MctsMovement {
@@ -12,7 +11,7 @@ public class MctsMovement {
   private static final int LOSE_SCORE = -1;
   private final int computationalBudget;
   private final double c;
-  MovementHeuristicType type;
+  HeuristicType type;
   private int numberOfSimulations;
   private boolean printSimulations;
   private Player currentPlayer;
@@ -21,17 +20,17 @@ public class MctsMovement {
 
   public MctsMovement() {
     this.computationalBudget = 100;
-    this.c = Math.sqrt(2);
-    this.type = MovementHeuristicType.NONE;
+    this.c = 0.5;
+    this.type = HeuristicType.NONE;
   }
 
   public MctsMovement(double c, int computationalBudget) {
     this.c = c;
     this.computationalBudget = computationalBudget;
-    this.type = MovementHeuristicType.NONE;
+    this.type = HeuristicType.NONE;
   }
 
-  public MctsMovement(double c, int computationalBudget, MovementHeuristicType type) {
+  public MctsMovement(double c, int computationalBudget, HeuristicType type) {
     this.c = c;
     this.computationalBudget = computationalBudget;
     this.type = type;
@@ -107,14 +106,14 @@ public class MctsMovement {
 
     while (!tmp.getBoard().isMovementPhaseOver()) {
       switch (type) {
-        case G -> tmp.playGreedy();
-        case MORTFT -> tmp.playMaxOwnReachableThreeFishTiles();
-        case MERTFT -> tmp.playMinEnemyReachableThreeFishTiles();
-        case MORFC -> tmp.playMaxOwnReachableFishCount();
-        case MERFC -> tmp.playMinEnemyReachableFishCount();
-        case MORT -> tmp.playMaxOwnReachableTiles();
-        case MERT -> tmp.playMinEnemyReachableTiles();
-        case NONE -> tmp.playRandomMove();
+        case MNTFC -> tmp.moveMaxNewTileFishCount();
+        case MORTFT -> tmp.moveMaxOwnReachableThreeFishTiles();
+        case MERTFT -> tmp.moveMinEnemyReachableThreeFishTiles();
+        case MORFC -> tmp.moveMaxOwnReachableFishCount();
+        case MERFC -> tmp.moveMinEnemyReachableFishCount();
+        case MORT -> tmp.moveMaxOwnReachableTiles();
+        case MERT -> tmp.moveMinEnemyReachableTiles();
+        default -> tmp.moveRandom();
       }
     }
 
@@ -167,9 +166,5 @@ public class MctsMovement {
     callCount = 0;
     totalNumberOfSimulations = 0;
     numberOfSimulations = 0;
-  }
-
-  public MovementHeuristicType getType() {
-    return type;
   }
 }

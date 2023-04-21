@@ -2,10 +2,9 @@ package game.players;
 
 import game.logic.GameBoard;
 import game.logic.Move;
+import mcts.algorithm.HeuristicType;
 import mcts.algorithm.MctsMovement;
 import mcts.algorithm.MctsPlacement;
-import mcts.heavyplayout.MovementHeuristicType;
-import mcts.heavyplayout.PlacementHeuristicType;
 
 public class MctsPlayer extends Player {
   private final MctsPlacement mctsPlacement;
@@ -20,8 +19,9 @@ public class MctsPlayer extends Player {
   public MctsPlayer(
       String name, int penguinCount, String penguinColor, double c, int computationalBudget) {
     super(PlayerType.MCTS, name, penguinCount, penguinColor);
-    this.mctsPlacement = new MctsPlacement(c, computationalBudget, PlacementHeuristicType.NONE, MovementHeuristicType.NONE);
-    this.mctsMovement = new MctsMovement(c, computationalBudget, MovementHeuristicType.NONE);
+    this.mctsPlacement =
+        new MctsPlacement(c, computationalBudget, HeuristicType.NONE, HeuristicType.NONE);
+    this.mctsMovement = new MctsMovement(c, computationalBudget, HeuristicType.NONE);
   }
 
   public MctsPlayer(
@@ -39,21 +39,14 @@ public class MctsPlayer extends Player {
       String name,
       int penguinCount,
       String penguinColor,
-      PlacementHeuristicType placementHeuristicType,
-      MovementHeuristicType movementHeuristicType,
+      HeuristicType placementHeuristicType,
+      HeuristicType movementHeuristicType,
       double c,
       int computationalBudget) {
     super(PlayerType.MCTS, name, penguinCount, penguinColor);
-    this.mctsPlacement = new MctsPlacement(c, computationalBudget, placementHeuristicType, movementHeuristicType);
+    this.mctsPlacement =
+        new MctsPlacement(c, computationalBudget, placementHeuristicType, movementHeuristicType);
     this.mctsMovement = new MctsMovement(c, computationalBudget, movementHeuristicType);
-  }
-
-  public MctsPlacement getMctsPlacement() {
-    return mctsPlacement;
-  }
-
-  public MctsMovement getMctsMovement() {
-    return mctsMovement;
   }
 
   public int[] getBestPlacementPosition(GameBoard board) {

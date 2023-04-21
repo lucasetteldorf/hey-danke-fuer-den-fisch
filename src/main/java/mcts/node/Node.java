@@ -81,20 +81,128 @@ public class Node {
     return Collections.max(children, Comparator.comparing(Node::getVisits));
   }
 
-  public void playRandomMove() {
-    List<Move> possibleMoves = board.getAllLegalMovesForCurrentPlayer();
-    Move randomMove = possibleMoves.get(RandomUtility.getRandomIndex(possibleMoves.size()));
-    board.movePenguin(randomMove);
-  }
-
-  public void playRandomPlacement() {
+  public void placeRandom() {
     List<int[]> possiblePlacements = board.getAllLegalPlacementPositions();
     int[] randomPlacement =
         possiblePlacements.get(RandomUtility.getRandomIndex(possiblePlacements.size()));
     board.placePenguin(randomPlacement[0], randomPlacement[1]);
   }
 
-  public void playGreedy() {
+  public void placeMaxOwnReachableThreeFishTiles() {
+    int[] bestPlacementPosition = null;
+    int maxThreeFishTiles = Integer.MIN_VALUE;
+    List<int[]> placementPositions = board.getAllLegalPlacementPositions();
+    for (int[] placementPosition : placementPositions) {
+      GameBoard newBoard = new GameBoard(board);
+      newBoard.placePenguin(placementPosition[0], placementPosition[1]);
+      int threeFishTiles =
+          newBoard.getThreeFishTilesForAllPenguins(
+              newBoard.getAllPenguinPositionsForPlayer(board.getCurrentPlayer()));
+      if (threeFishTiles > maxThreeFishTiles) {
+        maxThreeFishTiles = threeFishTiles;
+        bestPlacementPosition = placementPosition;
+      }
+    }
+    board.placePenguin(bestPlacementPosition[0], bestPlacementPosition[1]);
+  }
+
+  public void placeMinEnemyReachableThreeFishTiles() {
+    int[] bestPlacementPosition = null;
+    int minThreeFishTiles = Integer.MAX_VALUE;
+    List<int[]> placementPositions = board.getAllLegalPlacementPositions();
+    for (int[] placementPosition : placementPositions) {
+      GameBoard newBoard = new GameBoard(board);
+      newBoard.placePenguin(placementPosition[0], placementPosition[1]);
+      int threeFishTiles =
+          newBoard.getThreeFishTilesForAllPenguins(
+              newBoard.getAllPenguinPositionsForOpponents(board.getCurrentPlayer()));
+      if (threeFishTiles < minThreeFishTiles) {
+        minThreeFishTiles = threeFishTiles;
+        bestPlacementPosition = placementPosition;
+      }
+    }
+    board.placePenguin(bestPlacementPosition[0], bestPlacementPosition[1]);
+  }
+
+  public void placeMaxOwnReachableFishCount() {
+    int[] bestPlacementPosition = null;
+    int maxFishCount = Integer.MIN_VALUE;
+    List<int[]> placementPositions = board.getAllLegalPlacementPositions();
+    for (int[] placementPosition : placementPositions) {
+      GameBoard newBoard = new GameBoard(board);
+      newBoard.placePenguin(placementPosition[0], placementPosition[1]);
+      int fishCount =
+          newBoard.getReachableFishCountForAllPenguins(
+              newBoard.getAllPenguinPositionsForPlayer(board.getCurrentPlayer()));
+      if (fishCount > maxFishCount) {
+        maxFishCount = fishCount;
+        bestPlacementPosition = placementPosition;
+      }
+    }
+    board.placePenguin(bestPlacementPosition[0], bestPlacementPosition[1]);
+  }
+
+  public void placeMinEnemyReachableFishCount() {
+    int[] bestPlacementPosition = null;
+    int minFishCount = Integer.MAX_VALUE;
+    List<int[]> placementPositions = board.getAllLegalPlacementPositions();
+    for (int[] placementPosition : placementPositions) {
+      GameBoard newBoard = new GameBoard(board);
+      newBoard.placePenguin(placementPosition[0], placementPosition[1]);
+      int fishCount =
+          newBoard.getReachableFishCountForAllPenguins(
+              newBoard.getAllPenguinPositionsForOpponents(board.getCurrentPlayer()));
+      if (fishCount < minFishCount) {
+        minFishCount = fishCount;
+        bestPlacementPosition = placementPosition;
+      }
+    }
+    board.placePenguin(bestPlacementPosition[0], bestPlacementPosition[1]);
+  }
+
+  public void placeMaxOwnReachableTiles() {
+    int[] bestPlacementPosition = null;
+    int maxTiles = Integer.MIN_VALUE;
+    List<int[]> placementPositions = board.getAllLegalPlacementPositions();
+    for (int[] placementPosition : placementPositions) {
+      GameBoard newBoard = new GameBoard(board);
+      newBoard.placePenguin(placementPosition[0], placementPosition[1]);
+      int tiles =
+          newBoard.getReachableFishCountForAllPenguins(
+              newBoard.getAllPenguinPositionsForPlayer(board.getCurrentPlayer()));
+      if (tiles > maxTiles) {
+        maxTiles = tiles;
+        bestPlacementPosition = placementPosition;
+      }
+    }
+    board.placePenguin(bestPlacementPosition[0], bestPlacementPosition[1]);
+  }
+
+  public void placeMinEnemyReachableTiles() {
+    int[] bestPlacementPosition = null;
+    int minTiles = Integer.MAX_VALUE;
+    List<int[]> placementPositions = board.getAllLegalPlacementPositions();
+    for (int[] placementPosition : placementPositions) {
+      GameBoard newBoard = new GameBoard(board);
+      newBoard.placePenguin(placementPosition[0], placementPosition[1]);
+      int tiles =
+          newBoard.getReachableTilesForAllPenguins(
+              newBoard.getAllPenguinPositionsForOpponents(board.getCurrentPlayer()));
+      if (tiles < minTiles) {
+        minTiles = tiles;
+        bestPlacementPosition = placementPosition;
+      }
+    }
+    board.placePenguin(bestPlacementPosition[0], bestPlacementPosition[1]);
+  }
+
+  public void moveRandom() {
+    List<Move> possibleMoves = board.getAllLegalMovesForCurrentPlayer();
+    Move randomMove = possibleMoves.get(RandomUtility.getRandomIndex(possibleMoves.size()));
+    board.movePenguin(randomMove);
+  }
+
+  public void moveMaxNewTileFishCount() {
     Move bestMove = null;
     int maxFishCount = Integer.MIN_VALUE;
     for (Move move : board.getAllLegalMovesForCurrentPlayer()) {
@@ -108,15 +216,15 @@ public class Node {
     board.movePenguin(bestMove);
   }
 
-  public void playMaxOwnReachableThreeFishTiles() {
+  public void moveMaxOwnReachableThreeFishTiles() {
     Move bestMove = null;
     int maxThreeFishTiles = Integer.MIN_VALUE;
     for (Move move : board.getAllLegalMovesForCurrentPlayer()) {
       GameBoard newBoard = new GameBoard(board);
       newBoard.movePenguin(move);
       int threeFishTiles =
-              newBoard.getThreeFishTilesCountForAllPenguins(
-                      newBoard.getAllPenguinPositionsForPlayer(board.getCurrentPlayer()));
+          newBoard.getThreeFishTilesForAllPenguins(
+              newBoard.getAllPenguinPositionsForPlayer(board.getCurrentPlayer()));
       if (threeFishTiles > maxThreeFishTiles) {
         maxThreeFishTiles = threeFishTiles;
         bestMove = move;
@@ -125,15 +233,15 @@ public class Node {
     board.movePenguin(bestMove);
   }
 
-  public void playMinEnemyReachableThreeFishTiles() {
+  public void moveMinEnemyReachableThreeFishTiles() {
     Move bestMove = null;
     int minThreeFishTiles = Integer.MAX_VALUE;
     for (Move move : board.getAllLegalMovesForCurrentPlayer()) {
       GameBoard newBoard = new GameBoard(board);
       newBoard.movePenguin(move);
       int threeFishTiles =
-              newBoard.getThreeFishTilesCountForAllPenguins(
-                      newBoard.getAllPenguinPositionsForOpponents(board.getCurrentPlayer()));
+          newBoard.getThreeFishTilesForAllPenguins(
+              newBoard.getAllPenguinPositionsForOpponents(board.getCurrentPlayer()));
       if (threeFishTiles < minThreeFishTiles) {
         minThreeFishTiles = threeFishTiles;
         bestMove = move;
@@ -142,7 +250,7 @@ public class Node {
     board.movePenguin(bestMove);
   }
 
-  public void playMaxOwnReachableFishCount() {
+  public void moveMaxOwnReachableFishCount() {
     Move bestMove = null;
     int maxFishCount = Integer.MIN_VALUE;
     for (Move move : board.getAllLegalMovesForCurrentPlayer()) {
@@ -159,7 +267,7 @@ public class Node {
     board.movePenguin(bestMove);
   }
 
-  public void playMinEnemyReachableFishCount() {
+  public void moveMinEnemyReachableFishCount() {
     Move bestMove = null;
     int minFishCount = Integer.MAX_VALUE;
     for (Move move : board.getAllLegalMovesForCurrentPlayer()) {
@@ -176,7 +284,7 @@ public class Node {
     board.movePenguin(bestMove);
   }
 
-  public void playMaxOwnReachableTiles() {
+  public void moveMaxOwnReachableTiles() {
     Move bestMove = null;
     int maxTiles = Integer.MIN_VALUE;
     for (Move move : board.getAllLegalMovesForCurrentPlayer()) {
@@ -193,7 +301,7 @@ public class Node {
     board.movePenguin(bestMove);
   }
 
-  public void playMinEnemyReachableTiles() {
+  public void moveMinEnemyReachableTiles() {
     Move bestMove = null;
     int minTiles = Integer.MAX_VALUE;
     for (Move move : board.getAllLegalMovesForCurrentPlayer()) {
@@ -208,113 +316,5 @@ public class Node {
       }
     }
     board.movePenguin(bestMove);
-  }
-
-  public void playMaxOwnThreeFishTiles() {
-    int[] bestPlacementPosition = null;
-    int maxThreeFishTiles = Integer.MIN_VALUE;
-    List<int[]> placementPositions = board.getAllLegalPlacementPositions();
-    for (int[] placementPosition : placementPositions) {
-      GameBoard newBoard = new GameBoard(board);
-      newBoard.placePenguin(placementPosition[0], placementPosition[1]);
-      int threeFishTiles =
-          newBoard.getThreeFishTilesCountForAllPenguins(
-              newBoard.getAllPenguinPositionsForPlayer(board.getCurrentPlayer()));
-      if (threeFishTiles > maxThreeFishTiles) {
-        maxThreeFishTiles = threeFishTiles;
-        bestPlacementPosition = placementPosition;
-      }
-    }
-    board.placePenguin(bestPlacementPosition[0], bestPlacementPosition[1]);
-  }
-
-  public void playMinEnemyThreeFishTiles() {
-    int[] bestPlacementPosition = null;
-    int minThreeFishTiles = Integer.MAX_VALUE;
-    List<int[]> placementPositions = board.getAllLegalPlacementPositions();
-    for (int[] placementPosition : placementPositions) {
-      GameBoard newBoard = new GameBoard(board);
-      newBoard.placePenguin(placementPosition[0], placementPosition[1]);
-      int threeFishTiles =
-          newBoard.getThreeFishTilesCountForAllPenguins(
-              newBoard.getAllPenguinPositionsForOpponents(board.getCurrentPlayer()));
-      if (threeFishTiles < minThreeFishTiles) {
-        minThreeFishTiles = threeFishTiles;
-        bestPlacementPosition = placementPosition;
-      }
-    }
-    board.placePenguin(bestPlacementPosition[0], bestPlacementPosition[1]);
-  }
-
-  public void playMaxOwnTotalFishCount() {
-    int[] bestPlacementPosition = null;
-    int maxFishCount = Integer.MIN_VALUE;
-    List<int[]> placementPositions = board.getAllLegalPlacementPositions();
-    for (int[] placementPosition : placementPositions) {
-      GameBoard newBoard = new GameBoard(board);
-      newBoard.placePenguin(placementPosition[0], placementPosition[1]);
-      int fishCount =
-          newBoard.getReachableFishCountForAllPenguins(
-              newBoard.getAllPenguinPositionsForPlayer(board.getCurrentPlayer()));
-      if (fishCount > maxFishCount) {
-        maxFishCount = fishCount;
-        bestPlacementPosition = placementPosition;
-      }
-    }
-    board.placePenguin(bestPlacementPosition[0], bestPlacementPosition[1]);
-  }
-
-  public void playMinEnemyTotalFishCount() {
-    int[] bestPlacementPosition = null;
-    int minFishCount = Integer.MAX_VALUE;
-    List<int[]> placementPositions = board.getAllLegalPlacementPositions();
-    for (int[] placementPosition : placementPositions) {
-      GameBoard newBoard = new GameBoard(board);
-      newBoard.placePenguin(placementPosition[0], placementPosition[1]);
-      int fishCount =
-          newBoard.getReachableFishCountForAllPenguins(
-              newBoard.getAllPenguinPositionsForOpponents(board.getCurrentPlayer()));
-      if (fishCount < minFishCount) {
-        minFishCount = fishCount;
-        bestPlacementPosition = placementPosition;
-      }
-    }
-    board.placePenguin(bestPlacementPosition[0], bestPlacementPosition[1]);
-  }
-
-  public void playMaxOwnTotalTiles() {
-    int[] bestPlacementPosition = null;
-    int maxTiles = Integer.MIN_VALUE;
-    List<int[]> placementPositions = board.getAllLegalPlacementPositions();
-    for (int[] placementPosition : placementPositions) {
-      GameBoard newBoard = new GameBoard(board);
-      newBoard.placePenguin(placementPosition[0], placementPosition[1]);
-      int tiles =
-          newBoard.getReachableFishCountForAllPenguins(
-              newBoard.getAllPenguinPositionsForPlayer(board.getCurrentPlayer()));
-      if (tiles > maxTiles) {
-        maxTiles = tiles;
-        bestPlacementPosition = placementPosition;
-      }
-    }
-    board.placePenguin(bestPlacementPosition[0], bestPlacementPosition[1]);
-  }
-
-  public void playMinEnemyTotalTiles() {
-    int[] bestPlacementPosition = null;
-    int minTiles = Integer.MAX_VALUE;
-    List<int[]> placementPositions = board.getAllLegalPlacementPositions();
-    for (int[] placementPosition : placementPositions) {
-      GameBoard newBoard = new GameBoard(board);
-      newBoard.placePenguin(placementPosition[0], placementPosition[1]);
-      int tiles =
-          newBoard.getReachableTilesForAllPenguins(
-              newBoard.getAllPenguinPositionsForOpponents(board.getCurrentPlayer()));
-      if (tiles < minTiles) {
-        minTiles = tiles;
-        bestPlacementPosition = placementPosition;
-      }
-    }
-    board.placePenguin(bestPlacementPosition[0], bestPlacementPosition[1]);
   }
 }

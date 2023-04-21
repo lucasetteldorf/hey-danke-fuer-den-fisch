@@ -63,7 +63,7 @@ public class GameBoardTest {
     List<int[]> positions = new ArrayList<>();
     positions.add(new int[] {0, 5});
     positions.add(new int[] {2, 7});
-    int threeFishTilesCount = board.getThreeFishTilesCountForAllPenguins(positions);
+    int threeFishTilesCount = board.getThreeFishTilesForAllPenguins(positions);
   }
 
   @Test
@@ -96,5 +96,10 @@ public class GameBoardTest {
     positions.add(new int[] {0, 3});
     positions.add(new int[] {0, 5});
     int reachableFishCount = board.getReachableTilesForAllPenguins(positions);
+  }
+
+  @Test
+  void testReachableTileCount() {
+    board.printReachableTileCount();
   }
 }

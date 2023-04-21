@@ -2,8 +2,6 @@ package mcts.algorithm;
 
 import game.logic.GameBoard;
 import game.players.Player;
-import mcts.heavyplayout.MovementHeuristicType;
-import mcts.heavyplayout.PlacementHeuristicType;
 import mcts.node.NodePlacement;
 
 public class MctsPlacement {
@@ -12,8 +10,8 @@ public class MctsPlacement {
   private static final int LOSE_SCORE = -1;
   private final int computationalBudget;
   private final double c;
-  private final PlacementHeuristicType placementType;
-  private final MovementHeuristicType movementType;
+  private final HeuristicType placementType;
+  private final HeuristicType movementType;
   private int totalNumberOfSimulations;
   private int numberOfSimulations;
   private boolean printSimulations;
@@ -22,16 +20,13 @@ public class MctsPlacement {
 
   public MctsPlacement() {
     this.computationalBudget = 100;
-    this.c = Math.sqrt(2);
-    this.placementType = PlacementHeuristicType.NONE;
-    this.movementType = MovementHeuristicType.NONE;
+    this.c = 0.5;
+    this.placementType = HeuristicType.NONE;
+    this.movementType = HeuristicType.NONE;
   }
 
   public MctsPlacement(
-      double c,
-      int computationalBudget,
-      PlacementHeuristicType placementType,
-      MovementHeuristicType movementType) {
+      double c, int computationalBudget, HeuristicType placementType, HeuristicType movementType) {
     this.c = c;
     this.computationalBudget = computationalBudget;
     this.placementType = placementType;
@@ -112,26 +107,26 @@ public class MctsPlacement {
 
     while (!tmp.getBoard().isPlacementPhaseOver()) {
       switch (placementType) {
-        case MOTFT -> tmp.playMaxOwnThreeFishTiles();
-        case METFT -> tmp.playMinEnemyThreeFishTiles();
-        case MOTFC -> tmp.playMaxOwnTotalFishCount();
-        case METFC -> tmp.playMinEnemyTotalFishCount();
-        case MOTT -> tmp.playMaxOwnTotalTiles();
-        case METT -> tmp.playMinEnemyTotalTiles();
-        default -> tmp.playRandomPlacement();
+        case MORTFT -> tmp.placeMaxOwnReachableThreeFishTiles();
+        case MERTFT -> tmp.placeMinEnemyReachableThreeFishTiles();
+        case MORFC -> tmp.placeMaxOwnReachableFishCount();
+        case MERFC -> tmp.placeMinEnemyReachableFishCount();
+        case MORT -> tmp.placeMaxOwnReachableTiles();
+        case MERT -> tmp.placeMinEnemyReachableTiles();
+        default -> tmp.placeRandom();
       }
     }
 
     while (!tmp.getBoard().isMovementPhaseOver()) {
       switch (movementType) {
-        case G -> tmp.playGreedy();
-        case MORTFT -> tmp.playMaxOwnReachableThreeFishTiles();
-        case MERTFT -> tmp.playMinEnemyReachableThreeFishTiles();
-        case MORFC -> tmp.playMaxOwnReachableFishCount();
-        case MERFC -> tmp.playMinEnemyReachableFishCount();
-        case MORT -> tmp.playMaxOwnReachableTiles();
-        case MERT -> tmp.playMinEnemyReachableTiles();
-        case NONE -> tmp.playRandomMove();
+        case MNTFC -> tmp.moveMaxNewTileFishCount();
+        case MORTFT -> tmp.moveMaxOwnReachableThreeFishTiles();
+        case MERTFT -> tmp.moveMinEnemyReachableThreeFishTiles();
+        case MORFC -> tmp.moveMaxOwnReachableFishCount();
+        case MERFC -> tmp.moveMinEnemyReachableFishCount();
+        case MORT -> tmp.moveMaxOwnReachableTiles();
+        case MERT -> tmp.moveMinEnemyReachableTiles();
+        default -> tmp.moveRandom();
       }
     }
 
@@ -184,9 +179,5 @@ public class MctsPlacement {
     callCount = 0;
     totalNumberOfSimulations = 0;
     numberOfSimulations = 0;
-  }
-
-  public PlacementHeuristicType getPlacementType() {
-    return placementType;
   }
 }

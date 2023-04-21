@@ -1,14 +1,13 @@
 package experiments;
 
 import experiments.utility.ExperimentSetup;
-import game.players.GreedyPlayer;
 import game.players.MctsPlayer;
 import game.players.Player;
 import utility.Resources;
 
 public class MctsLightPlayoutCValue {
   private static final double[] C_VALUES =
-      new double[] {0.1, 0.2, 0.3, 0.4, 0.5};
+      new double[] {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9};
 
   public static void startExperiments(int numberOfGames, int simulationTime) {
     for (double cValue : C_VALUES) {
@@ -18,16 +17,12 @@ public class MctsLightPlayoutCValue {
               "MCTS LP Baseline (C = " + Math.sqrt(2) + ")", 4, "R", Math.sqrt(2), simulationTime);
       ExperimentSetup.playGames(
           new Player[] {p1, p2},
-          numberOfGames / 2,
-          Resources.ROOT_DIR
-              + "mcts-light-playout-c-values-2/mcts-vs-baseline-"
-              + cValue);
+          numberOfGames,
+          Resources.ROOT_DIR + "lp-c-value/mcts-vs-baseline-" + cValue);
       ExperimentSetup.playGames(
           new Player[] {p2, p1},
-          numberOfGames / 2,
-          Resources.ROOT_DIR
-              + "mcts-light-playout-c-values-2/baseline-vs-mcts-"
-              + cValue);
+          numberOfGames,
+          Resources.ROOT_DIR + "lp-c-value/baseline-vs-mcts-" + cValue);
     }
   }
 }
