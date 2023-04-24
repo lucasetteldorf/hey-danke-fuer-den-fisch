@@ -1,0 +1,29 @@
+MCTS HP MERT 1 vs. MCTS LP Baseline 2 (1000 games)
+
+MCTS HP MERT 1 win rate: 0.074
+MCTS LP Baseline 2 win rate: 0.924
+Number of ties: 2
+Percentage of ties: 0.002
+
+MCTS HP MERT 1 average collected fish count: 36.413
+MCTS LP Baseline 2 average collected fish count: 52.463
+
+MCTS HP MERT 1 average performed total moves (placement and movement): 22.481
+MCTS LP Baseline 2 average performed total moves (placement and movement: 30.846
+
+MCTS HP MERT 1 C value for UCT selection (placement): 1.4142135623730951
+MCTS HP MERT 1 placement simulation time : 10ms
+MCTS HP MERT 1 average placement simulations: 10.7415
+MCTS HP MERT 1 C value for UCT selection (movement): 1.4142135623730951
+MCTS HP MERT 1 movement simulation time: 10ms
+MCTS HP MERT 1 average movement simulations: 787.5920943784301
+MCTS HP MERT 1 average total simulations: 675.2200742559414
+
+MCTS LP Baseline 2 C value for UCT selection (placement): 1.4142135623730951
+MCTS LP Baseline 2 placement simulation time : 10ms
+MCTS LP Baseline 2 average placement simulations: 180.8785
+MCTS LP Baseline 2 C value for UCT selection (movement): 1.4142135623730951
+MCTS LP Baseline 2 movement simulation time: 10ms
+MCTS LP Baseline 2 average movement simulations: 3974.952881400827
+MCTS LP Baseline 2 average total simulations: 3479.6200471960497
+

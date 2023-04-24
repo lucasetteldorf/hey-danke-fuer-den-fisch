@@ -1,0 +1,29 @@
+MCTS HP MORFC 1 vs. MCTS LP Baseline 2 (1000 games)
+
+MCTS HP MORFC 1 win rate: 0.472
+MCTS LP Baseline 2 win rate: 0.511
+Number of ties: 17
+Percentage of ties: 0.017
+
+MCTS HP MORFC 1 average collected fish count: 45.153
+MCTS LP Baseline 2 average collected fish count: 45.567
+
+MCTS HP MORFC 1 average performed total moves (placement and movement): 26.766
+MCTS LP Baseline 2 average performed total moves (placement and movement: 27.17
+
+MCTS HP MORFC 1 C value for UCT selection (placement): 1.4142135623730951
+MCTS HP MORFC 1 placement simulation time : 10ms
+MCTS HP MORFC 1 average placement simulations: 86.9675
+MCTS HP MORFC 1 C value for UCT selection (movement): 1.4142135623730951
+MCTS HP MORFC 1 movement simulation time: 10ms
+MCTS HP MORFC 1 average movement simulations: 2699.419675844504
+MCTS HP MORFC 1 average total simulations: 2333.158213673681
+
+MCTS LP Baseline 2 C value for UCT selection (placement): 1.4142135623730951
+MCTS LP Baseline 2 placement simulation time : 10ms
+MCTS LP Baseline 2 average placement simulations: 186.892
+MCTS LP Baseline 2 C value for UCT selection (movement): 1.4142135623730951
+MCTS LP Baseline 2 movement simulation time: 10ms
+MCTS LP Baseline 2 average movement simulations: 3203.1778627508456
+MCTS LP Baseline 2 average total simulations: 2781.4761150021563
+

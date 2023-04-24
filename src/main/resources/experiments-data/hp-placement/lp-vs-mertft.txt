@@ -1,0 +1,29 @@
+MCTS LP Baseline 1 vs. MCTS HP MERTFT 2 (1000 games)
+
+MCTS LP Baseline 1 win rate: 0.558
+MCTS HP MERTFT 2 win rate: 0.412
+Number of ties: 30
+Percentage of ties: 0.03
+
+MCTS LP Baseline 1 average collected fish count: 46.544
+MCTS HP MERTFT 2 average collected fish count: 44.505
+
+MCTS LP Baseline 1 average performed total moves (placement and movement): 27.54
+MCTS HP MERTFT 2 average performed total moves (placement and movement: 26.58
+
+MCTS LP Baseline 1 C value for UCT selection (placement): 1.4142135623730951
+MCTS LP Baseline 1 placement simulation time : 10ms
+MCTS LP Baseline 1 average placement simulations: 185.283
+MCTS LP Baseline 1 C value for UCT selection (movement): 1.4142135623730951
+MCTS LP Baseline 1 movement simulation time: 10ms
+MCTS LP Baseline 1 average movement simulations: 3140.444721782539
+MCTS LP Baseline 1 average total simulations: 2732.952914186823
+
+MCTS HP MERTFT 2 C value for UCT selection (placement): 1.4142135623730951
+MCTS HP MERTFT 2 placement simulation time : 10ms
+MCTS HP MERTFT 2 average placement simulations: 97.13025
+MCTS HP MERTFT 2 C value for UCT selection (movement): 1.4142135623730951
+MCTS HP MERTFT 2 movement simulation time: 10ms
+MCTS HP MERTFT 2 average movement simulations: 3008.0309546656413
+MCTS HP MERTFT 2 average total simulations: 2595.57728766899
+

@@ -1,0 +1,21 @@
+Random vs. MCTS LP (1000 games)
+
+Random win rate: 0.0
+MCTS LP win rate: 1.0
+Number of ties: 0
+Percentage of ties: 0.0
+
+Random average collected fish count: 34.39
+MCTS LP average collected fish count: 55.184
+
+Random average performed total moves (placement and movement): 23.145
+MCTS LP average performed total moves (placement and movement: 30.525
+
+MCTS LP C value for UCT selection (placement): 1.4142135623730951
+MCTS LP placement simulation time : 100ms
+MCTS LP average placement simulations: 1985.3575
+MCTS LP C value for UCT selection (movement): 1.4142135623730951
+MCTS LP movement simulation time: 100ms
+MCTS LP average movement simulations: 42953.15357078203
+MCTS LP average total simulations: 37578.70212205627
+

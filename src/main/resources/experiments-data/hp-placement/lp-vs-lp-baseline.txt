@@ -1,0 +1,29 @@
+MCTS LP Baseline 1 vs. MCTS LP Baseline 2 (1000 games)
+
+MCTS LP Baseline 1 win rate: 0.538
+MCTS LP Baseline 2 win rate: 0.441
+Number of ties: 21
+Percentage of ties: 0.021
+
+MCTS LP Baseline 1 average collected fish count: 46.023
+MCTS LP Baseline 2 average collected fish count: 45.066
+
+MCTS LP Baseline 1 average performed total moves (placement and movement): 27.295
+MCTS LP Baseline 2 average performed total moves (placement and movement: 26.844
+
+MCTS LP Baseline 1 C value for UCT selection (placement): 1.4142135623730951
+MCTS LP Baseline 1 placement simulation time : 10ms
+MCTS LP Baseline 1 average placement simulations: 167.0245
+MCTS LP Baseline 1 C value for UCT selection (movement): 1.4142135623730951
+MCTS LP Baseline 1 movement simulation time: 10ms
+MCTS LP Baseline 1 average movement simulations: 2580.5156339561004
+MCTS LP Baseline 1 average total simulations: 2246.218420318294
+
+MCTS LP Baseline 2 C value for UCT selection (placement): 1.4142135623730951
+MCTS LP Baseline 2 placement simulation time : 10ms
+MCTS LP Baseline 2 average placement simulations: 170.1525
+MCTS LP Baseline 2 C value for UCT selection (movement): 1.4142135623730951
+MCTS LP Baseline 2 movement simulation time: 10ms
+MCTS LP Baseline 2 average movement simulations: 2608.5415885171346
+MCTS LP Baseline 2 average total simulations: 2266.362200659229
+

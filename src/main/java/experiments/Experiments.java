@@ -6,11 +6,11 @@ public class Experiments {
     double c = Math.sqrt(2);
     int simulationTime = 10;
 
-    //    MctsLightPlayoutSimulationTimes.startExperiments(numberOfGames, c);
+//        MctsLightPlayoutSimulationTimes.startExperiments(numberOfGames, c);
 
     //    MctsLightPlayoutCValue.startExperiments(numberOfGames, simulationTime);
 
-    MctsHeavyPlayoutPlacement.startExperiments(numberOfGames, c, simulationTime);
+//    MctsHeavyPlayoutPlacement.startExperiments(numberOfGames, c, simulationTime);
 
     MctsHeavyPlayoutMovement.startExperiments(numberOfGames, c, simulationTime);
   }

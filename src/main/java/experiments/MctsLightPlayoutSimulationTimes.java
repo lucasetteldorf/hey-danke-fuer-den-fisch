@@ -18,6 +18,10 @@ public class MctsLightPlayoutSimulationTimes {
           new Player[] {p1, p2},
           numberOfGames,
           Resources.ROOT_DIR + "lp-simulation-time/mcts-vs-random-" + simulationTime + "ms");
+      ExperimentSetup.playGames(
+          new Player[] {p2, p1},
+          numberOfGames,
+          Resources.ROOT_DIR + "lp-simulation-time/random-vs-mcts-" + simulationTime + "ms");
 
       p1 = new MctsPlayer("MCTS LP", 4, "B", c, simulationTime);
       p2 = new GreedyPlayer("Greedy", 4, "R");
@@ -25,6 +29,10 @@ public class MctsLightPlayoutSimulationTimes {
           new Player[] {p1, p2},
           numberOfGames,
           Resources.ROOT_DIR + "lp-simulation-time/mcts-vs-greedy-" + simulationTime + "ms");
+      ExperimentSetup.playGames(
+          new Player[] {p2, p1},
+          numberOfGames,
+          Resources.ROOT_DIR + "lp-simulation-time/greedy-vs-mcts-" + simulationTime + "ms");
     }
   }
 }

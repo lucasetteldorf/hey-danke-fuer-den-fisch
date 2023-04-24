@@ -630,10 +630,10 @@ public class GameBoard {
     for (int[] position : TILE_POSITIONS) {
       int reachableTileCount = getAllLegalMovesForPenguin(position).size();
       System.out.print(reachableTileCount + " ");
-      index++;
       if (index == 6 || index == 14 || index == 21 || index == 29 || index == 36 || index == 44 || index == 51) {
         System.out.println();
       }
+      index++;
     }
   }
 }
