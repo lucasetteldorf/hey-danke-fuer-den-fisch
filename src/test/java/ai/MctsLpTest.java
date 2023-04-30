@@ -1,10 +1,12 @@
 package ai;
 
+import experiments.utility.ExperimentSetup;
 import game.Game;
 import game.players.GreedyPlayer;
 import game.players.MctsPlayer;
 import game.players.Player;
 import game.players.RandomPlayer;
+import mcts.algorithm.HeuristicType;
 import org.junit.jupiter.api.Test;
 
 public class MctsLpTest {
@@ -67,10 +69,13 @@ public class MctsLpTest {
 
   @Test
   void testMctsVsMcts() {
-    MctsPlayer p1 = new MctsPlayer("MCTS AI 1", 4, "B");
-    MctsPlayer p2 = new MctsPlayer("MCTS AI 2", 4, "R");
+    MctsPlayer p1 =
+        new MctsPlayer("MCTS AI 1", 4, "B", HeuristicType.MORTFT, HeuristicType.MORTFT, 0.5, 10);
+    MctsPlayer p2 =
+        new MctsPlayer("MCTS AI 2", 4, "R", HeuristicType.NONE, HeuristicType.NONE, 0.5, 10);
     Player[] players = new Player[] {p1, p2};
-    Game game = new Game(fishCounts, players, false, true);
-    game.start();
+    ExperimentSetup.playGames(players, 500, "/Users/Lucas/test");
+    //    Game game = new Game(fishCounts, players, false, true);
+    //    game.start();
   }
 }

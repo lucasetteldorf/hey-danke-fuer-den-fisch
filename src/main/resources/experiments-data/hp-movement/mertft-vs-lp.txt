@@ -1,29 +1,29 @@
 MCTS HP MERTFT 1 vs. MCTS LP Baseline 2 (1000 games)
 
-MCTS HP MERTFT 1 win rate: 0.028
-MCTS LP Baseline 2 win rate: 0.97
-Number of ties: 2
-Percentage of ties: 0.002
+MCTS HP MERTFT 1 win rate: 0.019
+MCTS LP Baseline 2 win rate: 0.978
+Number of ties: 3
+Percentage of ties: 0.003
 
-MCTS HP MERTFT 1 average collected fish count: 36.094
-MCTS LP Baseline 2 average collected fish count: 53.078
+MCTS HP MERTFT 1 average collected fish count: 36.174
+MCTS LP Baseline 2 average collected fish count: 52.352
 
-MCTS HP MERTFT 1 average performed total moves (placement and movement): 22.167
-MCTS LP Baseline 2 average performed total moves (placement and movement: 31.311
+MCTS HP MERTFT 1 average performed total moves (placement and movement): 22.198
+MCTS LP Baseline 2 average performed total moves (placement and movement: 30.855
 
 MCTS HP MERTFT 1 C value for UCT selection (placement): 1.4142135623730951
 MCTS HP MERTFT 1 placement simulation time : 10ms
-MCTS HP MERTFT 1 average placement simulations: 11.128
+MCTS HP MERTFT 1 average placement simulations: 10.65175
 MCTS HP MERTFT 1 C value for UCT selection (movement): 1.4142135623730951
 MCTS HP MERTFT 1 movement simulation time: 10ms
-MCTS HP MERTFT 1 average movement simulations: 565.2576937307474
-MCTS HP MERTFT 1 average total simulations: 482.77480345911687
+MCTS HP MERTFT 1 average movement simulations: 581.2735071863505
+MCTS HP MERTFT 1 average total simulations: 495.7310666539662
 
 MCTS LP Baseline 2 C value for UCT selection (placement): 1.4142135623730951
 MCTS LP Baseline 2 placement simulation time : 10ms
-MCTS LP Baseline 2 average placement simulations: 180.011
+MCTS LP Baseline 2 average placement simulations: 176.562
 MCTS LP Baseline 2 C value for UCT selection (movement): 1.4142135623730951
 MCTS LP Baseline 2 movement simulation time: 10ms
-MCTS LP Baseline 2 average movement simulations: 4057.7166970388075
-MCTS LP Baseline 2 average total simulations: 3557.6088664075323
+MCTS LP Baseline 2 average movement simulations: 4024.9167859013755
+MCTS LP Baseline 2 average total simulations: 3522.609605216149
 

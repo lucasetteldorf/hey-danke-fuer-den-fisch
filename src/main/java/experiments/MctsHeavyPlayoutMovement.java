@@ -87,16 +87,16 @@ public class MctsHeavyPlayoutMovement {
     file = "lp-vs-merft";
     ExperimentSetup.playGames(new Player[] {p2, p1}, numberOfGames, path + file);
 
-    p1 =
-        new MctsPlayer(
-            "MCTS HP MORFC 1", 4, "B", HeuristicType.NONE, HeuristicType.MORFC, c, simulationTime);
-    file = "morfc-vs-lp";
-    ExperimentSetup.playGames(new Player[] {p1, p3}, numberOfGames, path + file);
-    p1 =
-        new MctsPlayer(
-            "MCTS HP MORFC 2", 4, "R", HeuristicType.NONE, HeuristicType.MORFC, c, simulationTime);
-    file = "lp-vs-morfc";
-    ExperimentSetup.playGames(new Player[] {p2, p1}, numberOfGames, path + file);
+//    p1 =
+//        new MctsPlayer(
+//            "MCTS HP MORFC 1", 4, "B", HeuristicType.NONE, HeuristicType.MORFC, c, simulationTime);
+//    file = "morfc-vs-lp";
+//    ExperimentSetup.playGames(new Player[] {p1, p3}, numberOfGames, path + file);
+//    p1 =
+//        new MctsPlayer(
+//            "MCTS HP MORFC 2", 4, "R", HeuristicType.NONE, HeuristicType.MORFC, c, simulationTime);
+//    file = "lp-vs-morfc";
+//    ExperimentSetup.playGames(new Player[] {p2, p1}, numberOfGames, path + file);
 
     p1 =
         new MctsPlayer(
@@ -109,26 +109,30 @@ public class MctsHeavyPlayoutMovement {
     file = "lp-vs-merfc";
     ExperimentSetup.playGames(new Player[] {p2, p1}, numberOfGames, path + file);
 
-    p1 =
-        new MctsPlayer(
-            "MCTS HP MORT 1", 4, "B", HeuristicType.NONE, HeuristicType.MORT, c, simulationTime);
-    file = "mort-vs-lp";
-    ExperimentSetup.playGames(new Player[] {p1, p3}, numberOfGames, path + file);
-    p1 =
-        new MctsPlayer(
-            "MCTS HP MORT 2", 4, "R", HeuristicType.NONE, HeuristicType.MORT, c, simulationTime);
-    file = "lp-vs-mort";
-    ExperimentSetup.playGames(new Player[] {p2, p1}, numberOfGames, path + file);
-
-    p1 =
-        new MctsPlayer(
-            "MCTS HP MERT 1", 4, "B", HeuristicType.NONE, HeuristicType.MERT, c, simulationTime);
-    file = "mert-vs-lp";
-    ExperimentSetup.playGames(new Player[] {p1, p3}, numberOfGames, path + file);
-    p1 =
-        new MctsPlayer(
-            "MCTS HP MERT 2", 4, "R", HeuristicType.NONE, HeuristicType.MERT, c, simulationTime);
-    file = "lp-vs-mert";
-    ExperimentSetup.playGames(new Player[] {p2, p1}, numberOfGames, path + file);
+    //    p1 =
+    //        new MctsPlayer(
+    //            "MCTS HP MORT 1", 4, "B", HeuristicType.NONE, HeuristicType.MORT, c,
+    // simulationTime);
+    //    file = "mort-vs-lp";
+    //    ExperimentSetup.playGames(new Player[] {p1, p3}, numberOfGames, path + file);
+    //    p1 =
+    //        new MctsPlayer(
+    //            "MCTS HP MORT 2", 4, "R", HeuristicType.NONE, HeuristicType.MORT, c,
+    // simulationTime);
+    //    file = "lp-vs-mort";
+    //    ExperimentSetup.playGames(new Player[] {p2, p1}, numberOfGames, path + file);
+    //
+    //    p1 =
+    //        new MctsPlayer(
+    //            "MCTS HP MERT 1", 4, "B", HeuristicType.NONE, HeuristicType.MERT, c,
+    // simulationTime);
+    //    file = "mert-vs-lp";
+    //    ExperimentSetup.playGames(new Player[] {p1, p3}, numberOfGames, path + file);
+    //    p1 =
+    //        new MctsPlayer(
+    //            "MCTS HP MERT 2", 4, "R", HeuristicType.NONE, HeuristicType.MERT, c,
+    // simulationTime);
+    //    file = "lp-vs-mert";
+    //    ExperimentSetup.playGames(new Player[] {p2, p1}, numberOfGames, path + file);
   }
 }
