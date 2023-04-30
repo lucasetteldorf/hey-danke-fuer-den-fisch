@@ -37,8 +37,7 @@ spezifiziert (die Eingabe funktioniert mit Klein- und Großbuchstaben).
 Für die MCTS-KI müssen zwei Parameter angegeben werden. Zunächst muss das Zeitlimit für die Simulationen (in
 Millisekunden) festgelegt werden. Durch die Eingabe von -1 wird der Standardwert von 100 ms verwendet. Anschließend muss
 der Wert des C-Parameters für die UCT-Formel spezifiziert werden (als Dezimalzahl). Hier wird durch die Eingabe von -1
-der Wert von 0,5 als Standard verwendet. **Hinweis**: Zur Trennung der Dezimalstellen muss ein Punkt (und kein Komma)
-verwendet werden.
+der Wert von 0,5 als Standard verwendet.
 
 ![img_5.png](images/img_5.png)
 

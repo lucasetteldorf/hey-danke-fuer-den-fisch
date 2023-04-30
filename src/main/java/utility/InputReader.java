@@ -102,7 +102,7 @@ public class InputReader {
   public static double getMctsCValue() {
     double cValue;
     do {
-      cValue = readDouble("MCTS C value (enter -1 for the default value of 0.5): ");
+      cValue = readDouble("MCTS C value (enter -1 for the default value of 0,5): ");
       if (cValue == -1) {
         cValue = 0.5;
         break;
