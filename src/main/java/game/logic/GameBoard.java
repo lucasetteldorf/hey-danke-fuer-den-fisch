@@ -530,26 +530,21 @@ public class GameBoard {
 
   // returns index of the winning player (-1 if tied)
   public int getWinnerIndex() {
-    int maxFishCount = players[0].getCollectedFishCount();
-    int winnerIndex = 0;
-    for (int i = 1; i < players.length; i++) {
+    int maxFishCount = Integer.MIN_VALUE;
+    int winnerIndex = -2;
+    int tiedPlayerCount = 1;
+    for (int i = 0; i < players.length; i++) {
       if (players[i].getCollectedFishCount() > maxFishCount) {
         maxFishCount = players[i].getCollectedFishCount();
         winnerIndex = i;
+        tiedPlayerCount = 1;
+      } else if (players[i].getCollectedFishCount() == maxFishCount) {
+        tiedPlayerCount++;
       }
     }
 
-    if (winnerIndex == 0) {
-      List<Player> tiedPlayers = new ArrayList<>();
-      tiedPlayers.add(players[0]);
-      for (int i = 1; i < players.length; i++) {
-        if (players[i].getCollectedFishCount() == players[0].getCollectedFishCount()) {
-          tiedPlayers.add(players[i]);
-        }
-      }
-      if (tiedPlayers.size() > 1) {
-        winnerIndex = -1;
-      }
+    if (tiedPlayerCount > 1) {
+      winnerIndex = -1;
     }
 
     return winnerIndex;

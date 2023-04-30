@@ -47,9 +47,13 @@ public class Game {
     int penguinCount = getPenguinCountFromPlayerCount(totalPlayerCount);
     Player player = null;
     switch (type) {
-      case HUMAN -> player =
-          new HumanPlayer(
-              InputReader.getPlayerName(index), penguinCount, InputReader.getPenguinColor(index));
+      case HUMAN -> {
+        String name = InputReader.getPlayerName(index);
+        String penguinColor = InputReader.getPenguinColor(index);
+        player =
+            new HumanPlayer(
+                name, penguinCount, penguinColor);
+      }
       case RANDOM -> {
         player = new RandomPlayer("Random AI", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
         InputReader.AVAILABLE_COLORS.remove(0);
@@ -59,7 +63,9 @@ public class Game {
         InputReader.AVAILABLE_COLORS.remove(0);
       }
       case MCTS -> {
-        player = new MctsPlayer("Random AI", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
+        int timeLimit = InputReader.getMctsSimulationTime();
+        double c = InputReader.getMctsCValue();
+        player = new MctsPlayer("MCTS AI", penguinCount, InputReader.AVAILABLE_COLORS.get(0), c, timeLimit);
         InputReader.AVAILABLE_COLORS.remove(0);
       }
     }
@@ -73,11 +79,10 @@ public class Game {
     do {
       int playerType;
       playerType = InputReader.getPlayerType(index);
-      if (playerType >= 1 && playerType <= 4) {
-        players[index - 1] =
-            initPlayer(PlayerType.getTypeFromNumber(playerType), totalPlayerCount, index - 1);
-        index++;
-      }
+      players[index - 1] =
+          initPlayer(PlayerType.getTypeFromNumber(playerType), totalPlayerCount, index - 1);
+      index++;
+
     } while (index <= totalPlayerCount);
     return players;
   }
