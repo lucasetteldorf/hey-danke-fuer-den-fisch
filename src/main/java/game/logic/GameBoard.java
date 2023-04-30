@@ -213,16 +213,6 @@ public class GameBoard {
     return opponentPenguinPositions;
   }
 
-  public int getThreeFishTilesCountForPenguin(int[] penguinPosition) {
-    int threeFishTilesCount = 0;
-    for (Move move : getAllLegalMovesForPenguin(penguinPosition)) {
-      if (getFishCountByPosition(move.getNewPosition()) == 3) {
-        threeFishTilesCount++;
-      }
-    }
-    return threeFishTilesCount;
-  }
-
   public int getThreeFishTilesForAllPenguins(List<int[]> penguinPositions) {
     int threeFishTilesCount = 0;
     HashSet<Integer> uniqueTiles = new HashSet<>();
@@ -240,18 +230,6 @@ public class GameBoard {
       }
     }
     return threeFishTilesCount;
-  }
-
-  public int getReachableFishCountForPenguin(int[] penguinPosition) {
-    int reachableFish = 0;
-    for (Move move : getAllLegalMovesForPenguin(penguinPosition)) {
-      reachableFish += getFishCountByPosition(move.getNewPosition());
-    }
-    return reachableFish;
-  }
-
-  public int getReachableTilesForPenguin(int[] penguinPosition) {
-    return getAllLegalMovesForPenguin(penguinPosition).size();
   }
 
   public int getReachableFishCountForAllPenguins(List<int[]> penguinPositions) {
@@ -277,7 +255,7 @@ public class GameBoard {
     for (int[] penguinPosition : penguinPositions) {
       for (Move move : getAllLegalMovesForPenguin(penguinPosition)) {
         int newIndex = GameBoard.getTileIndexFromPosition(move.getNewPosition());
-        if (uniqueTiles.contains(newIndex) ) {
+        if (uniqueTiles.contains(newIndex)) {
           continue;
         }
         uniqueTiles.add(newIndex);
@@ -463,7 +441,6 @@ public class GameBoard {
     return getAllLegalMovesForPenguin(getPositionFromTileIndex(penguinPositionIndices[index]));
   }
 
-  // TODO optimize? (using indices?)
   public List<Move> getAllLegalMovesForPenguin(int[] position) {
     List<Move> possibleMoves = new ArrayList<>();
 
@@ -525,11 +502,9 @@ public class GameBoard {
     return hasPenguinLegalMoves(position[0], position[1]);
   }
 
-  // TODO optimize? (faster way than addAll?)
   public List<Move> getAllLegalMovesForPlayer(Player player) {
     List<Move> possibleMoves = new ArrayList<>();
     for (int index : player.getPenguinIndices()) {
-      // TODO correct condition?
       if (index != -1 && penguinPositionIndices[index] != -1) {
         possibleMoves.addAll(getAllLegalMovesForPenguin(index));
       }
@@ -623,17 +598,5 @@ public class GameBoard {
     }
 
     System.out.println(str);
-  }
-
-  public void printReachableTileCount() {
-    int index = 0;
-    for (int[] position : TILE_POSITIONS) {
-      int reachableTileCount = getAllLegalMovesForPenguin(position).size();
-      System.out.print(reachableTileCount + " ");
-      if (index == 6 || index == 14 || index == 21 || index == 29 || index == 36 || index == 44 || index == 51) {
-        System.out.println();
-      }
-      index++;
-    }
   }
 }

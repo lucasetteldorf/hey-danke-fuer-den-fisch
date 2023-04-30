@@ -28,17 +28,6 @@ public class MctsPlayer extends Player {
       String name,
       int penguinCount,
       String penguinColor,
-      MctsPlacement mctsPlacement,
-      MctsMovement mctsMovement) {
-    super(PlayerType.MCTS, name, penguinCount, penguinColor);
-    this.mctsPlacement = mctsPlacement;
-    this.mctsMovement = mctsMovement;
-  }
-
-  public MctsPlayer(
-      String name,
-      int penguinCount,
-      String penguinColor,
       HeuristicType placementHeuristicType,
       HeuristicType movementHeuristicType,
       double c,
@@ -70,11 +59,6 @@ public class MctsPlayer extends Player {
             (mctsPlacement.getTotalNumberOfSimulations()
                 + mctsMovement.getTotalNumberOfSimulations())
         / (mctsPlacement.getCallCount() + mctsMovement.getCallCount());
-  }
-
-  public void enableSimulationPrint() {
-    mctsPlacement.enableSimulationPrint();
-    mctsMovement.enableSimulationPrint();
   }
 
   public void resetStats() {

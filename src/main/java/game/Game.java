@@ -22,12 +22,6 @@ public class Game {
     this.printResults = printResult;
   }
 
-  public Game(int[] fishCounts, Player[] players, boolean printBoard, boolean printResult) {
-    this.board = new GameBoard(players, fishCounts);
-    this.printBoard = printBoard;
-    this.printResults = printResult;
-  }
-
   public static void main(String[] args) {
     // Normal game
     Game game = new Game();
@@ -53,23 +47,21 @@ public class Game {
     int penguinCount = getPenguinCountFromPlayerCount(totalPlayerCount);
     Player player = null;
     switch (type) {
-      case HUMAN:
-        player =
-            new HumanPlayer(
-                InputReader.getPlayerName(index), penguinCount, InputReader.getPenguinColor(index));
-        break;
-      case RANDOM:
+      case HUMAN -> player =
+          new HumanPlayer(
+              InputReader.getPlayerName(index), penguinCount, InputReader.getPenguinColor(index));
+      case RANDOM -> {
         player = new RandomPlayer("Random AI", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
         InputReader.AVAILABLE_COLORS.remove(0);
-        break;
-      case GREEDY:
+      }
+      case GREEDY -> {
         player = new GreedyPlayer("Greedy AI", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
         InputReader.AVAILABLE_COLORS.remove(0);
-        break;
-      case MCTS:
+      }
+      case MCTS -> {
         player = new MctsPlayer("Random AI", penguinCount, InputReader.AVAILABLE_COLORS.get(0));
         InputReader.AVAILABLE_COLORS.remove(0);
-        break;
+      }
     }
     return player;
   }

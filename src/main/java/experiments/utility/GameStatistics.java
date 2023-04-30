@@ -54,7 +54,7 @@ public class GameStatistics {
   public void updateAverageMctsTotalSimulations(int playerIndex, double averageTotalSimulations) {
     averageMctsTotalSimulations[playerIndex] += averageTotalSimulations;
   }
-  
+
   public double getAverageFishCount(int playerIndex) {
     return (double) playerFishCounts[playerIndex] / numberOfGames;
   }

@@ -13,8 +13,6 @@ public class MctsPlacement {
   private final HeuristicType placementType;
   private final HeuristicType movementType;
   private int totalNumberOfSimulations;
-  private int numberOfSimulations;
-  private boolean printSimulations;
   private Player currentPlayer;
   private int callCount;
 
@@ -35,8 +33,6 @@ public class MctsPlacement {
 
   public int[] getNextPlacementPosition(GameBoard board) {
     this.currentPlayer = board.getCurrentPlayer();
-
-    numberOfSimulations = 0;
 
     NodePlacement root = new NodePlacement();
     root.setBoard(board);
@@ -62,15 +58,7 @@ public class MctsPlacement {
       backpropagate(expandedNode, playoutResult);
     }
     callCount++;
-    if (printSimulations) {
-      System.out.println(
-          callCount
-              + ": "
-              + numberOfSimulations
-              + " placement simulations ("
-              + currentPlayer.getName()
-              + ")");
-    }
+
     NodePlacement bestNode = (NodePlacement) root.getChildWithMaxVisits();
     return bestNode.getPreviousPlacementPosition();
   }
@@ -130,7 +118,6 @@ public class MctsPlacement {
       }
     }
 
-    numberOfSimulations++;
     totalNumberOfSimulations++;
 
     return tmp.getBoard().getWinnerIndex();
@@ -171,13 +158,8 @@ public class MctsPlacement {
     return c;
   }
 
-  public void enableSimulationPrint() {
-    printSimulations = true;
-  }
-
   public void resetStats() {
     callCount = 0;
     totalNumberOfSimulations = 0;
-    numberOfSimulations = 0;
   }
 }

@@ -12,8 +12,7 @@ public class MctsMovement {
   private final int computationalBudget;
   private final double c;
   HeuristicType type;
-  private int numberOfSimulations;
-  private boolean printSimulations;
+
   private Player currentPlayer;
   private int callCount;
   private int totalNumberOfSimulations;
@@ -21,12 +20,6 @@ public class MctsMovement {
   public MctsMovement() {
     this.computationalBudget = 100;
     this.c = 0.5;
-    this.type = HeuristicType.NONE;
-  }
-
-  public MctsMovement(double c, int computationalBudget) {
-    this.c = c;
-    this.computationalBudget = computationalBudget;
     this.type = HeuristicType.NONE;
   }
 
@@ -38,8 +31,6 @@ public class MctsMovement {
 
   public Move getNextMove(GameBoard board) {
     this.currentPlayer = board.getCurrentPlayer();
-
-    numberOfSimulations = 0;
 
     NodeMovement root = new NodeMovement();
     root.setBoard(board);
@@ -64,15 +55,6 @@ public class MctsMovement {
       backpropagate(expandedNode, playoutResult);
     }
     callCount++;
-    if (printSimulations) {
-      System.out.println(
-          callCount
-              + ": "
-              + numberOfSimulations
-              + " movement simulations ("
-              + currentPlayer.getName()
-              + ")");
-    }
     NodeMovement bestNode = (NodeMovement) root.getChildWithMaxVisits();
     return bestNode.getPreviousMove();
   }
@@ -117,7 +99,6 @@ public class MctsMovement {
       }
     }
 
-    numberOfSimulations++;
     totalNumberOfSimulations++;
 
     return tmp.getBoard().getWinnerIndex();
@@ -158,13 +139,8 @@ public class MctsMovement {
     return c;
   }
 
-  public void enableSimulationPrint() {
-    printSimulations = true;
-  }
-
   public void resetStats() {
     callCount = 0;
     totalNumberOfSimulations = 0;
-    numberOfSimulations = 0;
   }
 }

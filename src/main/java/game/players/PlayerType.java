@@ -9,6 +9,7 @@ public enum PlayerType {
   MCTS;
 
   private static final HashMap<Integer, PlayerType> numberToType;
+
   static {
     numberToType = new HashMap<>();
     numberToType.put(1, HUMAN);

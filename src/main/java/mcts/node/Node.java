@@ -65,10 +65,6 @@ public class Node {
     return score;
   }
 
-  public void setScore(double score) {
-    this.score = score;
-  }
-
   public void updateScore(double score) {
     this.score += score;
   }
