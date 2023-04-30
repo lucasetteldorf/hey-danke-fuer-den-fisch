@@ -3,7 +3,7 @@ package game.players;
 import game.logic.GameBoard;
 import java.util.Arrays;
 import java.util.List;
-import utility.ConsoleColors;
+
 import utility.RandomUtility;
 
 public class Player {
@@ -21,7 +21,7 @@ public class Player {
     this.type = type;
     this.name = name;
     this.penguinCount = penguinCount;
-    this.penguinColor = ConsoleColors.getColorString(penguinColor);
+    this.penguinColor = penguinColor;
     this.penguinIndices = new int[penguinCount];
     Arrays.fill(penguinIndices, -1);
   }

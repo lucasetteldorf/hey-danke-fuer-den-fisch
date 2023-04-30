@@ -70,13 +70,13 @@ public class InputReader {
               "Player "
                   + (playerIndex + 1)
                   + " penguin color ("
-                  + ConsoleColors.BLUE_PLAYER
+                  + "B"
                   + " = blue, "
-                  + ConsoleColors.RED_PLAYER
+                  + "R"
                   + " = red, "
-                  + ConsoleColors.GREEN_PLAYER
+                  + "G"
                   + " = green, "
-                  + ConsoleColors.YELLOW_PLAYER
+                  + "Y"
                   + " = yellow"
                   + "): ");
       penguinColor = penguinColor.toUpperCase();
@@ -129,7 +129,8 @@ public class InputReader {
         Integer.parseInt(coordinates[1]);
       } catch (NumberFormatException e) {
         typeError = true;
-        System.out.println("Please use two integers separated by a space to specify the coordinates...");
+        System.out.println(
+            "Please use two integers separated by a space to specify the coordinates...");
       }
     } while (coordinates.length != 2 || typeError);
 
