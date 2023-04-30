@@ -13,7 +13,7 @@ public class InputReader {
 
   private static double readDouble(String prompt) {
     System.out.print(prompt);
-    double input = -1;
+    double input = -2;
     try {
       input = scanner.nextDouble();
     } catch (InputMismatchException e) {
@@ -25,7 +25,7 @@ public class InputReader {
 
   private static int readInt(String prompt) {
     System.out.print(prompt);
-    int input = -1;
+    int input = -2;
     try {
       input = scanner.nextInt();
     } catch (InputMismatchException e) {
